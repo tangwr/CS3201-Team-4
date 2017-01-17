@@ -8,7 +8,6 @@ void main(void) {
 	printf("Enter value x & y: ");
 	scanf_s("%d%d", &x, &y);
 
-	
 	std::cout << "Sum: " << x << " + " << y << " = " << sum(x,y)  << std::endl;
 	//return 0;
 }

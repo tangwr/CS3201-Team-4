@@ -48,12 +48,96 @@
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>Source Files\FrontEnd\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\TNodeWhile.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeVar.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeTimes.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeStmt.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeRef.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeProg.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeProc.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodePlus.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeMinus.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeIf.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeExpr.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeConst.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeCall.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\TNodeAssign.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\TNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeProc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeProg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodePlus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeMinus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeTimes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeConst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeVar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeIf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeWhile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeCall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeAssign.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeRef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeStmt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeExpr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

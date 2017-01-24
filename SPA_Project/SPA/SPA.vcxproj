@@ -15,10 +15,38 @@
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\TNode.cpp" />
+    <ClCompile Include="..\source\TNodeAssign.cpp" />
+    <ClCompile Include="..\source\TNodeCall.cpp" />
+    <ClCompile Include="..\source\TNodeConst.cpp" />
+    <ClCompile Include="..\source\TNodeExpr.cpp" />
+    <ClCompile Include="..\source\TNodeIf.cpp" />
+    <ClCompile Include="..\source\TNodeMinus.cpp" />
+    <ClCompile Include="..\source\TNodePlus.cpp" />
+    <ClCompile Include="..\source\TNodeProc.cpp" />
+    <ClCompile Include="..\source\TNodeProg.cpp" />
+    <ClCompile Include="..\source\TNodeRef.cpp" />
+    <ClCompile Include="..\source\TNodeStmt.cpp" />
+    <ClCompile Include="..\source\TNodeTimes.cpp" />
+    <ClCompile Include="..\source\TNodeVar.cpp" />
+    <ClCompile Include="..\source\TNodeWhile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\TNode.h" />
+    <ClInclude Include="..\source\TNodeAssign.h" />
+    <ClInclude Include="..\source\TNodeCall.h" />
+    <ClInclude Include="..\source\TNodeConst.h" />
+    <ClInclude Include="..\source\TNodeExpr.h" />
+    <ClInclude Include="..\source\TNodeIf.h" />
+    <ClInclude Include="..\source\TNodeMinus.h" />
+    <ClInclude Include="..\source\TNodePlus.h" />
+    <ClInclude Include="..\source\TNodeProc.h" />
+    <ClInclude Include="..\source\TNodeProg.h" />
+    <ClInclude Include="..\source\TNodeRef.h" />
+    <ClInclude Include="..\source\TNodeStmt.h" />
+    <ClInclude Include="..\source\TNodeTimes.h" />
+    <ClInclude Include="..\source\TNodeVar.h" />
+    <ClInclude Include="..\source\TNodeWhile.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

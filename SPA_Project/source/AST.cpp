@@ -24,6 +24,6 @@ TNode AST::getParent(TNode c) {
     return c.getParent();
 }
 
-TNode AST::getChild(TNode p) {
-    return c.getChild();
+vector<TNode*> AST::getChildren(TNode p) {
+    return p.getChildren();
 }

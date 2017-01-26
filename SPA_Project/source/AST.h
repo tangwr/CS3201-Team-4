@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TNode.h"
+#include <vector>
 
 class AST {
 
@@ -16,6 +17,6 @@ public:
     void setChild(TNode p, TNode c);
     TNode getRoot();
     TNode getParent(TNode c);
-    TNode getChild(TNode p);
+    std::vector<TNode*> getChildren(TNode p);
 
 };

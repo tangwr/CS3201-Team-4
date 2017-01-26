@@ -3,11 +3,14 @@ void TNode::setParent(TNode p) {
     this->parent = &p;
 }
 void TNode::setChild(TNode c) {
-    this->child = &c;
+    this->children.push_back(&c);
 }
-TNode TNode::getChild() {
-    return *this->child;
+std::vector<TNode*> TNode::getChildren() {
+    return this->children;
 }
 TNode TNode::getParent() {
     return *this->parent;
+}
+bool TNode::hasControlVar() {
+    return this->cVar;
 }

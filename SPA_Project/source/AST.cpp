@@ -1,11 +1,14 @@
 #include "AST.h"
 
-TNode AST::createTNode(nodeType) {
-    return TNode();
+AST::AST() {
+    this->rootNode = NULL;
+}
+TNode* AST::createTNode(nodeType) {
+    return &TNode();
 }
 
 void AST::setAsRoot(TNode root) {
-    this->rootNode = root;
+    this->rootNode = &root;
 }
 
 void AST::setParent(TNode p, TNode c) {
@@ -16,14 +19,14 @@ void AST::setChild(TNode p, TNode c) {
     p.setChild(c)
 }
 
-TNode AST::getRoot() {
+TNode* AST::getRoot() {
     return this->rootNode;
 }
 
-TNode AST::getParent(TNode c) {
+TNode* AST::getParent(TNode c) {
     return c.getParent();
 }
 
-vector<TNode*> AST::getChildren(TNode p) {
+std::vector<TNode*> AST::getChildren(TNode p) {
     return p.getChildren();
 }

@@ -30,8 +30,8 @@ private:
 public:
     TNode();
     void TNode::setParent(TNode p);
+    TNode* TNode::getParent();
     void TNode::setChild(TNode c);
     std::vector<TNode*> TNode::getChildren();
-    TNode* TNode::getParent();
     bool hasControlVar();
 };

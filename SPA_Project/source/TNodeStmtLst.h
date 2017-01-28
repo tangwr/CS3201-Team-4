@@ -10,12 +10,12 @@ private:
     TNode* parent;
 public:
 
-    TNodeStmtLst::TNodeStmtLst();
-    TNodeStmtLst::TNodeStmtLst(std::vector<TNodeStmt*> childrenVector);
-    std::vector<TNodeStmt*> TNodeStmtLst::getChildren();
-    void TNodeStmtLst::setChildren(std::vector<TNodeStmt*> childrenVector);
-    void TNodeStmtLst::addChild(TNodeStmt c);
-    void TNodeStmtLst::setParent(TNode p);
-    TNode* TNodeStmtLst::getParent();
+    TNodeStmtLst();
+    TNodeStmtLst(std::vector<TNodeStmt*> childrenVector);
+    std::vector<TNodeStmt*> getChildren();
+    void setChildren(std::vector<TNodeStmt*> childrenVector);
+    void addChild(TNodeStmt c);
+    void setParent(TNode p);
+    TNode* getParent();
 
 };

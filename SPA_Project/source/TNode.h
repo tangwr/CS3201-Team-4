@@ -29,9 +29,9 @@ private:
     bool cVar;
 public:
     TNode();
-    void TNode::setParent(TNode p);
-    TNode* TNode::getParent();
-    void TNode::setChild(TNode c);
-    std::vector<TNode*> TNode::getChildren();
+    void setParent(TNode p);
+    TNode* getParent();
+    void setChild(TNode c);
+    std::vector<TNode*> getChildren();
     bool hasControlVar();
 };

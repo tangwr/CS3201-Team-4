@@ -18,13 +18,19 @@ void TNodeStmt::setChildren(std::vector<TNode*> childrenVector) {
 void TNodeStmt::addChild(TNode c) {
     this->children.push_back(&c);
 }
+std::vector<TNode*> TNodeStmt::getChildren() {
+    return this->children;
+}
 void TNodeStmt::setControlNode(TNode cont) {
     this->controlNode = &cont;
     this->cVar = true;
     this->children.push_back(&cont);
 }
-std::vector<TNode*> TNodeStmt::getChildren() {
-    return this->children;
+void TNodeStmt::setStmtNumber(int i) {
+    this->stmtNumber = i;
+}
+int TNodeStmt::getStmtNumber() {
+    return this->stmtNumber;
 }
 bool TNodeStmt::hasControlVar() {
     return this->cVar;

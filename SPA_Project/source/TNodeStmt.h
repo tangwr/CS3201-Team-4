@@ -16,7 +16,9 @@ public:
     TNodeStmtLst* getParent();
     void setChildren(std::vector<TNode*> childrenVector);
     void addChild(TNode c);
-    void setControlNode(TNode cont);
     std::vector<TNode*> getChildren();
+    void setControlNode(TNode cont);
+    void setStmtNumber(int i);
+    int getStmtNumber();
     bool hasControlVar();
 };

@@ -3,7 +3,7 @@
 AST::AST() {
     this->rootNode = NULL;
 }
-TNode* AST::createTNode(nodeType) {
+TNode* AST::createTNode(nodeType type) {
     return &TNode();
 }
 

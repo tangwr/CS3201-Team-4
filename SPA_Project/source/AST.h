@@ -3,6 +3,7 @@
 #include "TNode.h"
 #include <vector>
 
+
 class AST {
 
 private:
@@ -12,7 +13,7 @@ private:
 public:
 
     AST();
-    TNode* createTNode(enum nodeType);
+    TNode* createTNode(nodeType node);
     void setAsRoot(TNode root);
     void setParent(TNode p, TNode c);
     void setChild(TNode p, TNode c);

@@ -5,6 +5,7 @@ TNodeStmt::TNodeStmt() {
     this->controlNode = NULL;
     this->stmtNumber = -1;
     this->cVar = false;
+    this->children = *(new std::vector<TNode*>);
 }
 void TNodeStmt::setParent(TNodeStmtLst p) {
     this->parent = &p;

@@ -16,7 +16,7 @@ void AST::setParent(TNode p, TNode c) {
 }
 
 void AST::setChild(TNode p, TNode c) {
-    p.setChild(c)
+    p.addChild(c);
 }
 
 TNode* AST::getRoot() {

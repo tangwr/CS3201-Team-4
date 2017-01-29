@@ -7,63 +7,63 @@ TNode* AST::createTNode(nodeType type) {
     switch (type) {
 
         case assignNode: {
-            return &TNodeAssign();
+            return new TNodeAssign();
         }
 
         case callNode: {
-            return &TNodeCall();
+            return new TNodeCall();
         }
 
         case constNode: {
-            return &TNodeConst();
+            return new TNodeConst();
         }
 
         case exprNode: {
-            return &TNodeExpr();
+            return new TNodeExpr();
         }
 
         case ifNode: {
-            return &TNodeIf();
+            return new TNodeIf();
         }
 
         case minusNode: {
-            return &TNodeMinus();
+            return new TNodeMinus();
         }
 
         case plusNode: {
-            return &TNodePlus();
+            return new TNodePlus();
         }
 
         case procNode: {
-            return &TNodeProc();
+            return new TNodeProc();
         }
 
         case progNode: {
-            return &TNodeProg();
+            return new TNodeProg();
         }
 
         case refNode: {
-            return &TNodeRef();
+            return new TNodeRef();
         }
 
         case stmtNode: {
-            return &TNodeStmt();
+            return new TNodeStmt();
         }
 
         case stmtLstNode: {
-            return &TNodeStmtLst();
+            return new TNodeStmtLst();
         }
 
         case timesNode: {
-            return &TNodeTimes();
+            return new TNodeTimes();
         }
 
         case varNode: {
-            return &TNodeVar();
+            return new TNodeVar();
         }
 
         case whileNode: {
-            return &TNodeWhile();
+            return new TNodeWhile();
         }
 
     }

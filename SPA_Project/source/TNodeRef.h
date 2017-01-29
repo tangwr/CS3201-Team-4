@@ -10,6 +10,6 @@ private:
     std::string nodeValue;
 
 public:
-    std::string getNodeValue();
+    std::string getNodeValue();//constructor with nodevalue make
     void setNodeValue(std::string nValue);
 };

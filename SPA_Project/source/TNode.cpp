@@ -9,8 +9,11 @@ TNode::TNode() {
 void TNode::setParent(TNode p) {
     this->parent = &p;
 }
-void TNode::setChild(TNode c) {
+void TNode::addChild(TNode c) {
     this->children.push_back(&c);
+}
+void TNode::setChildren(std::vector<TNode*> childrenVector) {
+    this->children = childrenVector;
 }
 std::vector<TNode*> TNode::getChildren() {
     return this->children;

@@ -31,7 +31,8 @@ public:
     TNode();
     void setParent(TNode p);
     TNode* getParent();
-    void setChild(TNode c);
+    void addChild(TNode c);
+    void setChildren(std::vector<TNode*> childrenVector);
     std::vector<TNode*> getChildren();
     bool hasControlVar();
 };

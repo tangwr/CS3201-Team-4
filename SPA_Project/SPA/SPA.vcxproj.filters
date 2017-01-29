@@ -93,6 +93,9 @@
     <ClCompile Include="..\source\AST.cpp">
       <Filter>Source Files\PKB</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\TNodeStmtLst.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -144,6 +147,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\AST.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeStmtLst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,70 @@ AST::AST() {
     this->rootNode = NULL;
 }
 TNode* AST::createTNode(nodeType type) {
-    return &TNode();
+    switch (type) {
+
+        case assignNode: {
+            return &TNodeAssign();
+        }
+
+        case callNode: {
+            return &TNodeCall();
+        }
+
+        case constNode: {
+            return &TNodeConst();
+        }
+
+        case exprNode: {
+            return &TNodeExpr();
+        }
+
+        case ifNode: {
+            return &TNodeIf();
+        }
+
+        case minusNode: {
+            return &TNodeMinus();
+        }
+
+        case plusNode: {
+            return &TNodePlus();
+        }
+
+        case procNode: {
+            return &TNodeProc();
+        }
+
+        case progNode: {
+            return &TNodeProg();
+        }
+
+        case refNode: {
+            return &TNodeRef();
+        }
+
+        case stmtNode: {
+            return &TNodeStmt();
+        }
+
+        case stmtLstNode: {
+            return &TNodeStmtLst();
+        }
+
+        case timesNode: {
+            return &TNodeTimes();
+        }
+
+        case varNode: {
+            return &TNodeVar();
+        }
+
+        case whileNode: {
+            return &TNodeWhile();
+        }
+
+    }
+    //return &TNode();
 }
 
 void AST::setAsRoot(TNode root) {

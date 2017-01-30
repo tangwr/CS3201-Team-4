@@ -27,6 +27,7 @@
     <ClCompile Include="..\source\TNodeProg.cpp" />
     <ClCompile Include="..\source\TNodeRef.cpp" />
     <ClCompile Include="..\source\TNodeStmt.cpp" />
+    <ClCompile Include="..\source\TNodeStmtLst.cpp" />
     <ClCompile Include="..\source\TNodeTimes.cpp" />
     <ClCompile Include="..\source\TNodeVar.cpp" />
     <ClCompile Include="..\source\TNodeWhile.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="..\source\TNodeProg.h" />
     <ClInclude Include="..\source\TNodeRef.h" />
     <ClInclude Include="..\source\TNodeStmt.h" />
+    <ClInclude Include="..\source\TNodeStmtLst.h" />
     <ClInclude Include="..\source\TNodeTimes.h" />
     <ClInclude Include="..\source\TNodeVar.h" />
     <ClInclude Include="..\source\TNodeWhile.h" />

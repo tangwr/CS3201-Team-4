@@ -1,7 +1,7 @@
 #include "TNode.h"
 
-static TNode* createTNode(nodeType type) {//static method
-
+TNode* TNode::createTNode(nodeType type) {//static method
+    /*
     switch (type) {
 
     case assignNode: {
@@ -63,7 +63,8 @@ static TNode* createTNode(nodeType type) {//static method
     case whileNode: {
         return new TNodeWhile();
     }
-    }
+    }*/
+    return NULL;
 }
 
 TNode::TNode() {
@@ -73,6 +74,7 @@ TNode::TNode() {
     this->cVar = false;
     this->children = {};
 }
+
 void TNode::setParent(TNode p) {
     this->parent = &p;
 }

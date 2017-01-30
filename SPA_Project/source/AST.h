@@ -1,23 +1,22 @@
 #pragma once
 
+#include <vector>
 #include "TNode.h"
+#include "TNodeStmtLst.h"
+#include "TNodeStmt.h"
+#include "TNodeProc.h"
+#include "TNodeProg.h"
+#include "TNodeExpr.h"
+#include "TNodeRef.h"
 #include "TNodeAssign.h"
 #include "TNodeCall.h"
 #include "TNodeConst.h"
-#include "TNodeExpr.h"
 #include "TNodeIf.h"
 #include "TNodeMinus.h"
 #include "TNodePlus.h"
-#include "TNodeProc.h"
-#include "TNodeProg.h"
-#include "TNodeRef.h"
-#include "TNodeStmt.h"
-#include "TNodeStmtLst.h"
 #include "TNodeTimes.h"
 #include "TNodeVar.h"
 #include "TNodeWhile.h"
-
-#include <vector>
 
 
 class AST {

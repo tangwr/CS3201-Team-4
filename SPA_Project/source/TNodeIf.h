@@ -9,7 +9,7 @@ private:
     bool cVar;
     TNode* controlNode;
     std::vector<TNode*> children;
-    TNodeStmtLst* parent;
+    TNode* parent;
 
 public:
     TNodeIf();

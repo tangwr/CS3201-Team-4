@@ -1,10 +1,11 @@
 #pragma once
 #include "TNode.h"
-#include "TNodeStmtLst.h"
-class TNodeStmt : public TNode {
+//#include "TNodeStmtLst.h"
 
+class TNodeStmt : public TNode {
+    
 private:
-    TNodeStmtLst* parent;
+    TNode* parent;
     std::vector<TNode*> children;
     int stmtNumber;
     TNode* controlNode;
@@ -12,8 +13,8 @@ private:
 
 public:
     TNodeStmt();
-    void setParent(TNodeStmtLst p);
-    TNodeStmtLst* getParent();
+    void setParent(TNode p);
+    TNode* getParent();
     void setChildren(std::vector<TNode*> childrenVector);
     void addChild(TNode c);
     std::vector<TNode*> getChildren();
@@ -21,4 +22,5 @@ public:
     void setStmtNumber(int i);
     int getStmtNumber();
     bool hasControlVar();
+    
 };

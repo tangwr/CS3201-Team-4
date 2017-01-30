@@ -7,10 +7,10 @@ TNodeStmt::TNodeStmt() {
     this->cVar = false;
     this->children = *(new std::vector<TNode*>);
 }
-void TNodeStmt::setParent(TNodeStmtLst p) {
+void TNodeStmt::setParent(TNode p) {
     this->parent = &p;
 }
-TNodeStmtLst* TNodeStmt::getParent() {
+TNode* TNodeStmt::getParent() {
     return this->parent;
 }
 void TNodeStmt::setChildren(std::vector<TNode*> childrenVector) {

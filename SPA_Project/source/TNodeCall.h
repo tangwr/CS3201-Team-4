@@ -8,7 +8,7 @@ private:
     bool cVar;
     //although there is a list of children, there should only be one element
     std::vector<TNode*> children;
-    TNodeStmtLst* parent;
+    TNode* parent;
 
 public:
     TNodeCall();

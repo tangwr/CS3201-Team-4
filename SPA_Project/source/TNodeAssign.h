@@ -7,7 +7,7 @@ private:
     int stmtNumber;
     bool cVar;
     std::vector<TNode*> children;
-    TNodeStmtLst* parent;
+    TNode* parent;
 
 public:
     TNodeAssign();

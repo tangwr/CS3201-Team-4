@@ -1,4 +1,21 @@
 #pragma once
+
+#include "TNodeAssign.h"
+#include "TNodeCall.h"
+#include "TNodeConst.h"
+#include "TNodeExpr.h"
+#include "TNodeIf.h"
+#include "TNodeMinus.h"
+#include "TNodePlus.h"
+#include "TNodeProc.h"
+#include "TNodeProg.h"
+#include "TNodeRef.h"
+#include "TNodeStmt.h"
+#include "TNodeStmtLst.h"
+#include "TNodeTimes.h"
+#include "TNodeVar.h"
+#include "TNodeWhile.h"
+
 #include <vector>
 
 enum nodeType {
@@ -29,6 +46,7 @@ private:
     bool cVar;
 public:
     TNode();
+    static TNode* createTNode(nodeType type);
     void setParent(TNode p);
     TNode* getParent();
     void addChild(TNode c);

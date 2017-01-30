@@ -3,7 +3,10 @@
 AST::AST() {
     this->rootNode = NULL;
 }
+
 TNode* AST::createTNode(nodeType type) {
+    return TNode::createTNode(type);
+    /*
     switch (type) {
 
         case assignNode: {
@@ -68,6 +71,7 @@ TNode* AST::createTNode(nodeType type) {
 
     }
     //return &TNode();
+    */
 }
 
 void AST::setAsRoot(TNode root) {

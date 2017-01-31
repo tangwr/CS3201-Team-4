@@ -20,30 +20,32 @@ public:
     TNode* createNode(TNodeType nodeType);//returns created object
     void setAsRoot(TNode* root);
     void setName(TNode* node, string name);
-    //void setValue(TNode* node, int value);//stmt number or constant
+    void setValue(TNode* node, int value);//stmt number or constant
     bool setParent(TNode* child, TNode* parent);
-    bool setChild(TNode* parent, TNode* child);
+    //bool setChild(TNode* parent, TNode* child);
     
     //while
-    bool setWhileVarNode(TNodeWhile whileNode, TNodeVar varNode);
-    bool setWhileStmtLstNode(TNodeWhile whileNode, TNodeStmtLst stmtLstNode);
+    bool setWhileVarNode(TNodeWhile* whileNode, TNodeVar* varNode);
+    bool setWhileStmtLstNode(TNodeWhile* whileNode, TNodeStmtLst* stmtLstNode);
     //if
     //call
     //assign
-    bool setAssignVarNode(TNodeAssign assignNode, TNodeVar varNode);
-    bool setAssignExpString(TNodeAssign assignNode, string expressionString);
-    bool setAssignExpNode(TNodeAssign assignNode, TNodeExpr expNode);
+    bool setAssignVarNode(TNodeAssign* assignNode, TNodeVar* varNode);
+    bool setAssignExpString(TNodeAssign* assignNode, string expressionString);
+    bool setAssignExpNode(TNodeAssign* assignNode, TNodeExpr* expNode);
     //var
-    bool setVarNodeValue(TNodeVar varNode, int value);
+    bool setVarNodeValue(TNodeVar* varNode, int value);
     //const
-    bool setConstNodeValue(TNodeConst constNode, int value);
+    bool setConstNodeValue(TNodeConst* constNode, int value);
     //stmtList
-    bool addStmtLstStmtNode(TNodeStmtLst stmtListNode, TNodeStmt stmtNode);
+    bool addStmtLstStmtNode(TNodeStmtLst* stmtListNode, TNodeStmt* stmtNode);
     //proc
-    bool setProcStmtLstNode(TNodeProc procNode, TNodeStmtLst stmtListNode);
+    bool setProcStmtLstNode(TNodeProc* procNode, TNodeStmtLst* stmtListNode);
     //prog
-    bool addProgProcNode(TNodeProg progNode, TNodeProc procNode);
-    //
+    bool addProgProcNode(TNodeProg* progNode, TNodeProc* procNode);
+    //operator
+    bool setOperLeftExpNode(TNodeOper* operNode, TNodeExpr* expNode);
+    bool setOperRightExpNode(TNodeOper* operNode, TNodeExpr* expNode);
 
     //TABLE
 	static VarTable* varTable; 

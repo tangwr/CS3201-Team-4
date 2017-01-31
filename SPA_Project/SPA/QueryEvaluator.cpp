@@ -40,6 +40,7 @@ std::list<std::string> QueryEvaluator::evaluateQuery(QueryTree qt) {
 	
 }
 
+//Check if the token exists in the table 
 bool QueryEvaluator::validateQuery(<datatype> table, std::string token) {
 	bool result;
 

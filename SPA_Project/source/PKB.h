@@ -24,6 +24,15 @@ public:
 	static VarTable* varTable; 
 	static int setProcToAST(PROC p, TNode* r);
 	static TNode* getRootAST (PROC p);
+	
+	void addProcedure(String name);
+	void addVariable(String name);
+	void addStatement(int statementNum, TnodeType type);
+
+	void addFollows(int statementNum, list<int> followList);
+	void addParents(int statementNum, list<int> parentList);
+	void addUses(int statementNum, String variable);
+	void addModifies(int statementNum, String Variable);
 
 private:
     AST ast;

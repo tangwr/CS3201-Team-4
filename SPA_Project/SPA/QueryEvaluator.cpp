@@ -1,38 +1,47 @@
 #include "QueryEvaluator.h"
-#include "QueryTree.h"
+
+//Public method
 
 QueryEvaluator::QueryEvaluator(){
 
 }
 
-
-
-std::list<std::string> QueryEvaluator::evaluate(QueryTree query) {
+std::list<std::string> QueryEvaluator::evaluate(QueryTree qt) {
 	std::list<std::string> results;
 
 	return results
 }
 
 
+//Private method
+std::list<std::string> QueryEvaluator::evaluateQuery(QueryTree qt) {
+	<PKB_class> pkb;
 
-std::list<std::string> QueryEvaluator::evaluate1() {
-	PKB p;
-	<datatype> varTable = p.getVarTable();
-	<datatype> stmtTable = p.getStmtTable();
-	<datatype> assignTable = p.getAssignTable();
-	<datatype> parentTable = p.getParentTable();
-	<datatype> modifyTable = p.getModifyTable();
-	<datatype> followTable = p.getFollowTable();
+	<datatype> varTable = pkb.getVarTable();
+	<datatype> stmtTable = pkb.getStmtTable();
+	<datatype> assignTable = pkb.getAssignTable();
+	<datatype> parentTable = pkb.getParentTable();
+	<datatype> modifyTable = pkb.getModifyTable();
+	<datatype> followTable = pkb.getFollowTable();
 
-	std::list<std::string> results = {};
 
-	return results;
+
+	std::string syntax = qt.syntax;
+	std::string assign = qt.assign;
+	std::string variable = qt.variable;
+	std::string statement = qt.statement;
+
+	validateVariable = validateQuery(varTable, variable);
+	validateStmt = validateQuery(stmtTable, statement);
+	validateAssign = validateQuery(assignTable, assign);
+	validateParent = validateQuery(parentTable, parent);
+	validateModify = validateQuery(modifyTable, modify);
+	validateFollow = validateQuery(followTable, follow);
+	
 }
 
-void QueryEvaluator::getProcess() {
-	Preprocess p;
-	p.syn;
-	p.stmt;
-	p.assign;
-	p.variable;
+bool QueryEvaluator::validateQuery(<datatype> table, std::string token) {
+	bool result;
+
+	return result;
 }

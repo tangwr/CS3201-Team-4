@@ -34,3 +34,26 @@ void PKB::setName(TNode node, string name) {
 void PKB::setValue(TNode node, int value) {//stmt number or constant
 
 }
+
+void addProcedure(String name){
+
+}
+void addVariable(String name){
+
+}
+void addStatement(int statementNum, TnodeType type){
+	
+}
+
+void addFollows(int statementNum, list<int> followList){
+	
+}
+void addParents(int statementNum, list<int> parentList){
+	
+}
+void addUses(int statementNum, String variable){
+	
+}
+void addModifies(int statementNum, String Variable){
+	
+}

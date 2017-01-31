@@ -10,6 +10,7 @@ private:
 
 public:
 	QueryEvaluator();
-	std::list<std::string> evaluate();
-
+	std::list<std::string> evaluate(QueryTree);
+	
+	
 };

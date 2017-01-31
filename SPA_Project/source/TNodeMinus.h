@@ -1,7 +1,7 @@
 #pragma once
-#include "TNodeExpr.h"
+#include "TNodeOper.h"
 
-class TNodeMinus : public TNodeExpr {
+class TNodeMinus : public TNodeOper {
 private:
     TNode* parent;
     std::vector<TNode*> children;

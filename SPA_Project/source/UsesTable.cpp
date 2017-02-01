@@ -17,7 +17,7 @@ unordered_map<int, vector<int>> cUsesProcMap;
 unordered_map<int, vector<int>> cUsedByStmtMap;
 unordered_map<int, vector<int>> cUsedByProcMap;
 
-UsesTable::UsesTable(int tsize)
+UsesTable::UsesTable()
 {
 }
 

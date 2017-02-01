@@ -15,9 +15,11 @@ PKB::PKB() {
 }
 
 bool PKB::isValidVarId(int varId) {
-    return this->variableTable.checkVarExist(varId);
+    return this->variableTable.checkVarExistById(varId);
 }
-
+bool PKB::isValidVar(string varName) {
+    return this->variableTable.checkVarExistByName(varName);
+}
 /*
 TNode* PKB::createNode(TNodeType nodeType) {//return TNode object
     TNode* newNode = ast.createTNode(nodeType);
@@ -163,15 +165,13 @@ bool PKB::setUsedByDirectRel(int stmtId, int varId) {
 */
 
 bool PKB::insertFollowRel(int stmtId, int followNum) {
-    this->followsTable.insertFollowRel(stmtId, followNum);//check param order
-    return true;//placeholder
+    return this->followsTable.insertFollowRel(stmtId, followNum);//check param order
 }
 bool PKB::insertParentRel(int parent, int child) {
-    this->parentTable.insertParentRel(parent, child);//check param order
-    return true;//placeholder
+    return this->parentTable.insertParentRel(parent, child);
 }
 int PKB::insertConst(int value) {
-    return this->constTable.insertConst(value);
+    return this->constTable.insertConst(value);//constname?
 }
 
 
@@ -185,28 +185,24 @@ int PKB::insertProc(string procName) {
 
 bool PKB::setAssignExp(int stmtId, string expression) {
     return this->assignTable.setAssignExp(stmtId, expression);
-    //waiting for assigntable
 }
 bool PKB::setWhileCtrlVar(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
     return this->whileTable.setWhileCtrlVar(stmtId, varId);
-    //waiting for table
 }
 bool PKB::setIfCtrlVar(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
     return this->ifTable.setIfCtrlVar(stmtId, varId);
-    //waiting for table
 }
 bool PKB::setCallProc(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->callProcTable.setCallProc(stmtId, varId);
-    //waiting for table
+    return this->callTable.setCallProc(stmtId, varId);
 }
 
 int PKB::getFollowDirect(int stmtId) {

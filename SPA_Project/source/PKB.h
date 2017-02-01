@@ -12,7 +12,7 @@
 #include "VarTable.h"
 #include "WhileTable.h"
 #include "IfTable.h"
-#include "CallProcTable.h"
+#include "CallTable.h"
 #include "ConstTable.h"
 #include "AssignTable.h"
 
@@ -34,10 +34,11 @@ private:
     ConstTable constTable;
     WhileTable whileTable;
     IfTable ifTable;
-    CallProcTable callProcTable;
+    CallTable callTable;
     AssignTable assignTable;
 
     bool isValidVarId(int VarId);
+    bool isValidVar(string varName);
 
 public:
 

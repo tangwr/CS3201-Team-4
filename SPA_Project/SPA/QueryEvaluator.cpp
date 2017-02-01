@@ -1,134 +1,346 @@
 #include "QueryEvaluator.h"
 
-//Public method
-
-QueryEvaluator::QueryEvaluator(){
+QueryEvaluator::QueryEvaluator() {
 }
 
-std::list<std::string> QueryEvaluator::evaluate(QueryTree qt) {
-	std::list<std::string> results;
-	results = evaluateQuery(qt);
-	return results
+vector<string> QueryEvaluator::evaluate(QueryTree* qt) {
+	//vector<clause> c = qt.getClause();
+
+}
+
+//Assume I got limit list & condition list
+
+bool QueryEvaluator::checkCondition() {
+
+	ClauseType clause; 
+	string leftChild, rightChild;
+	Type leftChildType, rightChildType;
+
+	switch (clause) {
+	case FOLLOW:
+		return checkClauseCondition(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case FOllOWSTAR:
+		return checkClauseCondition(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case PARENT:
+		return checkClauseCondition(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case PARENTSTAR:
+		return checkClauseCondition(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case PATTERN:
+		return checkPattern(leftChild, rightChild, leftChildType, rightChildType);
+	case MODIFIES:
+		return checkModifies(leftChild, rightChild, leftChildType, rightChildType);
+	case USES:
+		return checkUses(leftChild, rightChild, leftChildType, rightChildType);
+	}
+}
+
+//For  Follows & Parents only
+bool QueryEvaluator::checkClauseCondition(ClauseType clause, string leftChild, string rightChild, Type leftChildType, Type rightChildType) {
+	
+	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
+		return true;
+	}
+
+	if (leftChildType == INT && rightChildType == INT) {
+		int left_child_num = stoi(leftChild);
+		int right_child_num = stoi(rightChild);
+
+		if (left_child_num == right_child_num) {
+			return true;
+		}
+		return false;
+	}
+	if (leftChildType == INT && rightChildType != INT) {
+		int left_child_num = stoi(leftChild);
+		vector<int> followsList = getClauseTypeList(clause, left_child_num, LEFT_CHILD);
+		vector<int> typeList = getDeclareTypeList(rightChildType);
+		bool result = isSubsetList(followsList, typeList);
+
+		return result;
+	}
+	if (leftChildType != INT && rightChildType == INT) {
+		int right_child_num = stoi(rightChild);
+		vector<int> followsList = getClauseTypeList(clause, right_child_num, RIGHT_CHILD);
+		vector<int> typeList = getDeclareTypeList(leftChildType);
+		bool result = isSubsetList(followsList, typeList);
+
+		return result;
+	}
+	if (leftChildType != INT && rightChildType != INT) {
+		return true;
+	}
+
 }
 
 
-//Private method
-std::list<std::string> QueryEvaluator::evaluateQuery(QueryTree qt) {
-	/*
-		IDENT: LETTER(LETTER | DIGIT | '#')*
-		synonym: IDENT
-		stmtRef: synonym | '_' | INTEGER
-		entRef: synonym | '_' | "IDENT"
-		Modifies/Uses ('stmtRef', 'entRef')
-		Parent/Follow ('stmtRef', 'stmtRef')
-	*/
 
 
-	/*
-		Get the individual parts of the query string
-		Example:
-			assignment a, a1; variable v;
-			- Select a such that Uses(a,v) pattern a1(v,_)
 
-			assign a, statement s, variable v;
-			- Select a pattern a("x", _"y"_)
-			- Select s such that Follows(1,s)
-			- Select s such that Follows(s,2)
-			- Select s usch that Follows*(1,s)
-			- Select s such that Follows*(s,2)
-			- Select s such that Parent(2,s)
-			- Select s such that Parent(s,3)
-			- Select s such that Parent*(2,s)
-			- Select s such that Parent*(s,3)
-			- Select v such that Modifies(1,v)
-			- Select a such that Modifies(a,"x")
-			- Select BOOLEAN such that Modifies(3,"x")
+vector<int> QueryEvaluator::getClauseTypeList(ClauseType clause, int stmtNo, CHILD child) {
+	switch (clause) {
+	case FOLLOW: 
+		FollowsTable follows_T;
+		vector<int> v;
+		int stmt_num;
 
-	*/
-	//Declaration
-	std::vector<std::string> stmt = qt.stmt;
-	std::vector<std::string> assign = qt.assign;
-	std::vector<std::string> whileS = qt.whileS;
-	std::vector<std::string> variable = qt.variable;
-	std::vector<std::string> constant = qt.constant;
-	std::vector<std::string> prog_line = qt.prog_line;
+		if (child == LEFT_CHILD) {
+			stmt_num = follows_T.getDirectFollow(stmtNo);
+			v.push_back(stmt_num);
+		}
+		if (child == RIGHT_CHILD) {
+			stmt_num = follows_T.getDirectFollowedBy(stmtNo);
+			v.push_back(stmt_num);
+		}	
+		return v;
+
+	case FOllOWSTAR:
+		FollowsTable follows_T;
+		
+		if (child == LEFT_CHILD) {
+			return follows_T.getFollowList(stmtNo);	
+		}
+		if (child == RIGHT_CHILD) {
+			return follows_T.getFollowedByList(stmtNo);	
+		}
 	
-	//Select synonym the value to be return
-	std::vector<std::string> synonym = qt.synonym; //a.k.a 'syntax'
 
-	//The clause
+
+	case PARENT:
+		ParentsTable parents_T;
+		vector<int> v;
+		int stmt_num;
+
+		if (child == LEFT_CHILD) {
+			stmt_num = parents_T.getChildren(stmtNo);
+			v.push_back(stmt_num);
+		}
+		if (child == RIGHT_CHILD) {
+			stmt_num = parents_T.getParent(stmtNo);
+			v.push_back(stmt_num);
+		}
+		return v;
+
+	case PARENTSTAR:
+		ParentsTable parents_T;
+
+		if (child == LEFT_CHILD) {
+			return parents_T.getChildrenList(stmtNo);
+		}
+		if (child == RIGHT_CHILD) {
+			return parents_T.getParentList(stmtNo);
+		}
+		
 	
-	/*
-		'such that' clause
-		relRef: Modifies, Uses, Parent, Parent*, Follows, Follows*
-	*/
-	std::string relRef = qt.relRef;
-	std::string relRef_value = qt.relRef_value;
-	std::string relRef_left_value = getLeftValue(relRef_value);
-	std::string relRef_right_value = getRightValue(relRef_value);
-
-	/*
-		'pattern' clause 
-		syn-assign (entRef, expression-spec)
-		syn-assign must be declared as stnonym of assignment (degin entity 'assign')
-	*/
-	std::string syn_assign = qt.syn_assign;
-	std::string syn_assign_value = qt.syn_assign_value;
-	std::string syn_assign_left_value = getLeftValue(syn_assign_value);
-	std::string syn_assign_right_value = getRightValue(syn_assign_value);
-
-
-
+		
 	
+		
+	}
 }
 
-//Check if the token exists in the table 
-bool QueryEvaluator::validateQuery(<datatype> table, std::string token) {
-	bool result;
+
+vector<int> QueryEvaluator::getDeclareTypeList(Type declareType) {
+	switch (declareType) {
+	case ASSIGN:
+		AssignTable assign_T;
+		return assign_T.getAssignList();
+	case PROG_LINE:
+		ProgLineTable progLine_T;
+		return progLine_T.getProgLineList();
+	case STMT:
+		StmtTable stmt_T;
+		return stmt_T.getStmtList();
+	case WHILES:
+		WhilesTable whiles_T;
+		return whiles_T.getWhilesList();
+	case VARIABLE:
+		VariableTable variable_T;
+		return variable_T.getVariableList();
+	case CONSTANT:
+		ConstantTable variable_T;
+		return constant_T.getConstantList();
+	}
+}
+
+bool QueryEvaluator::isSubsetList(vector<int> subList, vector<int> setList) {
+	sort(subList.begin(), subList.end());
+	sort(setList.begin(), setList.end());
+
+	bool result = includes(setList.begin(), setList.end(), subList.begin(), subList.end());
 
 	return result;
 }
 
 
+//For Modies & use
+bool QueryEvaluator::check_stmt_ent_condition(ClauseType clause, string leftChild, string rightChild, Type leftChildType, Type rightChildType) {
 
 
-std::string QueryEvaluator::getLeftValue(std::string input)
-{
-	int delim_pos = getDelimPos(input, ',');
-	std::string value = input.substr(1, delim_pos - 1);
-	
-	return removeSpaces(value);
-}
-
-std::string QueryEvaluator::getRightValue(std::string input)
-{
-	int delim_pos = getDelimPos(input, ',') + 1;
-	std::string value = input.substr(delim_pos, input.length() - delim_pos - 1);
-	
-	return removeSpaces(value);
-}
-
-int QueryEvaluator::getDelimPos(std::string input, char delim) {
-	int delim_pos = 0;
-	for (int i = 0; i < input.length(); i++) {
-		if (input[i] == delim) {
-			delim_pos = i;
-		}
+	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
+		return true;
 	}
 
-	return delim_pos;
+	if (leftChildType == INT) {
+		int left_child_num = stoi(leftChild);
+		vector<int> stmtList = get_stmt_ent_list(clause, left_child_num);
+		vector<int> entList = getEntRefList(rightChild, rightType);
+		bool result = isSubsetList(entList, stmtList);
+
+		return result;
+	}
+	else {
+		vector<int> stmtList = getDeclareTypeList(leftChildType);
+		vector<int> entList = getEntRefList(rightChild, rightType);
+		bool result = isSubsetList(entList, stmtList);
+
+		return result;
+	}
 }
 
-std::string QueryEvaluator::removeSpaces(std::string input)
-{
-	int length = input.length();
-	for (int i = 0; i < length; i++) {
-		if (input[i] == ' ')
-		{
-			input.erase(i, 1);
-			length--;
-			i--;
-		}
+
+vector<int> QueryEvaluator::get_stmt_ent_list(ClauseType clause, int stmtNo) {
+	switch (clause) {
+	case PATTERN:
+
+	case MODIFIES:
+		modifiesTable modifies_T;
+		return modifies_T.getStmtModify(stmtNo);
+	case USES:
+		usesTable uses_T;
+		return uses_T.getConstUsedByStmt(stmtNo); //  getVarUsedByStmt
 	}
-	return input;
+}
+
+vector<int> QueryEvaluator::getEntRefList(string child, Type childType) {
+	switch (declareType) {
+	case ASSIGN:
+		AssignTable assign_T;
+		return assign_T.getAssignList();
+	case PROG_LINE:
+		ProgLineTable progLine_T;
+		return progLine_T.getProgLineList();
+	case STMT:
+		StmtTable stmt_T;
+		return stmt_T.getStmtList();
+	case WHILES:
+		WhilesTable whiles_T;
+		return whiles_T.getWhilesList();
+	case VARIABLE:
+		VariableTable variable_T;
+		return variable_T.getVariableList();
+	case CONSTANT:
+		ConstantTable variable_T;
+		return constant_T.getConstantList();
+	case STR:
+		???????????
+	}
+}
+
+bool QueryEvaluator::checkModifies(string leftChild, string rightChild, Type leftChildType, Type rightChildType) {
+	ModifiesTable modfies_T;
+
+	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
+		return true;
+	}
+
+	if (leftChildType == INT) {
+		int left_child_num = stoi(leftChild);
+		vector<int> modifiesList = modifies_T.getStmtModify(left_child_num);
+		vector<int> entList = getEntRefList(rightChild, rightType);
+		bool result = isSubsetList(followsList, entList);
+
+		return result;
+	}
+	else {
+		vector<int> modifiesList = getDeclareTypeList(leftChildType);
+		vector<int> entList = getEntRefList(rightChild, rightType);
+		bool result = isSubsetList(entList, modifiesList);
+
+		return result;
+	}
+}
+
+
+/*
+bool QueryEvaluator::checkFollow(string leftChild, string rightChild, Type leftChildType, Type rightChildType) {
+	FollowsTable follow_T;
+
+	if (leftChildType == INT && rightChildType == INT) {
+		int left_child_num = stoi(leftChild);
+		int right_child_num = stoi(rightChild);
+
+		if (left_child_num == right_child_num) {
+			return true;
+		}
+		return false;
+	}
+	if (leftChildType == INT && rightChildType != INT) {
+		int left_child_num = stoi(leftChild);
+		vector<int> followsList = follow_T.getFollowsList(left_child_num);
+		vector<int> typeList = getDeclareTypeList(rightChildType);
+		bool result = isSubsetList(followsList, typeList);
+	}
+	if (leftChildType != INT && rightChildType == INT) {
+		int right_child_num = stoi(rightChild);
+		vector<int> followsList = follow_T.getFollowsList(right_child_num);
+		vector<int> typeList = getDeclareTypeList(leftChildType);
+		bool result = isSubsetList(followsList, typeList);
+	}
+	if (leftChildType != INT && rightChildType != INT) {
+		return true;
+	}
+
+}
+
+bool QueryEvaluator::checkFollowStar() {
+
+}
+
+bool QueryEvaluator::checkParent() {
+
+}
+
+bool QueryEvaluator::checkParentStar() {
+
+}
+
+bool QueryEvaluator::checkPattern() {
+
+}
+
+bool QueryEvaluator::checkModifies() {
+
+}
+
+bool QueryEvaluator::checkUses() {
+
+}
+*/
+
+
+vector<string> QueryEvaluator::getAssignResult() {
+
+}
+
+vector<string> QueryEvaluator::getStatementResult() {
+
+}
+
+vector<string> QueryEvaluator::getVariableResult() {
+
+}
+
+vector<string> QueryEvaluator::getWhileResult() {
+
+}
+
+vector<string> QueryEvaluator::getConstantResult() {
+
+}
+
+vector<string> QueryEvaluator::getProgLineResult() {
+
+}
+
+vector<string> QueryEvaluator::getBooleanResult() {
+
 }

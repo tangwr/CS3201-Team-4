@@ -3,26 +3,47 @@
 #include <string>
 #include <vector>
 #include <list>
-#include "QueryTree.h"
-#include "ModifiesTable.h"
-#include "UsesTable.h"
-#include "ParentsTable.h"
-#include "FollowsTable.h"
+#include <algorithm>
+#include <unordered_map>
 
+enum CHILD {
+	LEFT_CHILD,
+	RIGHT_CHILD
+};
+
+
+using namespace std;
 
 class QueryEvaluator {
 private:
-	std::string getLeftValue(std::string);
-	std::string getRightValue(std::string);
-	std::string removeSpaces(std::string);
-	int getDelimPos(std::string, char);
-	std::string dummy = "unknown";
-	std::list<std::string> evaluateQuery(QueryTree);
-	bool validateQuery(<datatype_table>, std::string);
+	bool checkCondition();
+	
+	vector<int> getDeclareTypeList(Type);
+	vector<int> getClauseTypeList(ClauseType, int, CHILD);
+	bool isSubsetList(vector<int>, vector<int>);
+	bool checkClauseCondition(ClauseType, string, string, Type, Type);
+
+	vector<int> getEntRefList(string, Type);
+	vector<int> QueryEvaluator::get_stmt_ent_list(ClauseType, int);
+	bool QueryEvaluator::check_stmt_ent_condition(ClauseType, string, string, Type, Type);
+
+	bool checkFollow(string, string, Type, Type);
+	bool checkFollowStar();
+	bool checkParent();
+	bool checkParentStar();
+	bool checkPattern();
+	bool checkModifies(string, string, Type, Type);
+	bool checkUses();
+
+	vector<string> getAssignResult();
+	vector<string> getStatementResult();
+	vector<string> getVariableResult();
+	vector<string> getWhileResult();
+	vector<string> getConstantResult();
+	vector<string> getProgLineResult();
+	vector<string> getBooleanResult();
 
 public:
 	QueryEvaluator();
-	std::list<std::string> evaluate(QueryTree);
-	
-	
+	vector<string> evaluate(QueryTree*);
 };

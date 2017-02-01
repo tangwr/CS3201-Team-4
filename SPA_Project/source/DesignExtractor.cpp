@@ -1,15 +1,8 @@
-#pragma once
-
-#include<stdio.h>
-#include <iostream>
-#include <string>
-#include <vector>
+#include "DesignExtractor.h"
+#include "PKB.h"
 
 using namespace std;
 
+DesignExtractor::DesignExtractor (PKB* pkb) {}
 
-#include "PKB.h"
-
-int DesignExtractor () {
-	return 0;
-}
+void DesignExtractor::run() {}

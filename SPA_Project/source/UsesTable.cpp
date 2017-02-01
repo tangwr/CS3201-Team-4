@@ -2,76 +2,245 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
-vector<vector<int>> usesStmtList;
-vector<vector<int>> usesProcList;
-int vsize; // number of procedures in the program
+
+unordered_map<int, vector<int>> vUsesStmtMap;
+unordered_map<int, vector<int>> vUsesProcMap;
+unordered_map<int, vector<int>> vUsedByStmtMap;
+unordered_map<int, vector<int>> vUsedByProcMap;
+
+unordered_map<int, vector<int>> cUsesStmtMap;
+unordered_map<int, vector<int>> cUsesProcMap;
+unordered_map<int, vector<int>> cUsedByStmtMap;
+unordered_map<int, vector<int>> cUsedByProcMap;
 
 UsesTable::UsesTable(int tsize)
 {
-	vsize = tsize;
-	usesProcList.resize(tsize);
-	usesStmtList.resize(tsize);
 }
 
-int UsesTable::insertStmtUse(int varNo, int stmtNo)
+bool UsesTable::setUseDirectRel(int stmtId, int varId)
 {
-	if (varNo >= vsize) throw "InvalidVarIndexException";
-	for (int t : usesStmtList.at(varNo)) {
-		if (t == stmtNo) return -1;
-	}
-
-	usesStmtList.at(varNo).push_back (stmtNo);
-	return 1;
-}
-
-int UsesTable::insertProcUse(int varNo, int procNo)
-{
-	if (varNo >= vsize) throw "InvalidVarIndexException";
-	for (int t : usesProcList.at(varNo)) {
-		if (t == procNo) return -1;
-	}
-
-	usesProcList.at(varNo).push_back(procNo);
-	return 1;
-}
-
-vector<int> UsesTable::getStmtUse(int varNo)
-{
-	if (varNo >= vsize) throw "InvalidVarIndexException";
-	return usesStmtList.at(varNo);
-}
-
-vector<int> UsesTable::getProcUse(int varNo)
-{
-	if (varNo >= vsize) throw "InvalidVarIndexException";
-	return usesProcList.at(varNo);
-}
-
-vector<int> UsesTable::getVarUsedByStmt(int stmtNo)
-{
-	vector<int> tmp;
-	for (int i = 0; i < vsize; i++) {
-		vector<int> v = usesStmtList.at(i);
-		if (std::find(v.begin(), v.end(), stmtNo) != v.end()) {
-			/* v contains x */
-			tmp.push_back(i);
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsesStmtMap.find(stmtId);
+	vector<int> list;
+	if (it != vUsesStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+			return false;
 		}
+		vUsesStmtMap.erase(it);
 	}
-	return tmp;
+	list.push_back(varId);
+	vUsesStmtMap.insert(make_pair(stmtId, list));
+	setUsedByDirectRel(stmtId, varId);
+	return true;
 }
 
-vector<int> UsesTable::getVarUsedByProc(int procNo)
-{
-	vector<int> tmp;
-	for (int i = 0; i < vsize; i++) {
-		vector<int> v = usesProcList.at(i);
-		if (std::find(v.begin(), v.end(), procNo) != v.end()) {
-			/* v contains x */
-			tmp.push_back(i);
+bool UsesTable::setUsedByDirectRel(int stmtId, int varId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsedByStmtMap.find(varId);
+	vector<int> list;
+	if (it != vUsedByStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), stmtId) != list.end()) {
+			return false;
 		}
+		vUsedByStmtMap.erase(it);
 	}
-	return tmp;
+	list.push_back(stmtId);
+	vUsedByStmtMap.insert(make_pair(varId, list));
+	return true;
 }
+
+
+
+bool UsesTable::setUseDirectRelProc(int procId, int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsesProcMap.find(procId);
+	vector<int> list;
+	if (it != vUsesProcMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+			return false;
+		}
+		vUsesProcMap.erase(it);
+	}
+	list.push_back(varId);
+	vUsesProcMap.insert(make_pair(procId, list));
+	setUsedByDirectRelProc(procId, varId);
+	return true;
+}
+
+bool UsesTable::setUsedByDirectRelProc(int procId, int varId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsedByStmtMap.find(varId);
+	vector<int> list;
+	if (it != vUsedByStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), procId) != list.end()) {
+			return false;
+		}
+		vUsedByStmtMap.erase(it);
+	}
+	list.push_back(procId);
+	vUsedByStmtMap.insert(make_pair(varId, list));
+	return true;
+}
+ 
+// function for constant
+bool UsesTable::setUseDirectRelConst(int stmtId, int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsesStmtMap.find(stmtId);
+	vector<int> list;
+	if (it != cUsesStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+			return false;
+		}
+		cUsesStmtMap.erase(it);
+	}
+	list.push_back(varId);
+	cUsesStmtMap.insert(make_pair(stmtId, list));
+	setUsedByDirectRelConst(stmtId, varId);
+	return true;
+}
+
+bool UsesTable::setUsedByDirectRelConst(int stmtId, int varId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsedByStmtMap.find(varId);
+	vector<int> list;
+	if (it != cUsedByStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), stmtId) != list.end()) {
+			return false;
+		}
+		cUsedByStmtMap.erase(it);
+	}
+	list.push_back(stmtId);
+	cUsedByStmtMap.insert(make_pair(varId, list));
+	return true;
+}
+
+
+
+bool UsesTable::setUseDirectRelConstProc(int procId, int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsesProcMap.find(procId);
+	vector<int> list;
+	if (it != cUsesProcMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+			return false;
+		}
+		cUsesProcMap.erase(it);
+	}
+	list.push_back(varId);
+	cUsesProcMap.insert(make_pair(procId, list));
+	setUsedByDirectRelConstProc(procId, varId);
+	return true;
+}
+
+
+bool UsesTable::setUsedByDirectRelConstProc(int procId, int varId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsedByStmtMap.find(varId);
+	vector<int> list;
+	if (it != cUsedByStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), procId) != list.end()) {
+			return false;
+		}
+		cUsedByStmtMap.erase(it);
+	}
+	list.push_back(procId);
+	cUsedByStmtMap.insert(make_pair(varId, list));
+	return true;
+}
+
+
+vector<int> UsesTable::getVarUsedByStmt(int stmtId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsesStmtMap.find(stmtId);
+	if (it != vUsesStmtMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getStmtUsesVar(int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsedByStmtMap.find(varId);
+	if (it != vUsedByStmtMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getVarUsedByProc(int procId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsesProcMap.find(procId);
+	if (it != vUsesProcMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getProcUsesVar(int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsedByProcMap.find(varId);
+	if (it != vUsedByProcMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getConstUsedByStmt(int stmtId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsesStmtMap.find(stmtId);
+	if (it != cUsesStmtMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getStmtUsesConst(int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsedByStmtMap.find(varId);
+	if (it != cUsedByStmtMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getConstUsedByProc(int procId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsesProcMap.find(procId);
+	if (it != cUsesProcMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+vector<int> UsesTable::getProcUsesConst(int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = cUsedByProcMap.find(varId);
+	if (it != cUsedByProcMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+

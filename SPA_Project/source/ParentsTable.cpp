@@ -2,64 +2,105 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
-map<int, int> parentsMap;
+unordered_map<int, int> parentsMap;   // <child, parent> direct
+unordered_map<int, vector<int>> childsMap;  // <parent, child>  direct
+unordered_map<int, vector<int>> parentListMap; // <child parent*>
+unordered_map<int, vector<int>> childListMap; // <parent, child*>
+
 
 ParentsTable::ParentsTable(void)
 {
 }
 
-int ParentsTable::insertParent(int stmtNo1, int stmtNo2)
+bool ParentsTable::setParentDirectRel(int father, int child)
 {
-	map<int, int>::iterator it;
-	it = parentsMap.find(stmtNo1);
+	unordered_map<int, int>::iterator it;
+	it = parentsMap.find(child);
 	if (it != parentsMap.end()) {
-		throw "ExistingParentRelationException";
+		return false;
+	}
+	parentsMap.insert(make_pair(child, father));
+
+	unordered_map<int, vector<int>>::iterator it2;
+	vector<int> list;
+	it2 = childsMap.find(father);
+	if (it != parentsMap.end()) {
+		list = it2->second;
+		list.push_back(child);
+		childsMap.erase(it2);
+		childsMap.insert(make_pair(father, list));
+	}
+	else {
+		list.push_back(child);
+		childsMap.insert(make_pair(father, list));
 	}
 
-	parentsMap.insert(make_pair(stmtNo1, stmtNo2));
-	return stmtNo1;
+	// star table 
+	insertParentRel(father, child);
+
+	return true;
+}
+bool ParentsTable::insertParentRel(int father, int child)
+{
+	if (father == child)
+		return false;
+	vector<int> list1, list2;
+	unordered_map<int, vector<int>>::iterator it1, it2;
+	it1 = parentListMap.find(father);
+	it2 = childListMap.find(child);
+
+	if (it1 == parentListMap.end()) {
+		list1 = it1->second;
+		parentListMap.erase(it1);
+	}
+	list1.push_back(child);
+	parentListMap.insert(make_pair(father, list1));
+
+	if (it2 == childListMap.end()) {
+		list2 = it2->second;
+		childListMap.erase(it2);
+	}
+	list2.push_back(child);
+	childListMap.insert(make_pair(child, list2));
+	return true;
 }
 
-/*
-GetFollows return the stmt No that is the children of the given stmt.
-getFollows (3) = 4 if Follows (3,4)
 
+
+
+/*
+return list of childrens
+return empty list if no result
+*/
+vector<int> ParentsTable::getChildren(int stmtId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = childsMap.find(stmtId);
+	if (it != childListMap.end()) {
+		return it->second;
+	}
+	return vector<int>();
+}
+
+
+/*
 return -1 if no result
 */
-int ParentsTable::getChildren(int stmtNo)
+int ParentsTable::getParent(int stmtId)
 {
-	map<int, int>::iterator it;
-	it = parentsMap.find(stmtNo);
+	unordered_map<int, int>::iterator it = parentsMap.begin();
+	it = parentsMap.find(stmtId);
 	if (it != parentsMap.end()) {
 		return it->second;
 	}
 	return -1;
 }
 
-
 /*
-GetFollowedBy return the stmt No that is the child of by the given stmt.
-getFollowedBy (4) = 3 if Follows (3,4)
-
-return -1 if no result
-*/
-int ParentsTable::getParent(int stmtNo)
-{
-	map<int, int>::iterator it = parentsMap.begin();
-	while (it != parentsMap.end())
-	{
-		if (it->second == stmtNo)
-			return it->first;
-		it++;
-	}
-	return -1;
-}
-
-
 vector<int> ParentsTable::getChildrenList(int stmtNo)
 {
 	vector<int> list;
@@ -80,4 +121,24 @@ vector<int> ParentsTable::getParentList(int stmtNo)
 		idx = getParent(idx);
 	}
 	return list;
+}
+*/
+
+vector<int> getChildrenStar(int stmtId) 
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = childListMap.find(stmtId);
+	if (it != childListMap.end())
+		return it->second;
+	else
+		return vector<int>();
+}
+vector<int> getParentStar(int stmtId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = parentListMap.find(stmtId);
+	if (it != parentListMap.end())
+		return it->second;
+	else
+		return vector<int>();
 }

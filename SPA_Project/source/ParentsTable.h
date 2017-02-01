@@ -9,9 +9,13 @@ using namespace std;
 class ParentsTable {
 public:
 	ParentsTable();
-	int insertParent(int stmtNo1, int stmtNo2);
-	int getChildren(int stmtNo);
+	bool setParentDirectRel(int father, int child);
+	bool ParentsTable::insertParentRel(int father, int child);
+	vector<int> getChildren(int stmtNo);  // direct children
 	int getParent(int stmtNo);
-	vector<int> getChildrenList(int stmtNo);
-	vector<int> getParentList(int stmtNo);
+	//vector<int> getChildrenList(int stmtNo);
+	//vector<int> getParentList(int stmtNo);
+	vector<int> getChildrenStar(int stmtId);
+	vector<int> getParentStar(int stmtId);
+
 };

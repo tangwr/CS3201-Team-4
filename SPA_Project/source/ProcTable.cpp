@@ -2,45 +2,83 @@
 
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 vector<string> procList;
-int vsize; // number of procedures in the program
+unordered_map<string, int> procMap;
+int ptsize; // number of procedures in the program
 
 ProcTable::ProcTable(void) {
-	vsize = 0;
+	ptsize = 0;
 }
 
+/*
+Insert procedure to procTable.
+Return procId if insert success. If procedure already exist, return its existing procId without duplicate insertion.
+*/
 int ProcTable::insertProc(string procName)
 {
-	for (int idx = 0; idx < vsize; idx++) {
-		if (procName.compare(procList.at(idx)) == 0)
-			return idx;
-	}
+	unordered_map<string, int>::iterator it = procMap.find(procName);
 
-	procList.push_back(procName);
-	vsize++;
-	return vsize - 1;   // index of the procedure in the vector
+	if (it != procMap.end())
+		return it->second;
+	else
+	{
+		int procId = ptsize;
+		procList.push_back(procName);
+		procMap.insert(make_pair(procName, procId));
+		ptsize++;
+		return procId;   
+	}
 }
 
+/*
+Query the size of procTable i.e. How many procedures exist in the table
+Return numbers of existing procedures
+*/
 int ProcTable::getSize()
 {
-	return vsize;
+	return ptsize;
 }
 
-string ProcTable::getProcName(int idx)
+/*
+Query the procName by procId
+Return procName if procId is valid. else throw exception
+*/
+string ProcTable::getProcName(int procId)
 {
-	if (idx >= vsize) throw "InvalidReferenceException";
-	else return procList.at(idx);
+	if (procId >= ptsize) throw "InvalidReferenceException";
+	else return procList.at(procId);
 }
 
+
+/*
+Query the procId by procName
+Return varId if varName is valid, else return -1
+*/
 int ProcTable::getProcIndex(string procName)
 {
-	for (int idx = 0; idx < vsize; idx++) {
-		if (procName.compare(procList.at(idx)) == 0)
-			return idx;
-	}
-	return -1;
+	unordered_map<string, int>::iterator it = procMap.find(procName);
+
+	if (it != procMap.end())
+		return it->second;
+	else 
+		return -1;
 }
 
+bool ProcTable::checkProcExist(string procName)
+{
+	return false;
+}
+
+bool checkProcExist(string procName)
+{
+	unordered_map<string, int>::iterator it = procMap.find(procName);
+
+	if (it != procMap.end())
+		return true;
+	else
+		return false;
+}

@@ -53,6 +53,18 @@ bool PKB::setWhileStmtLstNode(TNodeWhile* whileNode, TNodeStmtLst* stmtLstNode) 
     return true;
 }
 //if
+bool PKB::setIfVarNode(TNodeIf* ifNode, TNodeVar* varNode) {
+    ast.setIfVarNode(ifNode, varNode);
+    return true;
+}
+bool PKB::setIfThenStmtLstNode(TNodeIf* ifNode, TNodeStmtLst* thenStmtLstNode) {
+    ast.setIfThenStmtLstNode(ifNode, thenStmtLstNode);
+    return true;
+}
+bool PKB::setIfElseStmtLstNode(TNodeIf* ifNode, TNodeStmtLst* elseStmtLstNode) {
+    ast.setIfElseStmtLstNode(ifNode, elseStmtLstNode);
+    return true;
+}
 //call
 //assign
 bool PKB::setAssignVarNode(TNodeAssign* assignNode, TNodeVar* varNode) {
@@ -78,13 +90,13 @@ bool PKB::setConstNodeValue(TNodeConst* constNode, int value) {
     return true;
 }
 //stmtList
-bool PKB::addStmtLstStmtNode(TNodeStmtLst* stmtListNode, TNodeStmt* stmtNode) {
-    ast.addStmtLstStmtNode(stmtListNode, stmtNode);
+bool PKB::addStmtLstStmtNode(TNodeStmtLst* stmtLstNode, TNodeStmt* stmtNode) {
+    ast.addStmtLstStmtNode(stmtLstNode, stmtNode);
     return true;
 }
 //proc
-bool PKB::setProcStmtLstNode(TNodeProc* procNode, TNodeStmtLst* stmtListNode) {
-    ast.setProcStmtLstNode(procNode, stmtListNode);
+bool PKB::setProcStmtLstNode(TNodeProc* procNode, TNodeStmtLst* stmtLstNode) {
+    ast.setProcStmtLstNode(procNode, stmtLstNode);
     return true;
 }
 //prog
@@ -94,7 +106,7 @@ bool PKB::addProgProcNode(TNodeProg* progNode, TNodeProc* procNode) {
 }
 //operator
 bool PKB::setOperLeftExpNode(TNodeOper* operNode, TNodeExpr* expNode) {
-    ast.setOperLedtExpNode(operNode, expNode);
+    ast.setOperLeftExpNode(operNode, expNode);
     return true;
 }
 bool PKB::setOperRightExpNode(TNodeOper* operNode, TNodeExpr* expNode) {

@@ -11,4 +11,5 @@ private:
 
 public:
     TNodeVar();
+    void setParent();
 };

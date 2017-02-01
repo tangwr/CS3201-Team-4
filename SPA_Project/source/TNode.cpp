@@ -1,18 +1,19 @@
 #include "TNode.h"
-
+/*
 TNode::TNode() {
     
     this->parent = NULL;
     this->controlNode = NULL;
     this->cVar = false;
     this->children = {};
+    //this->nodetype = TNodeType::;//for debug purpose
 }
-
-void TNode::setParent(TNode p) {
-    this->parent = &p;
+*/
+void TNode::setParent(TNode* p) {
+    this->parent = p;
 }
-void TNode::addChild(TNode c) {
-    this->children.push_back(&c);
+void TNode::addChild(TNode* c) {
+    this->children.push_back(c);
 }
 void TNode::setChildren(std::vector<TNode*> childrenVector) {
     this->children = childrenVector;
@@ -25,4 +26,7 @@ TNode* TNode::getParent() {
 }
 bool TNode::hasControlVar() {
     return this->cVar;
+}
+TNodeType TNode::getType() {
+    return this->nodetype;
 }

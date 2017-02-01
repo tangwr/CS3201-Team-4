@@ -7,16 +7,21 @@ class TNodeStmtLst : public TNode {
 
 private:
 
-    std::vector<TNodeStmt*> children;
+    std::vector<TNode*> children;
     TNode* parent;
+    TNodeType nodeType;
+    bool cVar;
+
 public:
 
     TNodeStmtLst();
-    TNodeStmtLst(std::vector<TNodeStmt*> childrenVector);
-    std::vector<TNodeStmt*> getChildren();
-    void setChildren(std::vector<TNodeStmt*> childrenVector);
-    void addChild(TNodeStmt c);
-    void setParent(TNode p);
+    TNodeStmtLst(std::vector<TNode*> childrenVector);
+    std::vector<TNode*> getChildren();
+    void setChildren(std::vector<TNode*> childrenVector);
+    void addChild(TNode* c);
+    void setParent(TNode* p);
     TNode* getParent();
+    bool hasControlVar();
+    TNodeType getType();
 
 };

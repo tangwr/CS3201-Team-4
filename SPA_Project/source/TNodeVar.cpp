@@ -7,3 +7,6 @@ TNodeVar::TNodeVar() {
     this->operatorValue = "none";
     this->nodeValue = "node";
 }
+
+void TNodeVar::setParent() {
+}

@@ -7,3 +7,12 @@ TNodeWhile::TNodeWhile() {
     this->cVar = false;
     this->children = *(new std::vector<TNode*>);
 }
+TNodeType TNodeWhile::getType() {
+    return this->nodeType;
+}
+void TNodeWhile::setControlNode(TNodeVar* contNode) {
+    this->controlNode = contNode;
+}
+void TNodeWhile::setStmtListNode(TNodeStmtLst * stmtList) {
+    this->stmtListNode = stmtList;
+}

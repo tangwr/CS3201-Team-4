@@ -7,8 +7,8 @@ TNodeStmt::TNodeStmt() {
     this->cVar = false;
     this->children = *(new std::vector<TNode*>);
 }
-void TNodeStmt::setParent(TNode p) {
-    this->parent = &p;
+void TNodeStmt::setParent(TNode* p) {
+    this->parent = p;
 }
 TNode* TNodeStmt::getParent() {
     return this->parent;
@@ -16,16 +16,17 @@ TNode* TNodeStmt::getParent() {
 void TNodeStmt::setChildren(std::vector<TNode*> childrenVector) {
     this->children = childrenVector;
 }
-void TNodeStmt::addChild(TNode c) {
-    this->children.push_back(&c);
+
+void TNodeStmt::addChild(TNode* c) {
+    this->children.push_back(c);
 }
 std::vector<TNode*> TNodeStmt::getChildren() {
     return this->children;
 }
-void TNodeStmt::setControlNode(TNode cont) {
-    this->controlNode = &cont;
+void TNodeStmt::setControlNode(TNode* cont) {
+    this->controlNode = cont;
     this->cVar = true;
-    this->children.push_back(&cont);
+    this->children.push_back(cont);
 }
 void TNodeStmt::setStmtNumber(int i) {
     this->stmtNumber = i;

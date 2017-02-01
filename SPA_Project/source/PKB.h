@@ -28,6 +28,9 @@ public:
     bool setWhileVarNode(TNodeWhile* whileNode, TNodeVar* varNode);
     bool setWhileStmtLstNode(TNodeWhile* whileNode, TNodeStmtLst* stmtLstNode);
     //if
+    bool setIfVarNode(TNodeIf* ifNode, TNodeVar* varNode);
+    bool setIfThenStmtLstNode(TNodeIf* ifNode, TNodeStmtLst* thenStmtLstNode);
+    bool setIfElseStmtLstNode(TNodeIf* ifNode, TNodeStmtLst* elseStmtLstNode);
     //call
     //assign
     bool setAssignVarNode(TNodeAssign* assignNode, TNodeVar* varNode);
@@ -38,7 +41,7 @@ public:
     //const
     bool setConstNodeValue(TNodeConst* constNode, int value);
     //stmtList
-    bool addStmtLstStmtNode(TNodeStmtLst* stmtListNode, TNodeStmt* stmtNode);
+    bool addStmtLstStmtNode(TNodeStmtLst* stmtLstNode, TNodeStmt* stmtNode);
     //proc
     bool setProcStmtLstNode(TNodeProc* procNode, TNodeStmtLst* stmtListNode);
     //prog

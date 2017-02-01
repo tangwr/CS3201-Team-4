@@ -2,39 +2,57 @@
 
 #include <string>
 #include <vector>
-#include <map>
+#include <unordered_map>
 
 using namespace std;
 
-map<int, int> followsMap;
+unordered_map<int, int> followeeMap;  // <followee, follower>    <3,4>
+unordered_map<int, int> followerMap;  // <follower, followee>    <4,3>
+
 
 FollowsTable::FollowsTable(void)
 {
 }
 
-int FollowsTable::insertFollows(int stmtNo1, int stmtNo2)
+bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
 {
-	map<int, int>::iterator it;
-	it = followsMap.find(stmtNo1);
-	if (it != followsMap.end()) {
-		throw "ExistingFollowsRelationException";
-	}
+	return false;
+}
 
-	followsMap.insert(make_pair(stmtNo1,stmtNo2));
-	return stmtNo1;
+
+/*
+	set direct follow relationship
+	Input: followeeId, followerId
+	Output: true, if insert success. false, if followee or follower already exist
+*/
+bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
+{
+	unordered_map<int, int>::iterator it;
+	it = followeeMap.find(followeeId);
+	if (it != followeeMap.end()) 
+		return false;
+	else {
+		it = followerMap.find(followerId);
+		if (it != followerMap.end())
+			return false;
+		else {
+			followeeMap.insert(make_pair(followeeId, followerId));
+			followerMap.insert(make_pair(followerId, followeeId));
+			return true;
+		}
+	}
 }
 
 /*
-	GetFollows return the stmt No that follows the given stmt.
-	getFollows (3) = 4 if Follows (3,4)
-
-	return -1 if no result
+	get the statementId that directly follows the given statement
+	Input: followee statement Id
+	Output: follower statement Id if success, -1 if failure.
 */
-int FollowsTable::getFollows(int stmtNo)
+int FollowsTable::getDirectFollow(int followeeId)
 {
-	map<int, int>::iterator it;
-	it = followsMap.find(stmtNo);
-	if (it != followsMap.end()) {
+	unordered_map<int, int>::iterator it;
+	it = followeeMap.find(followeeId);
+	if (it != followeeMap.end()) {
 		return it->second;
 	}
 	return -1;
@@ -42,42 +60,39 @@ int FollowsTable::getFollows(int stmtNo)
 
 
 /*
-GetFollowedBy return the stmt No that is followed by the given stmt.
-getFollowedBy (4) = 3 if Follows (3,4)
-
-return -1 if no result
+	get the statementId that directly followed by the given statement
+	Input: follower statement Id
+	Output: followee statement Id if success, -1 if failure.
 */
-int FollowsTable::getFollowedBy(int stmtNo)
+int FollowsTable::getDirectFollowedBy(int followerId)
 {
-	map<int, int>::iterator it = followsMap.begin();
-	while (it != followsMap.end())
-	{
-		if (it->second == stmtNo)
-			return it->first;
-		it++;
+	unordered_map<int, int>::iterator it;
+	it = followerMap.find(followerId);
+	if (it != followerMap.end()) {
+		return it->second;
 	}
 	return -1;
 }
 
 
-vector<int> FollowsTable::getFollowsList(int stmtNo)
+vector<int> FollowsTable::getFollowsList(int stmtId)
 {
 	vector<int> list;
-	int idx = getFollows(stmtNo);
+	int idx = getDirectFollow(stmtId);
 	while (idx != -1) {
 		list.push_back(idx);
-		idx = getFollows(idx);
+		idx = getDirectFollow(idx);
 	}
 	return list;
 }
 
-vector<int> FollowsTable::getFollowedByList(int stmtNo)
+vector<int> FollowsTable::getFollowedByList(int stmtId)
 {
 	vector<int> list;
-	int idx = getFollowedBy(stmtNo);
+	int idx = getDirectFollow(stmtId);
 	while (idx != -1) {
 		list.push_back(idx);
-		idx = getFollowedBy(idx);
+		idx = getDirectFollowedBy(idx);
 	}
 	return list;
 }

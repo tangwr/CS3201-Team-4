@@ -8,7 +8,8 @@ using namespace std;
 
 unordered_map<int, int> followeeMap;  // <followee, follower>    <3,4>
 unordered_map<int, int> followerMap;  // <follower, followee>    <4,3>
-
+unordered_map<int, vector<int>> followeeListMap;
+unordered_map<int, vector<int>> followerListMap;
 
 FollowsTable::FollowsTable(void)
 {
@@ -33,9 +34,36 @@ bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
 		else {
 			followeeMap.insert(make_pair(followeeId, followerId));
 			followerMap.insert(make_pair(followerId, followeeId));
+			// star table
+			insertFollowRel(followeeId, followerId);
 			return true;
 		}
 	}
+}
+
+bool FollowsTable::insertFollowRel(int followeeId, int followerId)
+{
+	if (followeeId == followerId)
+		return false;
+	vector<int> list1, list2;
+	unordered_map<int, vector<int>>::iterator it1, it2;
+	it1 = followeeListMap.find(followeeId);
+	it2 = followerListMap.find(followerId);
+	
+	if (it1 == followeeListMap.end()) {
+		list1 = it1->second;
+		followeeListMap.erase(it1);
+	}
+	list1.push_back(followerId);
+	followeeListMap.insert(make_pair(followeeId, list1));
+
+	if (it2 == followerListMap.end()) {
+		list2 = it2->second;
+		followerListMap.erase(it2);
+	}
+	list2.push_back(followeeId);
+	followerListMap.insert(make_pair(followerId, list2));
+	return true;
 }
 
 /*
@@ -69,7 +97,7 @@ int FollowsTable::getDirectFollowedBy(int followerId)
 	return -1;
 }
 
-
+/*
 vector<int> FollowsTable::getFollowsList(int stmtId)
 {
 	vector<int> list;
@@ -90,4 +118,23 @@ vector<int> FollowsTable::getFollowedByList(int stmtId)
 		idx = getDirectFollowedBy(idx);
 	}
 	return list;
+}
+*/
+
+vector<int> getFollowStar(int stmtId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = followeeListMap.find(stmtId);
+	if (it != followeeListMap.end())
+		return it->second;
+	else
+		return vector<int>();
+}
+vector<int> getFollowedByStar(int stmtId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = followerListMap.find(stmtId);
+	if (it != followerListMap.end())
+		return it->second;
+	else
+		return vector<int>();
+
 }

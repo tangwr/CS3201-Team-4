@@ -10,6 +10,11 @@
 #include "ProcTable.h"
 #include "UsesTable.h"
 #include "VarTable.h"
+#include "WhileTable.h"
+#include "IfTable.h"
+#include "CallProcTable.h"
+#include "ConstTable.h"
+#include "AssignTable.h"
 
 using namespace std;
 typedef short PROC;
@@ -26,6 +31,13 @@ private:
     ProcTable procTable;
     UsesTable usesTable;
     VarTable variableTable;
+    ConstTable constTable;
+    WhileTable whileTable;
+    IfTable ifTable;
+    CallProcTable callProcTable;
+    AssignTable assignTable;
+
+    bool isValidVarId(int VarId);
 
 public:
 
@@ -72,8 +84,9 @@ public:
     //set is for direct parent/relations and not *
     bool setFollowDirectRel(int stmtId, int followsId);
     bool setParentDirectRel(int parent, int child);
-    bool setModifyDirectRel(int stmtId, int varId);
-    bool setUseDirectRel(int stmtId, int varId);
+    bool setModifyRel(int stmtId, int varId);
+    bool setUseVarRel(int stmtId, int varId);
+    bool setUseConstRel(int stmtId, int constId);
 
     //insert is for *
     bool insertFollowRel(int stmtId, int followId);

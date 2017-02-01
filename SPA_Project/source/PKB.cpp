@@ -133,16 +133,19 @@ bool PKB::setFollowDirectRel(int stmtId, int followsId) {
     return this->followsTable.setFollowDirectRel(followsId, stmtId);//check param order
 }
 bool PKB::setParentDirectRel(int parent, int child) {
-    this->parentTable.insertParent(parent, child);//check param order
-    return true;//placeholder
+    return this->parentTable.insertParent(parent, child);//check param order
 }
 bool PKB::setModifyRel(int stmtId, int varId) {
-    this->modifiesTable.insertStmtModify(varId, stmtId);
-    return true;
+    if (!this->isValidVarId(varId)) {
+        return false;
+    }
+    return this->modifiesTable.insertStmtModify(varId, stmtId);
 }
 bool PKB::setUseVarRel(int stmtId, int varId) {
-    this->usesTable.insertStmtUse(varId, stmtId);
-    return true;
+    if (!this->isValidVarId(varId)) {
+        return false;
+    }
+    return this->usesTable.insertStmtUse(varId, stmtId);
 }
 bool PKB::setUseConstRel(int stmtId, int constId) {
     return this->constTable.setUseConstDirect(stmtId, constId);

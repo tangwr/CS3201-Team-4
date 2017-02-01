@@ -6,8 +6,8 @@ TNodeExpr::TNodeExpr() {
     this->parent = NULL;
     this->operatorValue = "none";
 }
-void TNodeExpr::setParent(TNode p) {
-    this->parent = &p;
+void TNodeExpr::setParent(TNode* p) {
+    this->parent = p;
 }
 TNode* TNodeExpr::getParent() {
     return this->parent;
@@ -15,8 +15,9 @@ TNode* TNodeExpr::getParent() {
 void TNodeExpr::setChildren(std::vector<TNode*> childrenVector) {
     this->children = childrenVector;
 }
-void TNodeExpr::addChild(TNode c) {
-    this->children.push_back(&c);
+
+void TNodeExpr::addChild(TNode* c) {
+    this->children.push_back(c);
 }
 std::vector<TNode*> TNodeExpr::getChildren() {
     return this->children;
@@ -26,4 +27,8 @@ bool TNodeExpr::hasControlVar() {
 }
 std::string TNodeExpr::getOperatorValue() {
     return this->operatorValue;
+}
+
+TNodeType TNodeExpr::getType() {
+    return this->nodeType;
 }

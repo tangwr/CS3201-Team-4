@@ -133,22 +133,22 @@ bool PKB::setFollowDirectRel(int stmtId, int followsId) {
     return this->followsTable.setFollowDirectRel(followsId, stmtId);//check param order
 }
 bool PKB::setParentDirectRel(int parent, int child) {
-    return this->parentTable.insertParent(parent, child);//check param order
+    return this->parentTable.setParentDirectRel(parent, child);//check param order
 }
 bool PKB::setModifyRel(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->modifiesTable.insertStmtModify(varId, stmtId);
+    return this->modifiesTable.setModifyDirectRel(stmtId, varId);
 }
 bool PKB::setUseVarRel(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->usesTable.insertStmtUse(varId, stmtId);
+    return this->usesTable.setUseDirectRel(stmtId, varId);
 }
 bool PKB::setUseConstRel(int stmtId, int constId) {
-    return this->constTable.setUseConstDirect(stmtId, constId);
+    return this->constTable.setUseConstRel(stmtId, constId);
 }
 /*
 bool PKB::setFollowedByDirectRel(int stmtId, int followedByIndex) {
@@ -163,14 +163,14 @@ bool PKB::setUsedByDirectRel(int stmtId, int varId) {
 */
 
 bool PKB::insertFollowRel(int stmtId, int followNum) {
-    this->followsTable.insertFollow(stmtId, followNum);//check param order
+    this->followsTable.insertFollowRel(stmtId, followNum);//check param order
     return true;//placeholder
 }
 bool PKB::insertParentRel(int parent, int child) {
-    this->parentTable.insertParent(parent, child);//check param order
+    this->parentTable.insertParentRel(parent, child);//check param order
     return true;//placeholder
 }
-bool PKB::insertConst(int value) {
+int PKB::insertConst(int value) {
     return this->constTable.insertConst(value);
 }
 
@@ -219,16 +219,16 @@ int PKB::getParentDirect(int stmtId) {
     return this->parentTable.getParent(stmtId);
 }
 vector<int> PKB::getChildren(int stmtId) {
-    return this->parentTable.getChildrenList(stmtId);
+    return this->parentTable.getChildrenStar(stmtId);
 }
 vector<int> PKB::getFollowStar(int stmtId) {
-    return this->followsTable.getFollowsList(stmtId);
+    return this->followsTable.getFollowStar(stmtId);
 }
 vector<int> PKB::getFollowedByStar(int stmtId) {
-    return this->followsTable.getFollowedByList(stmtId);
+    return this->followsTable.getFollowedByStar(stmtId);
 }
 vector<int> PKB::getParentStar(int stmtId) {
-    return this->parentTable.getParentList(stmtId);
+    return this->parentTable.getParentStar(stmtId);
 }
 
 

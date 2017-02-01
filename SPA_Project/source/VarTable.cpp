@@ -68,7 +68,15 @@ int VarTable::getVarIndex(string varName)
 		return -1;
 }
 
-bool VarTable::checkVarExist(string varName)
+bool VarTable::checkVarExistById(int varId)
+{
+	if (varId < vtsize)
+		return true;
+	else
+		return false;
+}
+
+bool VarTable::checkVarExistByName(string varName)
 {
 	unordered_map<string, int>::iterator it = varMap.find(varName);
 

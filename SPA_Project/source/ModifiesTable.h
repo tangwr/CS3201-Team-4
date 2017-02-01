@@ -12,7 +12,7 @@ private:
 	bool ModifiesTable::setModifiedByDirectRel(int stmtId, int varId);
 	bool ModifiesTable::setModifiedByDirectRelProc(int stmtId, int varId);
 public:
-	ModifiesTable(int tsize);
+	ModifiesTable();
 	bool ModifiesTable::setModifyDirectRel(int stmtId, int varId);
 	bool ModifiesTable::setModifyDirectRelProc(int stmtId, int varId);
 	//int insertStmtModify(int varNo, int stmtNo);

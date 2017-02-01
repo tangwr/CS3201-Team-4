@@ -9,7 +9,7 @@ using namespace std;
 unordered_map<int, vector<int>> modifiesStmtMap, modifiedByStmtMap;
 unordered_map<int, vector<int>> modifiesProcMap, modifiedByProcMap;
 
-ModifiesTable::ModifiesTable(int tsize)
+ModifiesTable::ModifiesTable()
 {
 }
 

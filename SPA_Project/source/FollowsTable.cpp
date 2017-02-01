@@ -14,11 +14,6 @@ FollowsTable::FollowsTable(void)
 {
 }
 
-bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
-{
-	return false;
-}
-
 
 /*
 	set direct follow relationship

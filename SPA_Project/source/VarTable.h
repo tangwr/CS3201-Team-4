@@ -15,5 +15,6 @@ public:
 	int getSize();
 	string getVarName(int varId);
 	int getVarIndex(string varName);
-	bool checkVarExist(string varName);
+	bool checkVarExistByName(string varName);
+	bool checkVarExistById(int varId);
 };

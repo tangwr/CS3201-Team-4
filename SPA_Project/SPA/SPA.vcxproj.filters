@@ -96,6 +96,9 @@
     <ClCompile Include="..\source\TNodeStmtLst.cpp">
       <Filter>Source Files\PKB\TNode</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\TNodeOper.cpp">
+      <Filter>Source Files\PKB\TNode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -150,6 +153,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\TNodeStmtLst.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TNodeOper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

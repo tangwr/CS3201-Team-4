@@ -125,43 +125,44 @@ TNode* PKB::getRootAST (PROC p){
 	return NULL;
 }
 
-bool PKB::setFollowDirectRel(int statementIndex, int followsIndex) {
-    this->followsTable.insertFollows(statementIndex, followsIndex);//check param order
+bool PKB::setFollowDirectRel(int stmtId, int followsIndex) {
+    this->followsTable.insertFollows(stmtId, followsIndex);//check param order
     return true;//placeholder
 }
 bool PKB::setParentDirectRel(int parent, int child) {
     this->parentTable.insertParent(parent, child);//check param order
     return true;//placeholder
 }
-bool PKB::setModifyDirectRel(int statementIndex, string varName) {
-    int varNum = this->variableTable.getVarIndex(varName);
-    this->modifiesTable.insertStmtModify(varNum, statementIndex);
+bool PKB::setModifyDirectRel(int stmtId, int varId) {
+    this->modifiesTable.insertStmtModify(varId, stmtId);
     return true;
 }
-bool PKB::setUseDirectRel(int statementIndex, string varName) {
-    int varNum = this->variableTable.getVarIndex(varName);
-    this->usesTable.insertStmtUse(varNum, statementIndex);
+bool PKB::setUseDirectRel(int stmtId, int varId) {
+    this->usesTable.insertStmtUse(varId, stmtId);
     return true;
 }
-
-bool PKB::setFollowedByDirectRel(int statementIndex, int followedByIndex) {
-
-}
-bool PKB::setModifiedByDirectRel(int statementIndex, string varName) {
+/*
+bool PKB::setFollowedByDirectRel(int stmtId, int followedByIndex) {
 
 }
-bool PKB::setUsedByDirectRel(int statementIndex, string varName) {
+bool PKB::setModifiedByDirectRel(int stmtId, int varId) {
 
 }
+bool PKB::setUsedByDirectRel(int stmtId, int varId) {
 
+}
+*/
 
-bool PKB::insertFollowRel(int statementNum, int followNum) {
-    this->followsTable.insertFollows(statementNum, followNum);//check param order
+bool PKB::insertFollowRel(int stmtId, int followNum) {
+    this->followsTable.insertFollows(stmtId, followNum);//check param order
     return true;//placeholder
 }
 bool PKB::insertParentRel(int parent, int child) {
     this->parentTable.insertParent(parent, child);//check param order
     return true;//placeholder
+}
+bool PKB::insertConst(int value) {
+    return this->constantTable.insertConstand(value);
 }
 
 
@@ -173,29 +174,39 @@ int PKB::insertProc(string procName) {
     return this->procTable.insertProc(procName);
 }
 
-bool PKB::setAssignExp(int statementIndex, string expression) {
+bool PKB::setAssignExp(int stmtId, string expression) {
     //waiting for assigntable
 }
-bool PKB::setWhileCtrlVar(int statementIndex, string varName) {
+bool PKB::setWhileCtrlVar(int stmtId, int varId) {
     //waiting for table
 }
-bool PKB::setIfCtrlVar(int statementIndex, string varName) {
+bool PKB::setIfCtrlVar(int stmtId, int varId) {
     //waiting for table
 }
-bool PKB::setCallProc(int statementIndex, string procName) {
+bool PKB::setCallProc(int stmtId, int varId) {
     //waiting for table
 }
 
-int PKB::getFollows(int statementIndex) {
+int PKB::getFollowDirect(int stmtId) {
     //statement table?
 }
-int PKB::getFollowedBy(int statementIndex) {
+int PKB::getFollowedByDirect(int stmtId) {
 
 }
-int PKB::getParent(int statementIndex) {
-    return this->parentTable.getParent(statementIndex);
+int PKB::getParentDirect(int stmtId) {
+    return this->parentTable.getParent(stmtId);
 }
-vector<int> PKB::getChildren(int statementIndex) {
-    return this->parentTable.getChildrenList(statementIndex);
+vector<int> PKB::getChildren(int stmtId) {
+    return this->parentTable.getChildrenList(stmtId);
 }
+vector<int> getFollowStar(int stmtId) {
+
+}
+vector<int> getFollowedByStar(int stmtId) {
+
+}
+vector<int> getParentStar(int stmtId) {
+
+}
+
 

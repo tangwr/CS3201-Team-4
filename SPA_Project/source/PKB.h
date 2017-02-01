@@ -70,28 +70,30 @@ public:
 	static int setProcToAST(PROC p, TNode* r);
 	static TNode* getRootAST (PROC p);
     //set is for direct parent/relations and not *
-    bool setFollowDirectRel(int statementIndex, int followsIndex);
+    bool setFollowDirectRel(int stmtId, int followsId);
     bool setParentDirectRel(int parent, int child);
-    bool setModifyDirectRel(int statementIndex, string varName);
-    bool setUseDirectRel(int statementIndex, string varName);
-    bool setFollowedByDirectRel(int statementIndex, int followedByIndex);
-    bool setModifiedByDirectRel(int statementIndex, string varName);
-    bool setUsedByDirectRel(int statementIndex, string varName);
+    bool setModifyDirectRel(int stmtId, int varId);
+    bool setUseDirectRel(int stmtId, int varId);
+
     //insert is for *
-    bool insertFollowRel(int statementNum, int followNum);
+    bool insertFollowRel(int stmtId, int followId);
     bool insertParentRel(int parent, int child);
 
     int insertVar(string varName);
     int insertProc(string procName);
+    int insertConst(int value);
 
-    bool setAssignExp(int statementIndex, string expression);
-    bool setWhileCtrlVar(int statementIndex, string varName);
-    bool setIfCtrlVar(int statementIndex, string varName);
-    bool setCallProc(int statementIndex, string procName);
+    bool setAssignExp(int stmtId, string expression);
+    bool setWhileCtrlVar(int stmtId, int varId);//check var exist
+    bool setIfCtrlVar(int stmtId, int varId);
+    bool setCallProc(int stmtId, int procId);
 
-    int getFollows(int statementIndex);//-1 if no follows
-    int getFollowedBy(int statementIndex);//-1 if no followedby
-    int getParent(int statementIndex);//-1 if no parent
-    vector<int> getChildren(int statementIndex);
+    int getFollowDirect(int stmtId);//-1 if no follows
+    int getFollowedByDirect(int stmtId);//-1 if no followedby
+    int getParentDirect(int stmtId);//-1 if no parent
+    vector<int> getChildren(int stmtId);
+    vector<int> getFollowStar(int stmtId);
+    vector<int> getFollowedByStar(int stmtId);
+    vector<int> getParentStar(int stmtId);
 
 };

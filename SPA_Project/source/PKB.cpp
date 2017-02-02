@@ -150,7 +150,7 @@ bool PKB::setUseVarRel(int stmtId, int varId) {
     return this->usesTable.setUseDirectRel(stmtId, varId);
 }
 bool PKB::setUseConstRel(int stmtId, int constId) {
-    return this->constTable.setUseConstRel(stmtId, constId);
+    return this->usesTable.setUseDirectRelConst(stmtId, constId);
 }
 /*
 bool PKB::setFollowedByDirectRel(int stmtId, int followedByIndex) {

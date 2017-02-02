@@ -9,12 +9,12 @@ using namespace std;
 
 class ModifiesTable {
 private: 
-	bool setModifiedByDirectRel(int stmtId, int varId);
-	bool setModifiedByDirectRelProc(int stmtId, int varId);
+	bool setStmtModifiedByRel(int stmtId, int varId);
+	bool setProcModifiedByRel(int stmtId, int varId);
 public:
 	ModifiesTable();
-	bool setModifyDirectRel(int stmtId, int varId);
-	bool setModifyDirectRelProc(int stmtId, int varId);
+	bool setStmtModifyRel(int stmtId, int varId);
+	bool setProcModifyRel(int stmtId, int varId);
 	//int insertStmtModify(int varNo, int stmtNo);
 	//int insertProcModify(int varNo, int procNo);
 	vector<int> getModifiedByStmt(int varId);

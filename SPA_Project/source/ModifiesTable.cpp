@@ -13,7 +13,7 @@ ModifiesTable::ModifiesTable()
 {
 }
 
-bool ModifiesTable::setModifyDirectRel(int stmtId, int varId)
+bool ModifiesTable::setStmtModifyRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
@@ -27,11 +27,11 @@ bool ModifiesTable::setModifyDirectRel(int stmtId, int varId)
 	}
 	list.push_back(varId);
 	modifiesStmtMap.insert(make_pair(stmtId, list));
-	setModifiedByDirectRel(stmtId, varId);
+	setStmtModifiedByRel(stmtId, varId);
 	return true;
 }
 
-bool ModifiesTable::setModifiedByDirectRel(int stmtId, int varId) {
+bool ModifiesTable::setStmtModifiedByRel(int stmtId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiedByStmtMap.find(varId);
 	vector<int> list;
@@ -47,7 +47,7 @@ bool ModifiesTable::setModifiedByDirectRel(int stmtId, int varId) {
 	return true;
 }
 
-bool ModifiesTable::setModifyDirectRelProc(int procId, int varId)
+bool ModifiesTable::setProcModifyRel(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiesStmtMap.find(procId);
@@ -61,11 +61,11 @@ bool ModifiesTable::setModifyDirectRelProc(int procId, int varId)
 	}
 	list.push_back(varId);
 	modifiesStmtMap.insert(make_pair(procId, list));
-	setModifiedByDirectRelProc(procId, varId);
+	setProcModifiedByRel(procId, varId);
 	return true;
 }
 
-bool ModifiesTable::setModifiedByDirectRelProc(int procId, int varId) {
+bool ModifiesTable::setProcModifiedByRel(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiedByStmtMap.find(varId);
 	vector<int> list;

@@ -9,16 +9,16 @@ using namespace std;
 
 class UsesTable {
 private:
-	bool setUsedByDirectRel(int stmtId, int varId);
-	bool setUsedByDirectRelProc(int procId, int varId);
-	bool setUsedByDirectRelConst(int stmtId, int varId);
-	bool setUsedByDirectRelConstProc(int procId, int varId);
+	bool setStmtUsedByRel(int stmtId, int varId);
+	bool setProcUsedByRel(int procId, int varId);
+	bool setStmtUsedByRelConst(int stmtId, int varId);
+	bool setProcUsedByRelConst(int procId, int varId);
 public:
 	UsesTable();
-	bool setUseDirectRel(int stmtId, int varId);
-	bool setUseDirectRelProc(int procId, int varId);
-	bool setUseDirectRelConst(int stmtId, int constId);
-	bool setUseDirectRelConstProc(int procId, int constId);
+	bool setStmtUseRel(int stmtId, int varId);
+	bool setProcUseRel(int procId, int varId);
+	bool setStmtUseRelConst(int stmtId, int constId);
+	bool setProcUseRelConst(int procId, int constId);
 
 	vector<int> getVarUsedByStmt(int stmtId);
 	vector<int> getStmtUsesVar(int varId);

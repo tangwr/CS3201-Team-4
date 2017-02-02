@@ -11,11 +11,10 @@ class ConstTable {
 
 public:
 	ConstTable(void);
-	int insertConst(int constName, int value);
+	int insertConst( int value);
 	int getSize();
 	int getConstName(int constId);
 	int getConstIndex(int constName);
 	bool checkConstExist(int constName);
 	int getValueById(int constId);
-	int getValueByName(int constName);
 };

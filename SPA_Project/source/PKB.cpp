@@ -144,22 +144,25 @@ bool PKB::setModifyStmtRel(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->modifiesTable.setModifyDirectRel(stmtId, varId);
+    return this->modifiesTable.setStmtModifyRel(stmtId, varId);
 }
-bool PKB::setModifyProcRel(int procId, int varId) {
+bool PKB::setProcModifyRel(int procId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->modifiesTable.setModifyDirectRelProc(procId, varId);
+    return this->modifiesTable.setProcModifyRel(procId, varId);
 }
-bool PKB::setUseVarRel(int stmtId, int varId) {
+bool PKB::setStmtUseRel(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->usesTable.setUseDirectRel(stmtId, varId);
+    return this->usesTable.setStmtUseRel(stmtId, varId);
 }
-bool PKB::setUseConstRel(int stmtId, int constId) {
-    return this->usesTable.setUseDirectRelConst(stmtId, constId);
+bool PKB::setStmtUseRelConst(int stmtId, int constId) {
+    if (!this->isValidConst(constId)) {
+        return false;
+    }
+    return this->usesTable.setStmtUseRelConst(stmtId, constId);
 }
 /*
 bool PKB::setFollowedByDirectRel(int stmtId, int followedByIndex) {
@@ -227,7 +230,7 @@ vector<int> PKB::getChildren(int stmtId) {
     return this->parentTable.getChildren(stmtId);
 }
 vector<int> PKB::getChildrenStar(int stmtId) {
-    rethrn this->parentTable.getChildrenStar(stmtId);
+    return this->parentTable.getChildrenStar(stmtId);
 }
 vector<int> PKB::getFollowStar(int stmtId) {
     return this->followsTable.getFollowStar(stmtId);
@@ -256,33 +259,33 @@ vector<int> PKB::getProcUsesVar(int varId) {
 vector<int> PKB::getConstUsedByStmt(int stmtId) {
     return this->usesTable.getConstUsedByStmt(stmtId);
 }
-vector<int> PKB::getStmtUsesConst(int varId) {
-    return this->usesTable.getStmtUsesConst(varId);
+vector<int> PKB::getStmtUsesConst(int constId) {
+    return this->usesTable.getStmtUsesConst(constId);
 }
 vector<int> PKB::getConstUsedByProc(int procId) {
     return this->usesTable.getConstUsedByProc(procId);
 }
-vector<int> PKB::getProcUsesConst(int varId) {
-    return this->usesTable.getProcUsesConst(varId);
+vector<int> PKB::getProcUsesConst(int constId) {
+    return this->usesTable.getProcUsesConst(constId);
 }
 
-bool PKB::setUseDirecRelProc(int procId, int varId) {
+bool PKB::setProcUseRel(int procId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
-    return this->usesTable.setUseDirectRelProc(procId, varId);
+    return this->usesTable.setProcUseRel(procId, varId);
 }
-bool PKB::setUseDirectRelConst(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
+bool PKB::setStmtUseRelConst(int stmtId, int constId) {
+    if (!this->isValidConst(constId)) {
         return false;
     }
-    return this->usesTable.setUseDirectRelConst(stmtId, varId);
+    return this->usesTable.setStmtUseRelConst(stmtId, constId);
 }
-bool PKB::setUseDirectRelConstProc(int procId, int varId) {
-    if (!this->isValidVarId(varId)) {
+bool PKB::setProcUseRelConst(int procId, int constId) {
+    if (!this->isValidConst(constId)) {
         return false;
     }
-    return this->usesTable.setUseDirectRelConstProc(procId, varId);
+    return this->usesTable.setProcUseRelConst(procId, constId);
 }
 
 //constTable
@@ -318,4 +321,9 @@ vector<int> PKB::getModifiedByProc(int varId) {//get procs which modifies the gi
 vector<int> PKB::getProcModify(int stmtId) {
     return this->modifiesTable.getProcModify(stmtId);
 }
-
+bool PKB::setModifyDirectRelProc(int stmtId, int varId) {
+    if (!this->isValidVarId(varId)) {
+        return false;
+    }
+    return this->modifiesTable.setProcModifyRel(stmtId, varId);
+}

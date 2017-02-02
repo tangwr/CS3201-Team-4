@@ -86,9 +86,9 @@ public:
     bool setFollowDirectRel(int stmtId, int followsId);
     bool setParentDirectRel(int parent, int child);
     bool setModifyStmtRel(int stmtId, int varId);
-    bool setModifyProcRel(int procId, int varId);
-    bool setUseVarRel(int stmtId, int varId);
-    bool setUseConstRel(int stmtId, int constId);
+    bool setProcModifyRel(int procId, int varId);
+    bool setStmtUseRel(int stmtId, int varId);
+    bool setStmtUseRelConst(int stmtId, int constId);
 
     //insert is for *
     bool insertFollowRel(int stmtId, int followId);
@@ -119,13 +119,13 @@ public:
     vector<int> getProcUsesVar(int varId);
 
     vector<int> getConstUsedByStmt(int stmtId);
-    vector<int> getStmtUsesConst(int varId);
+    vector<int> getStmtUsesConst(int constId);
     vector<int> getConstUsedByProc(int procId);
-    vector<int> getProcUsesConst(int varId);
+    vector<int> getProcUsesConst(int constId);
 
-    bool setUseDirecRelProc(int procId, int varId);
-    bool setUseDirectRelConst(int stmtId, int varId);
-    bool setUseDirectRelConstProc(int procId, int varId);
+    bool setProcUseRel(int procId, int varId);
+    bool setStmtUseRelConst(int stmtId, int varId);
+    bool setProcUseRelConst(int procId, int varId);
     //constTable
     int getConstTableSize();
     //bool checkConstExist(int constId);renamed and place in private

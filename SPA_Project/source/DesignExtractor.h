@@ -1,16 +1,25 @@
 #pragma once
 
-#include<stdio.h>
+#include "PKB.h"
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
+#include <unordered_map>
+#include <vector>
+
 
 using namespace std;
 
-#include "PKB.h"
-
 class DesignExtractor {
 public:
-	DesignExtractor(PKB* pkb);
-	void run();
+	DesignExtractor(PKB *pkbSource);
+	void extractStarRelations();
+
+private:
+	PKB *pkb;
+	void extractStarRelations();
+	void extractParentStar();
+	void extractFollowsStar();
 };

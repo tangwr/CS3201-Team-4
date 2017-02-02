@@ -21,7 +21,7 @@ UsesTable::UsesTable()
 {
 }
 
-bool UsesTable::setUseDirectRel(int stmtId, int varId)
+bool UsesTable::setStmtUseRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsesStmtMap.find(stmtId);
@@ -35,11 +35,11 @@ bool UsesTable::setUseDirectRel(int stmtId, int varId)
 	}
 	list.push_back(varId);
 	vUsesStmtMap.insert(make_pair(stmtId, list));
-	setUsedByDirectRel(stmtId, varId);
+	setStmtUsedByRel(stmtId, varId);
 	return true;
 }
 
-bool UsesTable::setUsedByDirectRel(int stmtId, int varId) {
+bool UsesTable::setStmtUsedByRel(int stmtId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsedByStmtMap.find(varId);
 	vector<int> list;
@@ -57,7 +57,7 @@ bool UsesTable::setUsedByDirectRel(int stmtId, int varId) {
 
 
 
-bool UsesTable::setUseDirectRelProc(int procId, int varId)
+bool UsesTable::setProcUseRel(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsesProcMap.find(procId);
@@ -71,11 +71,11 @@ bool UsesTable::setUseDirectRelProc(int procId, int varId)
 	}
 	list.push_back(varId);
 	vUsesProcMap.insert(make_pair(procId, list));
-	setUsedByDirectRelProc(procId, varId);
+	setProcUsedByRel(procId, varId);
 	return true;
 }
 
-bool UsesTable::setUsedByDirectRelProc(int procId, int varId) {
+bool UsesTable::setProcUsedByRel(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsedByStmtMap.find(varId);
 	vector<int> list;
@@ -92,7 +92,7 @@ bool UsesTable::setUsedByDirectRelProc(int procId, int varId) {
 }
  
 // function for constant
-bool UsesTable::setUseDirectRelConst(int stmtId, int varId)
+bool UsesTable::setStmtUseRelConst(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsesStmtMap.find(stmtId);
@@ -106,11 +106,11 @@ bool UsesTable::setUseDirectRelConst(int stmtId, int varId)
 	}
 	list.push_back(varId);
 	cUsesStmtMap.insert(make_pair(stmtId, list));
-	setUsedByDirectRelConst(stmtId, varId);
+	setStmtUsedByRelConst(stmtId, varId);
 	return true;
 }
 
-bool UsesTable::setUsedByDirectRelConst(int stmtId, int varId) {
+bool UsesTable::setStmtUsedByRelConst(int stmtId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsedByStmtMap.find(varId);
 	vector<int> list;
@@ -128,7 +128,7 @@ bool UsesTable::setUsedByDirectRelConst(int stmtId, int varId) {
 
 
 
-bool UsesTable::setUseDirectRelConstProc(int procId, int varId)
+bool UsesTable::setProcUseRelConst(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsesProcMap.find(procId);
@@ -142,12 +142,12 @@ bool UsesTable::setUseDirectRelConstProc(int procId, int varId)
 	}
 	list.push_back(varId);
 	cUsesProcMap.insert(make_pair(procId, list));
-	setUsedByDirectRelConstProc(procId, varId);
+	setProcUsedByRelConst(procId, varId);
 	return true;
 }
 
 
-bool UsesTable::setUsedByDirectRelConstProc(int procId, int varId) {
+bool UsesTable::setProcUsedByRelConst(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsedByStmtMap.find(varId);
 	vector<int> list;

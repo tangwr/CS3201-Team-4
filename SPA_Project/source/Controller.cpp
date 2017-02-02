@@ -12,7 +12,7 @@ void Controller::processSource(string source) {
 	parser.parse();
 
 	DesignExtractor extractor(&pkb);
-	extractor.run();
+	extractor.extractStarRelations();
 }
 
 string Controller::processQuery(string source) {

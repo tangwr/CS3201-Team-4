@@ -1,6 +1,7 @@
-﻿  TNode.cpp
-  PKB.cpp
-  Parser.cpp
-  DesignExtractor.cpp
+﻿  UsesTable.cpp
+  ModifiesTable.cpp
   Generating Code...
-  SPA.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\SPA.lib
+  Compiling...
+  FollowsTable.cpp
+  Generating Code...
+  SPA.vcxproj -> C:\CS3201-Team-4\SPA_Project\Debug\SPA.lib

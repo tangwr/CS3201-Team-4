@@ -39,7 +39,7 @@ private:
 
     bool isValidVarId(int VarId);
     bool isValidVar(string varName);
-
+    bool isValidConst(int constId);
 public:
 
     PKB();
@@ -85,7 +85,8 @@ public:
     //set is for direct parent/relations and not *
     bool setFollowDirectRel(int stmtId, int followsId);
     bool setParentDirectRel(int parent, int child);
-    bool setModifyRel(int stmtId, int varId);
+    bool setModifyStmtRel(int stmtId, int varId);
+    bool setModifyProcRel(int procId, int varId);
     bool setUseVarRel(int stmtId, int varId);
     bool setUseConstRel(int stmtId, int constId);
 
@@ -106,8 +107,74 @@ public:
     int getFollowedByDirect(int stmtId);//-1 if no followedby
     int getParentDirect(int stmtId);//-1 if no parent
     vector<int> getChildren(int stmtId);
+    vector<int> getChildrenStar(int stmtId);
     vector<int> getFollowStar(int stmtId);
     vector<int> getFollowedByStar(int stmtId);
     vector<int> getParentStar(int stmtId);
+
+    //usestable
+    vector<int> getVarUsedByStmt(int stmtId);
+    vector<int> getStmtUsesVar(int varId);
+    vector<int> getVarUsedByProc(int procId);
+    vector<int> getProcUsesVar(int varId);
+
+    vector<int> getConstUsedByStmt(int stmtId);
+    vector<int> getStmtUsesConst(int varId);
+    vector<int> getConstUsedByProc(int procId);
+    vector<int> getProcUsesConst(int varId);
+
+    bool setUseDirecRelProc(int procId, int varId);
+    bool setUseDirectRelConst(int stmtId, int varId);
+    bool setUseDirectRelConstProc(int procId, int varId);
+    //constTable
+    int getConstTableSize();
+    //bool checkConstExist(int constId);renamed and place in private
+    int getConstValueById(int constId);
+
+    //modifiesTable
+    bool setModifyDirectRelProc(int stmtId, int varId);
+    vector<int> getModifiedByStmt(int varId);
+    vector<int> getStmtModify(int stmtId);
+    vector<int> getModifiedByProc(int varId);
+    vector<int> getProcModify(int stmtId);
+
+
+
+    /*
+    //usesTable
+    vector<int> getVarUsedByStmt(int stmtId);
+    vector<int> getStmtUsesVar(int varId);
+    vector<int> getVarUsedByProc(int procId);
+    vector<int> getProcUsesVar(int varId);
+
+    vector<int> getConstUsedByStmt(int stmtId);
+    vector<int> getStmtUsesConst(int varId);
+    vector<int> getConstUsedByProc(int procId);
+    vector<int> getProcUsesConst(int varId);
+
+    bool setUseDirecRelProc(int procId, int varId);
+    bool setUseDirectRelConst(int stmtId, int varId);
+    bool setUseDirectRelConstProc(int procId, int varId);
+
+    //constTable
+    int insertConst(int constName, int value);
+    int getSize();
+    int getConstName(int constId);
+    int getConstIndex(int constName);
+    bool checkConstExist(int constName);
+    int getValueById(int constId);
+    int getValueByName(int constName);
+
+
+    //modifiesTable
+    bool setModifyDirectRelProc(int stmtId, int varId);
+    vector<int> getModifiedByStmt(int varId);
+    vector<int> getStmtModify(int stmtId);
+    vector<int> getModifiedByProc(int varId);
+    vector<int> getProcModify(int stmtId);
+
+    //parentTable
+    vector<int> getDirectChild(int stmtId);
+    */
 
 };

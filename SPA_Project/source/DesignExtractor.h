@@ -19,7 +19,7 @@ public:
 
 private:
 	PKB *pkb;
-	void extractStarRelations();
+	//void extractStarRelations();
 	void extractParentStar();
 	void extractFollowsStar();
 };

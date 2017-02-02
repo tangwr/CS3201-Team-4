@@ -31,7 +31,7 @@ void DesignExtractor::extractStarRelations() {
 }
 
 void DesignExtractor::extractFollowsStar() {
-	int statementNum = 0, numOfStatements = pkb->getNumOfStatements(), followStar = 0;
+	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), followStar = 0;
 	for (int i = 0; i < numOfStatements; i++) {
 		statementNum = i;
 		followStar = pkb->getFollowDirect(statementNum);
@@ -43,7 +43,7 @@ void DesignExtractor::extractFollowsStar() {
 }
 
 void DesignExtractor::extractParentStar() {
-	int statementNum = 0, numOfStatements = pkb->getNumOfStatements(), parentStar = 0;
+	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), parentStar = 0;
 	for (int i = 0; i < numOfStatements; i++) {
 		statementNum = i;
 		parentStar = pkb->getParentDirect(statementNum);

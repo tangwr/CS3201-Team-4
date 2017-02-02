@@ -139,7 +139,7 @@ public:
     vector<int> getModifiedByProc(int varId);
     vector<int> getProcModify(int stmtId);
 
-
+    int getTotalStmtNum();
 
     /*
     //usesTable

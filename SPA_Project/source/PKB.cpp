@@ -322,3 +322,8 @@ bool PKB::setModifyDirectRelProc(int stmtId, int varId) {
     }
     return this->modifiesTable.setProcModifyRel(stmtId, varId);
 }
+
+int PKB::getTotalStmtNum() {
+    return this->whileTable.getSize() + this->assignTable.getSize();
+}
+

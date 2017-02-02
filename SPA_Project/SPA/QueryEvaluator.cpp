@@ -29,6 +29,8 @@ vector<string> QueryEvaluator::evaluate(QueryTree* qt) {
 	foreach("object" obj : retrieveResultsList) {
 		v = getResult(obj);
 	}
+
+	return v;
 }
 
 
@@ -64,7 +66,7 @@ bool QueryEvaluator::checkCondition("object" obj) {
 	case PATTERN:
 		return checkPattern(leftChild, rightChild, leftChildType, rightChildType);
 
-
+	}
 }
 
 //Check the subset of two vectors
@@ -75,10 +77,10 @@ bool QueryEvaluator::isSubsetList(vector<int> subList, vector<int> setList) {
 	bool result = includes(setList.begin(), setList.end(), subList.begin(), subList.end());
 
 	return result;
-	}
+}
 
-	//For  Follows & Parents only
-	bool QueryEvaluator::checkStmtStmtCondition(ClauseType clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
+//For  Follows & Parents only
+bool QueryEvaluator::checkStmtStmtCondition(ClauseType clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
 
 	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
 		return true;
@@ -232,7 +234,7 @@ vector<int> QueryEvaluator::getDeclareTypeList(DeclareType declare) {
 }
 
 
-//For Modifies & Use
+//For Modifies & Use Checking Condition
 bool QueryEvaluator::checkStmtEmtCondition(string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
 	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
 		return true;
@@ -276,52 +278,156 @@ vector<int> QueryEvaluator::getChildTypeList(DeclareType child) {
 		ConstantTable constant_T;
 		return constant_T.getAllConstantStmtNo();
 	case STR:
-}
+		break;
+	}
 
 }
 
 vector<string> QueryEvaluator::vectorIntToString(vector<int> vInt) {
-	vector<string> vString = {}
+	vector<string> vString = {};
 
-		for (int i : vInt) {
-			vString.push_back(to_string(i));
-		}
+	for (int i : vInt) {
+		vString.push_back(to_string(i));
+	}
 
 	return vString;
 }
 
-//get the results
-vector<string> QueryEvaluator::getResult() {
+vector<string> QueryEvaluator::intersection(vector<int> v1, vector<int> v2) {
+	vector<int> v3 = {};
 
-	//DelareType//ASSIGN, PROG_LINE, STMT, WHILES, VARIABLE, CONSTANT
-	//ClauseType, FOLLOWSTAR, PARENT, PARENTSTAR, MODIFIES, USES, PATTERN
+	sort(v1.begin(), v1.end());
+	sort(v2.begin(), v2.end());
+
+	set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v3));
+
+	return vectorIntToString(v3);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Getting results
+
+vector<string> QueryEvaluator::getResult("object" obj) {
+
+	DeclareType selectType = obj.getSelect();
 	ClauseType clause = obj.getClause();
 	string leftChild = obj.getLeftChild();
 	string rightChild = obj.getRightChild();
 	DeclareType leftChildType = obj.getLeftChildType();
 	DeclareType rightChildType = obj.getRightChildType();
-	DeclareType selectType = obj.getSelectType();
 
+	switch (clause) {
+	case FOLLOW:
+		return getStmtStmtResults(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case FOllOWSTAR:
+		return getStmtStmtResults(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case PARENT:
+		return getStmtStmtResults(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case PARENTSTAR:
+		return getStmtStmtResults(clause, leftChild, rightChild, leftChildType, rightChildType);
+	case MODIFIES:
+		return getStmtEmtResults(leftChild, rightChild, leftChildType, rightChildType);
+	case USES:
+		return getStmtEmtResults(leftChild, rightChild, leftChildType, rightChildType);
+	case PATTERN:
+		//return checkPattern(leftChild, rightChild, leftChildType, rightChildType);
 
-switch (selectType) {
-	case ASSIGN:
-		return getAssignResult(clause, leftChild, rightChild, leftChildType, rightChildType);
-	case PROG_LINE:
-		return getProgLineResult();
-	case STMT:
-		return getStatementResult();
-	case WHILES:
-		return getWhileResult();
-	case VARIABLE:
-		return getVariableResult();
-	case CONSTANT:
-		return getConstantResult();
-	case BOOLEAN:
-		return getBooleanResult();
+	}
+
+}
+
+vector<string> QueryEvaluator::getStmtStmtResults(ClauseType clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
+	vector<string> v = {};
+
+	if (leftChildType == UNDERSCORE) {
+		v = getChildTypeList(rightChildType);
+		return vectorIntToString(v);
+	}
+		
+	if(rightChildType == UNDERSCORE) {
+		v = getChildTypeList(leftChildType);
+		return vectorIntToString(v);
+	}
+
+	
+	if (leftChildType == INT && rightChildType != INT) {
+		int leftChild_stmtNo = stoi(leftChild);
+		vector<int> leftChildList = getClauseTypeList(clause, leftChild_stmtNo, LEFT_CHILD);
+		vector<int> rightChildList = getDeclareTypeList(rightChildType);
+		bool result = isSubsetList(leftChildList, rightChildList);
+
+		if (result == true) {
+			return vectorIntToString(leftChildList);
+		}
+
+		return v;
+	}
+	if (leftChildType != INT && rightChildType == INT) {
+		int rightChild_stmtNo = stoi(rightChild);
+		vector<int> rightChildList = getClauseTypeList(clause, rightChild_stmtNo, RIGHT_CHILD);
+		vector<int> leftChildList = getDeclareTypeList(leftChildType);
+		bool result = isSubsetList(rightChildList, leftChildList);
+
+		if (result == true) {
+			return vectorIntToString(rightChildList);
+		}
+
+		return v;
+	}
+	if (leftChildType != INT && rightChildType != INT) {
+		
+		vector<int> leftChildList = getDeclareTypeList(leftChildType);
+		vector<int> rightChildList = getDeclareTypeList(rightChildType);
+
+		return intersection(leftChildList, rightChildList);
+
+	}
 
 }
 
+vector<string> QueryEvaluator::getStmtEmtResults(string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
+	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
+		return true;
+	}
+	if (leftChildType == INT && rightChild != INT) {
+		int leftChild_stmtNo = stoi(leftChild);
+		vector<int> v = {};
+		v.push_back(leftChild_stmtNo);
+
+		vector<int> rightChildList = getChildTypeList(rightChildType);
+		bool result = isSubsetList(v, rightChildList);
+		if (result == true) {
+			return vectorIntToString(v);
+		}
+		else {
+			vector<string> s = {};
+			return s;
+		}
+
+	}
+	if (leftChildType != INT && rightChild != INT) {
+		vector<int> leftChildList = getChildTypeList(leftChildType);
+		vector<int> rightChildList = getChildTypeList(rightChildType);
+
+		bool result = isSubsetList(leftChildList, rightChildList);
+
+		
+		if (result == true) {
+			return intersection(leftChildList, rightChildList);
+		}
+		else {
+			vector<string> s = {};
+			return s;
+		}
+	}
+
 }
+
+vector<string> QueryEvaluator::getPatternResults(DeclareType patternType, clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
+
+}
+
+/*
 
 vector<string> QueryEvaluator::getAssignResult(ClauseType clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
 	AssignTable assign_T;
@@ -358,8 +464,11 @@ vector<string> QueryEvaluator::getAssignResult(ClauseType clause, string leftChi
 	case PATTERN:
 
 
+	}
 }
+*/
 
+/*
 vector<string> QueryEvaluator::getStmtStmtResult(ClauseType clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
 
 	if (leftChildType == UNDERSCORE || rightChildType == UNDERSCORE) {
@@ -395,6 +504,7 @@ vector<string> QueryEvaluator::getStmtStmtResult(ClauseType clause, string leftC
 	}
 
 }
+*/
 
 vector<string> QueryEvaluator::getStatementResult() {
 
@@ -419,6 +529,11 @@ vector<string> QueryEvaluator::getProgLineResult() {
 vector<string> QueryEvaluator::getBooleanResult() {
 
 }
+
+
+
+
+
 
 
 /*
@@ -520,9 +635,7 @@ return result;
 
 
 
-vector<string> getReturnResult(ClauseType clause, string leftChild, string rightChild, Type leftChildType, Type rightChildType) {
 
-}
 
 
 

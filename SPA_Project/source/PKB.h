@@ -19,7 +19,7 @@
 using namespace std;
 typedef short PROC;
 
-class TNode;
+//class TNode;
 
 //class VarTable;  // no need to #include "VarTable.h" as all I need is pointer
 
@@ -79,13 +79,15 @@ public:
     bool setOperRightExpNode(TNodeOper* operNode, TNodeExpr* expNode);
 */
     //Table API
+    /*
 	static VarTable* varTable; 
 	static int setProcToAST(PROC p, TNode* r);
 	static TNode* getRootAST (PROC p);
+    */
     //set is for direct parent/relations and not *
     bool setFollowDirectRel(int stmtId, int followsId);
     bool setParentDirectRel(int parent, int child);
-    bool setModifyStmtRel(int stmtId, int varId);
+    bool setStmtModifyRel(int stmtId, int varId);
     bool setProcModifyRel(int procId, int varId);
     bool setStmtUseRel(int stmtId, int varId);
     bool setStmtUseRelConst(int stmtId, int constId);
@@ -124,8 +126,7 @@ public:
     vector<int> getProcUsesConst(int constId);
 
     bool setProcUseRel(int procId, int varId);
-    bool setStmtUseRelConst(int stmtId, int varId);
-    bool setProcUseRelConst(int procId, int varId);
+    bool setProcUseRelConst(int procId, int constId);
     //constTable
     int getConstTableSize();
     //bool checkConstExist(int constId);renamed and place in private

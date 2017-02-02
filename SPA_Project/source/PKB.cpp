@@ -8,7 +8,7 @@
 using namespace std;
 
 #include "PKB.h"
-#include "TNode.h"
+//#include "TNode.h"
 
 PKB::PKB() {
 
@@ -125,7 +125,7 @@ bool PKB::setOperRightExpNode(TNodeOper* operNode, TNodeExpr* expNode) {
 }
 */
 
-
+/*
 int PKB::setProcToAST(PROC p, TNode* r) {
 	return NULL;//ast on hold
 }
@@ -133,14 +133,14 @@ int PKB::setProcToAST(PROC p, TNode* r) {
 TNode* PKB::getRootAST (PROC p){
 	return NULL;//ast on hold
 }
-
+*/
 bool PKB::setFollowDirectRel(int stmtId, int followsId) {
     return this->followsTable.setFollowDirectRel(followsId, stmtId);//check param order
 }
 bool PKB::setParentDirectRel(int parent, int child) {
     return this->parentTable.setParentDirectRel(parent, child);//check param order
 }
-bool PKB::setModifyStmtRel(int stmtId, int varId) {
+bool PKB::setStmtModifyRel(int stmtId, int varId) {
     if (!this->isValidVarId(varId)) {
         return false;
     }
@@ -275,12 +275,7 @@ bool PKB::setProcUseRel(int procId, int varId) {
     }
     return this->usesTable.setProcUseRel(procId, varId);
 }
-bool PKB::setStmtUseRelConst(int stmtId, int constId) {
-    if (!this->isValidConst(constId)) {
-        return false;
-    }
-    return this->usesTable.setStmtUseRelConst(stmtId, constId);
-}
+
 bool PKB::setProcUseRelConst(int procId, int constId) {
     if (!this->isValidConst(constId)) {
         return false;

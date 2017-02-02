@@ -47,7 +47,7 @@ void Parser::createStmtLst() {
 		createStmt(stmtNum++);
 	} while (token.compare("}") != COMPARE_EQUAL);
 
-	for (int index = 1; index < stmts.size(); index++) {
+	for (int index = 1; index < (int) stmts.size(); index++) {
 		pkb->setFollowDirectRel(stmts[index - 1], stmts[index]);
 	}
 }
@@ -62,7 +62,7 @@ void Parser::createStmtLst(int stmtId) {
 
 	pkb->setParentDirectRel(stmtId, stmts[0]);
 	cout << "set parent: " << stmtId << ", " << stmts[0] << endl;
-	for (int index = 1; index < stmts.size(); index++) {
+	for (int index = 1; index < (int) stmts.size(); index++) {
 		pkb->setFollowDirectRel(stmts[index - 1], stmts[index]);
 		pkb->setParentDirectRel(stmtId, stmts[index]);
 	}
@@ -91,7 +91,7 @@ void Parser::createWhile(int whileStmtId) {
 
 	int varId = createVar(varName);
 	pkb->setWhileCtrlVar(whileStmtId, varId);
-	pkb->setUseRel(whileStmtId, varId);
+	pkb->setStmtUseRel(whileStmtId, varId);
 
 	match(STRING_OPEN_BRACKET);
 
@@ -107,7 +107,7 @@ void Parser::createAssign(int assignStmtId) {
 
 	int varId = createVar(varName);
 	
-	pkb->setModifyRel(assignStmtId, varId);
+	pkb->setStmtModifyRel(assignStmtId, varId);
 
 	match(STRING_EQUAL);
 
@@ -145,11 +145,11 @@ string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
 
 		if (regex_match(expWord, regex(STRING_NAME))) {
 			int varId = createVar(expWord);
-			pkb->setUseVarRel(assignStmt, varId);
+			pkb->setStmtUseRel(assignStmtId, varId);
 		}
 		else if (regex_match(expWord, regex(STRING_DIGIT))) {
 			int constId = createConst(atoi(expWord.c_str()));
-			pkb->setUseConstRel(assignStmt, constId);
+			pkb->setStmtUseRelConst(assignStmtId, constId);
 		}
 	}
 	return expStr;

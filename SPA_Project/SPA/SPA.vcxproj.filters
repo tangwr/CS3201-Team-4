@@ -48,6 +48,9 @@
     <ClCompile Include="..\source\Parser.cpp">
       <Filter>Source Files\FrontEnd\Parser</Filter>
     </ClCompile>
+    <ClCompile Include="QueryEvaluator.cpp">
+      <Filter>Source Files\PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\source\TNode.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="QueryEvaluator.h">
+      <Filter>Source Files\PQL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

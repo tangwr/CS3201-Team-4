@@ -427,6 +427,21 @@ vector<string> QueryEvaluator::getPatternResults(DeclareType patternType, clause
 
 }
 
+vector<string> QueryEvaluator::getModifiesResults(string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {
+	if (leftChildType == INT) {
+		switch (rightChildType) {
+		case VARIABLE:
+			VariableTable variable_T;
+			AssignTable assign_T;
+
+
+		case STR:
+		}
+	}
+}
+
+
+
 /*
 
 vector<string> QueryEvaluator::getAssignResult(ClauseType clause, string leftChild, string rightChild, DeclareType leftChildType, DeclareType rightChildType) {

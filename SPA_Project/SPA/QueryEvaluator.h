@@ -5,15 +5,18 @@
 #include <list>
 #include <algorithm>
 #include <unordered_map>
+#include "pql header\"
 
-enum CHILD {
-	LEFT_CHILD,
-	RIGHT_CHILD
-};
+
 
 
 using namespace std;
 
+class QueryEvaluator {
+private:
+public:
+}
+/*
 class QueryEvaluator {
 private:
 	bool checkCondition();
@@ -47,3 +50,4 @@ public:
 	QueryEvaluator();
 	vector<string> evaluate(QueryTree*);
 };
+*/

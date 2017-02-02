@@ -8,6 +8,7 @@ QueryEvaluator::QueryEvaluator() {
 Public Methods
 
 */
+/*
 vector<string> QueryEvaluator::evaluate(QueryTree* qt) {
 	//vector<clause> c = qt.getClause();
 	vector<"object">checkConditionList = qt.getCheckConditionList;
@@ -33,7 +34,7 @@ vector<string> QueryEvaluator::evaluate(QueryTree* qt) {
 	return v;
 }
 
-
+*/
 /*
 
 Private Methods

@@ -51,6 +51,9 @@
     <ClCompile Include="QueryEvaluator.cpp">
       <Filter>Source Files\PQL</Filter>
     </ClCompile>
+    <ClCompile Include="pql header\PQL.cpp">
+      <Filter>Source Files\PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\PKB.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QueryEvaluator.h">
+      <Filter>Source Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="pql header\PQL.h">
       <Filter>Source Files\PQL</Filter>
     </ClInclude>
   </ItemGroup>

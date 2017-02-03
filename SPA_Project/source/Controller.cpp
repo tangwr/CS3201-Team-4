@@ -1,20 +1,19 @@
 #include "Controller.h"
 #include "Parser.h"
-#include "PKB.h"
 #include "DesignExtractor.h"
 
-Controller::Controller() {}
+Controller::Controller() {
+	pkb = new PKB();
+}
 
-void Controller::processSource(string source) {
-	PKB pkb;
-	
-	Parser parser(&pkb, source);
+void Controller::processSource(string source) {	
+	Parser parser(pkb, source);
 	parser.parse();
 
-	DesignExtractor extractor(&pkb);
+	DesignExtractor extractor(pkb);
 	extractor.extractStarRelations();
 
-	pkb.printAllTables();
+	pkb->printAllTables();
 
 	cout << "finish parsing" << endl;
 }

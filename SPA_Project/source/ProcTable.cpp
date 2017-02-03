@@ -97,7 +97,7 @@ void ProcTable::printContents()
 	cout << "---END PRINT PROCTABLE---" << endl;
 }
 
-void printVector(vector<int> vec)
+void ProcTable::printVector(vector<int> vec)
 {
 	for (int t : vec) {
 		cout << t << ' ';

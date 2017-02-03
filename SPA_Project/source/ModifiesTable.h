@@ -11,6 +11,7 @@ class ModifiesTable {
 private: 
 	bool setStmtModifiedByRel(int stmtId, int varId);
 	bool setProcModifiedByRel(int procId, int varId);
+	void printVector(vector<int> vec);
 public:
 	ModifiesTable();
 	bool setStmtModifyRel(int stmtId, int varId);

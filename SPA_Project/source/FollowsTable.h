@@ -7,6 +7,8 @@
 using namespace std;
 
 class FollowsTable {
+private:
+	void printVector(vector<int> vec);
 public:
 	FollowsTable();
 	bool setFollowDirectRel(int followeeId, int followerId);

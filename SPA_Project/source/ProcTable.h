@@ -8,6 +8,8 @@
 using namespace std;
 
 class ProcTable {
+private:
+	void printVector(vector<int> vec);
 public:
 	ProcTable(void);
 	int insertProc(string procName);

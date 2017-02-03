@@ -166,7 +166,7 @@ void ParentsTable::printContents()
 	cout << "---END PRINT PARENTSTABLE---" << endl;
 }
 
-void printVector(vector<int> vec)
+void ParentsTable::printVector(vector<int> vec)
 {
 	for (int t : vec) {
 		cout << t << ' ';

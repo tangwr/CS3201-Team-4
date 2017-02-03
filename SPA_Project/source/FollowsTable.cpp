@@ -164,7 +164,7 @@ void FollowsTable::printContents()
 	cout << "---END PRINT FOLLOWSTABLE---" << endl;
 }
 
-void printVector(vector<int> vec)
+void FollowsTable::printVector(vector<int> vec)
 {
 	for (int t : vec) {
 		cout << t << ' ';

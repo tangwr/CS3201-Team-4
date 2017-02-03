@@ -13,6 +13,7 @@ private:
 	bool setProcUsedByRel(int procId, int varId);
 	bool setStmtUsedByRelConst(int stmtId, int varId);
 	bool setProcUsedByRelConst(int procId, int varId);
+	void printVector(vector<int> vec);
 public:
 	UsesTable();
 	bool setStmtUseRel(int stmtId, int varId);

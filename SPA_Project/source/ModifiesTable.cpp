@@ -168,7 +168,7 @@ void ModifiesTable::printContents()
 	cout << "---END PRINT MODIFIESTABLE---" << endl;
 }
 
-void printVector(vector<int> vec)
+void ModifiesTable::printVector(vector<int> vec)
 {
 	for (int t : vec) {
 		cout << t << ' ';

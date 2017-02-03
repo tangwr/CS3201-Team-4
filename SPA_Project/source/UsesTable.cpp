@@ -275,7 +275,7 @@ void UsesTable::printContents()
 	cout << "---END PRINT USESTABLE---" << endl;
 }
 
-void printVector(vector<int> vec)
+void UsesTable::printVector(vector<int> vec)
 {
 	for (int t : vec) {
 		cout << t << ' ';

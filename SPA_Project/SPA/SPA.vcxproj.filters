@@ -69,6 +69,39 @@
     <ClCompile Include="..\source\Tokenizer.cpp">
       <Filter>Resource Files\Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ModifiesTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ParentsTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ProcTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\UsesTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\VarTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\WhileTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AssignTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\CallTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ConstTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\FollowsTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\IfTable.cpp">
+      <Filter>Resource Files\Source Files\PKB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -88,6 +121,39 @@
     </ClInclude>
     <ClInclude Include="..\source\DesignExtractor.h">
       <Filter>Header Files\FrontEnd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentsTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ProcTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\UsesTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\VarTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\WhileTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AssignTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\CallTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ConstTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\FollowsTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\IfTable.h">
+      <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ModifiesTable.h">
+      <Filter>Header Files\PKB</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

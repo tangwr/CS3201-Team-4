@@ -11,20 +11,42 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AssignTable.cpp" />
+    <ClCompile Include="..\source\CallTable.cpp" />
+    <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\Controller.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
+    <ClCompile Include="..\source\FollowsTable.cpp" />
+    <ClCompile Include="..\source\IfTable.cpp" />
+    <ClCompile Include="..\source\ModifiesTable.cpp" />
+    <ClCompile Include="..\source\ParentsTable.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\PrefixEvaluator.cpp" />
+    <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />
+    <ClCompile Include="..\source\UsesTable.cpp" />
+    <ClCompile Include="..\source\VarTable.cpp" />
+    <ClCompile Include="..\source\WhileTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AssignTable.h" />
+    <ClInclude Include="..\source\CallTable.h" />
+    <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Controller.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
+    <ClInclude Include="..\source\FollowsTable.h" />
+    <ClInclude Include="..\source\IfTable.h" />
+    <ClInclude Include="..\source\ModifiesTable.h" />
+    <ClInclude Include="..\source\ParentsTable.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\PrefixEvaluator.h" />
+    <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\Tokenizer.h" />
     <ClInclude Include="..\source\Parser.h" />
+    <ClInclude Include="..\source\UsesTable.h" />
+    <ClInclude Include="..\source\VarTable.h" />
+    <ClInclude Include="..\source\WhileTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

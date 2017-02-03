@@ -7,6 +7,8 @@
 using namespace std;
 
 class ParentsTable {
+private:
+	void printVector(vector<int> vec);
 public:
 	ParentsTable();
 	bool setParentDirectRel(int father, int child);
@@ -17,5 +19,7 @@ public:
 	//vector<int> getParentList(int stmtNo);
 	vector<int> getChildrenStar(int stmtId);
 	vector<int> getParentStar(int stmtId);
+
+	void printContents();
 
 };

@@ -19,12 +19,12 @@ bool ModifiesTable::setStmtModifyRel(int stmtId, int varId)
 	it = modifiesStmtMap.find(stmtId);
 	vector<int> list;
 	if (it != modifiesStmtMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+//		list = it->second;
+//		if (std::find(list.begin(), list.end(), varId) != list.end()) {
 			return false;
 		}
-		modifiesStmtMap.erase(it);
-	}
+//		modifiesStmtMap.erase(it);
+//	}
 	list.push_back(varId);
 	modifiesStmtMap.insert(make_pair(stmtId, list));
 	setStmtModifiedByRel(stmtId, varId);
@@ -50,34 +50,34 @@ bool ModifiesTable::setStmtModifiedByRel(int stmtId, int varId) {
 bool ModifiesTable::setProcModifyRel(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
-	it = modifiesStmtMap.find(procId);
+	it = modifiesProcMap.find(procId);
 	vector<int> list;
-	if (it != modifiesStmtMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), procId) != list.end()) {
+	if (it != modifiesProcMap.end()) {
+//		list = it->second;
+//		if (std::find(list.begin(), list.end(), procId) != list.end()) {
 			return false;
 		}
-		modifiesStmtMap.erase(it);
-	}
+//		modifiesStmtMap.erase(it);
+//	}
 	list.push_back(varId);
-	modifiesStmtMap.insert(make_pair(procId, list));
+	modifiesProcMap.insert(make_pair(procId, list));
 	setProcModifiedByRel(procId, varId);
 	return true;
 }
 
 bool ModifiesTable::setProcModifiedByRel(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
-	it = modifiedByStmtMap.find(varId);
+	it = modifiedByProcMap.find(varId);
 	vector<int> list;
-	if (it != modifiedByStmtMap.end()) {
+	if (it != modifiedByProcMap.end()) {
 		list = it->second;
 		if (std::find(list.begin(), list.end(), procId) != list.end()) {
 			return false;
 		}
-		modifiedByStmtMap.erase(it);
+		modifiedByProcMap.erase(it);
 	}
 	list.push_back(procId);
-	modifiedByStmtMap.insert(make_pair(varId, list));
+	modifiedByProcMap.insert(make_pair(varId, list));
 	return true;
 }
 
@@ -146,4 +146,31 @@ vector<int> ModifiesTable::getProcModify(int procId)
 		return it->second;
 	}
 	return vector<int>();
+}
+
+
+void ModifiesTable::printContents()
+{
+	cout << "---PRINT MODIFIESTABLE---" << endl;
+	for (pair<int, vector<int>> it : modifiesStmtMap) {
+		cout << "StmtId: " << it.first;
+		cout << " Modifies VarId ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : modifiesProcMap) {
+		cout << "ProcId: " << it.first;
+		cout << " Modifies VarId ";
+		printVector(it.second);
+		cout << endl;
+	}
+
+	cout << "---END PRINT MODIFIESTABLE---" << endl;
+}
+
+void ModifiesTable::printVector(vector<int> vec)
+{
+	for (int t : vec) {
+		cout << t << ' ';
+	}
 }

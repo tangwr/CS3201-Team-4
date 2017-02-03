@@ -146,6 +146,9 @@ public:
     vector<int> getAllWhileStmtId();
     vector<int> getAllVarId();
 
+    string getVarName(int varId);
+    int getVarId(string varName);
+
     /*
     //usesTable
     vector<int> getVarUsedByStmt(int stmtId);

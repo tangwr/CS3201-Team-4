@@ -341,4 +341,9 @@ vector<int> PKB::getAllWhileStmtId() {
 vector<int> PKB::getAllVarId() {
     return this->variableTable.getAllVarId();
 }
-
+string PKB::getVarName(int varId) {
+    return this->variableTable.getVarName(varId);
+}
+int PKB::getVarId(string varName) {
+    return this->variableTable.getVarIndex(varName);
+}

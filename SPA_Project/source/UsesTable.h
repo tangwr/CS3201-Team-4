@@ -30,4 +30,6 @@ public:
 	vector<int> getConstUsedByProc(int procId);
 	vector<int> getProcUsesConst(int constId);
 
+	void printContents();
+
 };

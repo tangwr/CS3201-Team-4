@@ -140,3 +140,33 @@ vector<int> FollowsTable::getFollowedByStar(int stmtId) {
 		return vector<int>();
 
 }
+
+void FollowsTable::printContents()
+{
+	cout << "---PRINT FOLLOWSTABLE---" << endl;
+	for (pair<int, int> it : followeeMap) {
+		cout << "StmtId: " << it.second;
+		cout << " Directly Follows StmtId " << it.first << endl;
+	}
+	for (pair<int, vector<int>> it : followeeListMap) {
+		cout << "Stmts that follows StmtId: " << it.first;
+		cout << " are ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : followerListMap) {
+		cout << "Stmts that StmtId" << it.first;
+		cout << " Follows are ";
+		printVector(it.second);
+		cout << endl;
+	}
+
+	cout << "---END PRINT FOLLOWSTABLE---" << endl;
+}
+
+void printVector(vector<int> vec)
+{
+	for (int t : vec) {
+		cout << t << ' ';
+	}
+}

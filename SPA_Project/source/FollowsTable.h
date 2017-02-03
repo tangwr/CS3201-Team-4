@@ -16,5 +16,6 @@ public:
 	//vector<int> getFollowedByList(int stmtNo);
 	vector<int> getFollowStar(int stmtId);
 	vector<int> getFollowedByStar(int stmtId);
-	bool FollowsTable::insertFollowRel(int followeeId, int followerId);
+	void printContents();
+	bool insertFollowRel(int followeeId, int followerId);
 };

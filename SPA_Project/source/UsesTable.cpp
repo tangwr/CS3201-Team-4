@@ -244,3 +244,41 @@ vector<int> UsesTable::getProcUsesConst(int varId)
 	return vector<int>();
 }
 
+void UsesTable::printContents()
+{
+	cout << "---PRINT USESTABLE---" << endl;
+	for (pair<int, vector<int>> it : vUsesStmtMap) {
+		cout << "StmtId: " << it.first;
+		cout << " Uses VarId ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : cUsesStmtMap) {
+		cout << "StmtId: " << it.first;
+		cout << " Uses ConstId ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : vUsesProcMap) {
+		cout << "ProcId: " << it.first;
+		cout << " Uses VarId ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : cUsesProcMap) {
+		cout << "ProcId: " << it.first;
+		cout << " Uses ConstId ";
+		printVector(it.second);
+		cout << endl;
+	}
+
+	cout << "---END PRINT USESTABLE---" << endl;
+}
+
+void printVector(vector<int> vec)
+{
+	for (int t : vec) {
+		cout << t << ' ';
+	}
+}
+

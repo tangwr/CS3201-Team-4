@@ -85,3 +85,21 @@ bool ProcTable::checkProcExistByName(string procName)
 	else
 		return false;
 }
+
+void ProcTable::printContents()
+{
+	cout << "---PRINT PROCTABLE---" << endl;
+
+	for (pair<string, int> it : procMap) {
+		cout << "ProcId: " << it.second;
+		cout << " ProcName " << it.first << endl;
+	}
+	cout << "---END PRINT PROCTABLE---" << endl;
+}
+
+void printVector(vector<int> vec)
+{
+	for (int t : vec) {
+		cout << t << ' ';
+	}
+}

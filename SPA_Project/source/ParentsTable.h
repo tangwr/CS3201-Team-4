@@ -18,4 +18,6 @@ public:
 	vector<int> getChildrenStar(int stmtId);
 	vector<int> getParentStar(int stmtId);
 
+	void printContents();
+
 };

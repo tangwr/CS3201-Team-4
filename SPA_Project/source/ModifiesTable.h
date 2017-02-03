@@ -22,4 +22,6 @@ public:
 	vector<int> getModifiedByProc(int varId);
 	vector<int> getProcModify(int procId);
 
+	void printContents();
+
 };

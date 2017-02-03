@@ -142,3 +142,33 @@ vector<int> ParentsTable::getParentStar(int stmtId)
 	else
 		return vector<int>();
 }
+
+void ParentsTable::printContents()
+{
+	cout << "---PRINT PARENTSTABLE---" << endl;
+	for (pair<int, int> it : parentsMap) {
+		cout << "StmtId: " << it.second;
+		cout << " is father of Stmt Id " << it.first <<endl;
+	}
+	for (pair<int, vector<int>> it : parentListMap) {
+		cout << "StmtId: " << it.first;
+		cout << " has parents StmtId ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : childListMap) {
+		cout << "ProcId: " << it.first;
+		cout << " has children StmtId ";
+		printVector(it.second);
+		cout << endl;
+	}
+
+	cout << "---END PRINT PARENTSTABLE---" << endl;
+}
+
+void printVector(vector<int> vec)
+{
+	for (int t : vec) {
+		cout << t << ' ';
+	}
+}

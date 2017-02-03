@@ -147,3 +147,30 @@ vector<int> ModifiesTable::getProcModify(int procId)
 	}
 	return vector<int>();
 }
+
+
+void ModifiesTable::printContents()
+{
+	cout << "---PRINT MODIFIESTABLE---" << endl;
+	for (pair<int, vector<int>> it : modifiesStmtMap) {
+		cout << "StmtId: " << it.first;
+		cout << " Modifies VarId ";
+		printVector(it.second);
+		cout << endl;
+	}
+	for (pair<int, vector<int>> it : modifiesProcMap) {
+		cout << "ProcId: " << it.first;
+		cout << " Modifies VarId ";
+		printVector(it.second);
+		cout << endl;
+	}
+
+	cout << "---END PRINT MODIFIESTABLE---" << endl;
+}
+
+void printVector(vector<int> vec)
+{
+	for (int t : vec) {
+		cout << t << ' ';
+	}
+}

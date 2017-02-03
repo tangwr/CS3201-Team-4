@@ -10,7 +10,7 @@ using namespace std;
 
 class AssignTable {
 private:
-	unordered_map<int, string> assignList;
+	unordered_map<int, string> assignList;//stmtId, expression
 	int size;
 
 public:
@@ -19,4 +19,5 @@ public:
 	void printContents();
 	bool setAssignExp(int stmtId, string exp);
 	string getAssignExp(int stmtId);
+    vector<int> getAllStmtId();
 };

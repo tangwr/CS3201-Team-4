@@ -12,7 +12,7 @@ using namespace std;
 class WhileTable {
 private:
 
-	unordered_map<int, int> whileList;
+	unordered_map<int, int> whileList;//stmtId, controlVarId
 	int size;
 
 public:
@@ -21,4 +21,5 @@ public:
 	void printContents();
 	bool setWhileCtrlVar(int stmtId, int varId);
 	int getWhileCtrlVar(int stmtId);
+    vector<int> getAllStmtId();
 };

@@ -332,3 +332,13 @@ int PKB::getTotalStmtNum() {
     return this->whileTable.getSize() + this->assignTable.getSize();
 }
 
+vector<int> PKB::getAllAssignStmtId() {
+    return this->assignTable.getAllStmtId();
+}
+vector<int> PKB::getAllWhileStmtId() {
+    return this->whileTable.getAllStmtId();
+}
+vector<int> PKB::getAllVarId() {
+    return this->variableTable.getAllVarId();
+}
+

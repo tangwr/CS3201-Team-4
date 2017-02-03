@@ -17,4 +17,5 @@ public:
 	int getVarIndex(string varName);
 	bool checkVarExistByName(string varName);
 	bool checkVarExistById(int varId);
+    vector<int> getAllVarId();
 };

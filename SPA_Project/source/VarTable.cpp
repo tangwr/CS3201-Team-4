@@ -16,6 +16,18 @@ VarTable::VarTable(void) {
 }
 
 /*
+    returns a vector<int> of all varId
+*/
+vector<int> VarTable::getAllVarId() {
+    vector<int> allVarIdList;
+    for (auto varEntry : varMap) {
+        allVarIdList.push_back(varEntry.second);
+    }
+    return allVarIdList;
+}
+
+
+/*
 	Insert Variable to varTable. 
 	Return varId if insert success. If varName already exist, return its existing VarId without duplicate insertion.
 */

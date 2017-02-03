@@ -142,6 +142,10 @@ public:
 
     int getTotalStmtNum();
 
+    vector<int> getAllAssignStmtId();
+    vector<int> getAllWhileStmtId();
+    vector<int> getAllVarId();
+
     /*
     //usesTable
     vector<int> getVarUsedByStmt(int stmtId);

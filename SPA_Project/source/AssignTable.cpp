@@ -6,6 +6,14 @@ AssignTable::AssignTable() {
 	size = 0;
 }
 
+//returns a vector<int> of all assign statement Id
+vector<int> AssignTable::getAllStmtId() {
+    vector<int> allAssignStmtList;
+    for (auto assignEntry : this->assignList) {
+        allAssignStmtList.push_back(assignEntry.first);
+    }
+    return allAssignStmtList;
+}
 
 bool AssignTable::setAssignExp(int stmtId, string exp) {
 	if (this->assignList.find(stmtId) != this->assignList.end()) {

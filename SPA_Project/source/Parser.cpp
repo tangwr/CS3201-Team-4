@@ -39,7 +39,7 @@ void Parser::createProc() {
 }
 
 void Parser::createStmtLst() {
-	cout << "createStmtLst(Proc)" << endl;
+
 	vector<int> stmts;
 
 	do {

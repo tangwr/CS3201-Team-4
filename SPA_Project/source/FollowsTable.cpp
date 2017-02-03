@@ -121,7 +121,7 @@ vector<int> FollowsTable::getFollowedByList(int stmtId)
 }
 */
 
-vector<int> getFollowStar(int stmtId) {
+vector<int> FollowsTable::getFollowStar(int stmtId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = followeeListMap.find(stmtId);
 	if (it != followeeListMap.end())
@@ -129,7 +129,7 @@ vector<int> getFollowStar(int stmtId) {
 	else
 		return vector<int>();
 }
-vector<int> getFollowedByStar(int stmtId) {
+vector<int> FollowsTable::getFollowedByStar(int stmtId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = followerListMap.find(stmtId);
 	if (it != followerListMap.end())

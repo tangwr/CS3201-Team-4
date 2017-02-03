@@ -124,7 +124,7 @@ vector<int> ParentsTable::getParentList(int stmtNo)
 }
 */
 
-vector<int> getChildrenStar(int stmtId) 
+vector<int> ParentsTable::getChildrenStar(int stmtId) 
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = childListMap.find(stmtId);
@@ -133,7 +133,7 @@ vector<int> getChildrenStar(int stmtId)
 	else
 		return vector<int>();
 }
-vector<int> getParentStar(int stmtId)
+vector<int> ParentsTable::getParentStar(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = parentListMap.find(stmtId);

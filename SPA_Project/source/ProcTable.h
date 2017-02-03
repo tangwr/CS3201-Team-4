@@ -14,5 +14,6 @@ public:
 	int getSize();
 	string getProcName(int idx);
 	int getProcIndex(string procName);
-	bool checkProcExist(string procName);
+	bool checkProcExistByName(string procName);
+	bool checkProcExistById(int ProcId);
 };

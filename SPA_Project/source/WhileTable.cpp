@@ -8,7 +8,7 @@ WhileTable::WhileTable() {
 }
 
 bool WhileTable::setWhileCtrlVar(int stmtId, int varId) {
-	if (this->whileList.find(stmtId) == this->whileList.end()) {
+	if (this->whileList.find(stmtId) != this->whileList.end()) {
 		return false;
 	}
 	else {

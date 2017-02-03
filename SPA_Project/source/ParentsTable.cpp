@@ -28,10 +28,10 @@ bool ParentsTable::setParentDirectRel(int father, int child)
 	unordered_map<int, vector<int>>::iterator it2;
 	vector<int> list;
 	it2 = childsMap.find(father);
-	if (it != parentsMap.end()) {
+	if (it2 != childsMap.end()) {
 		list = it2->second;
-		list.push_back(child);
 		childsMap.erase(it2);
+		list.push_back(child);
 		childsMap.insert(make_pair(father, list));
 	}
 	else {
@@ -50,22 +50,22 @@ bool ParentsTable::insertParentRel(int father, int child)
 		return false;
 	vector<int> list1, list2;
 	unordered_map<int, vector<int>>::iterator it1, it2;
-	it1 = parentListMap.find(father);
-	it2 = childListMap.find(child);
+	it1 = parentListMap.find(child);
+	it2 = childListMap.find(father);
 
-	if (it1 == parentListMap.end()) {
+	if (it1 != parentListMap.end()) {
 		list1 = it1->second;
 		parentListMap.erase(it1);
 	}
-	list1.push_back(child);
-	parentListMap.insert(make_pair(father, list1));
+	list1.push_back(father);
+	parentListMap.insert(make_pair(child, list1));
 
-	if (it2 == childListMap.end()) {
+	if (it2 != childListMap.end()) {
 		list2 = it2->second;
 		childListMap.erase(it2);
 	}
 	list2.push_back(child);
-	childListMap.insert(make_pair(child, list2));
+	childListMap.insert(make_pair(father, list2));
 	return true;
 }
 
@@ -80,7 +80,7 @@ vector<int> ParentsTable::getChildren(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = childsMap.find(stmtId);
-	if (it != childListMap.end()) {
+	if (it != childsMap.end()) {
 		return it->second;
 	}
 	return vector<int>();
@@ -124,7 +124,7 @@ vector<int> ParentsTable::getParentList(int stmtNo)
 }
 */
 
-vector<int> getChildrenStar(int stmtId) 
+vector<int> ParentsTable::getChildrenStar(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = childListMap.find(stmtId);
@@ -133,7 +133,7 @@ vector<int> getChildrenStar(int stmtId)
 	else
 		return vector<int>();
 }
-vector<int> getParentStar(int stmtId)
+vector<int> ParentsTable::getParentStar(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = parentListMap.find(stmtId);

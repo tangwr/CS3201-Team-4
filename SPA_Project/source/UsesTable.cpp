@@ -77,17 +77,17 @@ bool UsesTable::setProcUseRel(int procId, int varId)
 
 bool UsesTable::setProcUsedByRel(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
-	it = vUsedByStmtMap.find(varId);
+	it = vUsedByProcMap.find(varId);
 	vector<int> list;
-	if (it != vUsedByStmtMap.end()) {
+	if (it != vUsedByProcMap.end()) {
 		list = it->second;
 		if (std::find(list.begin(), list.end(), procId) != list.end()) {
 			return false;
 		}
-		vUsedByStmtMap.erase(it);
+		vUsedByProcMap.erase(it);
 	}
 	list.push_back(procId);
-	vUsedByStmtMap.insert(make_pair(varId, list));
+	vUsedByProcMap.insert(make_pair(varId, list));
 	return true;
 }
  
@@ -149,17 +149,17 @@ bool UsesTable::setProcUseRelConst(int procId, int varId)
 
 bool UsesTable::setProcUsedByRelConst(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
-	it = cUsedByStmtMap.find(varId);
+	it = cUsedByProcMap.find(varId);
 	vector<int> list;
-	if (it != cUsedByStmtMap.end()) {
+	if (it != cUsedByProcMap.end()) {
 		list = it->second;
 		if (std::find(list.begin(), list.end(), procId) != list.end()) {
 			return false;
 		}
-		cUsedByStmtMap.erase(it);
+		cUsedByProcMap.erase(it);
 	}
 	list.push_back(procId);
-	cUsedByStmtMap.insert(make_pair(varId, list));
+	cUsedByProcMap.insert(make_pair(varId, list));
 	return true;
 }
 

@@ -8,7 +8,7 @@ AssignTable::AssignTable() {
 
 
 bool AssignTable::setAssignExp(int stmtId, string exp) {
-	if (this->assignList.find(stmtId) == this->assignList.end()) {
+	if (this->assignList.find(stmtId) != this->assignList.end()) {
 		return false;
 	}
 	else {

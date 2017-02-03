@@ -68,12 +68,15 @@ int ProcTable::getProcIndex(string procName)
 		return -1;
 }
 
-bool ProcTable::checkProcExist(string procName)
+bool ProcTable::checkProcExistById(int procId)
 {
-	return false;
+	if (procId < ptsize)
+		return true;
+	else
+		return false;
 }
 
-bool checkProcExist(string procName)
+bool ProcTable::checkProcExistByName(string procName)
 {
 	unordered_map<string, int>::iterator it = procMap.find(procName);
 

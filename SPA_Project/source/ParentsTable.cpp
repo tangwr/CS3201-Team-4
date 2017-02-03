@@ -53,14 +53,14 @@ bool ParentsTable::insertParentRel(int father, int child)
 	it1 = parentListMap.find(father);
 	it2 = childListMap.find(child);
 
-	if (it1 == parentListMap.end()) {
+	if (it1 != parentListMap.end()) {
 		list1 = it1->second;
 		parentListMap.erase(it1);
 	}
 	list1.push_back(child);
 	parentListMap.insert(make_pair(father, list1));
 
-	if (it2 == childListMap.end()) {
+	if (it2 != childListMap.end()) {
 		list2 = it2->second;
 		childListMap.erase(it2);
 	}

@@ -8,7 +8,7 @@ WhileTable::WhileTable() {
 }
 
 bool WhileTable::setWhileCtrlVar(int stmtId, int varId) {
-	if (this->whileList.find(stmtId) == this->whileList.end()) {
+	if (this->whileList.find(stmtId) != this->whileList.end()) {
 		return false;
 	}
 	else {
@@ -33,6 +33,11 @@ int WhileTable::getSize() {
 }
 
 void WhileTable::printContents() {
+	cout << "While Table" << endl;
+	cout << "====================" << endl;
+
 	for (auto& it : this->whileList)
 		cout << it.first << ": " << it.second << endl;
+
+	cout << "====================" << endl;
 }

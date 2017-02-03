@@ -13,6 +13,10 @@ void Controller::processSource(string source) {
 
 	DesignExtractor extractor(&pkb);
 	extractor.extractStarRelations();
+
+	pkb.printAllTables();
+
+	cout << "finish parsing" << endl;
 }
 
 string Controller::processQuery(string source) {

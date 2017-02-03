@@ -43,6 +43,7 @@ private:
 public:
 
     PKB();
+	void printAllTables();
 /*
     //AST API
     TNode* createNode(TNodeType nodeType);//returns created object

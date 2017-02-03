@@ -13,8 +13,3 @@ procedure Example {
     i = i - 1;
 }
 }
-
-procedure Haha {
-  j = 2;
-  k = 3;
-}

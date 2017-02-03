@@ -25,7 +25,7 @@ bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
 {
 	unordered_map<int, int>::iterator it;
 	it = followeeMap.find(followeeId);
-	if (it != followeeMap.end()) 
+	if (it == followeeMap.end()) 
 		return false;
 	else {
 		it = followerMap.find(followerId);

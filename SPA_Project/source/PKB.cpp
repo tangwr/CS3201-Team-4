@@ -14,6 +14,11 @@ PKB::PKB() {
 
 }
 
+void PKB::printAllTables() {
+	whileTable.printContents();
+	assignTable.printContents();
+}
+
 bool PKB::isValidVarId(int varId) {
     return this->variableTable.checkVarExistById(varId);
 }

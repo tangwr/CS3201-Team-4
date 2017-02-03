@@ -39,7 +39,6 @@ void Parser::createProc() {
 }
 
 void Parser::createStmtLst() {
-
 	vector<int> stmts;
 
 	do {
@@ -61,7 +60,6 @@ void Parser::createStmtLst(int stmtId) {
 	} while (token.compare("}") != COMPARE_EQUAL);
 
 	pkb->setParentDirectRel(stmtId, stmts[0]);
-	cout << "set parent: " << stmtId << ", " << stmts[0] << endl;
 	for (int index = 1; index < (int) stmts.size(); index++) {
 		pkb->setFollowDirectRel(stmts[index - 1], stmts[index]);
 		pkb->setParentDirectRel(stmtId, stmts[index]);
@@ -113,13 +111,13 @@ void Parser::createAssign(int assignStmtId) {
 
 	stack<string> infix = extractExp();
 	string prefix = createExpPrefix(assignStmtId, infix);
-	
+
 	pkb->setAssignExp(assignStmtId, prefix);
 
 	match(STRING_SEMICOLON);
 }
 
-stack<string> Parser::extractExp() {	
+stack<string> Parser::extractExp() {
 	stack<string> infix;
 
 	do {

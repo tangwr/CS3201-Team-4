@@ -5,11 +5,10 @@ using namespace std;
 
 IfTable::IfTable() {
 	this->size = 0;
-	ifList = unordered_map<int,int>();
 }
 
 bool IfTable::setIfCtrlVar(int stmtId, int varId) {
-	if (this->ifList.find(stmtId) != this->ifList.end()) {
+	if (this->ifList.find(stmtId) == this->ifList.end()) {
 		return false;
 	}
 	else {

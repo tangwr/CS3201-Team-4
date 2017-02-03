@@ -8,7 +8,7 @@ CallTable::CallTable() {
 }
 
 bool CallTable::setCallProc(int stmtId, int procId) {
-	if (this->callList.find(stmtId) != this->callList.end()) {
+	if (this->callList.find(stmtId) == this->callList.end()) {
 		return false;
 	}
 	else {

@@ -25,7 +25,7 @@ bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
 {
 	unordered_map<int, int>::iterator it;
 	it = followeeMap.find(followeeId);
-	if (it != followeeMap.end()) 
+	if (it == followeeMap.end()) 
 		return false;
 	else {
 		it = followerMap.find(followerId);
@@ -41,8 +41,6 @@ bool FollowsTable::setFollowDirectRel(int followeeId, int followerId)
 	}
 }
 
-
-
 bool FollowsTable::insertFollowRel(int followeeId, int followerId)
 {
 	if (followeeId == followerId)
@@ -52,14 +50,14 @@ bool FollowsTable::insertFollowRel(int followeeId, int followerId)
 	it1 = followeeListMap.find(followeeId);
 	it2 = followerListMap.find(followerId);
 	
-	if (it1 != followeeListMap.end()) {
+	if (it1 == followeeListMap.end()) {
 		list1 = it1->second;
 		followeeListMap.erase(it1);
 	}
 	list1.push_back(followerId);
 	followeeListMap.insert(make_pair(followeeId, list1));
 
-	if (it2 != followerListMap.end()) {
+	if (it2 == followerListMap.end()) {
 		list2 = it2->second;
 		followerListMap.erase(it2);
 	}
@@ -139,34 +137,4 @@ vector<int> FollowsTable::getFollowedByStar(int stmtId) {
 	else
 		return vector<int>();
 
-}
-
-void FollowsTable::printContents()
-{
-	cout << "---PRINT FOLLOWSTABLE---" << endl;
-	for (pair<int, int> it : followeeMap) {
-		cout << "StmtId: " << it.second;
-		cout << " Directly Follows StmtId " << it.first << endl;
-	}
-	for (pair<int, vector<int>> it : followeeListMap) {
-		cout << "Stmts that follows StmtId: " << it.first;
-		cout << " are ";
-		printVector(it.second);
-		cout << endl;
-	}
-	for (pair<int, vector<int>> it : followerListMap) {
-		cout << "Stmts that StmtId" << it.first;
-		cout << " Follows are ";
-		printVector(it.second);
-		cout << endl;
-	}
-
-	cout << "---END PRINT FOLLOWSTABLE---" << endl;
-}
-
-void FollowsTable::printVector(vector<int> vec)
-{
-	for (int t : vec) {
-		cout << t << ' ';
-	}
 }

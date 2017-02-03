@@ -68,17 +68,4 @@ int ConstTable::getValueById(int constId)
 	else return constList.at(constId);
 }
 
-/*
-	Return list of constants
-*/
-vector<int> ConstTable::getAllConst()
-{
-	return constList;
-}
-
-void ConstTable::printContents()
-{
-	for (int it : constList)
-		cout << it << endl;
-}
 

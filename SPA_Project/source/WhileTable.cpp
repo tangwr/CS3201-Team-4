@@ -7,6 +7,15 @@ WhileTable::WhileTable() {
 	this->size = 0;
 }
 
+//returns a vector<int> of all while statements
+vector<int> WhileTable::getAllStmtId() {
+    vector<int> allWhileStmtList;
+    for (auto whileEntry : this->whileList) {
+        allWhileStmtList.push_back(whileEntry.first);
+    }
+    return allWhileStmtList;
+}
+
 bool WhileTable::setWhileCtrlVar(int stmtId, int varId) {
 	if (this->whileList.find(stmtId) != this->whileList.end()) {
 		return false;
@@ -33,6 +42,11 @@ int WhileTable::getSize() {
 }
 
 void WhileTable::printContents() {
+	cout << "While Table" << endl;
+	cout << "====================" << endl;
+
 	for (auto& it : this->whileList)
 		cout << it.first << ": " << it.second << endl;
+
+	cout << "====================" << endl;
 }

@@ -7,8 +7,6 @@
 using namespace std;
 
 class FollowsTable {
-private:
-	void printVector(vector<int> vec);
 public:
 	FollowsTable();
 	bool setFollowDirectRel(int followeeId, int followerId);
@@ -18,6 +16,5 @@ public:
 	//vector<int> getFollowedByList(int stmtNo);
 	vector<int> getFollowStar(int stmtId);
 	vector<int> getFollowedByStar(int stmtId);
-	void printContents();
-	bool insertFollowRel(int followeeId, int followerId);
+	bool FollowsTable::insertFollowRel(int followeeId, int followerId);
 };

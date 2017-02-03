@@ -17,6 +17,4 @@ public:
 	int getConstIndex(int constName);
 	bool checkConstExist(int constName);
 	int getValueById(int constId);
-	void printContents();
-	vector<int> getAllConst();
 };

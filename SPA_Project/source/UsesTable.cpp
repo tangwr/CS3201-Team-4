@@ -77,17 +77,17 @@ bool UsesTable::setProcUseRel(int procId, int varId)
 
 bool UsesTable::setProcUsedByRel(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
-	it = vUsedByProcMap.find(varId);
+	it = vUsedByStmtMap.find(varId);
 	vector<int> list;
-	if (it != vUsedByProcMap.end()) {
+	if (it != vUsedByStmtMap.end()) {
 		list = it->second;
 		if (std::find(list.begin(), list.end(), procId) != list.end()) {
 			return false;
 		}
-		vUsedByProcMap.erase(it);
+		vUsedByStmtMap.erase(it);
 	}
 	list.push_back(procId);
-	vUsedByProcMap.insert(make_pair(varId, list));
+	vUsedByStmtMap.insert(make_pair(varId, list));
 	return true;
 }
  
@@ -149,17 +149,17 @@ bool UsesTable::setProcUseRelConst(int procId, int varId)
 
 bool UsesTable::setProcUsedByRelConst(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
-	it = cUsedByProcMap.find(varId);
+	it = cUsedByStmtMap.find(varId);
 	vector<int> list;
-	if (it != cUsedByProcMap.end()) {
+	if (it != cUsedByStmtMap.end()) {
 		list = it->second;
 		if (std::find(list.begin(), list.end(), procId) != list.end()) {
 			return false;
 		}
-		cUsedByProcMap.erase(it);
+		cUsedByStmtMap.erase(it);
 	}
 	list.push_back(procId);
-	cUsedByProcMap.insert(make_pair(varId, list));
+	cUsedByStmtMap.insert(make_pair(varId, list));
 	return true;
 }
 
@@ -242,43 +242,5 @@ vector<int> UsesTable::getProcUsesConst(int varId)
 		return it->second;
 	}
 	return vector<int>();
-}
-
-void UsesTable::printContents()
-{
-	cout << "---PRINT USESTABLE---" << endl;
-	for (pair<int, vector<int>> it : vUsesStmtMap) {
-		cout << "StmtId: " << it.first;
-		cout << " Uses VarId ";
-		printVector(it.second);
-		cout << endl;
-	}
-	for (pair<int, vector<int>> it : cUsesStmtMap) {
-		cout << "StmtId: " << it.first;
-		cout << " Uses ConstId ";
-		printVector(it.second);
-		cout << endl;
-	}
-	for (pair<int, vector<int>> it : vUsesProcMap) {
-		cout << "ProcId: " << it.first;
-		cout << " Uses VarId ";
-		printVector(it.second);
-		cout << endl;
-	}
-	for (pair<int, vector<int>> it : cUsesProcMap) {
-		cout << "ProcId: " << it.first;
-		cout << " Uses ConstId ";
-		printVector(it.second);
-		cout << endl;
-	}
-
-	cout << "---END PRINT USESTABLE---" << endl;
-}
-
-void UsesTable::printVector(vector<int> vec)
-{
-	for (int t : vec) {
-		cout << t << ' ';
-	}
 }
 

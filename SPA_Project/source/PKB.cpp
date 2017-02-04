@@ -356,3 +356,13 @@ int PKB::getWhileCtrlVar() {
 int PKB::getIfCtrlVar() {
     return this->ifTable.getIfCtrlVar();
 }
+bool PKB::isStmtInWhileTable(int stmtId) {
+    return this->whileTable.isStmtInTable();
+}
+bool PKB::isStmtInIfTable(int stmtId) {
+    return this->ifTable.isStmtInTable();
+}
+bool PKB::isStmtInAssignTable(int stmtId) {
+    return this->assignTable.isStmtInTable();
+}
+

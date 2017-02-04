@@ -153,6 +153,11 @@ public:
     int getWhileCtrlVar();
     int getIfCtrlVar();
 
+    bool isStmtInWhileTable(int stmtId);
+    bool isStmtInIfTable(int stmtId);
+    bool isStmtInAssignTable(int stmtId);
+
+
     /*
     //usesTable
     vector<int> getVarUsedByStmt(int stmtId);

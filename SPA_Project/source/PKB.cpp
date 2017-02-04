@@ -347,3 +347,12 @@ string PKB::getVarName(int varId) {
 int PKB::getVarId(string varName) {
     return this->variableTable.getVarIndex(varName);
 }
+string PKB::getAssignExp(int stmtId) {
+    return this->assignTable.getAssignExp(stmtId);
+}
+int PKB::getWhileCtrlVar() {
+    return this->whileTable.getWhileCtrlVar();
+}
+int PKB::getIfCtrlVar() {
+    return this->ifTable.getIfCtrlVar();
+}

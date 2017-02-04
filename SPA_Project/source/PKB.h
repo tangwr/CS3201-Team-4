@@ -149,6 +149,10 @@ public:
     string getVarName(int varId);
     int getVarId(string varName);
 
+    string getAssignExp(int stmtId);
+    int getWhileCtrlVar();
+    int getIfCtrlVar();
+
     /*
     //usesTable
     vector<int> getVarUsedByStmt(int stmtId);

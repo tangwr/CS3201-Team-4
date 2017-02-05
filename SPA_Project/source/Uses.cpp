@@ -128,18 +128,6 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 
 	}
 	
-	/*
-	if (leftChildType == STMT || leftChildType == WHILES  || rightChildType == VARIABLE || rightChildType == ANYTHING || rightChildType == STRINGVARIABLE) {//&& (rightChildType== VARIABLE || rightChildType == ANYTHING)) {
-		vector<int> parentList;
-		vector<int> temp;
-		for (int stmtId : rightList) {
-			parentList = pkb->getParentStar(stmtId);
-			temp = getUnionList(temp, parentList);
-		}
-		rightList = getUnionList(rightList, temp);
-	}
-	*/
-	
 
 	//Get intersection of 2 list
 	result = getIntersectionList(leftList, rightList);
@@ -174,15 +162,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	}
 
 
-	if (leftChildType == WHILES) {
-		vector<int> childrenList;
-		vector<int> temp;
-		for (int stmtId : leftList) {
-			childrenList = pkb->getChildrenStar(stmtId);
-			temp = getUnionList(temp, childrenList);
-		}
-		leftList = temp;
-	}
+	
 
 	//Convert stmtId to varId
 	for (int stmtId : leftList) {
@@ -191,11 +171,9 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	}
 	leftList = tempList; //all converted to varId
 
-
-
-						 //Get intersection of 2 list
+	//Get intersection of 2 list
 	result = getIntersectionList(leftList, rightList);
-	//return variable Id
+	//return variable Id results
 	return result;
 }
 

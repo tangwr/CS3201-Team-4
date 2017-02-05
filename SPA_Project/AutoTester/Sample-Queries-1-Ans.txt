@@ -171,7 +171,7 @@ Select w such that Uses(w,v)
 
 while w; variable v;
 Select v such that Uses(w,v)
-x,y,z
+x,y
 
 
 Select Boolean such that Uses(13,"x")
@@ -191,6 +191,5 @@ variable v;
 Select v such that Uses(12,v);
 y
 
-variable v;
-Select v such that Uses(13,_);
-x,y
+Select Boolean such that Uses(13,_);
+true

@@ -129,10 +129,10 @@ public:
     bool isStmtInAssignTable(int stmtId);
 
 
-    //WHile table
+    //While table
     bool setWhileCtrlVar(int stmtId, int varId);//check var exist
 
-    int getWhileCtrlVar();
+    int getWhileCtrlVar(int stmtId);
     vector<int> getAllWhileStmtId();
 
     bool isStmtInWhileTable(int stmtId);
@@ -141,7 +141,7 @@ public:
     //if table
     bool setIfCtrlVar(int stmtId, int varId);
 
-    int getIfCtrlVar();
+    int getIfCtrlVar(int stmtId);
 
     bool isStmtInIfTable(int stmtId);
 

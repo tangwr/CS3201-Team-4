@@ -3,6 +3,7 @@
 #include "DesignExtractor.h"
 #include "QueryEvaluator.h"
 #include "Modifies.h"
+#include "Uses.h"
 
 Controller::Controller() {
 	pkb = new PKB();
@@ -32,7 +33,7 @@ string Controller::processQuery(string source) {
 	//vector<Type> selectType = { ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN, VARIABLE };
 	//vector<Type> selectType = {WHILES, WHILES, WHILES, WHILES, WHILES, VARIABLE };
 	//vector<Type> selectType = { BOOLEAN, BOOLEAN, BOOLEAN, VARIABLE, VARIABLE, VARIABLE };
-
+	//vector<Type> selectType = { INTEGER, INTEGER, INTEGER, ANYTHING, VARIABLE, VARIABLE };
 
 	vector<string> leftChild = { "s", "s", "s", "s", "s", "s" };
 	vector<Type> leftChildType = { STMT, STMT, STMT, STMT, STMT, STMT };
@@ -54,10 +55,11 @@ string Controller::processQuery(string source) {
 		QueryTree qt;
 			
 		qt.insertSelect(selectStr[i], selectType[i]);
-		Modifies* m = new Modifies(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
+		//Modifies* m = new Modifies(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
+		Uses* m = new Uses(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
 		
-		//qt.insertUnLimits(m); //check boolean list
-		qt.insertLimits(m); //get the results from seelct
+		qt.insertUnLimits(m); //check boolean list
+		//qt.insertLimits(m); //get the results from seelct
 
 		
 		vector<int> result = qe.evaluate(qt);
@@ -65,6 +67,9 @@ string Controller::processQuery(string source) {
 		for (int v : result) {
 			cout << v << " ";
 		}
+		
+	
+		
 		cout << " " << endl;
 		
 	}
@@ -74,9 +79,9 @@ string Controller::processQuery(string source) {
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
 	
-	qt.insertSelect("a", ASSIGN);
-	Modifies *m = new Modifies("a", ASSIGN, "x", STRINGVARIABLE);
-	
+	qt.insertSelect("s", ASSIGN);
+	//Modifies *m = new Modifies("1", INTEGER, "v", VARIABLE);
+	Uses *m = new Uses("s", ASSIGN, "x", STRINGVARIABLE);
 	qt.insertLimits(m); //for select results
 	//qt.insertUnLimits(m); //for true / false results
 	vector<int> result = qe.evaluate(qt);
@@ -84,7 +89,10 @@ string Controller::processQuery(string source) {
 	for (int i : result) {
 		cout << i << " ";
 	}
-	
+	if (result.empty()) {
+		cout << "none";
+	}
 	
  	return "";
 }
+

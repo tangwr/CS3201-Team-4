@@ -335,11 +335,12 @@ vector<int> PKB::getAllStmtId() {//currently only returning while and assignment
     vector<int> combinedLst;
 
     vector<int> whileStmtId = this->getAllWhileStmtId();
-    vector<int> assignStmtId = this->getAllWhileStmtId();
+    vector<int> assignStmtId = this->getAllAssignStmtId();
     std::sort(whileStmtId.begin(), whileStmtId.end());
     std::sort(assignStmtId.begin(), assignStmtId.end());
 
     set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
+
 
 	return combinedLst;
 }

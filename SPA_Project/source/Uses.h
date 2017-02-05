@@ -19,6 +19,8 @@ private:
 	Type rightChildType;
 	PKB *pkb;
 	bool isRel;
+	vector<int> getUnionList(vector<int>, vector<int>);
+	vector<int> getIntersectionList(vector<int>, vector<int>);
 
 public:
 

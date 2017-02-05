@@ -33,7 +33,6 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		break;
 	case ASSIGN:
 		leftList = pkb->getAllAssignStmtId();
-
 		break;
 	case WHILES:
 		leftList = pkb->getAllWhileStmtId();
@@ -54,8 +53,9 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 			rightList = getUnionList(rightList, stmtList);
 		}
 		break;
+
 	case ANYTHING:
-		rightList = pkb->getAllVarId();
+		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
 			stmtList = pkb->getModifiedByStmt(varId);
 			rightList = getUnionList(rightList, stmtList);
@@ -64,9 +64,20 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 	case STRINGVARIABLE:
 		int varId = pkb->getVarId(rightChild);
 		rightList = pkb->getModifiedByStmt(varId);
+		
 		break;
 	}
 
+	if (leftChildType == STMT || leftChildType == WHILES){//&& (rightChildType== VARIABLE || rightChildType == ANYTHING)) {
+		vector<int> parentList;
+		vector<int> temp;
+		for (int stmtId : rightList) {
+			parentList = pkb->getParentStar(stmtId);
+			temp = getUnionList(temp, parentList);
+		}
+		rightList = getUnionList(rightList, temp);
+	}
+	
 	//Get intersection of 2 list
 	result = getIntersectionList(leftList, rightList);
 
@@ -74,15 +85,11 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 }
 
 vector<int> Modifies::getWithRelToRight(PKB *pkb) {
-	vector<int> result, leftList, rightList, varIdList, stmtList;
+	vector<int> result, leftList, rightList, varIdList, stmtList, tempList;
 
 	switch (rightChildType) {
 	case VARIABLE:
-		varIdList = pkb->getAllVarId();
-		for (int varId : varIdList) {
-			stmtList = pkb->getModifiedByStmt(varId);
-			rightList = getUnionList(rightList, stmtList);
-		}
+		rightList = pkb->getAllVarId();
 		break;
 	}
 	
@@ -97,14 +104,34 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 		leftList = pkb->getAllWhileStmtId();
 		break;
 	case INTEGER:
-		int stmtNo = stoi(leftChild);
-		leftList.push_back(stmtNo);
+		int stmtId = stoi(leftChild);
+		leftList.push_back(stmtId);
 		break;
 	}
 
+
+	if (leftChildType == WHILES) {
+		vector<int> childrenList;
+		vector<int> temp;
+		for (int stmtId : leftList) {
+			childrenList = pkb->getChildrenStar(stmtId);
+			temp = getUnionList(temp, childrenList);
+		}
+		leftList = temp;
+	}
+
+	//Convert stmtId to varId
+	for (int stmtId : leftList) {
+		varIdList = pkb->getStmtModify(stmtId);
+		tempList = getUnionList(tempList, varIdList);
+	}
+	leftList = tempList; //all converted to varId
+
+
+
 	//Get intersection of 2 list
 	result = getIntersectionList(leftList, rightList);
-
+	//return variable Id
 	return result;
 }
 

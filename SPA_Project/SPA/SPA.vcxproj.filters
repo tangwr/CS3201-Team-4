@@ -49,6 +49,12 @@
     <Filter Include="Resource Files\Source Files\UI">
       <UniqueIdentifier>{dad4a785-f16b-40ac-9012-8b10e71dfd47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Source Files\PQL\Clause">
+      <UniqueIdentifier>{7a5e1770-0862-4c1f-b15a-8a18f1208256}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PQL\Clause">
+      <UniqueIdentifier>{f79d15e4-a31f-4f36-bcf9-76e4de9521d4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\DesignExtractor.cpp">
@@ -102,6 +108,24 @@
     <ClCompile Include="..\source\IfTable.cpp">
       <Filter>Resource Files\Source Files\PKB</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Parent.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Uses.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Pattern.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Modifies.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Follow.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryTree.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -154,6 +178,36 @@
     </ClInclude>
     <ClInclude Include="..\source\ModifiesTable.h">
       <Filter>Header Files\PKB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Uses.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Clause.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Follow.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\FollowStar.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Modifies.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Parent.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ParentStar.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Pattern.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryTree.h">
+      <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Type.h">
+      <Filter>Header Files\PQL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

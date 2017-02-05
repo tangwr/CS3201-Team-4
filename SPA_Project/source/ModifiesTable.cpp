@@ -10,6 +10,26 @@ ModifiesTable::ModifiesTable()
 {
 }
 
+bool ModifiesTable::checkStmtExist(int stmtId) {
+    for (auto stmtEntry : this->modifiesStmtMap) {
+        if (stmtEntry.first == stmtId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool ModifiesTable::checkStmtVarRelExist(int stmtId, int varId) {
+    vector<int> stmtVarLst = this->getStmtModify(stmtId);
+    for (int varEntry : stmtVarLst) {
+        if (varEntry == varId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
 bool ModifiesTable::setStmtModifyRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
@@ -144,6 +164,19 @@ vector<int> ModifiesTable::getProcModify(int procId)
 	}
 	return vector<int>();
 }
+
+
+/*
+return list of all statements(stmtId) in this table
+*/
+vector<int> ModifiesTable::getAllStmt() {
+    vector<int> stmtVector;
+    for (auto stmtEntry : modifiesStmtMap) {
+        stmtVector.push_back(stmtEntry.first);
+    }
+    return stmtVector;
+}
+
 
 
 void ModifiesTable::printContents()

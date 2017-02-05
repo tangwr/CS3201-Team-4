@@ -43,11 +43,11 @@
     <Filter Include="Resource Files\Source Files\Utility">
       <UniqueIdentifier>{3cd09e9b-f387-4231-8d40-7f9c32566410}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source Files\UI">
-      <UniqueIdentifier>{dad4a785-f16b-40ac-9012-8b10e71dfd47}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Utility">
       <UniqueIdentifier>{67ee6eeb-efd9-4fad-a548-c0176c067dad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Source Files\PKB\UI">
+      <UniqueIdentifier>{dad4a785-f16b-40ac-9012-8b10e71dfd47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,7 +58,7 @@
       <Filter>Resource Files\Source Files\FrontEnd\Parser</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Controller.cpp">
-      <Filter>Resource Files\Source Files\UI</Filter>
+      <Filter>Resource Files\Source Files\PKB\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\source\PKB.cpp">
       <Filter>Resource Files\Source Files\PKB</Filter>

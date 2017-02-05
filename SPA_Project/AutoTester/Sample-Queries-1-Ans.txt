@@ -146,7 +146,7 @@ Select a such that Uses(a,v)
 
 assign a; variable v;
 Select v such that Uses(a,v)
-
+x,y,z
 
 
 while w;

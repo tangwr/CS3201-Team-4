@@ -35,6 +35,7 @@ void DesignExtractor::extractFollowsStar() {
 	for (int i = 0; i < numOfStatements; i++) {
 		statementNum = i;
 		followStar = pkb->getFollowDirect(statementNum);
+		followStar = pkb->getFollowDirect(followStar);
 		while (followStar != -1) {
 			pkb->insertFollowRel(statementNum, followStar);
 			followStar = pkb->getFollowDirect(followStar);
@@ -47,8 +48,9 @@ void DesignExtractor::extractParentStar() {
 	for (int i = 0; i < numOfStatements; i++) {
 		statementNum = i;
 		parentStar = pkb->getParentDirect(statementNum);
+		parentStar = pkb->getParentDirect(parentStar);
 		while (parentStar != -1) {
-			pkb->insertParentRel(statementNum, parentStar);
+			pkb->insertParentRel(parentStar, statementNum);
 			parentStar = pkb->getParentDirect(parentStar);
 		}
 	}

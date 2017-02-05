@@ -331,7 +331,7 @@ bool PKB::setModifyDirectRelProc(int stmtId, int varId) {
 int PKB::getTotalStmtNum() {
     return this->whileTable.getSize() + this->assignTable.getSize();
 }
-vector<int> PKB::getAllStmtId() {
+vector<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
     vector<int> combinedLst;
 
     vector<int> whileStmtId = this->getAllWhileStmtId();

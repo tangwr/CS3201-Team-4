@@ -144,7 +144,7 @@ public:
 
     int getTotalStmtNum();
 
-    vector<int> getAllStmtId();
+    vector<int> getAllStmtId();//currentnly only returning while and assignment statements
     vector<int> getAllAssignStmtId();
     vector<int> getAllWhileStmtId();
     vector<int> getAllVarId();

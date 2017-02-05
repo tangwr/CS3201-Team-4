@@ -14,6 +14,7 @@ FollowStar::FollowStar(string lc, Type lcType, string rc, Type rcType) {
 //select synonym is right argument
 
 vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
+	cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
 		if (isNumber(leftChildType)) {
 			int leftArgument = stoi(leftChild);
@@ -28,8 +29,17 @@ vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) {
+			cout << endl << "FOLLOWSTAR: " << endl;
+			pkb->printFollows();
+			cout << endl << endl;
+			cout << " LEFT IS SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
+			cout << "NUMBER OF LEFT IS " << left.size() << endl;
 			tempResult = getAllFollowsStar(left, pkb);
+			cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+			for (auto& it : tempResult) {
+				cout << it << " " << endl;
+			}
 			result = filterType(tempResult, rightChildType, pkb);
 			return result;
 		}
@@ -45,6 +55,7 @@ vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
 
 //select synonym is left argument
 vector<int> FollowStar::getWithRelToLeft(PKB* pkb) {
+	cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
@@ -59,8 +70,11 @@ vector<int> FollowStar::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // follows(syn,syn)
+			cout << " RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
+			cout << "NUMBER OF RIGHT IS " << right.size() << endl;
 			tempResult = getAllFollowedByStar(right, pkb);
+			cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
 			result = filterType(tempResult, leftChildType, pkb);
 			return result;
 		}
@@ -85,7 +99,7 @@ unordered_set<int> FollowStar::getAllFollowsStar(vector<int> list, PKB* pkb) {
 		for (int j = 0; j < followsStar.size(); j++) {
 			result.insert(followsStar[j]);
 		}
-		
+
 	}
 	return result;
 }
@@ -129,6 +143,7 @@ bool FollowStar::isStmtType(int stmtId, Type type, PKB* pkb) {
 	case ANYTHING:
 		return true;
 	}
+	return false;
 }
 
 vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
@@ -138,7 +153,7 @@ vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getTotalStmtNum();
 		vector<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i;
+			stmtList[i] = i+1;
 		}
 		return stmtList;
 	}
@@ -147,6 +162,8 @@ vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 	case ASSIGN:
 		return pkb->getAllAssignStmtId();
 	}
+	vector<int> result;
+	return result;
 }
 
 bool FollowStar::isNumber(Type type) {
@@ -175,12 +192,12 @@ bool FollowStar::hasRel(PKB *pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // follows*(syn,syn)
-			if (pkb->getFollowDirect()) {
+			//if (pkb->getFollowDirect()) {
 				return true;
-			}
-			else {
+			//}
+			//else {
 				return false;
-			}
+			//}
 		}
 		else { // follows(synonym, invalid)
 			return false; // return what!??!?!?!?!?!?!?!??!

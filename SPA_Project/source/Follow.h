@@ -18,6 +18,15 @@ private:
 	Type rightChildType;
 	PKB *pkb;
 	bool isRel;
+	vector<int> result, tempResult, left, right;
+	bool isValidStmtNo(int, PKB*);
+	vector<int> getAllFollows(vector<int>, PKB*);
+	vector<int> getAllFollowedBy(vector<int>, PKB*);
+	vector<int> filterType(vector<int>, Type, PKB*);
+	bool isStmtType(int, Type, PKB*);
+	vector<int> getTypeStmt(Type, PKB*);
+	bool isNumber(Type);
+	bool isSynonym(Type);
 
 public:
 

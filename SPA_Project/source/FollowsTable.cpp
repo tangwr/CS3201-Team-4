@@ -68,7 +68,7 @@ bool FollowsTable::insertFollowRel(int followeeId, int followerId)
 	Input: followee statement Id
 	Output: follower statement Id if success, -1 if failure.
 */
-int FollowsTable::getDirectFollow(int followeeId)
+int FollowsTable::getDirectFollowedBy(int followeeId)
 {
 	unordered_map<int, int>::iterator it;
 	it = followeeMap.find(followeeId);
@@ -84,7 +84,7 @@ int FollowsTable::getDirectFollow(int followeeId)
 	Input: follower statement Id
 	Output: followee statement Id if success, -1 if failure.
 */
-int FollowsTable::getDirectFollowedBy(int followerId)
+int FollowsTable::getDirectFollow(int followerId)
 {
 	unordered_map<int, int>::iterator it;
 	it = followerMap.find(followerId);
@@ -118,7 +118,7 @@ vector<int> FollowsTable::getFollowedByList(int stmtId)
 }
 */
 
-vector<int> FollowsTable::getFollowStar(int stmtId) {
+vector<int> FollowsTable::getFollowedByStar(int stmtId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = followeeListMap.find(stmtId);
 	if (it != followeeListMap.end())
@@ -126,7 +126,7 @@ vector<int> FollowsTable::getFollowStar(int stmtId) {
 	else
 		return vector<int>();
 }
-vector<int> FollowsTable::getFollowedByStar(int stmtId) {
+vector<int> FollowsTable::getFollowStar(int stmtId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = followerListMap.find(stmtId);
 	if (it != followerListMap.end())

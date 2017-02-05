@@ -25,10 +25,7 @@ namespace IntegrationTesting
 		{
 			// TODO: Your test code here
 			Controller *c = new Controller();
-			Assert::AreEqual(0, (int)(c->pkb->getProcCount()));
-
-			Assert::AreEqual(0, (int)(c->pkb->getVarCount()));
-
+			
 
 			Assert::AreEqual(4, (int)(c->pkb->getAllVarId().size()));
 
@@ -43,7 +40,7 @@ namespace IntegrationTesting
 			string str = "procedure ABC {  i=1;	 b=200  ;c= a +b ;}";
 			//ct.processSource(str);
 
-			Assert::AreEqual(0, (int)(c->pkb->getProcCount()));
+			//Assert::AreEqual(0, (int)(c->pkb->getProcCount()));
 			Assert::AreEqual(4, (int)(c->pkb->getAllVarId().size()));
 			//Assert::AreEqual(3, (int)ct.pkb->getTotalStmtNum());
 			//Assert::AreEqual(1, (int)ct.pkb->getStmtModify(1).size());

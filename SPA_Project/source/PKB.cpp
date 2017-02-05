@@ -140,7 +140,7 @@ TNode* PKB::getRootAST (PROC p){
 }
 */
 bool PKB::setFollowDirectRel(int stmtId, int followsId) {
-    return this->followsTable.setFollowDirectRel(followsId, stmtId);//check param order
+    return this->followsTable.setFollowDirectRel(stmtId, followsId);//check order
 }
 bool PKB::setParentDirectRel(int parent, int child) {
     return this->parentTable.setParentDirectRel(parent, child);//check param order

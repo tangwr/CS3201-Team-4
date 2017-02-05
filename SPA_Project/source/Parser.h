@@ -16,8 +16,10 @@ const string STRING_DIGIT = "([0-9]+)";
 const string STRING_OPERATOR = "([+\\-*])";
 
 const string STRING_SEMICOLON = ";";
-const string STRING_OPEN_BRACKET = "\\{";
-const string STRING_CLOSE_BRACKET = "\\}";
+const string STRING_OPEN_CBRACKET = "\\{";
+const string STRING_CLOSE_CBRACKET = "\\}";
+const string STRING_OPEN_RBRACKET = "\\(";
+const string STRING_CLOSE_RBRACKET = "\\)";
 const string STRING_EQUAL = "=";
 const string STRING_OR = "|";
 

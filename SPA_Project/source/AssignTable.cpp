@@ -17,7 +17,12 @@ vector<int> AssignTable::getAllStmtId() {
 
 bool AssignTable::isStmtInTable(int stmtId)
 {
-	return false;
+    for (auto stmtEntry : this->assignList) {
+        if (stmtEntry.first == stmtId) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool AssignTable::setAssignExp(int stmtId, string exp) {

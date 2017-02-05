@@ -331,6 +331,16 @@ bool PKB::setModifyDirectRelProc(int stmtId, int varId) {
 int PKB::getTotalStmtNum() {
     return this->whileTable.getSize() + this->assignTable.getSize();
 }
+vector<int> PKB::getAllStmtId() {
+    vector<int> combinedLst;
+
+    vector<int> whileStmtId = this->getAllWhileStmtId();
+    vector<int> assignStmtId = this->getAllWhileStmtId();
+    std::sort(whileStmtId.begin(), whileStmtId.end());
+    std::sort(assignStmtId.begin(), assignStmtId.end());
+
+    set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
+}
 
 vector<int> PKB::getAllAssignStmtId() {
     return this->assignTable.getAllStmtId();

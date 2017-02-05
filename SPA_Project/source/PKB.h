@@ -15,6 +15,8 @@
 #include "CallTable.h"
 #include "ConstTable.h"
 #include "AssignTable.h"
+#include <algorithm>
+#include <iterator>
 
 using namespace std;
 typedef short PROC;
@@ -142,6 +144,7 @@ public:
 
     int getTotalStmtNum();
 
+    vector<int> getAllStmtId();
     vector<int> getAllAssignStmtId();
     vector<int> getAllWhileStmtId();
     vector<int> getAllVarId();

@@ -31,11 +31,11 @@ void Parser::createProc() {
 	
 	pkb->insertProc(procName);
 
-	match(STRING_OPEN_BRACKET);
+	match(STRING_OPEN_CBRACKET);
 
 	createStmtLst();
 
-	match(STRING_CLOSE_BRACKET);
+	match(STRING_CLOSE_CBRACKET);
 }
 
 void Parser::createStmtLst() {
@@ -91,11 +91,11 @@ void Parser::createWhile(int whileStmtId) {
 	pkb->setWhileCtrlVar(whileStmtId, varId);
 	pkb->setStmtUseRel(whileStmtId, varId);
 
-	match(STRING_OPEN_BRACKET);
+	match(STRING_OPEN_CBRACKET);
 
 	createStmtLst(whileStmtId);
 
-	match(STRING_CLOSE_BRACKET);
+	match(STRING_CLOSE_CBRACKET);
 }
 
 void Parser::createAssign(int assignStmtId) {
@@ -122,7 +122,7 @@ stack<string> Parser::extractExp() {
 
 	do {
 		string exp = token;
-		match(STRING_NAME + STRING_OR + STRING_DIGIT + STRING_OR + STRING_OPERATOR);
+		match(STRING_NAME + STRING_OR + STRING_DIGIT + STRING_OR + STRING_OPERATOR + STRING_OR + STRING_OPEN_RBRACKET + STRING_OR + STRING_CLOSE_RBRACKET);
 		infix.push(exp);
 	} while (token.compare(STRING_SEMICOLON) != COMPARE_EQUAL);
 
@@ -171,6 +171,7 @@ void Parser::match(string matchRe) {
 		}
 	} else {
 		cout << "Error found in SIMPLE source code during parsing." << endl;
+		cout << "token: " << token << endl;
 		exit(0);
 	}
 }

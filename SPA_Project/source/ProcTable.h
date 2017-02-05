@@ -4,12 +4,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
 class ProcTable {
 private:
 	void printVector(vector<int> vec);
+	vector<string> procList;
+	unordered_map<string, int> procMap;
+	int ptsize; // number of procedures in the program
+
 public:
 	ProcTable(void);
 	int insertProc(string procName);

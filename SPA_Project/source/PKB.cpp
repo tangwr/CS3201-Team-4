@@ -140,7 +140,7 @@ TNode* PKB::getRootAST (PROC p){
 }
 */
 bool PKB::setFollowDirectRel(int stmtId, int followsId) {
-    return this->followsTable.setFollowDirectRel(followsId, stmtId);//check param order
+    return this->followsTable.setFollowDirectRel(stmtId,followsId);//check param order
 }
 bool PKB::setParentDirectRel(int parent, int child) {
     return this->parentTable.setParentDirectRel(parent, child);//check param order
@@ -347,3 +347,14 @@ string PKB::getVarName(int varId) {
 int PKB::getVarId(string varName) {
     return this->variableTable.getVarIndex(varName);
 }
+
+int PKB::getProcCount()
+{
+	return this->procTable.getSize();
+}
+
+int PKB::getVarCount()
+{
+	return this->variableTable.getSize();
+}
+

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unordered_map>
 
 using namespace std;
 
@@ -14,6 +15,17 @@ private:
 	bool setStmtUsedByRelConst(int stmtId, int varId);
 	bool setProcUsedByRelConst(int procId, int varId);
 	void printVector(vector<int> vec);
+
+	unordered_map<int, vector<int>> vUsesStmtMap;
+	unordered_map<int, vector<int>> vUsesProcMap;
+	unordered_map<int, vector<int>> vUsedByStmtMap;
+	unordered_map<int, vector<int>> vUsedByProcMap;
+
+	unordered_map<int, vector<int>> cUsesStmtMap;
+	unordered_map<int, vector<int>> cUsesProcMap;
+	unordered_map<int, vector<int>> cUsedByStmtMap;
+	unordered_map<int, vector<int>> cUsedByProcMap;
+
 public:
 	UsesTable();
 	bool setStmtUseRel(int stmtId, int varId);

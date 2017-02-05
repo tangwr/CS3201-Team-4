@@ -185,5 +185,6 @@ public:
     //parentTable
     vector<int> getDirectChild(int stmtId);
     */
-
+	int getProcCount();
+	int getVarCount();
 };

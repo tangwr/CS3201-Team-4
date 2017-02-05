@@ -6,10 +6,6 @@
 
 using namespace std;
 
-vector<string> procList;
-unordered_map<string, int> procMap;
-int ptsize; // number of procedures in the program
-
 ProcTable::ProcTable(void) {
 	ptsize = 0;
 }

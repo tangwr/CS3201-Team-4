@@ -11,6 +11,5 @@ public:
 	Controller();
 	void processSource(string);
 	string processQuery(string);
-private:
 	PKB *pkb;
 };

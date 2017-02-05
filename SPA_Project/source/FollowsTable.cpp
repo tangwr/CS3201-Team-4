@@ -6,11 +6,6 @@
 
 using namespace std;
 
-unordered_map<int, int> followeeMap;  // <followee, follower>    <3,4>
-unordered_map<int, int> followerMap;  // <follower, followee>    <4,3>
-unordered_map<int, vector<int>> followeeListMap;
-unordered_map<int, vector<int>> followerListMap;
-
 FollowsTable::FollowsTable(void)
 {
 }

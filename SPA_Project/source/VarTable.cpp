@@ -6,13 +6,15 @@
 
 using namespace std;
 
-vector<string> varList;   // varId -> varName
-unordered_map<string, int> varMap;    // varName -> varId
+//vector<string> varList;   // varId -> varName
+//unordered_map<string, int> varMap;    // varName -> varId
 
-int vtsize; // number of variables in the program
 
 VarTable::VarTable(void) {
 	vtsize = 0;
+	//varMap.clear();
+	//varList.clear();
+
 }
 
 /*
@@ -98,3 +100,14 @@ bool VarTable::checkVarExistByName(string varName)
 		return false;
 }
 
+
+void VarTable::printContents()
+{
+	cout << "---PRINT VARTABLE---" << endl;
+
+	for (pair<string, int> it : varMap) {
+		cout << "VarId: " << it.second;
+		cout << " VarName " << it.first << endl;
+	}
+	cout << "---END PRINT VARTABLE---" << endl;
+}

@@ -6,12 +6,6 @@
 
 using namespace std;
 
-unordered_map<int, int> parentsMap;   // <child, parent> direct
-unordered_map<int, vector<int>> childsMap;  // <parent, child>  direct
-unordered_map<int, vector<int>> parentListMap; // <child parent*>
-unordered_map<int, vector<int>> childListMap; // <parent, child*>
-
-
 ParentsTable::ParentsTable(void)
 {
 }

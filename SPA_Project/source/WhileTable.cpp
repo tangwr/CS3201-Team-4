@@ -18,7 +18,12 @@ vector<int> WhileTable::getAllStmtId() {
 
 bool WhileTable::isStmtInTable(int stmtId)
 {
-	return false;
+    for (auto stmtEntry : this->whileList) {
+        if (stmtEntry.first == stmtId) {
+            return true;
+        }
+    }
+    return false;
 }
 
 bool WhileTable::setWhileCtrlVar(int stmtId, int varId) {

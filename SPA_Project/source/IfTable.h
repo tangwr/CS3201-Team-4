@@ -11,7 +11,7 @@ using namespace std;
 class IfTable {
 private:
 
-	unordered_map<int, int> ifList;
+	unordered_map<int, int> ifList;//stmtId to ctrlVarId
 	int size;
 
 public:

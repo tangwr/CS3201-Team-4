@@ -32,13 +32,12 @@ void DesignExtractor::extractStarRelations() {
 
 void DesignExtractor::extractFollowsStar() {
 	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), followStar = 0;
-	
-	for (int i = 1; i < numOfStatements; i++) {
+	for (int i = 0; i < numOfStatements; i++) {
 		statementNum = i;
 		followStar = pkb->getFollowDirect(statementNum);
-		followStar = pkb->getFollowDirect(followStar);
+		followStar = pkb->getFollowDirect(statementNum);
 		while (followStar != -1) {
-			
+			cout << "Follower: " << statementNum << ", Follows: " << followStar << endl;
 			pkb->insertFollowRel(statementNum, followStar);
 			followStar = pkb->getFollowDirect(followStar);
 		}
@@ -50,7 +49,7 @@ void DesignExtractor::extractParentStar() {
 	for (int i = 0; i < numOfStatements; i++) {
 		statementNum = i;
 		parentStar = pkb->getParentDirect(statementNum);
-		parentStar = pkb->getParentDirect(parentStar);
+		parentStar = pkb->getParentDirect(statementNum);
 		while (parentStar != -1) {
 			pkb->insertParentRel(statementNum, parentStar);
 			parentStar = pkb->getParentDirect(parentStar);

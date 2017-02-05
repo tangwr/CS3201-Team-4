@@ -43,6 +43,10 @@ public:
 	vector<int> getConstUsedByProc(int procId);
 	vector<int> getProcUsesConst(int constId);
 
+    vector<int> getAllStmt();
+
+    bool checkStmtExist(int stmtId);
+    bool checkStmtVarRelExist(int stmtId, int varId);
 	void printContents();
 
 };

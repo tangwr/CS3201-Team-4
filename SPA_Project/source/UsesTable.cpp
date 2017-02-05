@@ -233,6 +233,34 @@ vector<int> UsesTable::getProcUsesConst(int varId)
 	return vector<int>();
 }
 
+vector<int> UsesTable::getAllStmt() {
+    vector<int> allUsesStmtLst;
+    for (auto entry : vUsesStmtMap) {
+        allUsesStmtLst.push_back(entry.first);
+    }
+    return allUsesStmtLst;
+}
+bool UsesTable::checkStmtExist(int stmtId) {
+    for (auto entry : this->vUsesStmtMap) {
+        if (entry.first == stmtId) {
+            return true;
+        }
+    }
+    return false;
+}
+bool UsesTable::checkStmtVarRelExist(int stmtId, int varId) {
+    vector<int> stmtVarIdLst = this->getVarUsedByStmt(stmtId);
+    for (int varEntry : stmtVarIdLst) {
+        if (varEntry == varId) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+
+
 void UsesTable::printContents()
 {
 	cout << "---PRINT USESTABLE---" << endl;

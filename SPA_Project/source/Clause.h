@@ -14,12 +14,12 @@ using namespace std;
 class Clause {
 public:
 	virtual vector<int> getWithRelToLeft(PKB *pkb) = 0;
-	virtual vector<int> getWithRelToRight(PKB *pkb);
-	virtual bool hasRel(PKB *pkb);
-	virtual string getLeftChild();
-	virtual string getRightChild();
-	virtual Type getLeftChildType();
-	virtual Type getRightChildType();
+	virtual vector<int> getWithRelToRight(PKB *pkb) = 0;
+	virtual bool hasRel(PKB *pkb) = 0;
+	virtual string getLeftChild() = 0;
+	virtual string getRightChild() = 0;
+	virtual Type getLeftChildType() = 0;
+	virtual Type getRightChildType() = 0;
 
 };
 #endif

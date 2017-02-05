@@ -1,31 +1,4 @@
-﻿  Parser.cpp
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(32): error C2039: 'insertProc': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(50): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(51): error C2039: 'setFollowDirectRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(63): error C2039: 'setParentDirectRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(65): warning C4018: '<': signed/unsigned mismatch
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(66): error C2039: 'setFollowDirectRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(67): error C2039: 'setParentDirectRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(93): error C2039: 'setWhileCtrlVar': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(94): error C2039: 'setUseRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(110): error C2039: 'setModifyRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(117): error C2039: 'setAssignExp': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(148): error C2039: 'setUseVarRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(148): error C2065: 'assignStmt': undeclared identifier
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(152): error C2039: 'setUseConstRel': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(152): error C2065: 'assignStmt': undeclared identifier
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(159): error C2039: 'insertVar': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
-c:\users\user\documents\visual studio 2015\projects\spa_project\source\parser.cpp(163): error C2039: 'insertConst': is not a member of 'PKB'
-  c:\users\user\documents\visual studio 2015\projects\spa_project\source\pkb.h(15): note: see declaration of 'PKB'
+﻿  QueryEvaluator.cpp
+  Controller.cpp
+  Generating Code...
+  SPA.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\SPA.lib

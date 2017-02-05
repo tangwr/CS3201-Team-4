@@ -3,6 +3,8 @@
 
 #include <string>
 #include <unordered_map>
+#include <iterator>
+#include <algorithm>
 #include "Clause.h"
 #include "ClauseType.h"
 #include "Type.h"
@@ -19,6 +21,8 @@ private:
 	Type rightChildType;
 	PKB *pkb;
 	bool isRel;
+	vector<int> getUnionList(vector<int>, vector<int>);
+	vector<int> getIntersectionList(vector<int>, vector<int>);
 
 public:
 

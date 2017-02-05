@@ -1,0 +1,196 @@
+stmt s;
+Select s such that Modifies(s,"x")
+1, 4, 5, 6, 7, 10
+
+stmt s;
+Select s such that Modifies(s,"y")
+2, 8, 9, 14
+
+stmt s;
+Select s such that Modifies(s,"z")
+3, 11, 12, 13
+
+stmt s; 
+Select s such that Modifies(s,_)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14
+
+stmt s; variable v;
+Select s such that Modifies(s,v)
+1,2,3,4,5,6,7,8,9,10,11,12,13,14
+
+stmt s; variable v;
+Select v such that Modifies(s,v)
+x,y,z
+
+
+assign a;
+Select a such that Modifies(a,"x")
+1,5,6,7,10
+
+assign a;
+Select a such that Modifies(a,"y")
+2,8,9,14
+
+assign a;
+Select a such that Modifies(a,"z")
+3,11,13
+
+assign a; 
+Select a such that Modifies(a,_)
+1,2,3,5,6,7,8,9,10,11,13,14
+
+assign a; variable v;
+Select a such that Modifies(a,v)
+1,2,3,5,6,7,8,9,10,11,13,14
+
+assign a; variable v;
+Select v such that Modifies(a,v)
+x,y,z
+
+
+while w;
+Select w such that Modifies(w,"x")
+4
+
+while w;
+Select w such that Modifies(w,"y")
+none
+
+while w;
+Select w such that Modifies(w,"z")
+12
+
+while w;
+Select w such that Modifies(w,_)
+4
+
+while w; variable v;
+Select w such that Modifies(w,v)
+12
+
+while w; variable v;
+Select v such that Modifies(w,v)
+x,z
+
+
+
+Select Boolean such that Modifies(1,"x")
+true
+
+Select Boolean such that Modifies(1,"y")
+false
+
+Select Boolean such that Modifies(1,"z")
+false
+
+variable v;
+Select v such that Modifies(1,v);
+x
+
+variable v;
+Select v such that Modifies(2,v);
+y
+
+variable v;
+Select v such that Modifies(3,_);
+z
+
+
+//////////////////////////////////////////////////////////
+USES
+//////////////////////////////////////////////////////////
+
+stmt s;
+Select s such that Uses(s,"x")
+4,7,8,9,12,13,14
+
+stmt s;
+Select s such that Uses(s,"y")
+4,5,10,12,13,14
+
+stmt s;
+Select s such that Uses(s,"z")
+4,6,9,11,14
+
+stmt s; 
+Select s such that Uses(s,_)
+4,5,6,7,8,9,10,11,12,13,14
+
+stmt s; variable v;
+Select s such that Uses(s,v)
+4,5,6,7,8,9,10,11,12,13,14
+
+stmt s; variable v;
+Select v such that Uses(s,v)
+x,y,z
+
+assign a;
+Select a such that Uses(a,"x")
+4,7,8,9,13,14
+
+assign a;
+Select a such that Uses(a,"y")
+5,10,12,13,14
+
+assign a;
+Select a such that Uses(a,"z")
+6,9,11,14
+
+assign a; 
+Select a such that Uses(a,_)
+5,6,7,8,9,10,11,13,14
+
+assign a; variable v;
+Select a such that Uses(a,v)
+5,6,7,8,9,10,11,13,14
+
+assign a; variable v;
+Select v such that Uses(a,v)
+
+
+
+while w;
+Select w such that Uses(w,"x")
+4,12
+
+while w;
+Select w such that Uses(w,"y")
+4,12
+
+while w;
+Select w such that Uses(w,"z")
+4
+
+while w;
+Select w such that Uses(w,_)
+4,12
+
+while w; variable v;
+Select w such that Uses(w,v)
+4,12
+
+while w; variable v;
+Select v such that Uses(w,v)
+x,y,z
+
+
+Select Boolean such that Uses(13,"x")
+true
+
+Select Boolean such that Uses(13,"y")
+true
+
+Select Boolean such that Uses(13,"z")
+false
+
+variable v;
+Select v such that Uses(14,v);
+x,y,z
+
+variable v;
+Select v such that Uses(12,v);
+y
+
+variable v;
+Select v such that Uses(13,_);
+x,y

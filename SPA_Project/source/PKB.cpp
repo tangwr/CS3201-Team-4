@@ -340,6 +340,8 @@ vector<int> PKB::getAllStmtId() {//currently only returning while and assignment
     std::sort(assignStmtId.begin(), assignStmtId.end());
 
     set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
+
+	return combinedLst;
 }
 
 vector<int> PKB::getAllAssignStmtId() {
@@ -360,12 +362,15 @@ int PKB::getVarId(string varName) {
 string PKB::getAssignExp(int stmtId) {
     return this->assignTable.getAssignExp(stmtId);
 }
+
+/*
 int PKB::getWhileCtrlVar() {
     return this->whileTable.getWhileCtrlVar();
 }
 int PKB::getIfCtrlVar() {
     return this->ifTable.getIfCtrlVar();
 }
+
 bool PKB::isStmtInWhileTable(int stmtId) {
     return this->whileTable.isStmtInTable();
 }
@@ -375,4 +380,5 @@ bool PKB::isStmtInIfTable(int stmtId) {
 bool PKB::isStmtInAssignTable(int stmtId) {
     return this->assignTable.isStmtInTable();
 }
+*/
 

@@ -15,6 +15,11 @@ vector<int> AssignTable::getAllStmtId() {
     return allAssignStmtList;
 }
 
+bool AssignTable::isStmtInTable(int stmtId)
+{
+	return false;
+}
+
 bool AssignTable::setAssignExp(int stmtId, string exp) {
 	if (this->assignList.find(stmtId) != this->assignList.end()) {
 		return false;

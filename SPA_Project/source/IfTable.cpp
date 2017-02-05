@@ -29,6 +29,11 @@ int IfTable::getIfCtrlVar(int stmtId) {
 	}
 }
 
+bool IfTable::isStmtInTable(int stmtId)
+{
+	return false;
+}
+
 int IfTable::getSize() {
 	return this->size;
 }

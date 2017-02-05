@@ -20,4 +20,5 @@ public:
 	bool setAssignExp(int stmtId, string exp);
 	string getAssignExp(int stmtId);
     vector<int> getAllStmtId();
+	bool isStmtInTable(int stmtId);
 };

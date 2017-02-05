@@ -20,4 +20,5 @@ public:
 	void printContents();
 	bool setIfCtrlVar(int stmtId, int varId);
 	int getIfCtrlVar(int stmtId);
+	bool isStmtInTable(int stmtId);
 };

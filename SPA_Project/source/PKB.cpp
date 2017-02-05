@@ -19,267 +19,270 @@ PKB::PKB() {
 
 //general functions
 void PKB::printAllTables() {
+	followsTable.printContents();
+	modifiesTable.printContents();
+	parentTable.printContents();
+	procTable.printContents();
+	usesTable.printContents();
+	//variableTable.printContents(); waiting for implementation
+	constTable.printContents();
 	whileTable.printContents();
+	ifTable.printContents();
+	callTable.printContents();
 	assignTable.printContents();
 }
 
 bool PKB::isValidVarId(int varId) {
-    return this->variableTable.checkVarExistById(varId);
+	return this->variableTable.checkVarExistById(varId);
 }
 bool PKB::isValidVar(string varName) {
-    return this->variableTable.checkVarExistByName(varName);
+	return this->variableTable.checkVarExistByName(varName);
 }
 bool PKB::isValidConst(int constId) {
-    return this->constTable.checkConstExist(constId);
+	return this->constTable.checkConstExist(constId);
 }
 
 int PKB::getTotalStmtNum() {
-    return this->whileTable.getSize() + this->assignTable.getSize();
+	return this->whileTable.getSize() + this->assignTable.getSize();
 }
 vector<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
-    vector<int> combinedLst;
+	vector<int> combinedLst;
 
-    vector<int> whileStmtId = this->getAllWhileStmtId();
-    vector<int> assignStmtId = this->getAllWhileStmtId();
-    std::sort(whileStmtId.begin(), whileStmtId.end());
-    std::sort(assignStmtId.begin(), assignStmtId.end());
+	vector<int> whileStmtId = this->getAllWhileStmtId();
+	vector<int> assignStmtId = this->getAllWhileStmtId();
+	std::sort(whileStmtId.begin(), whileStmtId.end());
+	std::sort(assignStmtId.begin(), assignStmtId.end());
 
-    set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
-    return combinedLst;
+	set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
+	return combinedLst;
 }
 
 
 //proc table
 int PKB::insertProc(string procName) {
-    return this->procTable.insertProc(procName);
+	return this->procTable.insertProc(procName);
 }
 
 
 //variable table
 int PKB::insertVar(string varName) {
-    return this->variableTable.insertVar(varName);
+	return this->variableTable.insertVar(varName);
 }
 
 vector<int> PKB::getAllVarId() {
-    return this->variableTable.getAllVarId();
+	return this->variableTable.getAllVarId();
 }
 string PKB::getVarName(int varId) {
-    return this->variableTable.getVarName(varId);
+	return this->variableTable.getVarName(varId);
 }
 int PKB::getVarId(string varName) {
-    return this->variableTable.getVarIndex(varName);
+	return this->variableTable.getVarIndex(varName);
 }
 
 
 //const table
 int PKB::insertConst(int value) {
-    return this->constTable.insertConst(value);//constname?
+	return this->constTable.insertConst(value);//constname?
 }
 int PKB::getConstTableSize() {
-    return this->constTable.getSize();
+	return this->constTable.getSize();
 }
 
 int PKB::getConstValueById(int constId) {
-    return this->constTable.getValueById(constId);
+	return this->constTable.getValueById(constId);
 }
 
 
 //parent table
 bool PKB::setParentDirectRel(int parent, int child) {
-    return this->parentTable.setParentDirectRel(parent, child);//check param order
+	return this->parentTable.setParentDirectRel(parent, child);//check param order
 }
 bool PKB::insertParentRel(int parent, int child) {
-    return this->parentTable.insertParentRel(parent, child);
+	return this->parentTable.insertParentRel(parent, child);
 }
 
 int PKB::getParentDirect(int stmtId) {
-    return this->parentTable.getParent(stmtId);
+	return this->parentTable.getParent(stmtId);
 }
 vector<int> PKB::getParentStar(int stmtId) {
-    return this->parentTable.getParentStar(stmtId);
+	return this->parentTable.getParentStar(stmtId);
 }
 vector<int> PKB::getChildren(int stmtId) {
-    return this->parentTable.getChildren(stmtId);
+	return this->parentTable.getChildren(stmtId);
 }
 vector<int> PKB::getChildrenStar(int stmtId) {
-    return this->parentTable.getChildrenStar(stmtId);
+	return this->parentTable.getChildrenStar(stmtId);
 }
 
 
 //follow table
 bool PKB::setFollowDirectRel(int stmtId, int followsId) {
-    return this->followsTable.setFollowDirectRel(stmtId, followsId);//check order
+	return this->followsTable.setFollowDirectRel(stmtId, followsId);//check order
 }
 bool PKB::insertFollowRel(int stmtId, int followNum) {
-    return this->followsTable.insertFollowRel(stmtId, followNum);//check param order
+	return this->followsTable.insertFollowRel(stmtId, followNum);//check param order
 }
 
 int PKB::getFollowDirect(int stmtId) {
-    return this->followsTable.getDirectFollow(stmtId);
+	return this->followsTable.getDirectFollow(stmtId);
 }
 int PKB::getFollowedByDirect(int stmtId) {
-    return this->followsTable.getDirectFollowedBy(stmtId);
+	return this->followsTable.getDirectFollowedBy(stmtId);
 }
-<<<<<<< HEAD
-*/
-bool PKB::setFollowDirectRel(int stmtId, int followsId) {
-    return this->followsTable.setFollowDirectRel(stmtId,followsId);//check param order
-=======
 vector<int> PKB::getFollowStar(int stmtId) {
-    return this->followsTable.getFollowStar(stmtId);
->>>>>>> beb93de947a431ab44bbd39de866e273a8834bd6
+	return this->followsTable.getFollowStar(stmtId);
 }
 vector<int> PKB::getFollowedByStar(int stmtId) {
-    return this->followsTable.getFollowedByStar(stmtId);
+	return this->followsTable.getFollowedByStar(stmtId);
 }
 
 
 //modifies table
 bool PKB::setStmtModifyRel(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->modifiesTable.setStmtModifyRel(stmtId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->modifiesTable.setStmtModifyRel(stmtId, varId);
 }
 bool PKB::setProcModifyRel(int procId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->modifiesTable.setProcModifyRel(procId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->modifiesTable.setProcModifyRel(procId, varId);
 }
 bool PKB::setModifyDirectRelProc(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->modifiesTable.setProcModifyRel(stmtId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->modifiesTable.setProcModifyRel(stmtId, varId);
 }
 
 vector<int> PKB::getModifiedByStmt(int varId) {
-    return this->modifiesTable.getModifiedByStmt(varId);
+	return this->modifiesTable.getModifiedByStmt(varId);
 }
 vector<int> PKB::getStmtModify(int stmtId) {
-    return this->modifiesTable.getStmtModify(stmtId);
+	return this->modifiesTable.getStmtModify(stmtId);
 }
 vector<int> PKB::getModifiedByProc(int varId) {//get procs which modifies the given var
-    return this->modifiesTable.getModifiedByProc(varId);
+	return this->modifiesTable.getModifiedByProc(varId);
 }
 vector<int> PKB::getProcModify(int stmtId) {
-    return this->modifiesTable.getProcModify(stmtId);
+	return this->modifiesTable.getProcModify(stmtId);
 }
 
 
 //uses table
 bool PKB::setStmtUseRel(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->usesTable.setStmtUseRel(stmtId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->usesTable.setStmtUseRel(stmtId, varId);
 }
 bool PKB::setStmtUseRelConst(int stmtId, int constId) {
-    if (!this->isValidConst(constId)) {
-        return false;
-    }
-    return this->usesTable.setStmtUseRelConst(stmtId, constId);
+	if (!this->isValidConst(constId)) {
+		return false;
+	}
+	return this->usesTable.setStmtUseRelConst(stmtId, constId);
 }
 bool PKB::setProcUseRel(int procId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->usesTable.setProcUseRel(procId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->usesTable.setProcUseRel(procId, varId);
 }
 bool PKB::setProcUseRelConst(int procId, int constId) {
-    if (!this->isValidConst(constId)) {
-        return false;
-    }
-    return this->usesTable.setProcUseRelConst(procId, constId);
+	if (!this->isValidConst(constId)) {
+		return false;
+	}
+	return this->usesTable.setProcUseRelConst(procId, constId);
 }
 
 
 vector<int> PKB::getVarUsedByStmt(int stmtId) {
-    return this->usesTable.getVarUsedByStmt(stmtId);
+	return this->usesTable.getVarUsedByStmt(stmtId);
 }
 vector<int> PKB::getStmtUsesVar(int varId) {
-    return this->usesTable.getStmtUsesVar(varId);
+	return this->usesTable.getStmtUsesVar(varId);
 }
 vector<int> PKB::getVarUsedByProc(int procId) {
-    return this->usesTable.getVarUsedByProc(procId);
+	return this->usesTable.getVarUsedByProc(procId);
 }
 vector<int> PKB::getProcUsesVar(int varId) {
-    return this->usesTable.getProcUsesVar(varId);
+	return this->usesTable.getProcUsesVar(varId);
 }
 vector<int> PKB::getConstUsedByStmt(int stmtId) {
-    return this->usesTable.getConstUsedByStmt(stmtId);
+	return this->usesTable.getConstUsedByStmt(stmtId);
 }
 vector<int> PKB::getStmtUsesConst(int constId) {
-    return this->usesTable.getStmtUsesConst(constId);
+	return this->usesTable.getStmtUsesConst(constId);
 }
 vector<int> PKB::getConstUsedByProc(int procId) {
-    return this->usesTable.getConstUsedByProc(procId);
+	return this->usesTable.getConstUsedByProc(procId);
 }
 vector<int> PKB::getProcUsesConst(int constId) {
-    return this->usesTable.getProcUsesConst(constId);
+	return this->usesTable.getProcUsesConst(constId);
 }
 
 //assign table
 bool PKB::setAssignExp(int stmtId, string expression) {
-    return this->assignTable.setAssignExp(stmtId, expression);
+	return this->assignTable.setAssignExp(stmtId, expression);
 }
 
 vector<int> PKB::getAllAssignStmtId() {
-    return this->assignTable.getAllStmtId();
+	return this->assignTable.getAllStmtId();
 }
 string PKB::getAssignExp(int stmtId) {
-    return this->assignTable.getAssignExp(stmtId);
+	return this->assignTable.getAssignExp(stmtId);
 }
 
 bool PKB::isStmtInAssignTable(int stmtId) {
-    return this->assignTable.isStmtInTable();
+	return this->assignTable.isStmtInTable(stmtId);
 }
 
 
 //while table
 bool PKB::setWhileCtrlVar(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->whileTable.setWhileCtrlVar(stmtId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->whileTable.setWhileCtrlVar(stmtId, varId);
 }
 
 vector<int> PKB::getAllWhileStmtId() {
-    return this->whileTable.getAllStmtId();
+	return this->whileTable.getAllStmtId();
 }
 int PKB::getWhileCtrlVar(int stmtId) {
-    return this->whileTable.getWhileCtrlVar(stmtId);
+	return this->whileTable.getWhileCtrlVar(stmtId);
 }
 
 bool PKB::isStmtInWhileTable(int stmtId) {
-    return this->whileTable.isStmtInTable();
+	return this->whileTable.isStmtInTable(stmtId);
 }
 
 
 //if table
 bool PKB::setIfCtrlVar(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->ifTable.setIfCtrlVar(stmtId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->ifTable.setIfCtrlVar(stmtId, varId);
 }
 
 int PKB::getIfCtrlVar(int stmtId) {
-    return this->ifTable.getIfCtrlVar(stmtId);
+	return this->ifTable.getIfCtrlVar(stmtId);
 }
 
 bool PKB::isStmtInIfTable(int stmtId) {
-    return this->ifTable.isStmtInTable();
+	return this->ifTable.isStmtInTable(stmtId);
 }
 
 
 //call table
 bool PKB::setCallProc(int stmtId, int varId) {
-    if (!this->isValidVarId(varId)) {
-        return false;
-    }
-    return this->callTable.setCallProc(stmtId, varId);
+	if (!this->isValidVarId(varId)) {
+		return false;
+	}
+	return this->callTable.setCallProc(stmtId, varId);
 }
 
 
@@ -387,19 +390,6 @@ bool PKB::addStmtLstStmtNode(TNodeStmtLst* stmtLstNode, TNodeStmt* stmtNode) {
 ast.addStmtLstStmtNode(stmtLstNode, stmtNode);
 return true;
 }
-<<<<<<< HEAD
-
-int PKB::getProcCount()
-{
-	return this->procTable.getSize();
-}
-
-int PKB::getVarCount()
-{
-	return this->variableTable.getSize();
-}
-
-=======
 //proc
 bool PKB::setProcStmtLstNode(TNodeProc* procNode, TNodeStmtLst* stmtLstNode) {
 ast.setProcStmtLstNode(procNode, stmtLstNode);
@@ -420,4 +410,3 @@ ast.setOperRightExpNode(operNode, expNode);
 return true;
 }
 */
->>>>>>> beb93de947a431ab44bbd39de866e273a8834bd6

@@ -3,13 +3,15 @@
 #include "Pattern.h"
 #include "Clause.h"
 
-Pattern::Pattern(string lc, Type lcType, string rc, Type rcType, bool underscore) {
+Pattern::Pattern(string lc, Type lcType, string rc, Type rcType, bool underscore, string f, Type ft) {
 	cltype = PATTERN;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;
 	rightChildType = rcType;
 	isUnderScore = underscore;
+	factor = f;
+	factorType = ft;
 }
 bool Pattern::hasRel(PKB *pkbSource) {
 	return isRel;
@@ -19,12 +21,12 @@ void Pattern::setUnderScore(bool us) {
 	isUnderScore = us;
 }
 
-void Pattern::setSynonym(string x) {
-	syn = x;
+void Pattern::setFactor(string f) {
+	factor = f;
 }
 
-string Pattern::getSynonym() {
-	return syn;
+string Pattern::getFactor() {
+	return factor;
 }
 
 bool Pattern::getUnderScore() {
@@ -51,7 +53,7 @@ Type Pattern::getLeftChildType() {
 Type Pattern::getRightChildType() {
 	return rightChildType;
 }
-Type Pattern::getSynType() {
-	return synType;
+Type Pattern::getFactorType() {
+	return factorType;
 }
 

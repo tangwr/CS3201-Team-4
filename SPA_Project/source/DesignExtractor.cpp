@@ -32,12 +32,13 @@ void DesignExtractor::extractStarRelations() {
 
 void DesignExtractor::extractFollowsStar() {
 	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), followStar = 0;
-	for (int i = 0; i < numOfStatements; i++) {
+	
+	for (int i = 1; i < numOfStatements; i++) {
 		statementNum = i;
 		followStar = pkb->getFollowDirect(statementNum);
 		followStar = pkb->getFollowDirect(followStar);
 		while (followStar != -1) {
-			cout << "Follower: " << statementNum << ", Follows: " << followStar << endl;
+			
 			pkb->insertFollowRel(statementNum, followStar);
 			followStar = pkb->getFollowDirect(followStar);
 		}
@@ -55,6 +56,60 @@ void DesignExtractor::extractParentStar() {
 			parentStar = pkb->getParentDirect(parentStar);
 		}
 	}
+}
+
+void DesignExtractor::extractModifiesStar() {
+    // get all stmt from modify table
+    vector<int> allModifyStmt = pkb->getAllModifiesStmt();
+    // iterate through each stmt, finding their parent *
+    for (int stmtId : allModifyStmt) {
+
+        vector<int> currentVarIdLst = pkb->getStmtModify(stmtId);
+        vector<int> currentStmtParentStar = pkb->getParentStar(stmtId);
+
+        for (int currentVarId : currentVarIdLst) {
+            for (int parentStmtId : currentStmtParentStar) {
+                if ((pkb->isStmtInModifiesTable(parentStmtId)
+                    && pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId))) {
+
+                    pkb->insertStmtModifiesVar(parentStmtId, currentVarId);
+                }
+                /*
+                if (pkb->isStmtInModifiesTable(parentStmtId)) {
+                    if (pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId)) {
+
+                    }
+                    else {
+                        pkb->insertStmtModifiesVar(parentStmtId, currentVarId);//method not implemented
+                    }
+                }
+                else {
+                    pkb->insertStmtModifiesVar(parentStmtId, currentVarId);
+                }
+                //pkb->setModifyDirectRelProc(stmt, var);
+                */
+            }
+        }
+    }
+    //for each parent *, set modify relationship
+}
+void DesignExtractor::extractUsesStar() {
+    vector<int> allUsesStmt = pkb->getAllUsesStmt();
+
+    for (int stmtId : allUsesStmt) {
+        vector<int> currentVarIdLst = pkb->getVarUsedByStmt(stmtId);
+        vector<int> currentStmtParentStar = pkb->getParentStar(stmtId);
+        for (int currentVarId : currentVarIdLst) {
+            for (int parentStmtId : currentStmtParentStar) {
+                //only if parent statement in table and already uses given varId then do not insert, else insert
+                if ((pkb->isStmtInUsesTable(parentStmtId)
+                    && pkb->ckeckStmtVarUseRelExist(parentStmtId, currentVarId))) {
+
+                    pkb->insertStmtUsesVar(parentStmtId, currentVarId);
+                }
+            }
+        }
+    }
 }
 
 /*

@@ -22,4 +22,6 @@ private:
 	//void extractStarRelations();
 	void extractParentStar();
 	void extractFollowsStar();
+    void extractModifiesStar();
+    void extractUsesStar();
 };

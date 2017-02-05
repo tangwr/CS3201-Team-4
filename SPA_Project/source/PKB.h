@@ -77,6 +77,7 @@ public:
 	//Parent table
 	bool setParentDirectRel(int parent, int child);
 	bool insertParentRel(int parent, int child);
+    bool hasParentRel();
 
 	int getParentDirect(int stmtId);//-1 if no parent
 	vector<int> getParentStar(int stmtId);
@@ -87,6 +88,7 @@ public:
 	//Follow table
 	bool setFollowDirectRel(int stmtId, int followsId);
 	bool insertFollowRel(int stmtId, int followId);
+    bool hasFollowRel();
 
 	int getFollowDirect(int stmtId);//-1 if no follows
 	int getFollowedByDirect(int stmtId);//-1 if no followedby
@@ -98,11 +100,16 @@ public:
 	bool setStmtModifyRel(int stmtId, int varId);
 	bool setProcModifyRel(int procId, int varId);
 	bool setModifyDirectRelProc(int stmtId, int varId);
+    bool insertStmtModifiesVar(int stmtId, int varId);
 
 	vector<int> getModifiedByStmt(int varId);
 	vector<int> getStmtModify(int stmtId);
 	vector<int> getModifiedByProc(int varId);
 	vector<int> getProcModify(int stmtId);
+
+    vector<int> getAllModifiesStmt();
+    bool isStmtInModifiesTable(int stmtId);
+    bool ckeckStmtVarModifiesRelExist(int stmtId, int varId);
 
 
 	//Uses table
@@ -110,6 +117,7 @@ public:
 	bool setStmtUseRelConst(int stmtId, int constId);
 	bool setProcUseRel(int procId, int varId);
 	bool setProcUseRelConst(int procId, int constId);
+    bool insertStmtUsesVar(int stmtId, int varId);
 
 	vector<int> getVarUsedByStmt(int stmtId);
 	vector<int> getStmtUsesVar(int varId);
@@ -119,6 +127,11 @@ public:
 	vector<int> getStmtUsesConst(int constId);
 	vector<int> getConstUsedByProc(int procId);
 	vector<int> getProcUsesConst(int constId);
+
+    vector<int> getAllUsesStmt();
+
+    bool isStmtInUsesTable(int stmtId);
+    bool ckeckStmtVarUseRelExist(int stmtId, int varId);
 
 
 	//Assign table

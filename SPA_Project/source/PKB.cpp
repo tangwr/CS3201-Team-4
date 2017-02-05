@@ -100,6 +100,10 @@ bool PKB::setParentDirectRel(int parent, int child) {
 bool PKB::insertParentRel(int parent, int child) {
 	return this->parentTable.insertParentRel(parent, child);
 }
+bool PKB::hasParentRel() {
+    return this->parentTable.hasParentRel();//yet to implement
+}
+
 
 int PKB::getParentDirect(int stmtId) {
 	return this->parentTable.getParent(stmtId);
@@ -122,6 +126,10 @@ bool PKB::setFollowDirectRel(int stmtId, int followsId) {
 bool PKB::insertFollowRel(int stmtId, int followNum) {
 	return this->followsTable.insertFollowRel(stmtId, followNum);//check param order
 }
+bool PKB::hasFollowRel() {
+    return this->followsTable.hasFollowRel();//yet to implement
+}
+
 
 int PKB::getFollowDirect(int stmtId) {
 	return this->followsTable.getDirectFollow(stmtId);
@@ -156,6 +164,10 @@ bool PKB::setModifyDirectRelProc(int stmtId, int varId) {
 	}
 	return this->modifiesTable.setProcModifyRel(stmtId, varId);
 }
+bool PKB::insertStmtModifiesVar(int stmtId, int varId) {
+    return this->modifiesTable.insertStmtModify(stmtId, varId);//yet implemented by table
+}
+
 
 vector<int> PKB::getModifiedByStmt(int varId) {
 	return this->modifiesTable.getModifiedByStmt(varId);
@@ -169,6 +181,16 @@ vector<int> PKB::getModifiedByProc(int varId) {//get procs which modifies the gi
 vector<int> PKB::getProcModify(int stmtId) {
 	return this->modifiesTable.getProcModify(stmtId);
 }
+vector<int> PKB::getAllModifiesStmt() {
+    return this->modifiesTable.getAllStmt();
+}
+bool PKB::isStmtInModifiesTable(int stmtId) {
+    return this->modifiesTable.checkStmtExist(stmtId);
+}
+bool PKB::ckeckStmtVarModifiesRelExist(int stmtId, int varId) {
+    return this->modifiesTable.checkStmtVarRelExist(stmtId, varId);
+}
+
 
 
 //uses table
@@ -196,6 +218,10 @@ bool PKB::setProcUseRelConst(int procId, int constId) {
 	}
 	return this->usesTable.setProcUseRelConst(procId, constId);
 }
+bool PKB::insertStmtUsesVar(int stmtId, int varId) {
+    return this->usesTable.insertStmtUses(stmtId, varId);
+}
+
 
 
 vector<int> PKB::getVarUsedByStmt(int stmtId) {
@@ -222,6 +248,17 @@ vector<int> PKB::getConstUsedByProc(int procId) {
 vector<int> PKB::getProcUsesConst(int constId) {
 	return this->usesTable.getProcUsesConst(constId);
 }
+vector<int> PKB::getAllUsesStmt() {
+    return this->usesTable.getAllStmt();
+}
+bool PKB::isStmtInUsesTable(int stmtId) {
+    return this->usesTable.checkStmtExist(stmtId);
+}
+bool PKB::ckeckStmtVarUseRelExist(int stmtId, int varId) {
+    return this->usesTable.checkStmtVarRelExist(stmtId, varId);
+}
+
+
 
 //assign table
 bool PKB::setAssignExp(int stmtId, string expression) {

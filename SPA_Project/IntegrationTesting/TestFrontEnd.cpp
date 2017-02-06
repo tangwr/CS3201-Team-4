@@ -51,9 +51,30 @@ namespace IntegrationTesting
 			Assert::AreEqual(2, (int)ct.pkb->getFollowedByStar(3).at(0));
 			Assert::AreEqual(1, (int)ct.pkb->getFollowedByStar(3).at(1));
 			Assert::IsTrue(vector<int>({}) == ct.pkb->getFollowedByStar(1));
-			Assert::IsTrue(vector<int>({ 2,3 }) == ct.pkb->getFollowStar(1));
-			
-			delete ct;
+			Assert::IsTrue(vector<int>({2,3}) == ct.pkb->getFollowStar(1));
+		}
+
+		TEST_METHOD(IntegrationTest_WhileIfProcedure)
+		{
+			// TODO: Your test code here
+			Controller ct;
+			string str = "procedure Example {x = 2; z = 3; i = 5;while i {x = x - 1; z = x + 1;  y = z + x;  z = z + x + i; i = i - 1;}}";
+			ct.processSource(str);
+
+			//Assert::AreEqual(3, (int)ct.pkb->getTotalStmtNum());
+			//Assert::AreEqual(1, (int)ct.pkb->getStmtModify(1).size());
+			//Assert::AreEqual(0, (int)ct.pkb->getStmtModify(1).at(0));
+			//Assert::AreEqual(1, (int)ct.pkb->getStmtModify(2).at(0));
+			//Assert::AreEqual(2, (int)ct.pkb->getStmtModify(3).at(0));
+			//Assert::AreEqual(2, (int)ct.pkb->getVarUsedByStmt(3).size());
+			//Assert::IsTrue(vector<int>({ 3,1 }) == ct.pkb->getVarUsedByStmt(3));
+
+			//Assert::AreEqual(3, ct.pkb->getFollowDirect(2));
+			//Assert::AreEqual(-1, ct.pkb->getFollowDirect(3));
+			//Assert::AreEqual(1, ct.pkb->getFollowedByDirect(2));
+
+			//ct.pkb->insertFollowRel(1, 3);
+			//ct.pkb->insertFollowRel(2, 3);
 		}
 		
 	};

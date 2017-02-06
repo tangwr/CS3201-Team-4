@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Clause.h"
+#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
 
@@ -10,6 +11,7 @@ using namespace std;
 
 class Follow : public Clause {
 private:
+	ClauseType cltype;
 	string leftChild;
 	string rightChild;
 	Type leftChildType;

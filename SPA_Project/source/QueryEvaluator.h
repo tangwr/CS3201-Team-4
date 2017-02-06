@@ -17,9 +17,6 @@
 #include "Pattern.h"
 #include "Result.h"
 
-
-
-
 using namespace std;
 
 class QueryEvaluator {
@@ -36,7 +33,6 @@ private:
 	bool evaluateUnlimitList(vector<Clause*>);
 	vector<int> evaluateLimitList(vector<Clause*>, Type);
 	vector<int> QueryEvaluator::getAllSelectResults(Type);
-	
 };
 
 

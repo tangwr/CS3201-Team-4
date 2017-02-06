@@ -8,14 +8,9 @@
 
 using namespace std;
 
-const string STRING_TRUE = "true";
-const string STRING_FALSE = "false";
-
-const int INITIAL_INDEX = 0;
-
-class PostProcessor {
+class QueryPostProcessor {
 public:
-	PostProcessor(PKB* pkb);
+	QueryPostProcessor(PKB* pkb);
 	list<string> processResult(Result result);
 
 private:

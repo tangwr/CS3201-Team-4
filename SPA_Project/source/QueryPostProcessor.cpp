@@ -1,11 +1,16 @@
-#include "PostProcessor.h"
+#include "QueryPostProcessor.h"
 #include "Type.h"
 
-PostProcessor::PostProcessor(PKB *pkbSource) {
+const string STRING_TRUE = "true";
+const string STRING_FALSE = "false";
+
+const int INITIAL_INDEX = 0;
+
+QueryPostProcessor::QueryPostProcessor(PKB *pkbSource) {
 	pkb = pkbSource;
 }
 
-list<string> PostProcessor::processResult(Result result) {
+list<string> QueryPostProcessor::processResult(Result result) {
 	switch (result.getResultType()) {
 	case BOOLEAN:
 		return formatBoolResult(result);
@@ -25,7 +30,7 @@ list<string> PostProcessor::processResult(Result result) {
 	}
 }
 
-list<string> PostProcessor::formatBoolResult(Result result) {
+list<string> QueryPostProcessor::formatBoolResult(Result result) {
 	list<string> resultLists;
 	if (result.getResultBool()) {
 		resultLists.push_back(STRING_TRUE);
@@ -36,7 +41,7 @@ list<string> PostProcessor::formatBoolResult(Result result) {
 	return resultLists;
 }
 
-list<string> PostProcessor::formatVarResult(Result result) {
+list<string> QueryPostProcessor::formatVarResult(Result result) {
 	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
 
@@ -46,7 +51,7 @@ list<string> PostProcessor::formatVarResult(Result result) {
 	return resultLists;
 }
 
-list<string> PostProcessor::formatConstResult(Result result) {
+list<string> QueryPostProcessor::formatConstResult(Result result) {
 	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
 
@@ -56,7 +61,7 @@ list<string> PostProcessor::formatConstResult(Result result) {
 	return resultLists;
 }
 
-list<string> PostProcessor::formatStmtResult(Result result) {
+list<string> QueryPostProcessor::formatStmtResult(Result result) {
 	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
 

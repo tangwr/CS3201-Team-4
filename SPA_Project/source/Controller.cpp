@@ -2,19 +2,14 @@
 #include "Parser.h"
 #include "DesignExtractor.h"
 
-//to delete=========================
-#include "Pattern.h"
-#include "Type.h"
-#include "Result.h"
-#include "PostProcessor.h"
-//==================================
-
 Controller::Controller() {
 	pkb = new PKB();
+	pql = new PQL(pkb);
 }
 
 Controller::~Controller() {
 	delete pkb;
+	delete pql;
 }
 
 void Controller::processSource(string source) {	
@@ -30,6 +25,5 @@ void Controller::processSource(string source) {
 }
 
 list<string> Controller::processQuery(string source) {
-
-	return list<string>();
+	return pql->evaluateQuery(source);
 }

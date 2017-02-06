@@ -11,26 +11,6 @@ using namespace std;
 
 typedef string stmt;
 
-const string STRING_NAME = "([a-zA-Z][a-zA-Z0-9]*)";
-const string STRING_DIGIT = "([0-9]+)";
-const string STRING_OPERATOR = "([+\\-*])";
-
-const string STRING_SEMICOLON = ";";
-const string STRING_OPEN_CBRACKET = "\\{";
-const string STRING_CLOSE_CBRACKET = "\\}";
-const string STRING_OPEN_RBRACKET = "\\(";
-const string STRING_CLOSE_RBRACKET = "\\)";
-const string STRING_EQUAL = "=";
-const string STRING_OR = "|";
-
-const string STRING_PROC = "procedure";
-const string STRING_IF = "if";
-const string STRING_ELSE = "else";
-const string STRING_WHILE = "while";
-const string STRING_CALL = "call";
-
-const int COMPARE_EQUAL = 0;
-
 class Parser {
 public:
 	Parser(PKB *pkbSource, string source);

@@ -4,15 +4,24 @@
 
 using namespace std;
 
-#include "QueryTree.h"
 #include "PKB.h"
+
+#include "QueryParser.h"
+#include "QueryEvaluator.h"
+#include "QueryPostProcessor.h"
+
+#include "QueryTree.h"
+#include "Result.h"
 
 class PQL {
 private:
 	PKB *pkb;
+	QueryParser preProcessor;
+	QueryEvaluator evaluator;
+	QueryPostProcessor *postProcessor;
+
 public:
 	PQL(PKB *pkb);
-	QueryTree getQuery(string query);
-	std::list<string> evaluate(QueryTree qt);
-	std::list<string> getResult(std::list<string> rs);
+	~PQL();
+	list<string> evaluateQuery(string querySource);
 };

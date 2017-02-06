@@ -14,6 +14,7 @@ Pattern::Pattern(string stmtSynonym, Type synType, string leftPattern, Type left
 	factor = rightPattern;
 	factorType = rightPatType;
 }
+
 bool Pattern::hasRel(PKB *pkbSource) {
 	vector<int> results = getWithRelToLeft(pkb);
 	if ((int)results.size() <= 0) {
@@ -128,15 +129,19 @@ bool Pattern::getUnderScore() {
 string Pattern::getLeftChild() {
 	return leftChild;
 }
+
 string Pattern::getRightChild() {
 	return rightChild;
 }
+
 Type Pattern::getLeftChildType() {
 	return leftChildType;
 }
+
 Type Pattern::getRightChildType() {
 	return rightChildType;
 }
+
 Type Pattern::getFactorType() {
 	return factorType;
 }

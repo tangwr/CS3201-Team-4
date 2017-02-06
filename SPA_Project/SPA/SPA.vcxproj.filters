@@ -34,12 +34,6 @@
     <Filter Include="Resource Files\Source Files\FrontEnd">
       <UniqueIdentifier>{8aaf0138-5ab1-42d7-9389-6df9a1b41715}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source Files\FrontEnd\Parser">
-      <UniqueIdentifier>{2650a8ac-2120-469a-9241-e8a2f88aa313}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Source Files\FrontEnd\DesignExtractor">
-      <UniqueIdentifier>{cab850b3-c482-47bf-8aff-c6b2df8f728c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Source Files\Utility">
       <UniqueIdentifier>{3cd09e9b-f387-4231-8d40-7f9c32566410}</UniqueIdentifier>
     </Filter>
@@ -57,12 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Resource Files\Source Files\FrontEnd\DesignExtractor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Parser.cpp">
-      <Filter>Resource Files\Source Files\FrontEnd\Parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Controller.cpp">
       <Filter>Resource Files\Source Files\UI</Filter>
     </ClCompile>
@@ -126,14 +114,35 @@
     <ClCompile Include="..\source\QueryTree.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\PostProcessor.cpp">
-      <Filter>Resource Files\Source Files\PQL</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Result.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
     <ClCompile Include="..\source\VectorSetOperation.cpp">
       <Filter>Resource Files\Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\PQL.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryPostProcessor.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryEvaluator.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\QueryParser.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\FollowStar.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\ParentStar.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Parser.cpp">
+      <Filter>Resource Files\Source Files\FrontEnd</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\DesignExtractor.cpp">
+      <Filter>Resource Files\Source Files\FrontEnd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -218,14 +227,23 @@
     <ClInclude Include="..\source\Type.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\PostProcessor.h">
-      <Filter>Header Files\PQL</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Result.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\VectorSetOperation.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\PQL.h">
+      <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryPostProcessor.h">
+      <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryEvaluator.h">
+      <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\QueryParser.h">
+      <Filter>Header Files\PQL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

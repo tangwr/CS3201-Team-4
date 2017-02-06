@@ -12,9 +12,9 @@ ParentStar::ParentStar(string lc, Type lcType, string rc, Type rcType) {
 }
 
 vector<int> ParentStar::getWithRelToRight(PKB* pkb) {
-	cout << "RIGHT" << endl;
+	//cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
-		cout << "RIGHT IS SYNONYM" << endl;
+		//cout << "RIGHT IS SYNONYM" << endl;
 		if (isNumber(leftChildType)) {
 			int leftArgument = stoi(leftChild);
 			if (!isValidStmtNo(leftArgument, pkb)) {
@@ -27,15 +27,15 @@ vector<int> ParentStar::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) { //parent(syn,syn)
-			cout << "LEFT IS SYNONYM" << endl;
+			//cout << "LEFT IS SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
-			cout << "LEFT SIZE IS " << left.size() << endl;
+			//cout << "LEFT SIZE IS " << left.size() << endl;
 			tempResult = getAllChildren(left, pkb);
-			cout << "TEMP SIZE IS " << tempResult.size() << endl;
-			cout << endl;
+			//cout << "TEMP SIZE IS " << tempResult.size() << endl;
+			//cout << endl;
 			result = filterType(tempResult, rightChildType, pkb);
-			cout << "RESULT SIZE IS " << result.size() << endl;
-			cout << endl;
+			//cout << "RESULT SIZE IS " << result.size() << endl;
+			//cout << endl;
 			return result;
 		}
 		else {
@@ -49,9 +49,9 @@ vector<int> ParentStar::getWithRelToRight(PKB* pkb) {
 }
 
 vector<int> ParentStar::getWithRelToLeft(PKB* pkb) {
-	cout << "LEFT" << endl;
+	//cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
-		cout << "LEFT IS SYNONYM" << endl;
+		//cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
 			if (!isValidStmtNo(rightArgument, pkb)) {
@@ -64,13 +64,13 @@ vector<int> ParentStar::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //parent(syn, syn)
-			cout << "RIGHT IS SYNONYM" << endl;
+			//cout << "RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
-			cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
+			//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
 			tempResult = getAllParents(right, pkb);
-			cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
+			//cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
 			result = filterType(tempResult, leftChildType, pkb);
-			cout << "NUMBER OF RESULT is: " << result.size() << endl;
+			//cout << "NUMBER OF RESULT is: " << result.size() << endl;
 			return result;
 		}
 		else { // parent(synonym, invalid)
@@ -107,12 +107,12 @@ vector<int> ParentStar::getAllParents(vector<int> list, PKB* pkb) {
 	unordered_set<int> allParents;
 	for (int i = 0; i < list.size(); i++) {
 		parents = pkb->getParentStar(list[i]);
-		cout << "Iteration: " << i << endl;
+		//cout << "Iteration: " << i << endl;
 		for (int j = 0; j < parents.size(); j++) {
 			allParents.insert(parents[j]);
 		}
 	}
-	cout << "HERE" << endl;
+	//cout << "HERE" << endl;
 	vector<int> listParent(allParents.size());
 	copy(allParents.begin(), allParents.end(), listParent.begin());
 	return listParent;
@@ -132,9 +132,11 @@ vector<int> ParentStar::filterType(vector<int> list, Type type, PKB* pkb) {
 }
 
 bool ParentStar::isStmtType(int stmtId, Type type, PKB* pkb) {
+	if (stmtId < 1)
+		return false;
 	switch (type) {
 	case WHILES:
-		cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
+	//	cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
 		return pkb->isStmtInAssignTable(stmtId);

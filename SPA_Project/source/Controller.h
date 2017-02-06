@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 
 #include "PKB.h"
 
@@ -10,8 +11,8 @@ class Controller {
 public:
 	Controller();
 	void processSource(string);
-	string processQuery(string);
+	list<string> processQuery(string);
 	~Controller();
-
+private:
 	PKB *pkb;
 };

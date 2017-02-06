@@ -2,6 +2,12 @@
 #include "Parser.h"
 #include "DesignExtractor.h"
 
+//to delete=========================
+#include "Pattern.h"
+#include "Type.h"
+#include "Result.h"
+#include "PostProcessor.h"
+//==================================
 
 Controller::Controller() {
 	pkb = new PKB();
@@ -23,7 +29,7 @@ void Controller::processSource(string source) {
 	cout << "finish parsing" << endl;
 }
 
-string Controller::processQuery(string source) {
+list<string> Controller::processQuery(string source) {
 
-	return "";
+	return list<string>();
 }

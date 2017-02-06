@@ -14,7 +14,7 @@ FollowStar::FollowStar(string lc, Type lcType, string rc, Type rcType) {
 //select synonym is right argument
 
 vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
-	cout << "RIGHT" << endl;
+	//cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
 		if (isNumber(leftChildType)) {
 			int leftArgument = stoi(leftChild);
@@ -29,17 +29,17 @@ vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) {
-			cout << endl << "FOLLOWSTAR: " << endl;
-			pkb->printFollows();
-			cout << endl << endl;
-			cout << " LEFT IS SYNONYM" << endl;
+			//cout << endl << "FOLLOWSTAR: " << endl;
+			//pkb->printFollows();
+			//cout << endl << endl;
+			//cout << " LEFT IS SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
-			cout << "NUMBER OF LEFT IS " << left.size() << endl;
+			//cout << "NUMBER OF LEFT IS " << left.size() << endl;
 			tempResult = getAllFollowsStar(left, pkb);
-			cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
-			for (auto& it : tempResult) {
-				cout << it << " " << endl;
-			}
+			//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+			//for (auto& it : tempResult) {
+				//cout << it << " " << endl;
+			//}
 			result = filterType(tempResult, rightChildType, pkb);
 			return result;
 		}
@@ -55,7 +55,7 @@ vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
 
 //select synonym is left argument
 vector<int> FollowStar::getWithRelToLeft(PKB* pkb) {
-	cout << "LEFT" << endl;
+	//cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
@@ -70,11 +70,11 @@ vector<int> FollowStar::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // follows(syn,syn)
-			cout << " RIGHT IS SYNONYM" << endl;
+			//cout << " RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
-			cout << "NUMBER OF RIGHT IS " << right.size() << endl;
+			//cout << "NUMBER OF RIGHT IS " << right.size() << endl;
 			tempResult = getAllFollowedByStar(right, pkb);
-			cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+			//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
 			result = filterType(tempResult, leftChildType, pkb);
 			return result;
 		}
@@ -134,6 +134,8 @@ vector<int> FollowStar::filterType(unordered_set<int> list, Type type, PKB* pkb)
 }
 
 bool FollowStar::isStmtType(int stmtId, Type type, PKB* pkb) {
+	if (stmtId < 1)
+		return false;
 	switch (type) {
 	case WHILES:
 		return pkb->isStmtInWhileTable(stmtId);

@@ -5,7 +5,7 @@ PostProcessor::PostProcessor(PKB *pkbSource) {
 	pkb = pkbSource;
 }
 
-string PostProcessor::processResult(Result result) {
+list<string> PostProcessor::processResult(Result result) {
 	switch (result.getResultType()) {
 	case BOOLEAN:
 		return formatBoolResult(result);
@@ -25,50 +25,44 @@ string PostProcessor::processResult(Result result) {
 	}
 }
 
-string PostProcessor::formatBoolResult(Result result) {
+list<string> PostProcessor::formatBoolResult(Result result) {
+	list<string> resultLists;
 	if (result.getResultBool()) {
-		return STRING_TRUE;
+		resultLists.push_back(STRING_TRUE);
 	}
 	else {
-		return STRING_FALSE;
+		resultLists.push_back(STRING_FALSE);
 	}
+	return resultLists;
 }
 
-string PostProcessor::formatVarResult(Result result) {
+list<string> PostProcessor::formatVarResult(Result result) {
+	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
-	if (resultVector.empty()) {
-		return STRING_EMPTY;
-	}
 
-	string resultStr = pkb->getVarName(resultVector[FIRST_INDEX]);
-	for (int index = SECOND_INDEX; index < (int)resultVector.size(); index++) {
-		resultStr += STRING_COMMA + pkb->getVarName(resultVector[index]);
+	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
+		resultLists.push_back(pkb->getVarName(resultVector[index]));
 	}
-	return resultStr;
+	return resultLists;
 }
 
-string PostProcessor::formatConstResult(Result result) {
+list<string> PostProcessor::formatConstResult(Result result) {
+	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
-	if (resultVector.empty()) {
-		return STRING_EMPTY;
-	}
 
-	string resultStr = to_string(pkb->getConstValueById(resultVector[FIRST_INDEX]));
-	for (int index = SECOND_INDEX; index < (int)resultVector.size(); index++) {
-		resultStr += STRING_COMMA + to_string(pkb->getConstValueById(resultVector[index]));
+	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
+		resultLists.push_back(to_string(pkb->getConstValueById(resultVector[index])));
 	}
-	return resultStr;
+	return resultLists;
 }
 
-string PostProcessor::formatStmtResult(Result result) {
+list<string> PostProcessor::formatStmtResult(Result result) {
+	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
-	if (resultVector.empty()) {
-		return STRING_EMPTY;
-	}
 
-	string resultStr = to_string(resultVector[FIRST_INDEX]);
-	for (int index = SECOND_INDEX; index < (int)resultVector.size(); index++) {
-		resultStr += STRING_COMMA + to_string(resultVector[index]);
+	string resultStr = to_string(resultVector[INITIAL_INDEX]);
+	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
+		resultLists.push_back(to_string(resultVector[index]));
 	}
-	return resultStr;
+	return resultLists;
 }

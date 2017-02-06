@@ -18,13 +18,15 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 Result QueryEvaluator::evaluate(QueryTree qt) {
 
 	
-	vector<Clause*> allList = qt.getAllList();
-	bool isCommon = qt.isCommon();
+	//vector<Clause*> allList = qt.getAllList();
+	//bool isCommon = qt.isCommon();
 	unordered_map<string, Type> selectMap = qt.getSelect();
-	unordered_map<string, Type> commonVarMap = qt.getCommonVar();
+	//unordered_map<string, Type> commonVarMap = qt.getCommonVar();
 
-	vector<Clause*> limitList;// = qt.getLimits();
-	vector<Clause*> unlimitList;// = qt.getUnLimits();
+	//vector<Clause*> limitList;// = qt.getLimits();
+	//vector<Clause*> unlimitList;// = qt.getUnLimits();
+	vector<Clause*> limitList = qt.getLimits();
+	vector<Clause*> unlimitList= qt.getUnLimits();
 	vector<int> evaluateResults, oldEvaluateResults;
 	Result returnResults;
 	bool firstMap = true;
@@ -34,7 +36,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 	for (auto select : selectMap) {
 		string selectString = select.first;
 		Type selectType = select.second;
-		
+		/*
 		for (int i = 0; i < (int)allList.size(); i++) {
 			Clause* c = allList[i];
 			Type leftChildType = c->getLeftChildType();
@@ -64,7 +66,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 				}
 			}
 		}
-
+		*/
 
 		if (evaluateUnlimitList(unlimitList) == false) {
 		

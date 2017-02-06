@@ -11,7 +11,6 @@
 #include "QueryTree.h"
 #include "PKB.h"
 #include "Clause.h"
-#include "ClauseType.h"
 #include "Modifies.h"
 #include "Result.h"
 #include "VectorSetOperation.h"

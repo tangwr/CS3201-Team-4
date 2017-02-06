@@ -1,10 +1,9 @@
-#include "ClauseType.h"
 #include "Type.h"
 #include "Uses.h"
 #include "Clause.h"
 
 Uses::Uses(string lc, Type lcType, string rc, Type rcType) {
-	cltype = USES;
+	//cltype = USES;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;

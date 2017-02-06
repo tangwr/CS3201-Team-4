@@ -39,7 +39,6 @@
     <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\CallTable.h" />
     <ClInclude Include="..\source\Clause.h" />
-    <ClInclude Include="..\source\ClauseType.h" />
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Controller.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />

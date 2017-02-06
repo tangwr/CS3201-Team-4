@@ -188,9 +188,6 @@
     <ClInclude Include="..\source\Clause.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\ClauseType.h">
-      <Filter>Header Files\PQL</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Type.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>

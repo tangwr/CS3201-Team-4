@@ -86,7 +86,8 @@ string Controller::processQuery(string source) {
 	
 	qt.insertSelect("s", STMT);
 	//Modifies *m = new Modifies("s", WHILES, "z", STRINGVARIABLE);
-	Uses *m = new Uses("s", STMT, "x", STRINGVARIABLE);
+	//Uses *m = new Uses("s", STMT, "x", STRINGVARIABLE);
+	Modifies *m = new Modifies("s", STMT, "x", STRINGVARIABLE);
 	qt.insertLimits(m); //for select results
 	//qt.insertUnLimits(m); //for true / false results
 	//Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);

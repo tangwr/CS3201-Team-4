@@ -6,7 +6,6 @@
 #include <iterator>
 #include <algorithm>
 #include "Clause.h"
-#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
 #include "VectorSetOperation.h"
@@ -15,7 +14,7 @@ using namespace std;
 
 class Modifies : public Clause {
 private:
-	ClauseType cltype;
+	//ClauseType cltype;
 	string leftChild;
 	string rightChild;
 	Type leftChildType;

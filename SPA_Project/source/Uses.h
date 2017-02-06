@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 #include "Clause.h"
-#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
 #include "VectorSetOperation.h"
@@ -13,7 +12,7 @@ using namespace std;
 
 class Uses : public Clause {
 private:
-	ClauseType cltype;
+	//ClauseType cltype;
 	string leftChild;
 	string rightChild;
 	Type leftChildType;

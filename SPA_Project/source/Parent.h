@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 #include "Clause.h"
-#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
 
@@ -12,7 +11,6 @@ using namespace std;
 
 class Parent : public Clause {
 private:
-	ClauseType cltype;
 	string leftChild;
 	string rightChild;
 	Type leftChildType;

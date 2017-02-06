@@ -191,7 +191,7 @@ vector<int> PKB::getAllModifiesStmt() {
 bool PKB::isStmtInModifiesTable(int stmtId) {
     return this->modifiesTable.checkStmtExist(stmtId);
 }
-bool PKB::ckeckStmtVarModifiesRelExist(int stmtId, int varId) {
+bool PKB::checkStmtVarModifiesRelExist(int stmtId, int varId) {
     return this->modifiesTable.checkStmtVarRelExist(stmtId, varId);
 }
 
@@ -258,7 +258,7 @@ vector<int> PKB::getAllUsesStmt() {
 bool PKB::isStmtInUsesTable(int stmtId) {
     return this->usesTable.checkStmtExist(stmtId);
 }
-bool PKB::ckeckStmtVarUseRelExist(int stmtId, int varId) {
+bool PKB::checkStmtVarUseRelExist(int stmtId, int varId) {
     return this->usesTable.checkStmtVarRelExist(stmtId, varId);
 }
 

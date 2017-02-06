@@ -100,7 +100,7 @@ public:
 	//Modifies table
 	bool setStmtModifyRel(int stmtId, int varId);
 	bool setProcModifyRel(int procId, int varId);
-	bool setModifyDirectRelProc(int stmtId, int varId);
+	bool setModifyDirectRelProc(int procId, int varId);
     bool insertStmtModifiesVar(int stmtId, int varId);
 
 	vector<int> getModifiedByStmt(int varId);
@@ -110,7 +110,7 @@ public:
 
     vector<int> getAllModifiesStmt();
     bool isStmtInModifiesTable(int stmtId);
-    bool ckeckStmtVarModifiesRelExist(int stmtId, int varId);
+    bool checkStmtVarModifiesRelExist(int stmtId, int varId);
 
 
 	//Uses table
@@ -132,7 +132,7 @@ public:
     vector<int> getAllUsesStmt();
 
     bool isStmtInUsesTable(int stmtId);
-    bool ckeckStmtVarUseRelExist(int stmtId, int varId);
+    bool checkStmtVarUseRelExist(int stmtId, int varId);
 
 
 	//Assign table

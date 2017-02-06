@@ -28,12 +28,14 @@ DesignExtractor::DesignExtractor(PKB* pkbSource) {
 void DesignExtractor::extractStarRelations() {
 	extractFollowsStar();
 	extractParentStar();
+	extractModifiesStar();
+	extractUsesStar();
 }
 
 void DesignExtractor::extractFollowsStar() {
 	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), followStar = 0;
 	
-	for (int i = 1; i < numOfStatements; i++) {
+	for (int i = 1; i <= numOfStatements; i++) {
 		statementNum = i;
 		followStar = pkb->getFollowDirect(statementNum);
 		followStar = pkb->getFollowDirect(followStar);
@@ -47,12 +49,12 @@ void DesignExtractor::extractFollowsStar() {
 
 void DesignExtractor::extractParentStar() {
 	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), parentStar = 0;
-	for (int i = 0; i < numOfStatements; i++) {
+	for (int i = 1; i <= numOfStatements; i++) {
 		statementNum = i;
 		parentStar = pkb->getParentDirect(statementNum);
 		parentStar = pkb->getParentDirect(parentStar);
 		while (parentStar != -1) {
-			pkb->insertParentRel(statementNum, parentStar);
+			pkb->insertParentRel(parentStar, statementNum);
 			parentStar = pkb->getParentDirect(parentStar);
 		}
 	}
@@ -69,25 +71,13 @@ void DesignExtractor::extractModifiesStar() {
 
         for (int currentVarId : currentVarIdLst) {
             for (int parentStmtId : currentStmtParentStar) {
-                if ((pkb->isStmtInModifiesTable(parentStmtId)
-                    && pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId))) {
+                //if ((pkb->isStmtInModifiesTable(parentStmtId)
+                //    && pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId))) {
+                //}
 
-                    pkb->insertStmtModifiesVar(parentStmtId, currentVarId);
-                }
-                /*
-                if (pkb->isStmtInModifiesTable(parentStmtId)) {
-                    if (pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId)) {
-
-                    }
-                    else {
-                        pkb->insertStmtModifiesVar(parentStmtId, currentVarId);//method not implemented
-                    }
-                }
-                else {
-                    pkb->insertStmtModifiesVar(parentStmtId, currentVarId);
-                }
-                //pkb->setModifyDirectRelProc(stmt, var);
-                */
+				if (!pkb->checkStmtVarModifiesRelExist(parentStmtId, currentVarId)) {
+					pkb->insertStmtModifiesVar(parentStmtId, currentVarId);
+				}
             }
         }
     }
@@ -102,10 +92,13 @@ void DesignExtractor::extractUsesStar() {
         for (int currentVarId : currentVarIdLst) {
             for (int parentStmtId : currentStmtParentStar) {
                 //only if parent statement in table and already uses given varId then do not insert, else insert
-                if ((pkb->isStmtInUsesTable(parentStmtId)
-                    && pkb->ckeckStmtVarUseRelExist(parentStmtId, currentVarId))) {
+               // if ((pkb->isStmtInUsesTable(parentStmtId)
+                //    && pkb->checkStmtVarUseRelExist(parentStmtId, currentVarId))) {
 
-                    pkb->insertStmtUsesVar(parentStmtId, currentVarId);
+//                    pkb->insertStmtUsesVar(parentStmtId, currentVarId);
+
+				if (!pkb->checkStmtVarUseRelExist(parentStmtId, currentVarId)) {
+					pkb->insertStmtUsesVar(parentStmtId, currentVarId);
                 }
             }
         }

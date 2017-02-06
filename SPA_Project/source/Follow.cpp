@@ -1,4 +1,3 @@
-#include "ClauseType.h"
 #include "Type.h"
 #include "Follow.h"
 #include "Clause.h"
@@ -6,7 +5,6 @@
 using namespace std;
 
 Follow::Follow(string lc, Type lcType, string rc, Type rcType) {
-	cltype = FOLLOW;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;

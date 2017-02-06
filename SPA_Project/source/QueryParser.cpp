@@ -60,7 +60,7 @@ QueryParser::QueryParser() {
 
 }
 bool QueryParser::isValid(string query) {
-	//string test = "    assign a; Select a such that Uses(3, \"y\")";
+	//string test = "    assign a; Select a such that Uses(3, \"y\") pattern a(_, _\"x\"_)";
 	string q = trim(query);
 	cout<< "the trim query is: " <<q;
 	vector<string> resultStr = splitTheString(q, ';');
@@ -235,13 +235,13 @@ bool QueryParser::checkRelation(string checkingStr) {
 		return false;
 	}
 
-	arrClauses = splitTheStringIntoParts(arrClauses.at(1), ')', 2);//a,v and pattern a
+	vector<string> arrClauseTemp = splitTheStringIntoParts(arrClauses.at(1), ')', 2);//a,v and pattern a
 
-	if (arrClauses.size() != 2) {
+	if (arrClauseTemp.size() != 2) {
 		return false;
 	}
-	cout << "\n" << "5:" << arrClauses.at(0) << "\n" << "6:" << arrClauses.at(1)<<"W";
-	vector<string> arrVariables = splitTheString(arrClauses.at(0), ',');// a,v
+	cout << "\n" << "5:" << arrClauseTemp.at(0) << "\n" << "6:" << arrClauseTemp.at(1)<<"W";
+	vector<string> arrVariables = splitTheString(arrClauseTemp.at(0), ',');// a,v
 
 	if (arrVariables.size() != 2) {
 		return false;
@@ -250,24 +250,28 @@ bool QueryParser::checkRelation(string checkingStr) {
 	if (!checkChildren(relType, arrVariables)) {
 		return false;
 	}
-	cout << "\n" << "7:" << arrClauses.at(0) << "\n" << "8:" << arrClauses.at(1) << "W";
+	cout << "\n" << "7:" << arrClauseTemp.at(0) << "\n" << "8:" << arrClauseTemp.at(1) << "W";
+
 	//for only such that clauses
-	if (arrClauses.at(1).empty()) {
+	if (!strcmp(arrClauseTemp.at(1).c_str(), "")) {
 		cout << "\n" << "for only such that clause";
 		return true;
 	}
+	
 
-	cout << "\n" << "the rest =" << arrClauses.at(1)<<"CC";
+	cout << "\n" << "the rest =" << arrClauses.at(1);
 	//checkingStr = trim(arrClauses.at(1));
-
-	if((arrClauses.at(1).compare("pattern a")) == 0) {
-		vector<string> patternClauses = splitTheStringIntoParts(arrClauses.at(1), ' ', 2);// check the pattern after such that clause
+	if(!strcmp(arrClauseTemp.at(1).c_str(), "pattern a")) {
+	//if((arrClauses.at(1).compare("pattern a")) == 0) {
+		vector<string> patternClauses = splitTheStringIntoParts(arrClauseTemp.at(1), ' ', 2);// check the pattern after such that clause
 		if (patternClauses.at(0).compare("pattern") == 0) {
 			if (patternClauses.at(1).compare("a") == 0) { // only for the pattern a(....) For iteration 1;
 				cout << "\n" << "pattern liao";
 				string relType = "pattern";
 				string syn = "a";
 				Type synType = ASSIGN;
+				cout << "\n" << "pattern TRY";
+				cout << "\n" << arrClauses.at(2);
 				string passStr = arrClauses.at(2);
 				cout << "\n" << "passStr: " << passStr;
 				bool isPattern = checkPattern(relType, syn, synType, passStr);
@@ -280,6 +284,9 @@ bool QueryParser::checkRelation(string checkingStr) {
 		else {
 			return false;
 		}
+	}
+	else {
+		return false;
 	}
 	cout << "\n" << "can go to here";
 	return true;
@@ -494,6 +501,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 	bool isLimit = false;
 
 	if (queryTree.getSelect().count(syn)) {
+		cout << "\n" << "syn is selected";
 		isLimit = true;
 	}
 	if (syn.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty()) {
@@ -505,6 +513,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 	//set the left child of pattern
 	leftChild = syn;
 	lcType = getVarType(leftChild);
+	cout << "\n" << "lcType = " << lcType;
 	leftChildType = getTypeOfChild(lcType);
 
 
@@ -514,7 +523,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 		return false;
 	}
 
-
+	cout << "\n" << "1: " << arrPatterns.at(0) << "2: " << arrPatterns.at(1);
 	for (int i = 0; i < arrPatterns.size(); i++) {
 		if (i == 0) {
 			if (isVarNameExists(arrPatterns.at(0))) {
@@ -534,17 +543,21 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 				//patterna(v,_), now v is the leftChild; 
 			}
 			else if (arrPatterns.at(0).compare("_") == 0) {
-				rightChild = arrPatterns.at(0);
-				rcType = getVarType(rightChild);
-				rightChildType = getTypeOfChild(rcType);
+				cout << "\n" << "comes to here";
+				rightChild = arrPatterns.at(0);	
+				rightChildType = ANYTHING;
 			}
 			else if (isStringVar(arrPatterns.at(0))) {
 				rightChild = arrPatterns.at(0).substr(1, arrPatterns.at(0).size() - 1);// for checing stringVar
 				rightChildType = STRINGVARIABLE;
 			}
+			else {
+				return false;
+			}
 		}
 		else {
 			//check the last part of the patterna(..., .....)
+			cout << "\n" << "String varible for pattern here";
 			if (arrPatterns.at(1).find(")") == string::npos) {
 				return false;
 			}
@@ -553,21 +566,28 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 				return false;
 			}
 			else {
+
 				if (PatternChild.at(0).compare("_") == 0) {
 					factor = PatternChild.at(0);
-					string facType = getVarType(factor);
-					factorType = getTypeOfChild(facType);
+					factorType = ANYTHING;
 				}
 				else if (isBothUnderScore(PatternChild.at(0))) {
+					cout << "\n" << "come to Both underSocre";
 					isUnderscore = true;
 					string strVar = PatternChild.at(0).substr(1, PatternChild.at(0).size() - 2);
+					cout << "\n" << "strVar : " << strVar;
 					string factorValue = strVar.substr(1, strVar.size() - 2);
+					cout << "\n" << "factorValue : " << factorValue;
 					factor = factorValue;
 					factorType = STRINGVARIABLE;
 				}
 				else if (isStringExpression(PatternChild.at(0))) {
 					factor = PatternChild.at(0).substr(1, PatternChild.at(0).size() - 2);
+					cout << "\n" << "factor = "<<factor;
 					factorType = STRINGVARIABLE;
+				}
+				else {
+					return false;
 				}
 			}
 		}
@@ -591,6 +611,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 		queryTree.setIsComonVar(true);
 	}
 	//create a pattern obj
+	cout << "\n" << "insert Pattern liao";
 	Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
 	if (isLimit) {
 		queryTree.getLimits().push_back(pt);
@@ -656,8 +677,7 @@ bool QueryParser::checkPattern2(string checkingStr) {
 					}
 					else if (arrPatterns.at(0).compare("_") == 0) {
 						rightChild = arrPatterns.at(0);
-						rcType = getVarType(rightChild);
-						rightChildType = getTypeOfChild(rcType);
+						rightChildType = ANYTHING;
 					}
 					else if (isStringVar(arrPatterns.at(0))) {
 						rightChild = arrPatterns.at(0).substr(1, arrPatterns.at(0).size() - 1);// for checing stringVar
@@ -668,8 +688,7 @@ bool QueryParser::checkPattern2(string checkingStr) {
 					//check the part of the patterna(..., here) (pattern before such that)
 					if (arrPatterns.at(1).compare("_") == 0) {
 						factor = arrPatterns.at(1);
-						string facType = getVarType(factor);
-						factorType = getTypeOfChild(facType);
+						factorType = ANYTHING;
 					}
 					else if (isBothUnderScore(arrPatterns.at(1))) {
 						isUnderscore = true;
@@ -832,17 +851,10 @@ bool QueryParser::isStringVar(string str) {
 	return isValidVarName(varName);
 }
 bool QueryParser::isBothUnderScore(string str) {
-	if (!(str.front() == SYMBOL_UNDERSCORE && str.back() == SYMBOL_UNDERSCORE)) {
-		return false;
+	if ((str.front() == SYMBOL_UNDERSCORE && str.back() == SYMBOL_UNDERSCORE)) {
+		return true;
 	}
-
-	string varName = str.substr(1, str.size() - 2);
-
-	if (!(varName.front() == SYMBOL_QUOTE && varName.back() == SYMBOL_QUOTE)) {
-		return false;
-	}
-
-	return true;
+	return false;
 }
 bool QueryParser::isStringExpression(string str) {
 	if (!(str.front() == SYMBOL_QUOTE && str.back() == SYMBOL_QUOTE)) {

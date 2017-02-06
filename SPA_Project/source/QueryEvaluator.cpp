@@ -17,15 +17,17 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 //vector<int> QueryEvaluator::evaluate(QueryTree qt) {
 Result QueryEvaluator::evaluate(QueryTree qt) {
 
-	vector<Clause*> limitList;// = qt.getLimits();
-	vector<Clause*> unlimitList;// = qt.getUnLimits();
+	
 	vector<Clause*> allList = qt.getAllList();
 	bool isCommon = qt.isCommon();
 	unordered_map<string, Type> selectMap = qt.getSelect();
 	unordered_map<string, Type> commonVarMap = qt.getCommonVar();
-	vector<int> evaluateResults;
-	Result returnResults;
 
+	vector<Clause*> limitList;// = qt.getLimits();
+	vector<Clause*> unlimitList;// = qt.getUnLimits();
+	vector<int> evaluateResults, oldEvaluateResults;
+	Result returnResults;
+	bool firstMap = true;
 
 	
 
@@ -85,14 +87,22 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 
 		evaluateResults = evaluateLimitList(limitList, selectType);
 
+		//for 2 or more select type
+		if (firstMap == true) {
+			oldEvaluateResults = evaluateResults;
+		}
+		else {
+			evaluateResults = VectorSetOperation<int>::setIntersection(oldEvaluateResults, evaluateResults);
+		}
+
 		returnResults.setResultVector(evaluateResults);
 		returnResults.setResultType(selectType);
 		returnResults.setResultBool(true);
 		
-	
-		return returnResults;
 	}
 	
+	
+
 	return returnResults;
 }
 

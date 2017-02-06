@@ -1,8 +1,44 @@
 <?xml-stylesheet type="text/xsl" href="analysis.xsl"?>
 <test_results>
 <info>
-<name>AutoTester</name><parsing_time_taken>351.000000</parsing_time_taken>
+<name>AutoTester</name><parsing_time_taken>156.000000</parsing_time_taken>
 </info>
 <queries>
 <query>
 <id ReturnTuple="1" Parent="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">1</id><querystr><![CDATA[while w; Select w such that Parent(w, 7)]]></querystr>
+<stuans></stuans>
+<correct></correct>
+<time_taken>11030.000000</time_taken>
+<failed>
+<missing></missing>
+<additional></additional>
+<summary>
+<expected>0</expected>
+<matched>0</matched>
+<missing>0</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" Follows="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">2</id><querystr><![CDATA[if ifs; Select ifs such that Follows(5, ifs)]]></querystr>
+<timeout/>
+</query>
+<query>
+<id ReturnTuple="1" Parentstar="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">3</id><querystr><![CDATA[assign a; Select a such that Parent*(4, a)]]></querystr>
+<stuans></stuans>
+<correct>5,7,8,9,11</correct>
+<time_taken>79294.000000</time_taken>
+<failed>
+<missing>11,5,7,8,9</missing>
+<additional></additional>
+<summary>
+<expected>5</expected>
+<matched>0</matched>
+<missing>5</missing>
+<additional>1</additional>
+</summary>
+</failed>
+</query>
+<query>
+<id ReturnTuple="1" Followsstar="1" SuchThat="1" CondNum="3" RelNum="1" comment="comment">4</id><querystr><![CDATA[call c; Select c such that Follows*(1, c)]]></querystr>

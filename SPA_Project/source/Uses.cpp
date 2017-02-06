@@ -64,7 +64,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	case STRINGVARIABLE:
 		int varId = pkb->getVarId(rightChild);
 		rightList = pkb->getStmtUsesVar(varId);
-		int i = 0;
+		
 		break;
 	}
 
@@ -80,7 +80,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		
 	}
 
-
+	/*
 	if (leftChildType == ASSIGN ) {
 		vector<int> parentList;
 		vector<int> temp;
@@ -92,7 +92,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 			leftList = VectorSetOperation<int>::setUnion(leftList, temp);
 		}
 	}
-
+	*/
 
 
 	if ((leftChildType != ASSIGN ) && (rightChildType == STRINGVARIABLE || rightChildType == VARIABLE || rightChildType == ANYTHING)) {

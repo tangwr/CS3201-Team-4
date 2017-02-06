@@ -19,24 +19,32 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 
 	
 	//vector<Clause*> allList = qt.getAllList();
-	//bool isCommon = qt.isCommon();
+	bool isCommon = qt.getIsComonVar();
 	unordered_map<string, Type> selectMap = qt.getSelect();
-	//unordered_map<string, Type> commonVarMap = qt.getCommonVar();
+	unordered_map<string, Type> commonVarMap = qt.getComonVar();
 
-	//vector<Clause*> limitList;// = qt.getLimits();
-	//vector<Clause*> unlimitList;// = qt.getUnLimits();
-	vector<Clause*> limitList = qt.getLimits();
-	vector<Clause*> unlimitList= qt.getUnLimits();
+	vector<Clause*> limitList;// = qt.getLimits();
+	vector<Clause*> unlimitList;// = qt.getUnLimits();
+	vector<Clause*> rawLimitList = qt.getLimits();
+	vector<Clause*> rawUnLimitList= qt.getUnLimits();
 	vector<int> evaluateResults, oldEvaluateResults;
 	Result returnResults;
 	bool firstMap = true;
 
-	
+	vector<Clause*> allList;
+
+	for (auto c : rawLimitList) {
+		allList.push_back(c);
+	}
+	for (auto c : rawUnLimitList) {
+		allList.push_back(c);
+	}
+
 
 	for (auto select : selectMap) {
 		string selectString = select.first;
 		Type selectType = select.second;
-		/*
+		
 		for (int i = 0; i < (int)allList.size(); i++) {
 			Clause* c = allList[i];
 			Type leftChildType = c->getLeftChildType();
@@ -66,7 +74,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 				}
 			}
 		}
-		*/
+		
 
 		if (evaluateUnlimitList(unlimitList) == false) {
 		

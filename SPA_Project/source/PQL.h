@@ -15,7 +15,4 @@ public:
 	QueryTree getQuery(string query);
 	std::list<string> evaluate(QueryTree qt);
 	std::list<string> getResult(std::list<string> rs);
-}
-
-
-#pragma once
+};

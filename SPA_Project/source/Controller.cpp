@@ -30,18 +30,18 @@ string Controller::processQuery(string source) {
 	vector<string> selectStr = { "s", "s", "s", "s", "s", "v" };
 	//vector<Type> selectType = { ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN };
 	//vector<Type> selectType = { STMT, STMT, STMT, STMT, STMT, STMT };
-	vector<Type> selectType = { STMT, STMT, STMT, STMT, STMT, VARIABLE };
+	//vector<Type> selectType = { STMT, STMT, STMT, STMT, STMT, VARIABLE };
 	//vector<Type> selectType = { ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN, VARIABLE };
-	//vector<Type> selectType = {WHILES, WHILES, WHILES, WHILES, WHILES, VARIABLE };
+	vector<Type> selectType = {WHILES, WHILES, WHILES, WHILES, WHILES, VARIABLE };
 	//vector<Type> selectType = { BOOLEAN, BOOLEAN, BOOLEAN, VARIABLE, VARIABLE, BOOLEAN };
 	//vector<Type> selectType = { INTEGER, INTEGER, INTEGER, ANYTHING, VARIABLE, VARIABLE };
 	//vector<Type> selectType = { INTEGER, INTEGER, INTEGER, VARIABLE, VARIABLE, INTEGER };
 	
 
 	vector<string> leftChild = { "s", "s", "s", "s", "s", "s" };
-	vector<Type> leftChildType = { STMT, STMT, STMT, STMT, STMT, STMT };
+	//vector<Type> leftChildType = { STMT, STMT, STMT, STMT, STMT, STMT };
 	//vector<Type> leftChildType = { ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN };
-	//vector<Type> leftChildType = { WHILES, WHILES, WHILES, WHILES, WHILES, WHILES };
+	vector<Type> leftChildType = { WHILES, WHILES, WHILES, WHILES, WHILES, WHILES };
 	//vector<string> leftChild = { "1", "1", "1", "1", "2", "3" };
 
 	//vector<string> leftChild = { "13", "13", "13", "14", "12", "13" };
@@ -61,7 +61,7 @@ string Controller::processQuery(string source) {
 		qt.insertSelect(selectStr[i], selectType[i]);
 		Modifies* m = new Modifies(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
 		//Uses* m = new Uses(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
-		
+		qt.setIsComonVar(false);
 		//qt.insertUnLimits(m); //check boolean list
 		qt.insertLimits(m); //get the results from seelct
 
@@ -83,11 +83,18 @@ string Controller::processQuery(string source) {
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
 	
-	qt.insertSelect("s", STMT);
-	//Modifies *m = new Modifies("s", WHILES, "z", STRINGVARIABLE);
-	//Uses *m = new Uses("s", STMT, "x", STRINGVARIABLE);
-	Modifies *m = new Modifies("s", STMT, "x", STRINGVARIABLE);
+	qt.insertSelect("a", ASSIGN);
+	qt.insertComonVar("v", VARIABLE);
+	qt.setIsComonVar(true);
+	Uses *m = new Uses("a", ASSIGN, "v", VARIABLE);
+	Pattern *p = new Pattern("a1", ASSIGN, "v", VARIABLE, true, "x", STRINGVARIABLE);
 	qt.insertLimits(m); //for select results
+	qt.insertLimits(p);
+
+	//Modifies *m = new Modifies("s", WHILES, "z", STRINGVARIABLE);
+	
+	//Modifies *m = new Modifies("s", ASSIGN, "x", STRINGVARIABLE);
+	
 	//qt.insertUnLimits(m); //for true / false results
 	//Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);
 	//qt.insertLimits(m2);

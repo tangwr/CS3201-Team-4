@@ -3,7 +3,7 @@
 
 #include <string>
 #include "Clause.h"
-#include "ClauseType.h"
+//#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
 
@@ -11,7 +11,7 @@ using namespace std;
 
 class ParentStar : public Clause {
 private:
-	ClauseType cltype;
+	//ClauseType cltype;
 	string leftChild;
 	string rightChild;
 	Type leftChildType;

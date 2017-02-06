@@ -126,11 +126,11 @@ x,y,z
 
 assign a;
 Select a such that Uses(a,"x")
-4,7,8,9,13,14
+7,8,9,13,14
 
 assign a;
 Select a such that Uses(a,"y")
-5,10,12,13,14
+5,10,13,14
 
 assign a;
 Select a such that Uses(a,"z")
@@ -171,7 +171,7 @@ Select w such that Uses(w,v)
 
 while w; variable v;
 Select v such that Uses(w,v)
-x,y
+x,y,z
 
 
 Select Boolean such that Uses(13,"x")

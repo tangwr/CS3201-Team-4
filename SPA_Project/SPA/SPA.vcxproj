@@ -27,6 +27,7 @@
     <ClCompile Include="..\source\PrefixEvaluator.cpp" />
     <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
+    <ClCompile Include="..\source\QueryParser.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\Result.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />
@@ -53,6 +54,7 @@
     <ClInclude Include="..\source\PrefixEvaluator.h" />
     <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
+    <ClInclude Include="..\source\QueryParser.h" />
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\Result.h" />
     <ClInclude Include="..\source\Tokenizer.h" />

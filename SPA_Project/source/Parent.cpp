@@ -197,12 +197,7 @@ bool Parent::hasRel(PKB *pkbSource) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // parent(syn,syn)
-			//if (pkb->hasParentRel()) {
-			return true;
-			//}
-			//else {
-			return false;
-			//}
+			return pkb->hasParentRel();
 		}
 		else { // parent(synonym, invalid)
 			return false; // return what!??!?!?!?!?!?!?!??!

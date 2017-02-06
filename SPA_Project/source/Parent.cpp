@@ -13,9 +13,9 @@ Parent::Parent(string lc, Type lcType, string rc, Type rcType) {
 }
 
 vector<int> Parent::getWithRelToRight(PKB* pkb) {
-	cout << "RIGHT" << endl;
+//	cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
-		cout << "RIGHT IS SYNONYM" << endl;
+		//cout << "RIGHT IS SYNONYM" << endl;
 		if (isNumber(leftChildType)) {
 			int leftArgument = stoi(leftChild);
 			if (!isValidStmtNo(leftArgument, pkb)) {
@@ -28,15 +28,15 @@ vector<int> Parent::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) { //parent(syn,syn)
-			cout << "LEFT IS SYNONYM" << endl;
+		//	cout << "LEFT IS SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
-			cout << "LEFT SIZE IS " << left.size() << endl;
+		//	cout << "LEFT SIZE IS " << left.size() << endl;
 			tempResult = getAllChildren(left, pkb);
-			cout << "TEMP SIZE IS " << tempResult.size() << endl;
-			cout << endl;
+			//cout << "TEMP SIZE IS " << tempResult.size() << endl;
+			//cout << endl;
 			result = filterType(tempResult, rightChildType, pkb);
-			cout << "RESULT SIZE IS " << result.size() << endl;
-			cout << endl;
+			//cout << "RESULT SIZE IS " << result.size() << endl;
+			//cout << endl;
 			return result;
 		}
 		else {
@@ -50,9 +50,9 @@ vector<int> Parent::getWithRelToRight(PKB* pkb) {
 }
 
 vector<int> Parent::getWithRelToLeft(PKB* pkb) {
-	cout << "LEFT" << endl;
+//	cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
-		cout << "LEFT IS SYNONYM" << endl;
+		//cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
 			if (!isValidStmtNo(rightArgument, pkb)) {
@@ -60,6 +60,7 @@ vector<int> Parent::getWithRelToLeft(PKB* pkb) {
 			}
 			else { //if right is valid statement number, parent(syn, num)
 				int parent = pkb->getParentDirect(rightArgument);
+				//cout << "PARENT" << parent << endl;
 				if (isStmtType(parent, leftChildType, pkb)) {
 					result.push_back(parent);
 					return result;
@@ -67,13 +68,13 @@ vector<int> Parent::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //parent(syn, syn)
-			cout << "RIGHT IS SYNONYM" << endl;
+			//cout << "RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
-			cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
+			//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
 			tempResult = getAllParents(right, pkb);
-			cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
+			//cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
 			result = filterType(tempResult, leftChildType, pkb);
-			cout << "NUMBER OF RESULT is: " << result.size() << endl;
+			//cout << "NUMBER OF RESULT is: " << result.size() << endl;
 			return result;
 		}
 		else { // parent(synonym, invalid)
@@ -96,7 +97,9 @@ vector<int> Parent::getAllChildren(vector<int> list, PKB* pkb) {
 	for (int i = 0; i < list.size(); i++) {
 		children = pkb->getChildren(list[i]);
 		for (int j = 0; j < children.size(); j++) {
-			allChildren.insert(children[j]);
+			if (children[j] != -1) {
+				allChildren.insert(children[j]);
+			}
 		}
 	}
 	vector<int> result(allChildren.size());
@@ -111,11 +114,11 @@ vector<int> Parent::getAllParents(vector<int> list, PKB* pkb) {
 	for (int i = 0; i < list.size(); i++) {
 		parent = pkb->getParentDirect(list[i]);
 		if (parent != -1) {
-			cout << parent << " added bcuz it is parent of " << list[i] << endl;
+			//cout << parent << " added bcuz it is parent of " << list[i] << endl;
 			allParents.insert(parent);
 		}
 		else {
-			cout << list[i] << " is not parent" << endl;
+			//cout << list[i] << " is not parent" << endl;
 		}
 	}
 	vector<int> listParent(allParents.size());
@@ -137,9 +140,11 @@ vector<int> Parent::filterType(vector<int> list, Type type, PKB* pkb) {
 }
 
 bool Parent::isStmtType(int stmtId, Type type, PKB* pkb) {
+	if (stmtId < 1)
+		return false;
 	switch (type) {
 	case WHILES:
-		cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
+		//cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
 		return pkb->isStmtInAssignTable(stmtId);

@@ -70,6 +70,14 @@ vector<int> ConstTable::getAllConst()
 {
 	return constList;
 }
+vector<int> ConstTable::getAllConstId() {
+    vector<int> allConstIdLst;
+    for (auto entry : this->constMap) {
+        allConstIdLst.push_back(entry.second);
+    }
+    return allConstIdLst;
+}
+
 
 void ConstTable::printContents()
 {

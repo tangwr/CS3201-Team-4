@@ -26,4 +26,5 @@ public:
 	int getValueById(int constId);
 	void printContents();
 	vector<int> getAllConst();
+    vector<int> getAllConstId();
 };

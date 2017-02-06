@@ -1,10 +1,8 @@
-#include "ClauseType.h"
 #include "Type.h"
 #include "FollowStar.h"
 #include "Clause.h"
 
 FollowStar::FollowStar(string lc, Type lcType, string rc, Type rcType) {
-	cltype = FOLLOWSTAR;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;

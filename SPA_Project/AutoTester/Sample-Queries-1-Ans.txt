@@ -91,9 +91,9 @@ variable v;
 Select v such that Modifies(2,v);
 y
 
-variable v;
-Select v such that Modifies(3,_);
-z
+
+Select Boolean such that Modifies(3,_);
+true
 
 
 //////////////////////////////////////////////////////////

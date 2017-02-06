@@ -14,14 +14,18 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 }
 
 
-vector<int> QueryEvaluator::evaluate(QueryTree qt) {
+//vector<int> QueryEvaluator::evaluate(QueryTree qt) {
+Result QueryEvaluator::evaluate(QueryTree qt) {
 
 	vector<Clause*> limitList = qt.getLimits();
 	vector<Clause*> unlimitList = qt.getUnLimits();
 	unordered_map<string, Type> selectMap = qt.getSelect();
 	vector<int> evaluateResults;
-	
-	
+	Result returnResults;
+
+	returnResults.setResultVector(evaluateResults);
+	returnResults.setResultType(STMT);
+	returnResults.setResultBool(false);
 
 	for (auto select : selectMap) {
 		string selectString = select.first;
@@ -29,20 +33,35 @@ vector<int> QueryEvaluator::evaluate(QueryTree qt) {
 		
 		
 		if (evaluateUnlimitList(unlimitList) == false) {
-			return evaluateResults;
+		
+			returnResults.setResultVector(evaluateResults);
+			returnResults.setResultType(selectType);
+			returnResults.setResultBool(false);
+			
+			return returnResults;
 		}
 		
 		if (limitList.size() == 0) {
 			evaluateResults = getAllSelectResults(selectType);
 
-			return evaluateResults;
+			returnResults.setResultVector(evaluateResults);
+			returnResults.setResultType(selectType);
+			returnResults.setResultBool(true);
+			
+			return returnResults;
 		}
 
 		evaluateResults = evaluateLimitList(limitList, selectType);
+
+		returnResults.setResultVector(evaluateResults);
+		returnResults.setResultType(selectType);
+		returnResults.setResultBool(true);
+		
 	
-		return evaluateResults;
+		return returnResults;
 	}
-	return evaluateResults;
+	
+	return returnResults;
 }
 
 /*Private methods*/
@@ -112,6 +131,10 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		break;
 	case VARIABLE:
 		result = pkb->getAllVarId();
+		break;
+	case BOOLEAN:
+		vector<int> booleanTrue = { 999 };
+		result = booleanTrue;
 		break;
 	}
 

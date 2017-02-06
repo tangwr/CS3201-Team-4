@@ -50,7 +50,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
 			stmtList = pkb->getStmtUsesVar(varId);
-			rightList = getUnionList(rightList, stmtList);
+			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList); //getUnionList(rightList, stmtList);
 		}
 		break;
 
@@ -58,7 +58,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
 			stmtList = pkb->getStmtUsesVar(varId);
-			rightList = getUnionList(rightList, stmtList);
+			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList);//getUnionList(rightList, stmtList);
 		}
 		break;
 	case STRINGVARIABLE:
@@ -74,9 +74,9 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		
 		for (int stmtId : leftList) {
 			parentList = pkb->getParentStar(stmtId);
-			temp = getUnionList(temp, parentList);
+			temp = VectorSetOperation<int>::setUnion(temp, parentList);//getUnionList(temp, parentList);
 		}
-		leftList = getUnionList(leftList, temp);
+		leftList = VectorSetOperation<int>::setUnion(leftList, temp);//getUnionList(leftList, temp);
 		
 	}
 
@@ -87,23 +87,12 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		if (rightChildType != VARIABLE && rightChildType != ANYTHING) {
 			for (int stmtId : leftList) {
 				parentList = pkb->getParentStar(stmtId);
-				temp = getUnionList(temp, parentList);
+				temp = VectorSetOperation<int>::setUnion(temp, parentList);//getUnionList(temp, parentList);
 			}
-			leftList = getUnionList(leftList, temp);
+			leftList = VectorSetOperation<int>::setUnion(leftList, temp);//getUnionList(leftList, temp);
 		}
 	}
 
-	/*
-	if (leftChildType == WHILES) {
-		vector<int> childrenList;
-		vector<int> temp;
-		for (int stmtId : leftList) {
-			childrenList = pkb->getChildrenStar(stmtId);
-			temp = getUnionList(temp, childrenList);
-		}
-		leftList = getUnionList(leftList, temp);
-	}
-	*/
 
 
 	if ((leftChildType != ASSIGN ) && (rightChildType == STRINGVARIABLE || rightChildType == VARIABLE || rightChildType == ANYTHING)) {
@@ -111,9 +100,9 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		vector<int> temp;
 		for (int stmtId : rightList) {
 			parentList = pkb->getParentStar(stmtId);
-			temp = getUnionList(temp, parentList);
+			temp = VectorSetOperation<int>::setUnion(temp, parentList);//getUnionList(temp, parentList);
 		}
-		rightList = getUnionList(rightList, temp);
+		rightList = VectorSetOperation<int>::setUnion(rightList, temp);// getUnionList(rightList, temp);
 	
 	}
 	
@@ -122,16 +111,16 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		vector<int> temp;
 		for (int stmtId : rightList) {
 			parentList = pkb->getParentStar(stmtId);
-			temp = getUnionList(temp, parentList);
+			temp = VectorSetOperation<int>::setUnion(temp, parentList);//getUnionList(temp, parentList);
 		}
-		rightList = getUnionList(rightList, temp);
+		rightList = VectorSetOperation<int>::setUnion(rightList, temp);//getUnionList(rightList, temp);
 
 	}
 	
 
 	//Get intersection of 2 list
-	result = getIntersectionList(leftList, rightList);
-	//result = getUnionList(leftList, rightList);
+	result = VectorSetOperation<int>::setIntersection(leftList, rightList);// getIntersectionList(leftList, rightList);
+
 
 	return result;
 }
@@ -167,12 +156,12 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	//Convert stmtId to varId
 	for (int stmtId : leftList) {
 		varIdList = pkb->getVarUsedByStmt(stmtId);
-		tempList = getUnionList(tempList, varIdList);
+		tempList = VectorSetOperation<int>::setUnion(tempList, varIdList);// getUnionList(tempList, varIdList);
 	}
 	leftList = tempList; //all converted to varId
 
 	//Get intersection of 2 list
-	result = getIntersectionList(leftList, rightList);
+	result = VectorSetOperation<int>::setIntersection(leftList, rightList);//getIntersectionList(leftList, rightList);
 	//return variable Id results
 	return result;
 }

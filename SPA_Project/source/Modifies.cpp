@@ -50,7 +50,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
 			stmtList = pkb->getModifiedByStmt(varId);
-			rightList = getUnionList(rightList, stmtList);
+			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList);// getUnionList(rightList, stmtList);
 		}
 		break;
 
@@ -58,7 +58,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
 			stmtList = pkb->getModifiedByStmt(varId);
-			rightList = getUnionList(rightList, stmtList);
+			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList);// getUnionList(rightList, stmtList);
 		}
 		break;
 	case STRINGVARIABLE:
@@ -73,13 +73,13 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		vector<int> temp;
 		for (int stmtId : rightList) {
 			parentList = pkb->getParentStar(stmtId);
-			temp = getUnionList(temp, parentList);
+			temp = VectorSetOperation<int>::setUnion(temp, parentList);//getUnionList(temp, parentList);
 		}
-		rightList = getUnionList(rightList, temp);
+		rightList = VectorSetOperation<int>::setUnion(rightList, temp);//getUnionList(rightList, temp);
 	}
 	
 	//Get intersection of 2 list
-	result = getIntersectionList(leftList, rightList);
+	result = VectorSetOperation<int>::setIntersection(leftList, rightList);//getIntersectionList(leftList, rightList);
 
 	return result;
 }
@@ -115,7 +115,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 		vector<int> temp;
 		for (int stmtId : leftList) {
 			childrenList = pkb->getChildrenStar(stmtId);
-			temp = getUnionList(temp, childrenList);
+			temp = VectorSetOperation<int>::setUnion(temp, childrenList);// getUnionList(temp, childrenList);
 		}
 		leftList = temp;
 	}
@@ -123,14 +123,14 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 	//Convert stmtId to varId
 	for (int stmtId : leftList) {
 		varIdList = pkb->getStmtModify(stmtId);
-		tempList = getUnionList(tempList, varIdList);
+		tempList = VectorSetOperation<int>::setUnion(tempList, varIdList);// getUnionList(tempList, varIdList);
 	}
 	leftList = tempList; //all converted to varId
 
 
 
 	//Get intersection of 2 list
-	result = getIntersectionList(leftList, rightList);
+	result = VectorSetOperation<int>::setIntersection(leftList, rightList);// getIntersectionList(leftList, rightList);
 	//return variable Id
 	return result;
 }

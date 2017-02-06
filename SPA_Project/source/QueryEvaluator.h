@@ -13,6 +13,9 @@
 #include "Clause.h"
 #include "ClauseType.h"
 #include "Modifies.h"
+#include "Result.h"
+#include "VectorSetOperation.h"
+#include "Result.h"
 
 
 
@@ -25,7 +28,8 @@ public:
 	QueryEvaluator();
 	void setPKB(PKB* pkbInput);
 	QueryEvaluator(PKB*);
-	vector<int> evaluate(QueryTree);
+	//vector<int> evaluate(QueryTree);
+	Result evaluate(QueryTree);
 
 private:
 	PKB* pkb;

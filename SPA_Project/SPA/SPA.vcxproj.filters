@@ -114,6 +114,12 @@
     <ClCompile Include="..\source\QueryTree.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Result.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\VectorSetOperation.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -186,6 +192,12 @@
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Type.h">
+      <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Result.h">
+      <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\VectorSetOperation.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
   </ItemGroup>

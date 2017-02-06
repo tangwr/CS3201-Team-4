@@ -7,6 +7,7 @@
 #include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
+#include "VectorSetOperation.h"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ private:
 	bool isRel;
 	vector<int> getUnionList(vector<int>, vector<int>);
 	vector<int> getIntersectionList(vector<int>, vector<int>);
+	
 
 public:
 

@@ -27,10 +27,12 @@
     <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
+    <ClCompile Include="..\source\Result.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\UsesTable.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
+    <ClCompile Include="..\source\VectorSetOperation.cpp" />
     <ClCompile Include="..\source\WhileTable.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -51,12 +53,14 @@
     <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryTree.h" />
+    <ClInclude Include="..\source\Result.h" />
     <ClInclude Include="..\source\Tokenizer.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\Type.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\UsesTable.h" />
     <ClInclude Include="..\source\VarTable.h" />
+    <ClInclude Include="..\source\VectorSetOperation.h" />
     <ClInclude Include="..\source\WhileTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

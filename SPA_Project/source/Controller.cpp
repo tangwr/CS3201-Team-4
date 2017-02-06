@@ -24,7 +24,7 @@ void Controller::processSource(string source) {
 string Controller::processQuery(string source) {
 	cout << "\n PQL" << endl;
 	
-	/*
+	
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
 	
@@ -34,7 +34,7 @@ string Controller::processQuery(string source) {
 	vector<Type> selectType = { STMT, STMT, STMT, STMT, STMT, VARIABLE };
 	//vector<Type> selectType = { ASSIGN, ASSIGN, ASSIGN, ASSIGN, ASSIGN, VARIABLE };
 	//vector<Type> selectType = {WHILES, WHILES, WHILES, WHILES, WHILES, VARIABLE };
-	//vector<Type> selectType = { BOOLEAN, BOOLEAN, BOOLEAN, VARIABLE, VARIABLE, VARIABLE };
+	//vector<Type> selectType = { BOOLEAN, BOOLEAN, BOOLEAN, VARIABLE, VARIABLE, BOOLEAN };
 	//vector<Type> selectType = { INTEGER, INTEGER, INTEGER, ANYTHING, VARIABLE, VARIABLE };
 	//vector<Type> selectType = { INTEGER, INTEGER, INTEGER, VARIABLE, VARIABLE, INTEGER };
 	
@@ -60,15 +60,17 @@ string Controller::processQuery(string source) {
 		QueryTree qt;
 			
 		qt.insertSelect(selectStr[i], selectType[i]);
-		//Modifies* m = new Modifies(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
-		Uses* m = new Uses(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
+		Modifies* m = new Modifies(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
+		//Uses* m = new Uses(leftChild[i], leftChildType[i], rightChild[i], rightChildType[i]);
 		
-		qt.insertUnLimits(m); //check boolean list
-		//qt.insertLimits(m); //get the results from seelct
+		//qt.insertUnLimits(m); //check boolean list
+		qt.insertLimits(m); //get the results from seelct
 
 		
-		vector<int> result = qe.evaluate(qt);
+		Result resultObj = qe.evaluate(qt);
 		
+		vector<int> result = resultObj.getResultVector();
+
 		for (int v : result) {
 			cout << v << " ";
 		}
@@ -76,8 +78,8 @@ string Controller::processQuery(string source) {
 		cout << " " << endl;
 		
 	}
-	*/
 	
+	/*
 	QueryTree qt;
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
@@ -89,7 +91,9 @@ string Controller::processQuery(string source) {
 	qt.insertLimits(m); //for true / false results
 	Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);
 	qt.insertLimits(m2);
-	vector<int> result = qe.evaluate(qt);
+
+	Result resultObj = qe.evaluate(qt);	
+	vector<int> result = resultObj.getResultVector();
 	
 	for (int i : result) {
 		cout << i << " ";
@@ -97,7 +101,7 @@ string Controller::processQuery(string source) {
 	if (result.empty()) {
 		cout << "none";
 	}
-	
+	*/
  	return "";
 }
 

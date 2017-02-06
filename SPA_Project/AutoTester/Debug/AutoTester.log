@@ -1,6 +1,2 @@
-﻿AutoTester_debug.lib(AutoTester.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(AutoTester.obj)' or at 'C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-AutoTester_debug.lib(Query.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(Query.obj)' or at 'C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-AutoTester_debug.lib(QueryManager.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(QueryManager.obj)' or at 'C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-AutoTester_debug.lib(Tokenizer.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(Tokenizer.obj)' or at 'C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-  AutoTester.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.exe
+﻿  AutoTester.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.exe
   AutoTester.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\AutoTester.pdb (Full PDB)

@@ -9,6 +9,7 @@
 #include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
+#include "VectorSetOperation.h"
 
 using namespace std;
 

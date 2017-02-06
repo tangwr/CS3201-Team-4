@@ -153,7 +153,7 @@ vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getTotalStmtNum();
 		vector<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i+1;
+			stmtList[i] = i + 1;
 		}
 		return stmtList;
 	}
@@ -192,11 +192,11 @@ bool FollowStar::hasRel(PKB *pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // follows*(syn,syn)
-			//if (pkb->getFollowDirect()) {
-				return true;
+											  //if (pkb->getFollowDirect()) {
+			return true;
 			//}
 			//else {
-				return false;
+			return false;
 			//}
 		}
 		else { // follows(synonym, invalid)

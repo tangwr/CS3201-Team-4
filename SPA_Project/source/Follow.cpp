@@ -188,12 +188,7 @@ bool Follow::hasRel(PKB *pkbSource) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // follows(syn,syn)
-											  //if (pkb->getFollowDirect()) {
-			return true;
-			//}
-			//else {
-			return false;
-			//}
+			return pkb->hasFollowRel();
 		}
 		else { // follows(synonym, invalid)
 			return false; // return what!??!?!?!?!?!?!?!??!

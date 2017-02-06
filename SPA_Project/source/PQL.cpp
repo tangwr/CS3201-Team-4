@@ -8,25 +8,25 @@ using namespace std;
 #include "PQL.h"
 #include "QueryParser.h"
 #include "QueryTree.h"
-#include "QueryEvaluator.h"
-#include "QueryForamtter.h"
+//#include "QueryEvaluator.h"
+//#include "QueryForamtter.h"
 
 PQL::PQL(PKB *pkbSource){
 	pkb = pkbSource;
 }
 
-QueryTree PQL::getQuery(String query) {
-	QueryParser qp = new QueryParser();
-	QueryTree qt = new QueryTree();
+QueryTree PQL::getQuery(string query) {
+	QueryParser qp;
+	QueryTree qt;
 	if(qp.isValid(query)) {
 		qt = qp.getQuery();
 	}
 	else {
-		print("invalid query");
+		cout<<"invalid query";
 	}
 	return qt;
 }
-
+/*
 std::list<string> PQL::evaluate(PKB *pkb,QueryTree qt){
 	QueryEvaluator qe = new QueryEvaluator(pkb);
 	std::list<string> result;
@@ -40,3 +40,4 @@ std::list<string> PQL::getResult(std::list<string> rs) {
 	result = qf.format(rs);
 	return result;
 }
+*/

@@ -3,20 +3,25 @@
 
 #include <string>
 #include <unordered_map>
+#include <iterator>
+#include <algorithm>
 #include "Clause.h"
 #include "Type.h"
 #include "PKB.h"
+#include "VectorSetOperation.h"
 
 using namespace std;
 
 class Modifies : public Clause {
 private:
+	//ClauseType cltype;
 	string leftChild;
 	string rightChild;
 	Type leftChildType;
 	Type rightChildType;
 	PKB *pkb;
 	bool isRel;
+	
 
 public:
 

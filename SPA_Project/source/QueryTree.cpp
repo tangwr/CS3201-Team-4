@@ -15,10 +15,15 @@ QueryTree::QueryTree() {
 	
 }
 
+void QueryTree::setIsComonVar(bool result) {
+	isCommonVar = result;
+}
 void QueryTree::insertSelect(string key, Type value) {
 	select.insert(std::pair<string, Type>(key, value));
 }
-
+void QueryTree::insertComonVar(string key, Type value) {
+	comonVar.insert(std::pair<string, Type>(key, value));
+}
 void QueryTree::insertLimits(Clause* limit) {
 	limits.push_back(limit);
 }
@@ -37,4 +42,10 @@ vector<Clause*> QueryTree::getUnLimits() {
 
 unordered_map<string, Type> QueryTree::getSelect() {
 	return select;
+}
+unordered_map<string, Type> QueryTree::getComonVar() {
+	return comonVar;
+}
+bool QueryTree::getIsComonVar() {
+	return isCommonVar;
 }

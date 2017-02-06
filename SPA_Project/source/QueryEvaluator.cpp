@@ -23,9 +23,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 	vector<int> evaluateResults;
 	Result returnResults;
 
-	returnResults.setResultVector(evaluateResults);
-	returnResults.setResultType(STMT);
-	returnResults.setResultBool(false);
+	
 
 	for (auto select : selectMap) {
 		string selectString = select.first;
@@ -118,8 +116,8 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 
 
 	switch (selectType) {
+	case PROG_LINE:
 	case STMT:
-		//need to deal with more condition
 		result = pkb->getAllStmtId();
 		break;
 	case ASSIGN:
@@ -133,8 +131,10 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		result = pkb->getAllVarId();
 		break;
 	case BOOLEAN:
-		vector<int> booleanTrue = { 999 };
-		result = booleanTrue;
+		result = { 999 }; //non empty value
+		break;
+	case CONSTANT:
+		result = pkb->getAllConstantId();
 		break;
 	}
 

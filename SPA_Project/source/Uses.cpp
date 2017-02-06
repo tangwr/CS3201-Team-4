@@ -28,6 +28,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	vector<int> result, leftList, rightList, varIdList, stmtList;
 
 	switch (leftChildType) {
+	case PROG_LINE:
 	case STMT:
 		leftList = pkb->getAllStmtId();
 		break;
@@ -68,7 +69,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		break;
 	}
 
-	if (leftChildType == STMT ) {
+	if (leftChildType == STMT || leftChildType == PROG_LINE) {
 		vector<int> parentList;
 		vector<int> temp;
 		
@@ -135,6 +136,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	}
 
 	switch (leftChildType) {
+	case PROG_LINE:
 	case STMT:
 		leftList = pkb->getAllStmtId();
 		break;

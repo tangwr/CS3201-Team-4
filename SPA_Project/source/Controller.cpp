@@ -24,7 +24,7 @@ void Controller::processSource(string source) {
 string Controller::processQuery(string source) {
 	cout << "\n PQL" << endl;
 	
-	
+	/*
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
 	
@@ -78,8 +78,8 @@ string Controller::processQuery(string source) {
 		cout << " " << endl;
 		
 	}
+	*/
 	
-	/*
 	QueryTree qt;
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
@@ -89,8 +89,8 @@ string Controller::processQuery(string source) {
 	Uses *m = new Uses("s", STMT, "x", STRINGVARIABLE);
 	//qt.insertLimits(m); //for select results
 	qt.insertLimits(m); //for true / false results
-	Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);
-	qt.insertLimits(m2);
+	//Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);
+	//qt.insertLimits(m2);
 
 	Result resultObj = qe.evaluate(qt);	
 	vector<int> result = resultObj.getResultVector();
@@ -101,7 +101,7 @@ string Controller::processQuery(string source) {
 	if (result.empty()) {
 		cout << "none";
 	}
-	*/
+	
  	return "";
 }
 

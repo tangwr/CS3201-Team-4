@@ -17,11 +17,15 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 //vector<int> QueryEvaluator::evaluate(QueryTree qt) {
 Result QueryEvaluator::evaluate(QueryTree qt) {
 
-	vector<Clause*> limitList = qt.getLimits();
-	vector<Clause*> unlimitList = qt.getUnLimits();
+	vector<Clause*> limitList;// = qt.getLimits();
+	vector<Clause*> unlimitList;// = qt.getUnLimits();
+	vector<Clause*> allList = qt.getAllList();
+	bool isCommon = qt.isCommon();
 	unordered_map<string, Type> selectMap = qt.getSelect();
+	unordered_map<string, Type> commonVarMap = qt.getCommonVar();
 	vector<int> evaluateResults;
 	Result returnResults;
+
 
 	
 
@@ -29,7 +33,37 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 		string selectString = select.first;
 		Type selectType = select.second;
 		
-		
+		for (int i = 0; i < (int)allList.size(); i++) {
+			Clause* c = allList[i];
+			Type leftChildType = c->getLeftChildType();
+			Type rightChildType = c->getRightChildType();
+			string leftChild = c->getLeftChild();
+			string rightChild = c->getRightChild();
+
+			if (isCommon == true) {
+				for (auto common : commonVarMap) {
+					string commonVar = common.first;
+					Type commonType = common.second;
+
+					if (commonVar == leftChild || commonVar == rightChild) {
+						limitList.push_back(c);
+					}
+					else {
+						unlimitList.push_back(c);
+					}		
+				}
+			}
+			else {
+				if (selectType == leftChildType || selectType == rightChildType) {
+					limitList.push_back(c);
+				}
+				else {
+					unlimitList.push_back(c);
+				}
+			}
+		}
+
+
 		if (evaluateUnlimitList(unlimitList) == false) {
 		
 			returnResults.setResultVector(evaluateResults);
@@ -87,6 +121,10 @@ vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type se
 		Clause* c = limitList[i];
 		Type leftChildType = c->getLeftChildType();
 		Type rightChildType = c->getRightChildType();
+
+		if (leftChildType != selectType && rightChildType != selectType) {
+			evaluateResults = c->getWithRelToLeft(pkb);
+		}
 
 		if (selectType == leftChildType) {
 			evaluateResults = c->getWithRelToLeft(pkb);

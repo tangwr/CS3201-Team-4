@@ -84,9 +84,9 @@ string Controller::processQuery(string source) {
 	QueryEvaluator qe;
 	qe.setPKB(pkb);
 	
-	qt.insertSelect("s", PROG_LINE);
-	//Modifies *m = new Modifies("1", INTEGER, "v", VARIABLE);
-	Uses *m = new Uses("s", PROG_LINE, "x", STRINGVARIABLE);
+	qt.insertSelect("s", STMT);
+	//Modifies *m = new Modifies("s", WHILES, "z", STRINGVARIABLE);
+	Uses *m = new Uses("s", STMT, "x", STRINGVARIABLE);
 	qt.insertLimits(m); //for select results
 	//qt.insertUnLimits(m); //for true / false results
 	//Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);

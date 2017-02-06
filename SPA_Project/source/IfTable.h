@@ -11,7 +11,7 @@ using namespace std;
 class IfTable {
 private:
 
-	unordered_map<int, int> ifList;
+	unordered_map<int, int> ifList;//stmtId to ctrlVarId
 	int size;
 
 public:
@@ -20,4 +20,5 @@ public:
 	void printContents();
 	bool setIfCtrlVar(int stmtId, int varId);
 	int getIfCtrlVar(int stmtId);
+	bool isStmtInTable(int stmtId);
 };

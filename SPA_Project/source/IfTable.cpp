@@ -29,6 +29,16 @@ int IfTable::getIfCtrlVar(int stmtId) {
 	}
 }
 
+bool IfTable::isStmtInTable(int stmtId)
+{
+    for (auto stmtEntry : this->ifList) {
+        if (stmtEntry.first == stmtId) {
+            return true;
+        }
+    }
+	return false;
+}
+
 int IfTable::getSize() {
 	return this->size;
 }

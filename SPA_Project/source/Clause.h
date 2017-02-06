@@ -4,7 +4,6 @@
 #include <string>
 #include <list>
 #include <unordered_map>
-#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
 

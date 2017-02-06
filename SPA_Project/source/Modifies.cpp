@@ -65,7 +65,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 	case STRINGVARIABLE:
 		int varId = pkb->getVarId(rightChild);
 		rightList = pkb->getModifiedByStmt(varId);
-		
+		int i = 0;
 		break;
 	}
 

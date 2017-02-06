@@ -6,11 +6,6 @@
 
 using namespace std;
 
-unordered_map<int, int> followeeMap;  // <followee, follower>    <3,4>
-unordered_map<int, int> followerMap;  // <follower, followee>    <4,3>
-unordered_map<int, vector<int>> followeeListMap;
-unordered_map<int, vector<int>> followerListMap;
-
 FollowsTable::FollowsTable(void)
 {
 }
@@ -99,30 +94,6 @@ int FollowsTable::getDirectFollowedBy(int followerId)
 	return -1;
 }
 
-/*
-vector<int> FollowsTable::getFollowsList(int stmtId)
-{
-	vector<int> list;
-	int idx = getDirectFollow(stmtId);
-	while (idx != -1) {
-		list.push_back(idx);
-		idx = getDirectFollow(idx);
-	}
-	return list;
-}
-
-vector<int> FollowsTable::getFollowedByList(int stmtId)
-{
-	vector<int> list;
-	int idx = getDirectFollow(stmtId);
-	while (idx != -1) {
-		list.push_back(idx);
-		idx = getDirectFollowedBy(idx);
-	}
-	return list;
-}
-*/
-
 vector<int> FollowsTable::getFollowStar(int stmtId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = followeeListMap.find(stmtId);
@@ -162,6 +133,11 @@ void FollowsTable::printContents()
 	}
 
 	cout << "---END PRINT FOLLOWSTABLE---" << endl;
+}
+
+bool FollowsTable::hasFollowRel()
+{
+	return followeeMap.empty();
 }
 
 void FollowsTable::printVector(vector<int> vec)

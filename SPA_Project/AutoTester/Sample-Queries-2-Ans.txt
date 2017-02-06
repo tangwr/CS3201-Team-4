@@ -1,0 +1,4 @@
+stmt s;
+Select s such that Modifies(s,"x")
+1,4,5,6
+

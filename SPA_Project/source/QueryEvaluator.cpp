@@ -134,7 +134,7 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		result = { 999 }; //non empty value
 		break;
 	case CONSTANT:
-		//result = pkb->getAllConstId();
+		result = pkb->getAllConstId();
 		break;
 	}
 

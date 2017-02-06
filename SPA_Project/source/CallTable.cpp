@@ -28,6 +28,11 @@ int CallTable::getCallProc(int stmtId) {
 	}
 }
 
+bool CallTable::isStmtInTable(int stmtId)
+{
+	return false;
+}
+
 int CallTable::getSize() {
 	return this->size;
 }

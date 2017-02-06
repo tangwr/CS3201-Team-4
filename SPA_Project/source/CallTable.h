@@ -19,4 +19,5 @@ public:
 	void printContents();
 	bool setCallProc(int stmtId, int procId);
 	int getCallProc(int stmtId);
+	bool isStmtInTable(int stmtId);
 };

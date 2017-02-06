@@ -1,7 +1,6 @@
 #include "QueryTree.h"
 #include "Type.h"
 #include "Clause.h"
-#include "ClauseType.h"
 
 #include <iostream>
 #include <string>

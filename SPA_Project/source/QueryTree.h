@@ -9,7 +9,6 @@
 
 #include "Type.h"
 #include "Clause.h"
-#include "ClauseType.h"
 
 using namespace std;
 

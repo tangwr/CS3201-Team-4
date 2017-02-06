@@ -6,17 +6,6 @@
 
 using namespace std;
 
-
-unordered_map<int, vector<int>> vUsesStmtMap;
-unordered_map<int, vector<int>> vUsesProcMap;
-unordered_map<int, vector<int>> vUsedByStmtMap;
-unordered_map<int, vector<int>> vUsedByProcMap;
-
-unordered_map<int, vector<int>> cUsesStmtMap;
-unordered_map<int, vector<int>> cUsesProcMap;
-unordered_map<int, vector<int>> cUsedByStmtMap;
-unordered_map<int, vector<int>> cUsedByProcMap;
-
 UsesTable::UsesTable()
 {
 }
@@ -55,7 +44,39 @@ bool UsesTable::setStmtUsedByRel(int stmtId, int varId) {
 	return true;
 }
 
+bool UsesTable::insertStmtUseRel(int stmtId, int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsesStmtMap.find(stmtId);
+	vector<int> list;
+	if (it != vUsesStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+			return false;
+		}
+		vUsesStmtMap.erase(it);
+	}
+	list.push_back(varId);
+	vUsesStmtMap.insert(make_pair(stmtId, list));
+	insertStmtUsedByRel(stmtId, varId);
+	return true;
+}
 
+bool UsesTable::insertStmtUsedByRel(int stmtId, int varId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsedByStmtMap.find(varId);
+	vector<int> list;
+	if (it != vUsedByStmtMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), stmtId) != list.end()) {
+			return false;
+		}
+		vUsedByStmtMap.erase(it);
+	}
+	list.push_back(stmtId);
+	vUsedByStmtMap.insert(make_pair(varId, list));
+	return true;
+}
 
 bool UsesTable::setProcUseRel(int procId, int varId)
 {
@@ -76,6 +97,40 @@ bool UsesTable::setProcUseRel(int procId, int varId)
 }
 
 bool UsesTable::setProcUsedByRel(int procId, int varId) {
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsedByProcMap.find(varId);
+	vector<int> list;
+	if (it != vUsedByProcMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), procId) != list.end()) {
+			return false;
+		}
+		vUsedByProcMap.erase(it);
+	}
+	list.push_back(procId);
+	vUsedByProcMap.insert(make_pair(varId, list));
+	return true;
+}
+
+bool UsesTable::insertProcUseRel(int procId, int varId)
+{
+	unordered_map<int, vector<int>>::iterator it;
+	it = vUsesProcMap.find(procId);
+	vector<int> list;
+	if (it != vUsesProcMap.end()) {
+		list = it->second;
+		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+			return false;
+		}
+		vUsesProcMap.erase(it);
+	}
+	list.push_back(varId);
+	vUsesProcMap.insert(make_pair(procId, list));
+	insertProcUsedByRel(procId, varId);
+	return true;
+}
+
+bool UsesTable::insertProcUsedByRel(int procId, int varId) {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsedByProcMap.find(varId);
 	vector<int> list;
@@ -280,5 +335,30 @@ void UsesTable::printVector(vector<int> vec)
 	for (int t : vec) {
 		cout << t << ' ';
 	}
+}
+
+vector<int> UsesTable::getAllStmt() {
+	vector<int> allUsesStmtLst;
+	for (auto entry : vUsesStmtMap) {
+		allUsesStmtLst.push_back(entry.first);
+	}
+	return allUsesStmtLst;
+}
+bool UsesTable::checkStmtExist(int stmtId) {
+	for (auto entry : this->vUsesStmtMap) {
+		if (entry.first == stmtId) {
+			return true;
+		}
+	}
+	return false;
+}
+bool UsesTable::checkStmtVarRelExist(int stmtId, int varId) {
+	vector<int> stmtVarIdLst = this->getVarUsedByStmt(stmtId);
+	for (int varEntry : stmtVarIdLst) {
+		if (varEntry == varId) {
+			return true;
+		}
+	}
+	return false;
 }
 

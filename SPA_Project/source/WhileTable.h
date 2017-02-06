@@ -22,4 +22,5 @@ public:
 	bool setWhileCtrlVar(int stmtId, int varId);
 	int getWhileCtrlVar(int stmtId);
     vector<int> getAllStmtId();
+	bool isStmtInTable(int stmtId);
 };

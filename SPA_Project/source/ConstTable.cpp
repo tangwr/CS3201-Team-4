@@ -6,11 +6,6 @@
 
 using namespace std;
 
-vector<int> constList;   // constId -> constName = Value
-unordered_map<int, int> constMap;    // constName -> constId
-
-int ctsize; // number of variables in the program
-
 ConstTable::ConstTable(void) {
 	ctsize = 0;
 }
@@ -75,6 +70,14 @@ vector<int> ConstTable::getAllConst()
 {
 	return constList;
 }
+vector<int> ConstTable::getAllConstId() {
+    vector<int> allConstIdLst;
+    for (auto entry : this->constMap) {
+        allConstIdLst.push_back(entry.second);
+    }
+    return allConstIdLst;
+}
+
 
 void ConstTable::printContents()
 {

@@ -1,8 +1,6 @@
 #include "Result.h"
 
-Result::Result() {
-
-}
+Result::Result() {}
 
 Result::Result(vector<int> vectorResult, Type selectType, bool boolResult) {
 	resultVector = vectorResult;

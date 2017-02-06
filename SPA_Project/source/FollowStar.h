@@ -2,6 +2,7 @@
 #define FollowStarH
 
 #include <string>
+#include <unordered_set>
 #include "Clause.h"
 #include "ClauseType.h"
 #include "Type.h"
@@ -18,6 +19,17 @@ private:
 	Type rightChildType;
 	PKB *pkb;
 	bool isRel;
+
+	vector<int> result, left, right;
+	unordered_set<int> tempResult;
+	bool isValidStmtNo(int, PKB*);
+	unordered_set<int> getAllFollowsStar(vector<int>, PKB*);
+	unordered_set<int> getAllFollowedByStar(vector<int>, PKB*);
+	vector<int> filterType(unordered_set<int>, Type, PKB*);
+	bool isStmtType(int, Type, PKB*);
+	vector<int> getTypeStmt(Type, PKB*);
+	bool isNumber(Type);
+	bool isSynonym(Type);
 
 public:
 

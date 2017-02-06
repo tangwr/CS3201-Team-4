@@ -15,8 +15,6 @@
 #include "Modifies.h"
 #include "Result.h"
 #include "VectorSetOperation.h"
-#include "Result.h"
-
 
 
 
@@ -28,7 +26,6 @@ public:
 	QueryEvaluator();
 	void setPKB(PKB* pkbInput);
 	QueryEvaluator(PKB*);
-	//vector<int> evaluate(QueryTree);
 	Result evaluate(QueryTree);
 
 private:
@@ -37,13 +34,6 @@ private:
 	bool evaluateUnlimitList(vector<Clause*>);
 	vector<int> evaluateLimitList(vector<Clause*>, Type);
 	vector<int> QueryEvaluator::getAllSelectResults(Type);
-
-	vector<int> getIntersection(vector<int>, vector<int>);
-	vector<int> getUnion(vector<int>, vector<int>);
-
-	////
-	list<int> getUnionList(list<int>, list<int>);
-
 	
 };
 

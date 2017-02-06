@@ -102,7 +102,7 @@ vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type se
 
 		//Get the intersection of "x" number of result list
 		if (i != 0) {
-			evaluateResults = getIntersection(oldEvaluateResults, evaluateResults);
+			evaluateResults = VectorSetOperation<int>::setIntersection(oldEvaluateResults, evaluateResults);
 		}
 		oldEvaluateResults = evaluateResults;
 	}
@@ -134,46 +134,13 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		result = { 999 }; //non empty value
 		break;
 	case CONSTANT:
-		result = pkb->getAllConstantId();
+		//result = pkb->getAllConstId();
 		break;
 	}
 
 	return result;
 }
 
-vector<int> QueryEvaluator::getIntersection(vector<int> v1, vector<int> v2) {
-	vector<int> v3;
-	sort(v1.begin(), v1.end());
-	sort(v2.begin(), v2.end());
-
-	set_intersection(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v3));
-
-	return v3;
-}
-
-vector<int> QueryEvaluator::getUnion(vector<int> v1, vector<int> v2) {
-	vector<int> v3;
-	sort(v1.begin(), v1.end());
-	sort(v2.begin(), v2.end());
-
-	set_union(v1.begin(), v1.end(), v2.begin(), v2.end(), back_inserter(v3));
-
-	return v3;
-}
 
 
-
-////////////////////////////////////////////////////////////
-
-
-//using list instead of vector
-list<int> QueryEvaluator::getUnionList(list<int> s1, list<int> s2) {
-	list<int> s3;
-	s1.sort();
-	s2.sort();
-
-	set_intersection(s1.begin(), s1.end(), s2.begin(), s2.end(), back_inserter(s3));
-
-	return s3;
-}
 

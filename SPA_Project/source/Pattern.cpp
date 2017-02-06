@@ -1,21 +1,113 @@
-#include "ClauseType.h"
-#include "Type.h"
 #include "Pattern.h"
-#include "Clause.h"
+#include "PrefixEvaluator.h"
+#include "Tokenizer.h"
+#include "VectorSetOperation.h"
 
-Pattern::Pattern(string lc, Type lcType, string rc, Type rcType, bool underscore, string f, Type ft) {
-	cltype = PATTERN;
-	leftChild = lc;
-	rightChild = rc;
-	leftChildType = lcType;
-	rightChildType = rcType;
-	isUnderScore = underscore;
-	factor = f;
-	factorType = ft;
+Pattern::Pattern(string stmtSynonym, Type synType, string leftPattern, Type leftPatType, bool hasUnderscore, string rightPattern, Type rightPatType) {
+	leftChild = stmtSynonym;
+	leftChildType = synType;
+
+	rightChild = leftPattern;
+	rightChildType = leftPatType;
+
+	isUnderScore = hasUnderscore;
+	factor = rightPattern;
+	factorType = rightPatType;
 }
 bool Pattern::hasRel(PKB *pkbSource) {
-	return isRel;
+	vector<int> results = getWithRelToLeft(pkb);
+	if ((int)results.size() <= 0) {
+		return false;
+	} else {
+		return true;
+	}
 }
+
+vector<int> Pattern::getWithRelToLeft(PKB *pkb) {
+	vector<int> leftPatternStmts = getFirstPatternStmts(pkb);
+	vector<int> rightPatternStmts = getSecondPatternStmts(pkb);
+	return VectorSetOperation<int>::setIntersection(leftPatternStmts, rightPatternStmts);
+}
+
+vector<int> Pattern::getWithRelToRight(PKB *pkb) {
+	vector<int> resultStmts = getSecondPatternStmts(pkb);
+	cout << endl << "result of getRightPatternStmts: ";
+	return getVarFromAssignStmts(pkb, resultStmts);
+}
+
+vector<int> Pattern::getFirstPatternStmts(PKB* pkb) {
+	vector<int> leftPatternStmts;
+	if (rightChildType == STRINGVARIABLE) {
+		int varId = pkb->getVarId(rightChild);
+		leftPatternStmts = getAssignStmtModifiedByVar(pkb, varId);
+	}
+	else {
+		leftPatternStmts = pkb->getAllAssignStmtId();
+	}
+	return leftPatternStmts;
+}
+
+vector<int> Pattern::getSecondPatternStmts(PKB* pkb) {
+	vector<int> results;
+
+	if (factorType == Type::STRINGVARIABLE) {
+		string prefix = getPrefix(factor);
+
+		vector<int> assignStmts = pkb->getAllAssignStmtId();
+		if (isUnderScore) {
+			for (int i = 0; i < (int)assignStmts.size(); i++) {
+				if (pkb->getAssignExp(assignStmts[i]).find(prefix) != string::npos) {
+					results.push_back(assignStmts[i]);
+				}
+			}
+		}
+		else {
+			for (int i = 0; i < (int)assignStmts.size(); i++) {
+				if (pkb->getAssignExp(assignStmts[i]).compare(prefix) == 0) {
+					results.push_back(assignStmts[i]);
+				}
+			}
+		}
+	}
+	else {
+		results = pkb->getAllAssignStmtId();
+	}
+	return results;
+}
+
+vector<int> Pattern::getAssignStmtModifiedByVar(PKB* pkb, int varId) {
+	vector<int> assignStmts = pkb->getAllAssignStmtId();
+	vector <int> modifyStmts = pkb->getModifiedByStmt(varId);
+	return VectorSetOperation<int>::setIntersection(assignStmts, modifyStmts);
+}
+
+vector<int> Pattern::getVarFromAssignStmts(PKB *pkb, vector<int> assignStmts) {
+	vector<int> resultVars;
+	for (int i = 0; i < (int)assignStmts.size(); i++) {
+		vector<int> modifiedVars = pkb->getStmtModify(assignStmts[i]);
+		resultVars = VectorSetOperation<int>::setUnion(modifiedVars, resultVars);
+	}
+	return resultVars;
+}
+
+string Pattern::getPrefix(string infixString) {
+	Tokenizer tokenizer(infixString);
+	stack<string> infix;
+	while (tokenizer.hasNextToken()) {
+		infix.push(tokenizer.getToken());
+	}
+
+	PrefixEvaluator evaluator;
+	stack<string> prefix = evaluator.evaluatePrefix(infix);
+	string prefixString;
+	while (!prefix.empty()) {
+		prefixString += prefix.top();
+		prefix.pop();
+	}
+
+	return prefixString;
+}
+
 
 void Pattern::setUnderScore(bool us) {
 	isUnderScore = us;
@@ -33,14 +125,6 @@ bool Pattern::getUnderScore() {
 	return isUnderScore;
 }
 
-vector<int> Pattern::getWithRelToLeft(PKB *pkb) {
-	vector<int> result;
-	return result;
-}
-vector<int> Pattern::getWithRelToRight(PKB *pkb) {
-	vector<int> result;
-	return result;
-}
 string Pattern::getLeftChild() {
 	return leftChild;
 }

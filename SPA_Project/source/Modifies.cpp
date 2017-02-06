@@ -1,10 +1,8 @@
-#include "ClauseType.h"
 #include "Type.h"
 #include "Modifies.h"
 #include "Clause.h"
 
 Modifies::Modifies(string lc, Type lcType, string rc, Type rcType) {
-	cltype = MODIFIES;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;

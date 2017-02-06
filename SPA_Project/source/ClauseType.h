@@ -1,4 +1,0 @@
-#pragma once
-enum ClauseType {
-	FOLLOW, FOLLOWSTAR, PARENT, PARENTSTAR, MODIFIES, USES, PATTERN
-};

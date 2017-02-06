@@ -1,10 +1,8 @@
-#include "ClauseType.h"
 #include "Type.h"
 #include "Parent.h"
 #include "Clause.h"
 
 Parent::Parent(string lc, Type lcType, string rc, Type rcType) {
-	cltype = PARENT;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;

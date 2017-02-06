@@ -12,6 +12,6 @@ public:
 	void processSource(string);
 	string processQuery(string);
 	~Controller();
-private:
+
 	PKB *pkb;
 };

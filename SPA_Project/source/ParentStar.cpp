@@ -1,10 +1,8 @@
-#include "ClauseType.h"
 #include "Type.h"
 #include "ParentStar.h"
 #include "Clause.h"
 
 ParentStar::ParentStar(string lc, Type lcType, string rc, Type rcType) {
-	cltype = PARENTSTAR;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;

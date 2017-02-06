@@ -1,3 +1,4 @@
+#include "ClauseType.h"
 #include "Type.h"
 #include "Follow.h"
 #include "Clause.h"
@@ -5,6 +6,7 @@
 using namespace std;
 
 Follow::Follow(string lc, Type lcType, string rc, Type rcType) {
+	cltype = FOLLOW;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;
@@ -19,7 +21,7 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 			if (!isValidStmtNo(leftArgument, pkb)) {
 				return result;
 			}
-			else { //if left is a valid statement number, follows(num, syn)
+			else { //if left is a valid statement number, follows(syn, num)
 				int followedBy = pkb->getFollowDirect(leftArgument);
 				if (isStmtType(followedBy, rightChildType, pkb)) {
 					result.push_back(followedBy);
@@ -31,6 +33,7 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 			left = getTypeStmt(leftChildType, pkb);
 			tempResult = getAllFollows(left, pkb);
 			result = filterType(tempResult, rightChildType, pkb);
+			return result;
 		}
 		else {
 			return result;
@@ -146,7 +149,7 @@ vector<int> Follow::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getTotalStmtNum();
 		vector<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i+1;
+			stmtList[i] = i + 1;
 		}
 		return stmtList;
 	}
@@ -185,11 +188,11 @@ bool Follow::hasRel(PKB *pkbSource) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // follows(syn,syn)
-			//if (pkb->getFollowDirect()) {
-				return true;
+											  //if (pkb->getFollowDirect()) {
+			return true;
 			//}
 			//else {
-				return false;
+			return false;
 			//}
 		}
 		else { // follows(synonym, invalid)

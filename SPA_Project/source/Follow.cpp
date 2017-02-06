@@ -14,7 +14,7 @@ Follow::Follow(string lc, Type lcType, string rc, Type rcType) {
 }
 
 vector<int> Follow::getWithRelToRight(PKB* pkb) {
-	cout << "RIGHT" << endl;
+	//cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
 		if (isNumber(leftChildType)) {
 			int leftArgument = stoi(leftChild);
@@ -46,9 +46,9 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 }
 
 vector<int> Follow::getWithRelToLeft(PKB* pkb) {
-	cout << "LEFT" << endl;
+	//cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
-		cout << "LEFT IS SYNONYM" << endl;
+		//cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
 			if (!isValidStmtNo(rightArgument, pkb)) {
@@ -63,13 +63,13 @@ vector<int> Follow::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) {
-			cout << "RIGHT IS SYNONYM" << endl;
+			//cout << "RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
-			cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
+			//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
 			tempResult = getAllFollowedBy(right, pkb);
-			cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
+			//cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
 			result = filterType(tempResult, leftChildType, pkb);
-			cout << "NUMBER OF RESULT is: " << result.size() << endl;
+			//cout << "NUMBER OF RESULT is: " << result.size() << endl;
 			return result;
 		}
 		else { // follows(synonym, invalid)
@@ -104,11 +104,11 @@ vector<int> Follow::getAllFollowedBy(vector<int> list, PKB* pkb) {
 	for (int i = 0; i < list.size(); i++) {
 		followedBy = pkb->getFollowedByDirect(list[i]);
 		if (followedBy != -1) {
-			cout << followedBy << " added bcuz it follows " << list[i] << endl;
+			//cout << followedBy << " added bcuz it follows " << list[i] << endl;
 			listFollowedBy.push_back(followedBy);
 		}
 		else {
-			cout << list[i] << " is not followed by anything" << endl;
+			//cout << list[i] << " is not followed by anything" << endl;
 		}
 	}
 	return listFollowedBy;
@@ -128,9 +128,11 @@ vector<int> Follow::filterType(vector<int> list, Type type, PKB* pkb) {
 }
 
 bool Follow::isStmtType(int stmtId, Type type, PKB* pkb) {
+	if (stmtId < 1)
+		return false;
 	switch (type) {
 	case WHILES:
-		cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
+		//cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
 		return pkb->isStmtInAssignTable(stmtId);

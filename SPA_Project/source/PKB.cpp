@@ -219,7 +219,7 @@ bool PKB::setProcUseRelConst(int procId, int constId) {
 	return this->usesTable.setProcUseRelConst(procId, constId);
 }
 bool PKB::insertStmtUsesVar(int stmtId, int varId) {
-    return this->usesTable.insertStmtUses(stmtId, varId);
+    return this->usesTable.insertStmtUseRel(stmtId, varId);
 }
 
 

@@ -137,6 +137,11 @@ vector<int> ParentsTable::getParentStar(int stmtId)
 		return vector<int>();
 }
 
+bool ParentsTable::hasParentRel()
+{
+	return parentsMap.empty();
+}
+
 void ParentsTable::printContents()
 {
 	cout << "---PRINT PARENTSTABLE---" << endl;

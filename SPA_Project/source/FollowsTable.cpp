@@ -159,6 +159,11 @@ void FollowsTable::printContents()
 	cout << "---END PRINT FOLLOWSTABLE---" << endl;
 }
 
+bool FollowsTable::hasFollowRel()
+{
+	return followeeMap.empty();
+}
+
 void FollowsTable::printVector(vector<int> vec)
 {
 	for (int t : vec) {

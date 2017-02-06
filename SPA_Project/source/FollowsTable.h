@@ -17,6 +17,7 @@ private:
 public:
 	FollowsTable();
 	bool setFollowDirectRel(int followeeId, int followerId);
+	bool insertFollowRel(int followeeId, int followerId);
 	int getDirectFollow(int followeeId);    
 	int getDirectFollowedBy(int followerId);
 	//vector<int> getFollowsList(int stmtNo);
@@ -24,5 +25,7 @@ public:
 	vector<int> getFollowStar(int stmtId);
 	vector<int> getFollowedByStar(int stmtId);
 	void printContents();
-	bool insertFollowRel(int followeeId, int followerId);
+
+	bool hasFollowRel();
+
 };

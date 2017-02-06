@@ -25,7 +25,7 @@ public:
 	//vector<int> getParentList(int stmtNo);
 	vector<int> getChildrenStar(int stmtId);
 	vector<int> getParentStar(int stmtId);
-
+	bool hasParentRel();
 	void printContents();
 
 };

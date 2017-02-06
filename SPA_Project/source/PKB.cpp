@@ -91,6 +91,10 @@ int PKB::getConstTableSize() {
 int PKB::getConstValueById(int constId) {
 	return this->constTable.getValueById(constId);
 }
+vector<int> PKB::getAllConstId() {
+    return this->constTable.getAllConstId();
+}
+
 
 
 //parent table

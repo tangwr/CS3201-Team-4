@@ -72,6 +72,7 @@ public:
 
 	int getConstTableSize();
 	int getConstValueById(int constId);
+    vector<int> getAllConstId();
 
 
 	//Parent table

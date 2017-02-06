@@ -2,6 +2,7 @@
 #define ParentStarH
 
 #include <string>
+#include <unordered_set>
 #include "Clause.h"
 #include "ClauseType.h"
 #include "Type.h"
@@ -18,6 +19,15 @@ private:
 	Type rightChildType;
 	PKB *pkb;
 	bool isRel;
+	vector<int> result, tempResult, left, right;
+	bool isValidStmtNo(int, PKB*);
+	vector<int> getAllChildren(vector<int>, PKB*);
+	vector<int> getAllParents(vector<int>, PKB*);
+	vector<int> filterType(vector<int>, Type, PKB*);
+	bool isStmtType(int, Type, PKB*);
+	vector<int> getTypeStmt(Type, PKB*);
+	bool isNumber(Type);
+	bool isSynonym(Type);
 
 public:
 

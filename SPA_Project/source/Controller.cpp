@@ -2,8 +2,7 @@
 #include "Parser.h"
 #include "DesignExtractor.h"
 #include "QueryEvaluator.h"
-#include "Modifies.h"
-#include "Uses.h"
+
 
 Controller::Controller() {
 	pkb = new PKB();
@@ -92,7 +91,7 @@ string Controller::processQuery(string source) {
 	//qt.insertUnLimits(m); //for true / false results
 	//Modifies *m2 = new Modifies("s", STMT, "x", STRINGVARIABLE);
 	//qt.insertLimits(m2);
-
+	
 	Result resultObj = qe.evaluate(qt);	
 	vector<int> result = resultObj.getResultVector();
 	

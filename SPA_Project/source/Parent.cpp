@@ -11,7 +11,7 @@ Parent::Parent(string lc, Type lcType, string rc, Type rcType) {
 }
 
 vector<int> Parent::getWithRelToRight(PKB* pkb) {
-//	cout << "RIGHT" << endl;
+	//	cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
 		//cout << "RIGHT IS SYNONYM" << endl;
 		if (isNumber(leftChildType)) {
@@ -26,9 +26,9 @@ vector<int> Parent::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) { //parent(syn,syn)
-		//	cout << "LEFT IS SYNONYM" << endl;
+											 //	cout << "LEFT IS SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
-		//	cout << "LEFT SIZE IS " << left.size() << endl;
+			//	cout << "LEFT SIZE IS " << left.size() << endl;
 			tempResult = getAllChildren(left, pkb);
 			//cout << "TEMP SIZE IS " << tempResult.size() << endl;
 			//cout << endl;
@@ -48,9 +48,9 @@ vector<int> Parent::getWithRelToRight(PKB* pkb) {
 }
 
 vector<int> Parent::getWithRelToLeft(PKB* pkb) {
-//	cout << "LEFT" << endl;
+	cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
-		//cout << "LEFT IS SYNONYM" << endl;
+		cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
 			if (!isValidStmtNo(rightArgument, pkb)) {
@@ -58,7 +58,7 @@ vector<int> Parent::getWithRelToLeft(PKB* pkb) {
 			}
 			else { //if right is valid statement number, parent(syn, num)
 				int parent = pkb->getStmtParentStmt(rightArgument);
-				//cout << "PARENT" << parent << endl;
+				cout << "PARENT" << parent << endl;
 				if (isStmtType(parent, leftChildType, pkb)) {
 					result.push_back(parent);
 					return result;
@@ -66,7 +66,7 @@ vector<int> Parent::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //parent(syn, syn)
-			//cout << "RIGHT IS SYNONYM" << endl;
+											  //cout << "RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
 			//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
 			tempResult = getAllParents(right, pkb);
@@ -102,7 +102,7 @@ vector<int> Parent::getAllChildren(vector<int> list, PKB* pkb) {
 	}
 	vector<int> result(allChildren.size());
 	copy(allChildren.begin(), allChildren.end(), result.begin());
-	
+
 	return result;
 }
 
@@ -125,7 +125,7 @@ vector<int> Parent::getAllParents(vector<int> list, PKB* pkb) {
 }
 
 vector<int> Parent::filterType(vector<int> list, Type type, PKB* pkb) {
-	if (type == STMT || type == ANYTHING) {
+	if (type == STMT || type == ANYTHING || type == PROG_LINE) {
 		return list;
 	}
 	vector<int> result;
@@ -147,6 +147,7 @@ bool Parent::isStmtType(int stmtId, Type type, PKB* pkb) {
 	case ASSIGN:
 		return pkb->isStmtInAssignTable(stmtId);
 	case STMT:
+	case PROG_LINE:
 	case ANYTHING:
 		return true;
 	}
@@ -157,6 +158,7 @@ bool Parent::isStmtType(int stmtId, Type type, PKB* pkb) {
 vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case STMT:
+	case PROG_LINE:
 	case ANYTHING: {
 		int numOfStmt = pkb->getNumOfStmt();
 		vector<int> stmtList(numOfStmt);
@@ -175,14 +177,14 @@ vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
 }
 
 bool Parent::isNumber(Type type) {
-	return (type == PROG_LINE);
+	return (type == INTEGER);
 }
 
 bool Parent::isSynonym(Type type) {
-	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING);
+	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
-bool Parent::hasRel(PKB *pkbSource) {
+bool Parent::hasRel(PKB *pkb) {
 	if (isSynonym(leftChildType)) {
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
@@ -200,7 +202,12 @@ bool Parent::hasRel(PKB *pkbSource) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { // parent(syn,syn)
-			return pkb->hasParentRel();
+			right = getTypeStmt(rightChildType, pkb);
+			//cout << "NUMBER OF RIGHT IS " << right.size() << endl;
+			tempResult = getAllParents(right, pkb);
+			//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+			result = filterType(tempResult, leftChildType, pkb);
+			return (result.size() != 0);
 		}
 		else { // parent(synonym, invalid)
 			return false; // return what!??!?!?!?!?!?!?!??!

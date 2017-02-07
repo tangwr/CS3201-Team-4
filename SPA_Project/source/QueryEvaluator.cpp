@@ -143,21 +143,16 @@ vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type se
 		if (leftChildType != selectType && rightChildType != selectType) {
 			evaluateResults = c->getWithRelToLeft(pkb);
 		}
-
+		
 		if (selectType == leftChildType) {
-			//s1,s2 for follows & parents
 			if (selectStr == leftChildStr) {
-				evaluateResults = c->getWithRelToLeft(pkb);
-			}
-			else if (selectStr == rightChildStr) {
-				evaluateResults = c->getWithRelToRight(pkb);
-			}
-			else {
 				evaluateResults = c->getWithRelToLeft(pkb);
 			}
 		}
 		if (selectType == rightChildType) {
-			evaluateResults = c->getWithRelToRight(pkb);
+			if (selectStr == rightChildStr) {
+				evaluateResults = c->getWithRelToRight(pkb);
+			}
 		}
 		
 		//Return if there is only 1 item in the limit list

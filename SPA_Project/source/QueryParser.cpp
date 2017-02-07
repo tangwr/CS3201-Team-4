@@ -397,13 +397,44 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					}
 
 				}
+				else if (isVarNameExists(variable.at(1).substr(0, variable.at(1).size() - 1))) {// check for the null pointer
+					rightChild = variable.at(1).substr(0, variable.at(1).size() - 1);
+					rcType = getVarType(rightChild);
+					rightChildType = getTypeOfChild(rcType);
+
+					if (queryTree->getSelect().count(rightChild)) {
+						isLimit = true;
+
+					}
+					if (isSuchThanBeforePattern) {
+						checkFirstRightChild = rightChild;// set the first right child to check
+					}
+					else {
+						if (rightChild.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty() && rightChild.compare(leftChild) != 0) {
+							counter2++;
+						}
+						else if (rightChild.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty() && rightChild.compare(leftChild) != 0) {
+							counter2++;
+							string dummy = "";
+						}
+					}
+				}
 				else if (variable.at(1).compare("_") == 0) {
 					rightChild = variable.at(1);
+					rightChildType = getTypeOfChild(rightChild);
+				}
+				else if (variable.at(1).substr(0, variable.at(1).size() - 1).compare("_") == 0) {
+					rightChild = variable.at(1).substr(0, variable.at(1).size() - 1);
 					rightChildType = getTypeOfChild(rightChild);
 				}
 				else if (isInteger(variable.at(1))) {
 					rcType = "integer";
 					rightChild = variable.at(1);
+					rightChildType = getTypeOfChild(rightChild);
+				}
+				else if (isInteger(variable.at(1).substr(0, variable.at(1).size() - 1))) {
+					rcType = "integer";
+					rightChild = variable.at(1).substr(0, variable.at(1).size() - 1);
 					rightChildType = getTypeOfChild(rightChild);
 				}
 				else {

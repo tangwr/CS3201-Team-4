@@ -37,11 +37,11 @@ c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): 
   QueryTree.cpp
   QueryPostProcessor.cpp
   QueryParser.cpp
-c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(121): warning C4018: '<': signed/unsigned mismatch
-c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(340): warning C4018: '<': signed/unsigned mismatch
-c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(426): warning C4018: '<': signed/unsigned mismatch
-c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(629): warning C4018: '<': signed/unsigned mismatch
-c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(784): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(120): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(346): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(432): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(676): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(833): warning C4018: '<': signed/unsigned mismatch
 c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
           with
           [

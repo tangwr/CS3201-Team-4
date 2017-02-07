@@ -1,4 +1,5 @@
-﻿  TestFrontEnd.cpp
+﻿  stdafx.cpp
+  TestFrontEnd.cpp
 c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
           with
           [

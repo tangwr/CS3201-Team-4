@@ -364,7 +364,7 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					leftChild = variable.at(0);
 					leftChildType = getTypeOfChild(leftChild);
 				}
-				else if (isInteger(variable.at(0))) {
+				else if (isPositiveInteger(variable.at(0))) {// for the follows and Parent
 					leftChild = variable.at(0);
 
 					leftChildType = getTypeOfChild(leftChild);
@@ -427,12 +427,12 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					rightChild = variable.at(1).substr(0, variable.at(1).size() - 1);
 					rightChildType = getTypeOfChild(rightChild);
 				}
-				else if (isInteger(variable.at(1))) {
+				else if (isPositiveInteger(variable.at(1))) {
 					rcType = "integer";
 					rightChild = variable.at(1);
 					rightChildType = getTypeOfChild(rightChild);
 				}
-				else if (isInteger(variable.at(1).substr(0, variable.at(1).size() - 1))) {
+				else if (isPositiveInteger(variable.at(1).substr(0, variable.at(1).size() - 1))) {
 					rcType = "integer";
 					rightChild = variable.at(1).substr(0, variable.at(1).size() - 1);
 					rightChildType = getTypeOfChild(rightChild);
@@ -455,13 +455,16 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					if (isSuchThanBeforePattern) {
 						checkFirstLeftChild = leftChild;
 					}
+					if (queryTree->getSelect().count(leftChild)) {
+						isLimit = true;
+					}
 					else {
 						if (leftChild.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty()) {
 							counter1++;
 						}
 					}
 				}
-				else if (isInteger(variable.at(0))) {
+				else if (isPositiveInteger(variable.at(0))) {
 					leftChild = variable.at(0);
 					leftChildType = getTypeOfChild(leftChild);
 				}
@@ -477,6 +480,9 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					if (isSuchThanBeforePattern) {
 						checkFirstRightChild = rightChild;// for Modifies and Uses
 					}
+					if (queryTree->getSelect().count(leftChild)) {
+						isLimit = true;
+					}
 					else {
 						if (rightChild.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty()) {
 							counter2++;
@@ -489,6 +495,9 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					rightChildType = getTypeOfChild(rcType);
 					if (isSuchThanBeforePattern) {
 						checkFirstRightChild = rightChild;// for Modifies and Uses
+					}
+					if (queryTree->getSelect().count(leftChild)) {
+						isLimit = true;
 					}
 					else {
 						if (rightChild.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty()) {

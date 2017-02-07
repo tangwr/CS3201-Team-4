@@ -19,8 +19,8 @@ public:
 	WhileTable();
 	int getSize();
 	void printContents();
-	bool setWhileCtrlVar(int stmtId, int varId);
-	int getWhileCtrlVar(int stmtId);
+	bool setVarToWhileStmt(int stmtId, int varId);
+	int getVarInWhileStmt(int stmtId);
     vector<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
 };

@@ -17,7 +17,7 @@ public:
 	CallTable();
 	int getSize();
 	void printContents();
-	bool setCallProc(int stmtId, int procId);
+	bool setStmtCallProc(int stmtId, int procId);
 	int getCallProc(int stmtId);
 	bool isStmtInTable(int stmtId);
 };

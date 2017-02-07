@@ -25,7 +25,7 @@ bool AssignTable::isStmtInTable(int stmtId)
     return false;
 }
 
-bool AssignTable::setAssignExp(int stmtId, string exp) {
+bool AssignTable::setExpToAssignStmt(int stmtId, string exp) {
 	if (this->assignList.find(stmtId) != this->assignList.end()) {
 		return false;
 	}
@@ -36,7 +36,7 @@ bool AssignTable::setAssignExp(int stmtId, string exp) {
 	}
 }
 
-string AssignTable::getAssignExp(int stmtId) {
+string AssignTable::getExpInAssignStmt(int stmtId) {
 	auto it = this->assignList.find(stmtId);
 	if (it != assignList.end()) {
 		return it->second;

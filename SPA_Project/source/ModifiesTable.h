@@ -19,14 +19,14 @@ private:
 
 public:
 	ModifiesTable();
-	bool setStmtModifyRel(int stmtId, int varId);
-	bool setProcModifyRel(int procId, int varId);
+	bool setStmtModifyVarRel(int stmtId, int varId);
+	bool setProcModifyVarRel(int procId, int varId);
 	bool insertStmtModify(int stmtId, int varId);
 	bool insertProcModify(int stmtId, int varId);
-	vector<int> getModifiedByStmt(int varId);
-	vector<int> getStmtModify(int stmtId);
-	vector<int> getModifiedByProc(int varId);
-	vector<int> getProcModify(int procId);
+	vector<int> getStmtModifyVar(int varId);
+	vector<int> getVarModifiedInStmt(int stmtId);
+	vector<int> getProcModifyVar(int varId);
+	vector<int> getVarModifiedInProc(int procId);
 	bool checkStmtExist(int stmtId);
 	bool checkStmtVarRelExist(int stmtId, int varId);
 	vector<int> getAllStmt();

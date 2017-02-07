@@ -26,7 +26,7 @@ bool WhileTable::isStmtInTable(int stmtId)
     return false;
 }
 
-bool WhileTable::setWhileCtrlVar(int stmtId, int varId) {
+bool WhileTable::setVarToWhileStmt(int stmtId, int varId) {
 	if (this->whileList.find(stmtId) != this->whileList.end()) {
 		return false;
 	}
@@ -37,7 +37,7 @@ bool WhileTable::setWhileCtrlVar(int stmtId, int varId) {
 	}
 }
 
-int WhileTable::getWhileCtrlVar(int stmtId) {
+int WhileTable::getVarInWhileStmt(int stmtId) {
 	auto it = this->whileList.find(stmtId);
 	if (it != whileList.end()) {
 		return it->second;

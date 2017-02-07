@@ -8,7 +8,7 @@ IfTable::IfTable() {
 	ifList = unordered_map<int,int>();
 }
 
-bool IfTable::setIfCtrlVar(int stmtId, int varId) {
+bool IfTable::setVarToIfStmt(int stmtId, int varId) {
 	if (this->ifList.find(stmtId) != this->ifList.end()) {
 		return false;
 	}
@@ -19,7 +19,7 @@ bool IfTable::setIfCtrlVar(int stmtId, int varId) {
 	}
 }
 
-int IfTable::getIfCtrlVar(int stmtId) {
+int IfTable::getVarInIfStmt(int stmtId) {
 	auto it = this->ifList.find(stmtId);
 	if (it != ifList.end()) {
 		return it->second;

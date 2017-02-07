@@ -10,7 +10,7 @@ ParentsTable::ParentsTable(void)
 {
 }
 
-bool ParentsTable::setParentDirectRel(int father, int child)
+bool ParentsTable::setStmtParentStmtRel(int father, int child)
 {
 	unordered_map<int, int>::iterator it;
 	it = parentsMap.find(child);
@@ -34,11 +34,11 @@ bool ParentsTable::setParentDirectRel(int father, int child)
 	}
 
 	// star table 
-	insertParentRel(father, child);
+	insertStmtParentStmtRel(father, child);
 
 	return true;
 }
-bool ParentsTable::insertParentRel(int father, int child)
+bool ParentsTable::insertStmtParentStmtRel(int father, int child)
 {
 	if (father == child)
 		return false;
@@ -70,7 +70,7 @@ bool ParentsTable::insertParentRel(int father, int child)
 return list of childrens
 return empty list if no result
 */
-vector<int> ParentsTable::getChildren(int stmtId)
+vector<int> ParentsTable::getStmtChildrenStmt(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = childsMap.find(stmtId);
@@ -98,10 +98,10 @@ int ParentsTable::getParent(int stmtId)
 vector<int> ParentsTable::getChildrenList(int stmtNo)
 {
 	vector<int> list;
-	int idx = getChildren(stmtNo);
+	int idx = getStmtChildrenStmt(stmtNo);
 	while (idx != -1) {
 		list.push_back(idx);
-		idx = getChildren(idx);
+		idx = getStmtChildrenStmt(idx);
 	}
 	return list;
 }
@@ -118,7 +118,7 @@ vector<int> ParentsTable::getParentList(int stmtNo)
 }
 */
 
-vector<int> ParentsTable::getChildrenStar(int stmtId)
+vector<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = childListMap.find(stmtId);
@@ -127,7 +127,7 @@ vector<int> ParentsTable::getChildrenStar(int stmtId)
 	else
 		return vector<int>();
 }
-vector<int> ParentsTable::getParentStar(int stmtId)
+vector<int> ParentsTable::getStmtParentStarStmt(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = parentListMap.find(stmtId);

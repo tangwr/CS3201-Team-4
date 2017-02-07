@@ -18,7 +18,7 @@ public:
 	VarTable(void);
 	int insertVar(string varName);
 	int getSize();
-	string getVarName(int varId);
+	string getVarNameById(int varId);
 	int getVarIndex(string varName);
 	bool checkVarExistByName(string varName);
 	void printContents();

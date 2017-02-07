@@ -18,7 +18,7 @@ public:
 	IfTable();
 	int getSize();
 	void printContents();
-	bool setIfCtrlVar(int stmtId, int varId);
-	int getIfCtrlVar(int stmtId);
+	bool setVarToIfStmt(int stmtId, int varId);
+	int getVarInIfStmt(int stmtId);
 	bool isStmtInTable(int stmtId);
 };

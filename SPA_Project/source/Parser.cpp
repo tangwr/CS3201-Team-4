@@ -4,10 +4,36 @@
 #include "Parser.h"
 #include "PrefixEvaluator.h"
 
+const string STRING_NAME = "([a-zA-Z][a-zA-Z0-9]*)";
+const string STRING_DIGIT = "([0-9]+)";
+const string STRING_OPERATOR = "([+\\-*])";
+
+const string STRING_SEMICOLON = ";";
+const string STRING_OPEN_CBRACKET = "\\{";
+const string STRING_CLOSE_CBRACKET = "\\}";
+const string STRING_OPEN_RBRACKET = "\\(";
+const string STRING_CLOSE_RBRACKET = "\\)";
+const string STRING_CLOSE_BRACKET = "}";
+const string STRING_EQUAL = "=";
+const string STRING_OR = "|";
+const string STRING_EMPTY = "";
+
+const string STRING_PROC = "procedure";
+const string STRING_IF = "if";
+const string STRING_ELSE = "else";
+const string STRING_WHILE = "while";
+const string STRING_CALL = "call";
+
+const string ERROR_MESSAGE = "Error found in SIMPLE source code during parsing.";
+
+const int COMPARE_EQUAL = 0;
+const int START_COUNT_INDEX = 1;
+
+
 Parser::Parser(PKB *pkbSource, string source) {
 	tokenizer = new Tokenizer(source);
 	pkb = pkbSource;
-	stmtNum = 1;
+	stmtNum = START_COUNT_INDEX;
 }
 
 void Parser::parse() {
@@ -44,10 +70,10 @@ void Parser::createStmtLst() {
 	do {
 		stmts.push_back(stmtNum);
 		createStmt(stmtNum++);
-	} while (token.compare("}") != COMPARE_EQUAL);
+	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
 
 	for (int index = 1; index < (int) stmts.size(); index++) {
-		pkb->setFollowDirectRel(stmts[index - 1], stmts[index]);
+		pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
 	}
 }
 
@@ -57,12 +83,12 @@ void Parser::createStmtLst(int stmtId) {
 	do {
 		stmts.push_back(stmtNum);
 		createStmt(stmtNum++);
-	} while (token.compare("}") != COMPARE_EQUAL);
+	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
 
-	pkb->setParentDirectRel(stmtId, stmts[0]);
+	pkb->setStmtParentStmtRel(stmtId, stmts[0]);
 	for (int index = 1; index < (int) stmts.size(); index++) {
-		pkb->setFollowDirectRel(stmts[index - 1], stmts[index]);
-		pkb->setParentDirectRel(stmtId, stmts[index]);
+		pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
+		pkb->setStmtParentStmtRel(stmtId, stmts[index]);
 	}
 }
 
@@ -88,8 +114,8 @@ void Parser::createWhile(int whileStmtId) {
 	match(STRING_NAME);
 
 	int varId = createVar(varName);
-	pkb->setWhileCtrlVar(whileStmtId, varId);
-	pkb->setStmtUseRel(whileStmtId, varId);
+	pkb->setVarToWhileStmt(whileStmtId, varId);
+	pkb->setStmtUseStmtRel(whileStmtId, varId);
 
 	match(STRING_OPEN_CBRACKET);
 
@@ -105,14 +131,14 @@ void Parser::createAssign(int assignStmtId) {
 
 	int varId = createVar(varName);
 	
-	pkb->setStmtModifyRel(assignStmtId, varId);
+	pkb->setStmtModifyVarRel(assignStmtId, varId);
 
 	match(STRING_EQUAL);
 
 	stack<string> infix = extractExp();
 	string prefix = createExpPrefix(assignStmtId, infix);
 
-	pkb->setAssignExp(assignStmtId, prefix);
+	pkb->setExpToAssignStmt(assignStmtId, prefix);
 
 	match(STRING_SEMICOLON);
 }
@@ -143,11 +169,11 @@ string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
 
 		if (regex_match(expWord, regex(STRING_NAME))) {
 			int varId = createVar(expWord);
-			pkb->setStmtUseRel(assignStmtId, varId);
+			pkb->setStmtUseStmtRel(assignStmtId, varId);
 		}
 		else if (regex_match(expWord, regex(STRING_DIGIT))) {
 			int constId = createConst(atoi(expWord.c_str()));
-			pkb->setStmtUseRelConst(assignStmtId, constId);
+			pkb->setStmtUseConstRel(assignStmtId, constId);
 		}
 	}
 	return expStr;
@@ -167,11 +193,10 @@ void Parser::match(string matchRe) {
 			token = tokenizer->getToken();
 		}
 		else {
-			token = "";
+			token = STRING_EMPTY;
 		}
 	} else {
-		cout << "Error found in SIMPLE source code during parsing." << endl;
-		cout << "token: " << token << endl;
+		cout << ERROR_MESSAGE << endl;
 		exit(0);
 	}
 }

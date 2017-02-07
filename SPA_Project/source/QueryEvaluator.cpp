@@ -39,7 +39,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 	for (auto c : rawUnLimitList) {
 		allList.push_back(c);
 	}
-
+	
 
 	for (auto select : selectMap) {
 		string selectString = select.first;
@@ -96,7 +96,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 		}
 
 		evaluateResults = evaluateLimitList(limitList, selectType);
-
+		
 		//for 2 or more select type
 		if (firstMap == true) {
 			oldEvaluateResults = evaluateResults;
@@ -108,11 +108,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 		returnResults.setResultVector(evaluateResults);
 		returnResults.setResultType(selectType);
 		returnResults.setResultBool(true);
-		
 	}
-	
-	
-
 	return returnResults;
 }
 
@@ -168,10 +164,7 @@ vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type se
 }
 
 vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
-
 	vector<int> result;
-	list<string> strResults;
-
 
 	switch (selectType) {
 	case PROG_LINE:
@@ -179,7 +172,7 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		result = pkb->getAllStmtId();
 		break;
 	case ASSIGN:
-		result = pkb->getAllAssignStmtId();
+		result = pkb->getAllAssignStmt(); 
 		break;
 	
 	case WHILES:

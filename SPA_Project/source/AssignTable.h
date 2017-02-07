@@ -17,8 +17,8 @@ public:
 	AssignTable();
 	int getSize();
 	void printContents();
-	bool setAssignExp(int stmtId, string exp);
-	string getAssignExp(int stmtId);
+	bool setExpToAssignStmt(int stmtId, string exp);
+	string getExpInAssignStmt(int stmtId);
     vector<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
 };

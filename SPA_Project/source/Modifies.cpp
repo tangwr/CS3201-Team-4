@@ -32,7 +32,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		leftList = pkb->getAllStmtId(); 
 		break;
 	case ASSIGN:
-		leftList = pkb->getAllAssignStmtId();
+		leftList = pkb->getAllAssignStmt();
 		break;
 	case WHILES:
 		leftList = pkb->getAllWhileStmtId();
@@ -49,7 +49,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 	case VARIABLE:
 		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
-			stmtList = pkb->getModifiedByStmt(varId);
+			stmtList = pkb->getStmtModifyVar(varId);
 			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList);
 		}
 		break;
@@ -57,13 +57,13 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 	case ANYTHING:
 		varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
-			stmtList = pkb->getModifiedByStmt(varId);
+			stmtList = pkb->getStmtModifyVar(varId);
 			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList);
 		}
 		break;
 	case STRINGVARIABLE:
-		int varId = pkb->getVarId(rightChild);
-		rightList = pkb->getModifiedByStmt(varId);
+		int varId = pkb->getVarIdByName(rightChild);
+		rightList = pkb->getStmtModifyVar(varId);
 		int i = 0;
 		break;
 	}
@@ -72,7 +72,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
-			parentList = pkb->getParentStar(stmtId);
+			parentList = pkb->getStmtParentStarStmt(stmtId);
 			temp = VectorSetOperation<int>::setUnion(temp, parentList);
 		}
 		rightList = VectorSetOperation<int>::setUnion(rightList, temp);
@@ -99,7 +99,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 		leftList = pkb->getAllStmtId();
 		break;
 	case ASSIGN:
-		leftList = pkb->getAllAssignStmtId();
+		leftList = pkb->getAllAssignStmt();
 		break;
 	case WHILES:
 		leftList = pkb->getAllWhileStmtId();
@@ -115,7 +115,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 		vector<int> childrenList;
 		vector<int> temp;
 		for (int stmtId : leftList) {
-			childrenList = pkb->getChildrenStar(stmtId);
+			childrenList = pkb->getStmtChildrenStarStmt(stmtId);
 			temp = VectorSetOperation<int>::setUnion(temp, childrenList);
 		}
 		leftList = temp;
@@ -123,7 +123,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 
 	//Convert stmtId to varId
 	for (int stmtId : leftList) {
-		varIdList = pkb->getStmtModify(stmtId);
+		varIdList = pkb->getVarModifiedInStmt(stmtId);
 		tempList = VectorSetOperation<int>::setUnion(tempList, varIdList);
 	}
 	leftList = tempList; //all converted to varId

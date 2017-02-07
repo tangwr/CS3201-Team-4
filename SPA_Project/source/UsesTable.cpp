@@ -10,7 +10,7 @@ UsesTable::UsesTable()
 {
 }
 
-bool UsesTable::setStmtUseRel(int stmtId, int varId)
+bool UsesTable::setStmtUseStmtRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsesStmtMap.find(stmtId);
@@ -78,7 +78,7 @@ bool UsesTable::insertStmtUsedByRel(int stmtId, int varId) {
 	return true;
 }
 
-bool UsesTable::setProcUseRel(int procId, int varId)
+bool UsesTable::setProcUseVarRel(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsesProcMap.find(procId);
@@ -147,7 +147,7 @@ bool UsesTable::insertProcUsedByRel(int procId, int varId) {
 }
  
 // function for constant
-bool UsesTable::setStmtUseRelConst(int stmtId, int varId)
+bool UsesTable::setStmtUseConstRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsesStmtMap.find(stmtId);
@@ -183,7 +183,7 @@ bool UsesTable::setStmtUsedByRelConst(int stmtId, int varId) {
 
 
 
-bool UsesTable::setProcUseRelConst(int procId, int varId)
+bool UsesTable::setProcUseConstRel(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsesProcMap.find(procId);
@@ -229,7 +229,7 @@ vector<int> UsesTable::getVarUsedByStmt(int stmtId)
 	return vector<int>();
 }
 
-vector<int> UsesTable::getStmtUsesVar(int varId)
+vector<int> UsesTable::getStmtUseVar(int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsedByStmtMap.find(varId);
@@ -249,7 +249,7 @@ vector<int> UsesTable::getVarUsedByProc(int procId)
 	return vector<int>();
 }
 
-vector<int> UsesTable::getProcUsesVar(int varId)
+vector<int> UsesTable::getProcUseVar(int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsedByProcMap.find(varId);
@@ -269,7 +269,7 @@ vector<int> UsesTable::getConstUsedByStmt(int stmtId)
 	return vector<int>();
 }
 
-vector<int> UsesTable::getStmtUsesConst(int varId)
+vector<int> UsesTable::getStmtUseConst(int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsedByStmtMap.find(varId);
@@ -289,7 +289,7 @@ vector<int> UsesTable::getConstUsedByProc(int procId)
 	return vector<int>();
 }
 
-vector<int> UsesTable::getProcUsesConst(int varId)
+vector<int> UsesTable::getProcUseConst(int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = cUsedByProcMap.find(varId);

@@ -10,7 +10,7 @@ ModifiesTable::ModifiesTable()
 {
 }
 
-bool ModifiesTable::setStmtModifyRel(int stmtId, int varId)
+bool ModifiesTable::setStmtModifyVarRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
@@ -79,7 +79,7 @@ bool ModifiesTable::insertStmtModifiedByRel(int stmtId, int varId)
 	return true;
 }
 
-bool ModifiesTable::setProcModifyRel(int procId, int varId)
+bool ModifiesTable::setProcModifyVarRel(int procId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiesProcMap.find(procId);
@@ -166,7 +166,7 @@ int ModifiesTable::insertProcModify(int varNo, int procNo)
 /*
 	return list of stmt that modify the given variable
 */
-vector<int> ModifiesTable::getModifiedByStmt(int varId)
+vector<int> ModifiesTable::getStmtModifyVar(int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiedByStmtMap.find(varId);
@@ -180,7 +180,7 @@ vector<int> ModifiesTable::getModifiedByStmt(int varId)
 /*
 	return list of variables that is modified in a given stmt
 */
-vector<int> ModifiesTable::getStmtModify(int stmtId)
+vector<int> ModifiesTable::getVarModifiedInStmt(int stmtId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
@@ -193,7 +193,7 @@ vector<int> ModifiesTable::getStmtModify(int stmtId)
 /*
 	return list of procs that modifies given variable
 */
-vector<int> ModifiesTable::getModifiedByProc(int varId)
+vector<int> ModifiesTable::getProcModifyVar(int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiedByProcMap.find(varId);
@@ -206,7 +206,7 @@ vector<int> ModifiesTable::getModifiedByProc(int varId)
 /*
 return list of variables that is modified in a given proc
 */
-vector<int> ModifiesTable::getProcModify(int procId)
+vector<int> ModifiesTable::getVarModifiedInProc(int procId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = modifiesProcMap.find(procId);
@@ -253,7 +253,7 @@ bool ModifiesTable::checkStmtExist(int stmtId) {
 }
 
 bool ModifiesTable::checkStmtVarRelExist(int stmtId, int varId) {
-	vector<int> stmtVarLst = this->getStmtModify(stmtId);
+	vector<int> stmtVarLst = this->getVarModifiedInStmt(stmtId);
 	for (int varEntry : stmtVarLst) {
 		if (varEntry == varId) {
 			return true;

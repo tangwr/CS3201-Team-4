@@ -16,14 +16,14 @@ private:
 	unordered_map<int, vector<int>> followerListMap;
 public:
 	FollowsTable();
-	bool setFollowDirectRel(int followeeId, int followerId);
-	bool insertFollowRel(int followeeId, int followerId);
+	bool setStmtFollowStmtRel(int followeeId, int followerId);
+	bool insertStmtFollowStmtRel(int followeeId, int followerId);
 	int getDirectFollow(int followeeId);    
 	int getDirectFollowedBy(int followerId);
 	//vector<int> getFollowsList(int stmtNo);
 	//vector<int> getFollowedByList(int stmtNo);
-	vector<int> getFollowStar(int followeeId);
-	vector<int> getFollowedByStar(int followerId);
+	vector<int> getStmtFollowStarStmt(int followeeId);
+	vector<int> getStmtFollowedByStarStmt(int followerId);
 	void printContents();
 
 	bool hasFollowRel();

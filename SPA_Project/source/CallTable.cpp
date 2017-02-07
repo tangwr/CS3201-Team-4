@@ -7,7 +7,7 @@ CallTable::CallTable() {
 	this->size = 0;
 }
 
-bool CallTable::setCallProc(int stmtId, int procId) {
+bool CallTable::setStmtCallProc(int stmtId, int procId) {
 	if (this->callList.find(stmtId) != this->callList.end()) {
 		return false;
 	}

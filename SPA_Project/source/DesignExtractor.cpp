@@ -33,50 +33,50 @@ void DesignExtractor::extractStarRelations() {
 }
 
 void DesignExtractor::extractFollowsStar() {
-	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), followStar = 0;
+	int statementNum = 0, numOfStatements = pkb->getNumOfStmt(), followStar = 0;
 	
 	for (int i = 1; i <= numOfStatements; i++) {
 		statementNum = i;
-		followStar = pkb->getFollowDirect(statementNum);
-		followStar = pkb->getFollowDirect(followStar);
+		followStar = pkb->getStmtFollowStmt(statementNum);
+		followStar = pkb->getStmtFollowStmt(followStar);
 		while (followStar != -1) {
 			
-			pkb->insertFollowRel(statementNum, followStar);
-			followStar = pkb->getFollowDirect(followStar);
+			pkb->insertStmtFollowStmtRel(statementNum, followStar);
+			followStar = pkb->getStmtFollowStmt(followStar);
 		}
 	}
 }
 
 void DesignExtractor::extractParentStar() {
-	int statementNum = 0, numOfStatements = pkb->getTotalStmtNum(), parentStar = 0;
+	int statementNum = 0, numOfStatements = pkb->getNumOfStmt(), parentStar = 0;
 	for (int i = 1; i <= numOfStatements; i++) {
 		statementNum = i;
-		parentStar = pkb->getParentDirect(statementNum);
-		parentStar = pkb->getParentDirect(parentStar);
+		parentStar = pkb->getStmtParentStmt(statementNum);
+		parentStar = pkb->getStmtParentStmt(parentStar);
 		while (parentStar != -1) {
-			pkb->insertParentRel(parentStar, statementNum);
-			parentStar = pkb->getParentDirect(parentStar);
+			pkb->insertStmtParentStmtRel(parentStar, statementNum);
+			parentStar = pkb->getStmtParentStmt(parentStar);
 		}
 	}
 }
 
 void DesignExtractor::extractModifiesStar() {
     // get all stmt from modify table
-    vector<int> allModifyStmt = pkb->getAllModifiesStmt();
+    vector<int> allModifyStmt = pkb->getAllModifyStmt();
     // iterate through each stmt, finding their parent *
     for (int stmtId : allModifyStmt) {
 
-        vector<int> currentVarIdLst = pkb->getStmtModify(stmtId);
-        vector<int> currentStmtParentStar = pkb->getParentStar(stmtId);
+        vector<int> currentVarIdLst = pkb->getVarModifiedInStmt(stmtId);
+        vector<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
 
         for (int currentVarId : currentVarIdLst) {
             for (int parentStmtId : currentStmtParentStar) {
-                //if ((pkb->isStmtInModifiesTable(parentStmtId)
+                //if ((pkb->isStmtInModifyTable(parentStmtId)
                 //    && pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId))) {
                 //}
 
-				if (!pkb->checkStmtVarModifiesRelExist(parentStmtId, currentVarId)) {
-					pkb->insertStmtModifiesVar(parentStmtId, currentVarId);
+				if (!pkb->hasModifyRel(parentStmtId, currentVarId)) {
+					pkb->insertStmtModifyVarRel(parentStmtId, currentVarId);
 				}
             }
         }
@@ -84,21 +84,21 @@ void DesignExtractor::extractModifiesStar() {
     //for each parent *, set modify relationship
 }
 void DesignExtractor::extractUsesStar() {
-    vector<int> allUsesStmt = pkb->getAllUsesStmt();
+    vector<int> allUsesStmt = pkb->getAllUseStmt();
 
     for (int stmtId : allUsesStmt) {
         vector<int> currentVarIdLst = pkb->getVarUsedByStmt(stmtId);
-        vector<int> currentStmtParentStar = pkb->getParentStar(stmtId);
+        vector<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
         for (int currentVarId : currentVarIdLst) {
             for (int parentStmtId : currentStmtParentStar) {
                 //only if parent statement in table and already uses given varId then do not insert, else insert
-               // if ((pkb->isStmtInUsesTable(parentStmtId)
+               // if ((pkb->isStmtInUseTable(parentStmtId)
                 //    && pkb->checkStmtVarUseRelExist(parentStmtId, currentVarId))) {
 
-//                    pkb->insertStmtUsesVar(parentStmtId, currentVarId);
+//                    pkb->insertStmtUseVarRel(parentStmtId, currentVarId);
 
 				if (!pkb->checkStmtVarUseRelExist(parentStmtId, currentVarId)) {
-					pkb->insertStmtUsesVar(parentStmtId, currentVarId);
+					pkb->insertStmtUseVarRel(parentStmtId, currentVarId);
                 }
             }
         }

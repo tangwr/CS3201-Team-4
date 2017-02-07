@@ -95,7 +95,7 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 			return returnResults;
 		}
 
-		evaluateResults = evaluateLimitList(limitList, selectType);
+		evaluateResults = evaluateLimitList(limitList, selectType, selectString);
 		
 		//for 2 or more select type
 		if (firstMap == true) {
@@ -129,7 +129,7 @@ bool QueryEvaluator::evaluateUnlimitList(vector<Clause*> unlimitList) {
 
 }
 
-vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type selectType) {
+vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type selectType, string selectStr) {
 	
 	vector<int> evaluateResults, oldEvaluateResults;
 
@@ -137,13 +137,24 @@ vector<int> QueryEvaluator::evaluateLimitList(vector<Clause*> limitList, Type se
 		Clause* c = limitList[i];
 		Type leftChildType = c->getLeftChildType();
 		Type rightChildType = c->getRightChildType();
+		string leftChildStr = c->getLeftChild();
+		string rightChildStr = c->getRightChild();
 
 		if (leftChildType != selectType && rightChildType != selectType) {
 			evaluateResults = c->getWithRelToLeft(pkb);
 		}
 
 		if (selectType == leftChildType) {
-			evaluateResults = c->getWithRelToLeft(pkb);
+			//s1,s2 for follows & parents
+			if (selectStr == leftChildStr) {
+				evaluateResults = c->getWithRelToLeft(pkb);
+			}
+			else if (selectStr == rightChildStr) {
+				evaluateResults = c->getWithRelToRight(pkb);
+			}
+			else {
+				evaluateResults = c->getWithRelToLeft(pkb);
+			}
 		}
 		if (selectType == rightChildType) {
 			evaluateResults = c->getWithRelToRight(pkb);

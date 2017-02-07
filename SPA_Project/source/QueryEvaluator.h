@@ -31,7 +31,7 @@ private:
 	PKB* pkb;
 
 	bool evaluateUnlimitList(vector<Clause*>);
-	vector<int> evaluateLimitList(vector<Clause*>, Type);
+	vector<int> evaluateLimitList(vector<Clause*>, Type, string);
 	vector<int> QueryEvaluator::getAllSelectResults(Type);
 };
 

@@ -25,7 +25,7 @@ vector<int> ParentStar::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) { //parent(syn,syn)
-			//cout << "LEFT IS SYNONYM" << endl;
+											 //cout << "LEFT IS SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
 			//cout << "LEFT SIZE IS " << left.size() << endl;
 			tempResult = getAllChildren(left, pkb);
@@ -62,7 +62,7 @@ vector<int> ParentStar::getWithRelToLeft(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //parent(syn, syn)
-			//cout << "RIGHT IS SYNONYM" << endl;
+											  //cout << "RIGHT IS SYNONYM" << endl;
 			right = getTypeStmt(rightChildType, pkb);
 			//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
 			tempResult = getAllParents(right, pkb);
@@ -117,7 +117,7 @@ vector<int> ParentStar::getAllParents(vector<int> list, PKB* pkb) {
 }
 
 vector<int> ParentStar::filterType(vector<int> list, Type type, PKB* pkb) {
-	if (type == STMT || type == ANYTHING) {
+	if (type == STMT || type == ANYTHING || type == PROG_LINE) {
 		return list;
 	}
 	vector<int> result;
@@ -134,11 +134,12 @@ bool ParentStar::isStmtType(int stmtId, Type type, PKB* pkb) {
 		return false;
 	switch (type) {
 	case WHILES:
-	//	cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
+		//	cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
 		return pkb->isStmtInAssignTable(stmtId);
 	case STMT:
+	case PROG_LINE:
 	case ANYTHING:
 		return true;
 	}
@@ -149,6 +150,7 @@ bool ParentStar::isStmtType(int stmtId, Type type, PKB* pkb) {
 vector<int> ParentStar::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case STMT:
+	case PROG_LINE:
 	case ANYTHING: {
 		int numOfStmt = pkb->getNumOfStmt();
 		vector<int> stmtList(numOfStmt);
@@ -167,14 +169,14 @@ vector<int> ParentStar::getTypeStmt(Type type, PKB* pkb) {
 }
 
 bool ParentStar::isNumber(Type type) {
-	return (type == PROG_LINE);
+	return (type == INTEGER);
 }
 
 bool ParentStar::isSynonym(Type type) {
-	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING);
+	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
-bool ParentStar::hasRel(PKB *pkbSource) {
+bool ParentStar::hasRel(PKB *pkb) {
 	if (isSynonym(leftChildType)) {
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
@@ -191,8 +193,13 @@ bool ParentStar::hasRel(PKB *pkbSource) {
 				}
 			}
 		}
-		else if (isSynonym(rightChildType)) { // parent(syn,sy
-			return pkb->hasParentRel();
+		else if (isSynonym(rightChildType)) { // parent(syn,syn)
+			right = getTypeStmt(rightChildType, pkb);
+			//cout << "NUMBER OF RIGHT IS " << right.size() << endl;
+			tempResult = getAllParents(right, pkb);
+			//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+			result = filterType(tempResult, leftChildType, pkb);
+			return (result.size() != 0);
 		}
 		else { // parent(synonym, invalid)
 			return false; // return what!??!?!?!?!?!?!?!??!
@@ -209,13 +216,12 @@ bool ParentStar::hasRel(PKB *pkbSource) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, parent(num, num)
-				int parent = pkb->getStmtParentStmt(rightArgument);
-				if (parent == leftArgument) {
-					return true;
+				vector<int> parent = pkb->getStmtParentStarStmt(rightArgument);
+				for (int i = 0; i < parent.size(); i++) {
+					if (parent[i] == leftArgument)
+						return true;
 				}
-				else {
-					return false;
-				}
+				return false;
 			}
 		}
 		else if (isSynonym(rightChildType)) { //parent(num , syn)

@@ -1,8 +1,19 @@
-﻿  TestFrontEnd.cpp
-  Generating Code...
-  Compiling...
-  TestFrontEnd_WhileIfTest.cpp
-  Generating Code...
-     Creating library C:\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.lib and object C:\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.exp
-  IntegrationTesting.vcxproj -> C:\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.dll
-  IntegrationTesting.vcxproj -> C:\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.pdb (Full PDB)
+﻿  stdafx.cpp
+  TestFrontEnd.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+     Creating library C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.lib and object C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.exp
+SPA.lib(Controller.obj) : error LNK2019: unresolved external symbol "public: __thiscall PQL::PQL(class PKB *)" (??0PQL@@QAE@PAVPKB@@@Z) referenced in function "public: __thiscall Controller::Controller(void)" (??0Controller@@QAE@XZ)
+SPA.lib(Controller.obj) : error LNK2019: unresolved external symbol "public: __thiscall PQL::~PQL(void)" (??1PQL@@QAE@XZ) referenced in function "public: void * __thiscall PQL::`scalar deleting destructor'(unsigned int)" (??_GPQL@@QAEPAXI@Z)
+SPA.lib(Controller.obj) : error LNK2019: unresolved external symbol "public: class std::list<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __thiscall PQL::evaluateQuery(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?evaluateQuery@PQL@@QAE?AV?$list@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z) referenced in function "public: class std::list<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __thiscall Controller::processQuery(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >)" (?processQuery@Controller@@QAE?AV?$list@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@3@@Z)
+C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.dll : fatal error LNK1120: 3 unresolved externals

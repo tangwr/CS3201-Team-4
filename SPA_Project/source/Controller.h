@@ -4,6 +4,7 @@
 #include <list>
 
 #include "PKB.h"
+#include "PQL.h"
 
 using namespace std;
 
@@ -13,6 +14,7 @@ public:
 	void processSource(string);
 	list<string> processQuery(string);
 	~Controller();
-private:
+
 	PKB *pkb;
+	PQL *pql;
 };

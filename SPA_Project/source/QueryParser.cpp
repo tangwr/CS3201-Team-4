@@ -54,12 +54,11 @@ string checkSecondRightChild = "";
 int counter1 = 0;
 int counter2 = 0;
 
-
-
 QueryParser::QueryParser() {
 
 }
 bool QueryParser::isValid(string query) {
+	cout << endl << "query: " << query << endl << endl;
 	//string test = "    assign a; Select a such that Uses(3, \"y\") pattern a(_, _\"x\"_)";
 	string q = trim(query);
 	cout<< "the trim query is: " <<q;
@@ -93,6 +92,7 @@ bool QueryParser::isValid(string query) {
 }
 
 QueryTree QueryParser::getQuery() {
+	
 	return queryTree;
 }
 
@@ -803,7 +803,6 @@ vector<string> QueryParser::splitTheStringIntoParts(string input, char c, int nu
 
 		result.push_back(trim(string(begin, strC)));
 	}
-
 	return result;
 }
 

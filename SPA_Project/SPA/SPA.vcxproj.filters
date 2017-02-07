@@ -34,12 +34,6 @@
     <Filter Include="Resource Files\Source Files\FrontEnd">
       <UniqueIdentifier>{8aaf0138-5ab1-42d7-9389-6df9a1b41715}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\Source Files\FrontEnd\Parser">
-      <UniqueIdentifier>{2650a8ac-2120-469a-9241-e8a2f88aa313}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Source Files\FrontEnd\DesignExtractor">
-      <UniqueIdentifier>{cab850b3-c482-47bf-8aff-c6b2df8f728c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Source Files\Utility">
       <UniqueIdentifier>{3cd09e9b-f387-4231-8d40-7f9c32566410}</UniqueIdentifier>
     </Filter>
@@ -57,12 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\source\DesignExtractor.cpp">
-      <Filter>Resource Files\Source Files\FrontEnd\DesignExtractor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Parser.cpp">
-      <Filter>Resource Files\Source Files\FrontEnd\Parser</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\Controller.cpp">
       <Filter>Resource Files\Source Files\UI</Filter>
     </ClCompile>
@@ -108,32 +96,20 @@
     <ClCompile Include="..\source\IfTable.cpp">
       <Filter>Resource Files\Source Files\PKB</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Parent.cpp">
-      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    <ClCompile Include="..\source\Parser.cpp">
+      <Filter>Resource Files\Source Files\FrontEnd</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Uses.cpp">
-      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Pattern.cpp">
-      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    <ClCompile Include="..\source\DesignExtractor.cpp">
+      <Filter>Resource Files\Source Files\FrontEnd</Filter>
     </ClCompile>
     <ClCompile Include="..\source\Modifies.cpp">
-      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\Follow.cpp">
-      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\QueryTree.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\PostProcessor.cpp">
+    <ClCompile Include="..\source\QueryEvaluator.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Result.cpp">
+    <ClCompile Include="..\source\Uses.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\source\VectorSetOperation.cpp">
-      <Filter>Resource Files\Source Files\Utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,44 +164,14 @@
     <ClInclude Include="..\source\ModifiesTable.h">
       <Filter>Header Files\PKB</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Uses.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Clause.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Follow.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\FollowStar.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
     <ClInclude Include="..\source\Modifies.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Parent.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\ParentStar.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Pattern.h">
-      <Filter>Header Files\PQL\Clause</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\QueryTree.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\Type.h">
+    <ClInclude Include="..\source\QueryEvaluator.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
-    <ClInclude Include="..\source\PostProcessor.h">
+    <ClInclude Include="..\source\Uses.h">
       <Filter>Header Files\PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Result.h">
-      <Filter>Header Files\PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\VectorSetOperation.h">
-      <Filter>Header Files\Utility</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

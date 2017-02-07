@@ -82,6 +82,12 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 			returnResults.setResultType(selectType);
 			returnResults.setResultBool(false);
 			
+			//Remove clause allList object
+			for (int i = 0; i < allList.size(); i++) {
+				delete allList[i];
+			}
+			allList.clear();
+
 			return returnResults;
 		}
 		
@@ -92,6 +98,12 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 			returnResults.setResultType(selectType);
 			returnResults.setResultBool(true);
 			
+			//Remove clause allList object
+			for (int i = 0; i < allList.size(); i++) {
+				delete allList[i];
+			}
+			allList.clear();
+
 			return returnResults;
 		}
 
@@ -109,6 +121,11 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 		returnResults.setResultType(selectType);
 		returnResults.setResultBool(true);
 	}
+	//Remove clause allList object
+	for (int i = 0; i < allList.size(); i++) {
+		delete allList[i];
+	}
+	allList.clear();
 	return returnResults;
 }
 

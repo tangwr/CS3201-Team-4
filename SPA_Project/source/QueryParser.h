@@ -6,12 +6,12 @@
 
 #include "QueryTree.h"
 
-; using namespace std;
+using namespace std;
 
 class QueryParser {
 private:
 	unordered_map<string, string> varMap;
-	QueryTree queryTree;
+	QueryTree *queryTree;
 
 
 	bool isValidDeclaration(string declaration);

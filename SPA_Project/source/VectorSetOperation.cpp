@@ -29,8 +29,10 @@ vector<T> VectorSetOperation<T>::setUnion(vector<T> v1, vector<T> v2) {
 		elementMap.insert(v2[i]);
 	}
 	vector<T> results(elementMap.size());
+	int i = 0;
 	for (auto& it: elementMap) {
-		results.push_back(it);
+		results[i] = it;
+		i++;
 	}
 	return results;
 }

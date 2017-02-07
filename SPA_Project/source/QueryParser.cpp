@@ -61,10 +61,12 @@ QueryParser::QueryParser() {
 
 }
 bool QueryParser::isValid(string query) {
+	queryTree = new QueryTree();
 	string test = "while w; Select w such that Parent(w,7)";
 	string q = trim(query);
 	cout<< "the trim query is: " <<q;
-	queryTree.setIsComonVar(false);
+	queryTree->setIsComonVar(false);
+	varMap.clear(); // clear the varMap
 	vector<string> resultStr = splitTheString(q, ';');
 	int size = resultStr.size();
 
@@ -84,9 +86,9 @@ bool QueryParser::isValid(string query) {
 	cout <<"\n"<< "the subQuery is: " << resultStr.at(i);
 	if (!isValidQuery(resultStr.at(i))) {
 		feedback = "\n Invalid Query: ";
-		queryTree.getSelect().clear();
-		queryTree.getLimits().clear();
-		queryTree.getUnLimits().clear();
+		queryTree->getSelect().clear();
+		queryTree->getLimits().clear();
+		queryTree->getUnLimits().clear();
 		return false;
 	}
 
@@ -98,12 +100,14 @@ bool QueryParser::isValid(string query) {
 }
 
 QueryTree QueryParser::getQuery() {
-	return queryTree;
+	QueryTree qt = *queryTree;
+	delete queryTree;
+	return qt;
 }
 
 bool QueryParser::isValidDeclaration(string input) {
 	vector<string> arrDec = splitTheStringIntoParts(input, ' ', 2);
-
+	cout << "\n" << "1: " << arrDec.at(0) << "2: " << arrDec.at(1);
 	if (arrDec.size() < 2 || find(TYPES.begin(), TYPES.end(), arrDec.at(0)) == TYPES.end()) {
 		return false;
 	}
@@ -148,8 +152,8 @@ bool QueryParser::isValidQuery(string query) {
 			string variableType = getVarType(key);
 			cout << "\n" << "the selectMap's value: " << variableType;
 			Type value = getTypeOfChild(variableType);
-			queryTree.insertSelect(key, value);
-			if (queryTree.getSelect().size() < 1) {
+			queryTree->insertSelect(key, value);
+			if (queryTree->getSelect().size() < 1) {
 				cout << "\n" << "the Select Map is empty";
 			}
 			else {
@@ -174,8 +178,8 @@ bool QueryParser::isValidQuery(string query) {
 			string variableType = getVarType(arrClauses.at(0));
 			Type value = getTypeOfChild(variableType);
 			cout << "\n" << "the selectMap's value: " << variableType;
-			queryTree.insertSelect(key, value);
-			if (queryTree.getSelect().size() < 1) {
+			queryTree->insertSelect(key, value);
+			if (queryTree->getSelect().size() < 1) {
 				cout << "\n" << "the Select Map is empty";
 				string dummy = "";
 			}
@@ -188,8 +192,8 @@ bool QueryParser::isValidQuery(string query) {
 			// here to insert Select BOOLEAN
 			string key = stringToLower(TYPE_BOOLEAN);
 			Type b = BOOLEAN;
-			queryTree.insertSelect(key, b);
-			if (queryTree.getSelect().size() < 1) {
+			queryTree->insertSelect(key, b);
+			if (queryTree->getSelect().size() < 1) {
 				cout << "\n" << "the Select Map is empty";
 				string dummy = "";
 			}
@@ -340,7 +344,7 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					leftChild = variable.at(0);
 					lcType = getVarType(leftChild);
 					leftChildType = getTypeOfChild(lcType);
-					if (queryTree.getSelect().count(leftChild)) {
+					if (queryTree->getSelect().count(leftChild)) {
 						isLimit = true;
 					}
 					if (isSuchThanBeforePattern) {
@@ -380,7 +384,7 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					rcType = getVarType(rightChild);
 					rightChildType = getTypeOfChild(rcType);
 					cout << "\n" << "rightChild =  " << rightChild;
-					if (queryTree.getSelect().count(rightChild)) {
+					if (queryTree->getSelect().count(rightChild)) {
 						isLimit = true;
 						cout << "\n" << "inside the select Map";
 					}
@@ -481,17 +485,17 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		string key = leftChild;
 		string sType = getVarType(key);
 		Type comType = getTypeOfChild(sType);
-		queryTree.insertComonVar(key, comType);
+		queryTree->insertComonVar(key, comType);
 		//for inserting to the ComonVar Map 
-		queryTree.setIsComonVar(true);
+		queryTree->setIsComonVar(true);
 	}
 	else if (counter2 >= 1) {
 		string key = rightChild;
 		string sType = getVarType(key);
 		Type comType = getTypeOfChild(sType);
-		queryTree.insertComonVar(key, comType);
+		queryTree->insertComonVar(key, comType);
 		//for inserting to the ComonVar Map 
-		queryTree.setIsComonVar(true);
+		queryTree->setIsComonVar(true);
 	}
 	//counter checking 
 	if (relType.compare("Follows") == 0) {
@@ -499,10 +503,10 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		cout << "\n" << "insert into the Follows Object here";
 		Follow *f = new Follow(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.insertLimits(f);
+			queryTree->insertLimits(f);
 		}
 		else {
-			queryTree.insertUnLimits(f);
+			queryTree->insertUnLimits(f);
 
 		}
 	}
@@ -510,10 +514,10 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		//create FollowStar
 		FollowStar *fs = new FollowStar(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.insertLimits(fs);
+			queryTree->insertLimits(fs);
 		}
 		else {
-			queryTree.insertUnLimits(fs);
+			queryTree->insertUnLimits(fs);
 
 		}
 
@@ -524,16 +528,16 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		cout << "\n" << lcType;
 		cout << "\n" << rightChild;
 		cout << "\n" << rcType;
-		cout << "\n" << "isCommonVar : " <<queryTree.getIsComonVar();
+		cout << "\n" << "isCommonVar : " <<queryTree->getIsComonVar();
 		Parent *p = new Parent(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.insertLimits(p);
+			queryTree->insertLimits(p);
 		}
 		else {
-			queryTree.insertUnLimits(p);
+			queryTree->insertUnLimits(p);
 
 		}
-		if (queryTree.getLimits().size() < 1) {
+		if (queryTree->getLimits().size() < 1) {
 			cout << "\n" << "nothing inside the limit";
 			string dummy = "";
 		}
@@ -541,7 +545,7 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 			cout << "\n" << "stored succesfully";
 			string dummy = "";
 		}
-		if (queryTree.getUnLimits().size() < 1) {
+		if (queryTree->getUnLimits().size() < 1) {
 			cout << "\n" << "nothing inside the unLimt";
 			string dummy = "";
 		}
@@ -553,20 +557,20 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 	else if (relType.compare("Parent*") == 0) {
 		ParentStar *ps = new ParentStar(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.insertLimits(ps);
+			queryTree->insertLimits(ps);
 		}
 		else {
-			queryTree.insertUnLimits(ps);
+			queryTree->insertUnLimits(ps);
 
 		}
 	}
 	else if (relType.compare("Modifies") == 0) {
 		Modifies *m = new Modifies(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.insertLimits(m);
+			queryTree->insertLimits(m);
 		}
 		else {
-			queryTree.insertUnLimits(m);
+			queryTree->insertUnLimits(m);
 
 		}
 	}
@@ -574,10 +578,10 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		cout << "\n" << "let's get the Uses obj";
 		Uses *u = new Uses(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.insertLimits(u);
+			queryTree->insertLimits(u);
 		}
 		else {
-			queryTree.insertUnLimits(u);
+			queryTree->insertUnLimits(u);
 
 		}
 	}
@@ -595,7 +599,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 	bool isUnderscore = false;
 	bool isLimit = false;
 
-	if (queryTree.getSelect().count(syn)) {
+	if (queryTree->getSelect().count(syn)) {
 		cout << "\n" << "syn is selected";
 		isLimit = true;
 	}
@@ -629,7 +633,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 				rightChild = var;
 				rcType = getVarType(rightChild);
 				rightChildType = getTypeOfChild(rcType);
-				if (queryTree.getSelect().count(var)) {
+				if (queryTree->getSelect().count(var)) {
 					isLimit = true;
 				}
 				if (isSuchThanBeforePattern) {
@@ -702,10 +706,10 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 		string key = syn;
 		string sType = getVarType(key);
 		Type comType = getTypeOfChild(sType);
-		queryTree.insertComonVar(key, comType);
+		queryTree->insertComonVar(key, comType);
 		//for inserting to the ComonVar Map 
-		queryTree.setIsComonVar(true);
-		if (queryTree.getComonVar().size() > 0) {
+		queryTree->setIsComonVar(true);
+		if (queryTree->getComonVar().size() > 0) {
 			cout << "\n" << "one CommonVar insert successfully";
 			string dummy = "";
 		}
@@ -714,17 +718,17 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 		string key = rightChild;
 		string sType = getVarType(key);
 		Type comType = getTypeOfChild(sType);
-		queryTree.insertComonVar(key, comType);
-		queryTree.setIsComonVar(true);
+		queryTree->insertComonVar(key, comType);
+		queryTree->setIsComonVar(true);
 	}
 	//create a pattern obj
 	cout << "\n" << "insert Pattern liao";
 	Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
 	if (isLimit) {
-		queryTree.insertLimits(pt);
+		queryTree->insertLimits(pt);
 	}
 	else {
-		queryTree.insertUnLimits(pt);
+		queryTree->insertUnLimits(pt);
 	}
 	return true;
 }
@@ -784,7 +788,7 @@ bool QueryParser::checkPattern2(string checkingStr) {
 						rightChild = var;
 						rcType = getVarType(rightChild);
 						rightChildType = getTypeOfChild(rcType);
-						if (queryTree.getSelect().count(var)) {
+						if (queryTree->getSelect().count(var)) {
 							isLimit = true;
 						}
 						cout << "\n" << "rcType : " << rcType;
@@ -862,11 +866,11 @@ bool QueryParser::checkPattern2(string checkingStr) {
 			Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
 			if (isLimit) {
 				cout << "\n" << "inserted into limits the pattern alr";
-				queryTree.insertLimits(pt);
+				queryTree->insertLimits(pt);
 			}
 			else {
 				cout << "\n" << "inserted into Unlimts the pattern alr";
-				queryTree.insertUnLimits(pt);
+				queryTree->insertUnLimits(pt);
 			}
 
 			//check only have pattern clause

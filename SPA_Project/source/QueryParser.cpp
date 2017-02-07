@@ -291,6 +291,9 @@ bool QueryParser::checkRelation(string checkingStr) {
 	//if((arrClauses.at(1).compare("pattern a")) == 0) {
 		vector<string> patternClauses = splitTheStringIntoParts(arrClauseTemp.at(1), ' ', 2);// check the pattern after such that clause
 		if (patternClauses.at(0).compare("pattern") == 0) {
+			if (patternClauses.size() < 2) {
+				return false;
+			}
 			string origin = patternClauses.at(1);
 			string originSub = patternClauses.at(1).substr(0, patternClauses.at(1).size() - 1);
 			if (isVarNameExists(originSub)) {

@@ -19,7 +19,7 @@ vector<int> ParentStar::getWithRelToRight(PKB* pkb) {
 				return result;
 			}
 			else { //if left is a valid statement number, parent*(num, syn)
-				vector<int> children = pkb->getChildrenStar(leftArgument);
+				vector<int> children = pkb->getStmtChildrenStarStmt(leftArgument);
 				result = filterType(children, rightChildType, pkb);
 				return result;
 			}
@@ -56,7 +56,7 @@ vector<int> ParentStar::getWithRelToLeft(PKB* pkb) {
 				return result;
 			}
 			else { //if right is valid statement number, parent(syn, num)
-				vector<int> parents = pkb->getParentStar(rightArgument);
+				vector<int> parents = pkb->getStmtParentStarStmt(rightArgument);
 				result = filterType(parents, leftChildType, pkb);
 				return result;
 			}
@@ -82,14 +82,14 @@ vector<int> ParentStar::getWithRelToLeft(PKB* pkb) {
 }
 
 bool ParentStar::isValidStmtNo(int stmtId, PKB* pkb) {
-	return ((stmtId > 0) && (stmtId <= pkb->getTotalStmtNum()));
+	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
 vector<int> ParentStar::getAllChildren(vector<int> list, PKB* pkb) {
 	vector<int> children;
 	unordered_set<int> allChildren;
 	for (int i = 0; i < list.size(); i++) {
-		children = pkb->getChildrenStar(list[i]);
+		children = pkb->getStmtChildrenStarStmt(list[i]);
 		for (int j = 0; j < children.size(); j++) {
 			allChildren.insert(children[j]);
 		}
@@ -104,7 +104,7 @@ vector<int> ParentStar::getAllParents(vector<int> list, PKB* pkb) {
 	vector<int> parents;
 	unordered_set<int> allParents;
 	for (int i = 0; i < list.size(); i++) {
-		parents = pkb->getParentStar(list[i]);
+		parents = pkb->getStmtParentStarStmt(list[i]);
 		//cout << "Iteration: " << i << endl;
 		for (int j = 0; j < parents.size(); j++) {
 			allParents.insert(parents[j]);
@@ -150,7 +150,7 @@ vector<int> ParentStar::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case STMT:
 	case ANYTHING: {
-		int numOfStmt = pkb->getTotalStmtNum();
+		int numOfStmt = pkb->getNumOfStmt();
 		vector<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
 			stmtList[i] = i + 1;
@@ -158,9 +158,9 @@ vector<int> ParentStar::getTypeStmt(Type type, PKB* pkb) {
 		return stmtList;
 	}
 	case WHILES:
-		return pkb->getAllWhileStmtId();
+		return pkb->getAllWhileStmt();
 	case ASSIGN:
-		return pkb->getAllAssignStmtId();
+		return pkb->getAllAssignStmt();
 	}
 	vector<int> result;
 	return result;
@@ -182,7 +182,7 @@ bool ParentStar::hasRel(PKB *pkbSource) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, parent(syn, num)
-				int parent = pkb->getParentDirect(rightArgument);
+				int parent = pkb->getStmtParentStmt(rightArgument);
 				if (isStmtType(parent, leftChildType, pkb)) {
 					return true;
 				}
@@ -209,7 +209,7 @@ bool ParentStar::hasRel(PKB *pkbSource) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, parent(num, num)
-				int parent = pkb->getParentDirect(rightArgument);
+				int parent = pkb->getStmtParentStmt(rightArgument);
 				if (parent == leftArgument) {
 					return true;
 				}
@@ -219,7 +219,7 @@ bool ParentStar::hasRel(PKB *pkbSource) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //parent(num , syn)
-			vector<int> children = pkb->getChildren(leftArgument);
+			vector<int> children = pkb->getStmtChildrenStmt(leftArgument);
 			result = filterType(children, rightChildType, pkb);
 			return (result.size() != 0);
 		}
@@ -245,4 +245,3 @@ Type ParentStar::getLeftChildType() {
 Type ParentStar::getRightChildType() {
 	return rightChildType;
 }
-

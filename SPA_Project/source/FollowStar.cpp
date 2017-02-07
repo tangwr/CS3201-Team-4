@@ -86,14 +86,14 @@ vector<int> FollowStar::getWithRelToLeft(PKB* pkb) {
 }
 
 bool FollowStar::isValidStmtNo(int stmtId, PKB* pkb) {
-	return ((stmtId > 0) && (stmtId <= pkb->getTotalStmtNum()));
+	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
 unordered_set<int> FollowStar::getAllFollowsStar(vector<int> list, PKB* pkb) {
 	unordered_set<int> result;
 	vector<int> followsStar;
 	for (int i = 0; i < list.size(); i++) {
-		followsStar = pkb->getFollowStar(list[i]);
+		followsStar = pkb->getStmtFollowStarStmt(list[i]);
 		for (int j = 0; j < followsStar.size(); j++) {
 			result.insert(followsStar[j]);
 		}
@@ -106,7 +106,7 @@ unordered_set<int> FollowStar::getAllFollowedByStar(vector<int> list, PKB* pkb) 
 	unordered_set<int> result;
 	vector<int> followedByStar;
 	for (int i = 0; i < list.size(); i++) {
-		followedByStar = pkb->getFollowedByStar(list[i]);
+		followedByStar = pkb->getStmtFollowedByStarStmt(list[i]);
 		for (int j = 0; j < followedByStar.size(); j++) {
 			result.insert(followedByStar[j]);
 		}
@@ -150,7 +150,7 @@ vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case STMT:
 	case ANYTHING: {
-		int numOfStmt = pkb->getTotalStmtNum();
+		int numOfStmt = pkb->getNumOfStmt();
 		vector<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
 			stmtList[i] = i + 1;
@@ -158,9 +158,9 @@ vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 		return stmtList;
 	}
 	case WHILES:
-		return pkb->getAllWhileStmtId();
+		return pkb->getAllWhileStmt();
 	case ASSIGN:
-		return pkb->getAllAssignStmtId();
+		return pkb->getAllAssignStmt();
 	}
 	vector<int> result;
 	return result;
@@ -182,7 +182,7 @@ bool FollowStar::hasRel(PKB *pkb) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, follows*(syn, num)
-				vector<int> follows = pkb->getFollowedByStar(rightArgument);
+				vector<int> follows = pkb->getStmtFollowedByStarStmt(rightArgument);
 				for (int i = 0; i < follows.size(); i++) {
 					if (isStmtType(follows[i], leftChildType, pkb)) {
 						return true;
@@ -209,7 +209,7 @@ bool FollowStar::hasRel(PKB *pkb) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, follows*(num, num)
-				vector<int> follows = pkb->getFollowedByStar(rightArgument);
+				vector<int> follows = pkb->getStmtFollowedByStarStmt(rightArgument);
 				for (int i = 0; i < follows.size(); i++) {
 					if (follows[i] == leftArgument) {
 						return true;
@@ -219,7 +219,7 @@ bool FollowStar::hasRel(PKB *pkb) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //follows(num , syn)
-			vector<int> followedByStar = pkb->getFollowedByStar(leftArgument);
+			vector<int> followedByStar = pkb->getStmtFollowedByStarStmt(leftArgument);
 			for (int i = 0; i < followedByStar.size(); i++) {
 				if (isStmtType(followedByStar[i], rightChildType, pkb)) {
 					return true;

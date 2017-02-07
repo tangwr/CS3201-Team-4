@@ -20,7 +20,7 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 				return result;
 			}
 			else { //if left is a valid statement number, follows(syn, num)
-				int followedBy = pkb->getFollowDirect(leftArgument);
+				int followedBy = pkb->getStmtFollowStmt(leftArgument);
 				if (isStmtType(followedBy, rightChildType, pkb)) {
 					result.push_back(followedBy);
 					return result;
@@ -53,7 +53,7 @@ vector<int> Follow::getWithRelToLeft(PKB* pkb) {
 				return result;
 			}
 			else { //if right is valid statement number, follows(syn, num)
-				int follows = pkb->getFollowedByDirect(rightArgument);
+				int follows = pkb->getStmtFollowedByStmt(rightArgument);
 				if (isStmtType(follows, leftChildType, pkb)) {
 					result.push_back(follows);
 					return result;
@@ -81,14 +81,14 @@ vector<int> Follow::getWithRelToLeft(PKB* pkb) {
 }
 
 bool Follow::isValidStmtNo(int stmtId, PKB* pkb) {
-	return ((stmtId > 0) && (stmtId <= pkb->getTotalStmtNum()));
+	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
 vector<int> Follow::getAllFollows(vector<int> list, PKB* pkb) {
 	vector<int> listFollows;
 	int follows;
 	for (int i = 0; i < list.size(); i++) {
-		follows = pkb->getFollowDirect(list[i]);
+		follows = pkb->getStmtFollowStmt(list[i]);
 		if (follows != -1) {
 			listFollows.push_back(follows);
 		}
@@ -100,7 +100,7 @@ vector<int> Follow::getAllFollowedBy(vector<int> list, PKB* pkb) {
 	vector<int> listFollowedBy;
 	int followedBy;
 	for (int i = 0; i < list.size(); i++) {
-		followedBy = pkb->getFollowedByDirect(list[i]);
+		followedBy = pkb->getStmtFollowedByStmt(list[i]);
 		if (followedBy != -1) {
 			//cout << followedBy << " added bcuz it follows " << list[i] << endl;
 			listFollowedBy.push_back(followedBy);
@@ -146,7 +146,7 @@ vector<int> Follow::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case STMT:
 	case ANYTHING: {
-		int numOfStmt = pkb->getTotalStmtNum();
+		int numOfStmt = pkb->getNumOfStmt();
 		vector<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
 			stmtList[i] = i + 1;
@@ -154,9 +154,9 @@ vector<int> Follow::getTypeStmt(Type type, PKB* pkb) {
 		return stmtList;
 	}
 	case WHILES:
-		return pkb->getAllWhileStmtId();
+		return pkb->getAllWhileStmt();
 	case ASSIGN:
-		return pkb->getAllAssignStmtId();
+		return pkb->getAllAssignStmt();
 	}
 	vector<int> result;
 	return result;
@@ -178,7 +178,7 @@ bool Follow::hasRel(PKB *pkbSource) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, follows(syn, num)
-				int follows = pkb->getFollowedByDirect(rightArgument);
+				int follows = pkb->getStmtFollowedByStmt(rightArgument);
 				if (isStmtType(follows, leftChildType, pkb)) {
 					return true;
 				}
@@ -205,7 +205,7 @@ bool Follow::hasRel(PKB *pkbSource) {
 				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 			}
 			else { //if right is valid statement number, follows(num, num)
-				int follows = pkb->getFollowedByDirect(rightArgument);
+				int follows = pkb->getStmtFollowedByStmt(rightArgument);
 				if (follows == leftArgument) {
 					return true;
 				}
@@ -215,7 +215,7 @@ bool Follow::hasRel(PKB *pkbSource) {
 			}
 		}
 		else if (isSynonym(rightChildType)) { //follows(num , syn)
-			int followedBy = pkb->getFollowDirect(leftArgument);
+			int followedBy = pkb->getStmtFollowStmt(leftArgument);
 			if (isStmtType(followedBy, rightChildType, pkb)) {
 				return true;
 			}

@@ -22,9 +22,9 @@ const string TYPE_VARNAME = "varName";
 const string TYPE_PROG_LINE = "prog_line";
 const string TYPE_ALL = "all";
 const string TYPE_BOOLEAN = "BOOLEAN";
-const string RELATION_AND = "and";
 const string TYPE_VARIABLE = "variable";
 const string TYPE_PATTERN = "pattern";
+const string TYPE_SUCH = "such";
 
 
 const regex variableNameRegex("(^[[:alpha:]])([[:alnum:]]+)*$");
@@ -53,15 +53,18 @@ string checkSecondLeftChild = "";
 string checkSecondRightChild = "";
 int counter1 = 0;
 int counter2 = 0;
+bool isSuchThanBeforePattern = false;
+
+
 
 QueryParser::QueryParser() {
 
 }
 bool QueryParser::isValid(string query) {
-	cout << endl << "query: " << query << endl << endl;
-	//string test = "    assign a; Select a such that Uses(3, \"y\") pattern a(_, _\"x\"_)";
+	string test = "while w; Select w such that Parent(w,7)";
 	string q = trim(query);
 	cout<< "the trim query is: " <<q;
+	queryTree.setIsComonVar(false);
 	vector<string> resultStr = splitTheString(q, ';');
 	int size = resultStr.size();
 
@@ -72,7 +75,7 @@ bool QueryParser::isValid(string query) {
 		cout<< "\n first Part: " << firstPart;
 
 		if (!isValidDeclaration(resultStr.at(i))) {
-			feedback = "Invalid Query Declaration: " + q;
+			feedback =  "\n Invalid Query Declaration: ";
 			return false;
 		}
 		//here is the OKay!
@@ -80,11 +83,14 @@ bool QueryParser::isValid(string query) {
 	//subQuery is 
 	cout <<"\n"<< "the subQuery is: " << resultStr.at(i);
 	if (!isValidQuery(resultStr.at(i))) {
-		feedback = "Invalid Query: " + q;
+		feedback = "\n Invalid Query: ";
+		queryTree.getSelect().clear();
+		queryTree.getLimits().clear();
+		queryTree.getUnLimits().clear();
 		return false;
 	}
 
-	feedback = "Valid Query: " + q;
+	feedback = "\n Valid Query: ";
 
 	std::cout << feedback << std::endl;
 
@@ -92,7 +98,6 @@ bool QueryParser::isValid(string query) {
 }
 
 QueryTree QueryParser::getQuery() {
-	
 	return queryTree;
 }
 
@@ -144,6 +149,13 @@ bool QueryParser::isValidQuery(string query) {
 			cout << "\n" << "the selectMap's value: " << variableType;
 			Type value = getTypeOfChild(variableType);
 			queryTree.insertSelect(key, value);
+			if (queryTree.getSelect().size() < 1) {
+				cout << "\n" << "the Select Map is empty";
+			}
+			else {
+				cout << "\n" << "insert selectmap successfully for only select s";
+				string dummy = "";
+			}
 			return true;
 		}
 		arrClauses = splitTheStringIntoParts(arrClauses.at(1), ' ', 2);//a and such that...
@@ -163,14 +175,24 @@ bool QueryParser::isValidQuery(string query) {
 			Type value = getTypeOfChild(variableType);
 			cout << "\n" << "the selectMap's value: " << variableType;
 			queryTree.insertSelect(key, value);
+			if (queryTree.getSelect().size() < 1) {
+				cout << "\n" << "the Select Map is empty";
+				string dummy = "";
+			}
+			else {
+				cout << "\n" << "insert selectmap successfully";
+				string dummy = "";
+			}
 		}
 		else {
 			// here to insert Select BOOLEAN
 			string key = stringToLower(TYPE_BOOLEAN);
 			Type b = BOOLEAN;
 			queryTree.insertSelect(key, b);
-
-			//qt.insertSelect("", stringToLower(VARTYPE_BOOLEAN));
+			if (queryTree.getSelect().size() < 1) {
+				cout << "\n" << "the Select Map is empty";
+				string dummy = "";
+			}
 		}
 	}
 	/*
@@ -197,12 +219,19 @@ bool QueryParser::isValidQuery(string query) {
 			}
 			cout << "\n" << "the rest : " << arrClauses.at(1);
 			//here is for the Follow(1,s) pattern a(v, _)
+			isSuchThanBeforePattern = true;
+			counter1 = 0;// reset the counters
+			counter2 = 0;
 			isRelationValid = checkRelation(arrClauses.at(1));
 			previous = "such that";
 
 		}
 		else if (arrClauses.at(0).compare("pattern") == 0) {
 			//here is for the pattern checking after the selecting
+			cout << "\n" << "Pattern before comes here= "<<arrClauses.at(1);
+			isSuchThanBeforePattern = false;
+			counter1 = 0;// reset the counters
+			counter2 = 0;
 			isRelationValid = checkPattern2(arrClauses.at(1));
 			previous = "pattern";
 
@@ -300,8 +329,9 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 	Type leftChildType;
 	Type rightChildType;
 	bool isLimit = false;
-
-	if (find(CHILDREN.begin(), CHILDREN.end(), relType) != CHILDREN.end()) {
+	cout << "\n" << "Check Children here";
+	if (find(CHILDREN.begin(), CHILDREN.end(), relType) != CHILDREN.end() ||
+		find(CHILDREN.begin(), CHILDREN.end(), relType.substr(0, relType.size() - 1)) != CHILDREN.end()) {
 		cout << "\n" << "here come to the CHILDREN checking";
 		for (int i = 0; i < variable.size(); i++) {
 			if (i == 0) {
@@ -313,13 +343,22 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					if (queryTree.getSelect().count(leftChild)) {
 						isLimit = true;
 					}
-					checkFirstLeftChild = leftChild;// set the first left child to check
-					if (leftChild.compare(checkSecondLeftChild) == 0 && !checkSecondLeftChild.empty()) {
-						counter1++;
+					if (isSuchThanBeforePattern) {
+						checkFirstLeftChild = leftChild;// set the first left child to check
 					}
-					else if (leftChild.compare(checkSecondRightChild) == 0 && !checkSecondRightChild.empty()) {
-						counter2++;
+					else {
+						cout << "\n" << "the result comes here";
+						if (leftChild.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty()) {
+							counter1++;
+							cout << "\n" << "counter1 = " << counter1;
+							string dummy = "";
+						}
+						else if (leftChild.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty()) {
+							counter1++;
+							cout << "\n" << "counter1 right child = " << counter1;
+						}
 					}
+					//---------	
  
 				}
 				else if (variable.at(0).compare("_") == 0) {
@@ -345,7 +384,20 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 						isLimit = true;
 						cout << "\n" << "inside the select Map";
 					}
-					checkFirstRightChild = rightChild;// set the first right child to check
+					if (isSuchThanBeforePattern) {
+						checkFirstRightChild = rightChild;// set the first right child to check
+					}
+					else {
+						if (rightChild.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty() && rightChild.compare(leftChild) != 0) {
+							counter2++;
+						}
+						else if (rightChild.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty() && rightChild.compare(leftChild) != 0) {
+							counter2++;
+							cout <<"\n"<<"counter2 = "<<counter2;
+							string dummy = "";
+						}
+					}
+					
 					cout << "\n now the checkFirstRightChild = " << checkFirstRightChild;
 				}
 				else if (variable.at(1).compare("_") == 0) {
@@ -353,7 +405,9 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					rightChildType = getTypeOfChild(rightChild);
 				}
 				else if (isInteger(variable.at(1))) {
+					rcType = "integer";
 					rightChild = variable.at(1);
+					cout << "\n" << "the second child: " << rightChild;
 					rightChildType = getTypeOfChild(rightChild);
 				}
 				else {
@@ -372,7 +426,9 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					lcType = getVarType(leftChild);
 					leftChildType = getTypeOfChild(lcType);
 					cout << "\n" << "the leftChild of Uses = " << leftChild;
-					checkFirstLeftChild = leftChild;
+					if (isSuchThanBeforePattern) {
+						checkFirstLeftChild = leftChild;
+					}
 				}
 				else if (isInteger(variable.at(0))) {
 					leftChild = variable.at(0);
@@ -388,8 +444,9 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 					rightChild = variable.at(1);
 					rcType = getVarType(rightChild);
 					rightChildType = getTypeOfChild(rcType);
-					checkFirstRightChild = rightChild;
-
+					if (isSuchThanBeforePattern) {
+						checkFirstRightChild = rightChild;// for Modifies and Uses
+					}		
 				}
 				else if (variable.at(1).compare("_") == 0) {
 					rightChild = variable.at(1);
@@ -417,19 +474,35 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		}
 	}
 	if (counter1 == 1 && counter2 == 1) { // has two Common Variables
+		cout << "\n" << "two Common Vars dectect succeed such that after pattern";
 		return false;
 	}
-	else if (counter1 == 1) {
-		string Key = leftChild;
+	else if (counter1 >= 1) {
+		string key = leftChild;
+		string sType = getVarType(key);
+		Type comType = getTypeOfChild(sType);
+		queryTree.insertComonVar(key, comType);
+		//for inserting to the ComonVar Map 
+		queryTree.setIsComonVar(true);
 	}
+	else if (counter2 >= 1) {
+		string key = rightChild;
+		string sType = getVarType(key);
+		Type comType = getTypeOfChild(sType);
+		queryTree.insertComonVar(key, comType);
+		//for inserting to the ComonVar Map 
+		queryTree.setIsComonVar(true);
+	}
+	//counter checking 
 	if (relType.compare("Follows") == 0) {
 		//create Follow
+		cout << "\n" << "insert into the Follows Object here";
 		Follow *f = new Follow(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.getLimits().push_back(f);
+			queryTree.insertLimits(f);
 		}
 		else {
-			queryTree.getUnLimits().push_back(f);
+			queryTree.insertUnLimits(f);
 
 		}
 	}
@@ -437,41 +510,63 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		//create FollowStar
 		FollowStar *fs = new FollowStar(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.getLimits().push_back(fs);
+			queryTree.insertLimits(fs);
 		}
 		else {
-			queryTree.getUnLimits().push_back(fs);
+			queryTree.insertUnLimits(fs);
 
 		}
 
 	}
 	else if (relType.compare("Parent") == 0) {
+		cout << "\n" << "insert Parent";
+		cout << "\n" << leftChild;
+		cout << "\n" << lcType;
+		cout << "\n" << rightChild;
+		cout << "\n" << rcType;
+		cout << "\n" << "isCommonVar : " <<queryTree.getIsComonVar();
 		Parent *p = new Parent(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.getLimits().push_back(p);
+			queryTree.insertLimits(p);
 		}
 		else {
-			queryTree.getUnLimits().push_back(p);
+			queryTree.insertUnLimits(p);
 
+		}
+		if (queryTree.getLimits().size() < 1) {
+			cout << "\n" << "nothing inside the limit";
+			string dummy = "";
+		}
+		else {
+			cout << "\n" << "stored succesfully";
+			string dummy = "";
+		}
+		if (queryTree.getUnLimits().size() < 1) {
+			cout << "\n" << "nothing inside the unLimt";
+			string dummy = "";
+		}
+		else {
+			cout << "\n" << "stored succesfully for unLimits";
+			string dummy = "";
 		}
 	}
 	else if (relType.compare("Parent*") == 0) {
 		ParentStar *ps = new ParentStar(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.getLimits().push_back(ps);
+			queryTree.insertLimits(ps);
 		}
 		else {
-			queryTree.getUnLimits().push_back(ps);
+			queryTree.insertUnLimits(ps);
 
 		}
 	}
 	else if (relType.compare("Modifies") == 0) {
 		Modifies *m = new Modifies(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.getLimits().push_back(m);
+			queryTree.insertLimits(m);
 		}
 		else {
-			queryTree.getUnLimits().push_back(m);
+			queryTree.insertUnLimits(m);
 
 		}
 	}
@@ -479,10 +574,10 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 		cout << "\n" << "let's get the Uses obj";
 		Uses *u = new Uses(leftChild, leftChildType, rightChild, rightChildType);
 		if (isLimit) {
-			queryTree.getLimits().push_back(u);
+			queryTree.insertLimits(u);
 		}
 		else {
-			queryTree.getUnLimits().push_back(u);
+			queryTree.insertUnLimits(u);
 
 		}
 	}
@@ -504,12 +599,15 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 		cout << "\n" << "syn is selected";
 		isLimit = true;
 	}
-	if (syn.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty()) {
-		counter1++;
+	if (isSuchThanBeforePattern) {
+		if (syn.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty()) {
+			counter1++;
+		}
+		else if (syn.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty()) {
+			counter1++;
+		}
 	}
-	else if (syn.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty()) {
-		counter1++;
-	}
+	
 	//set the left child of pattern
 	leftChild = syn;
 	lcType = getVarType(leftChild);
@@ -534,12 +632,15 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 				if (queryTree.getSelect().count(var)) {
 					isLimit = true;
 				}
-				if (var.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty()) {
-					counter2++;
+				if (isSuchThanBeforePattern) {
+					if (var.compare(checkFirstLeftChild) == 0 && !checkFirstLeftChild.empty() && var.compare(syn) != 0) {
+						counter2++;
+					}
+					else if (var.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty() && var.compare(syn) != 0) {
+						counter2++;
+					}
 				}
-				else if (var.compare(checkFirstRightChild) == 0 && !checkFirstRightChild.empty()) {
-					counter2++;
-				}
+				
 				//patterna(v,_), now v is the leftChild; 
 			}
 			else if (arrPatterns.at(0).compare("_") == 0) {
@@ -594,16 +695,22 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 	}
 	//pattern is after such that clause
 	if (counter1 == 1 && counter2 == 1) {
+		cout << "\n" << "check the two common syns sucessfully pattern after such that";
 		return false;
 	}
-	else if (counter1 == 1) {
+	else if (counter1 >= 1) {
 		string key = syn;
 		string sType = getVarType(key);
 		Type comType = getTypeOfChild(sType);
 		queryTree.insertComonVar(key, comType);
+		//for inserting to the ComonVar Map 
 		queryTree.setIsComonVar(true);
+		if (queryTree.getComonVar().size() > 0) {
+			cout << "\n" << "one CommonVar insert successfully";
+			string dummy = "";
+		}
 	}
-	else if (counter2 == 1) {
+	else if (counter2 >= 1) {
 		string key = rightChild;
 		string sType = getVarType(key);
 		Type comType = getTypeOfChild(sType);
@@ -614,10 +721,10 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 	cout << "\n" << "insert Pattern liao";
 	Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
 	if (isLimit) {
-		queryTree.getLimits().push_back(pt);
+		queryTree.insertLimits(pt);
 	}
 	else {
-		queryTree.getUnLimits().push_back(pt);
+		queryTree.insertUnLimits(pt);
 	}
 	return true;
 }
@@ -633,20 +740,27 @@ bool QueryParser::checkPattern2(string checkingStr) {
 	Type rightChildType;
 	bool isUnderscore = false;
 	bool isLimit = false;
-	vector<string> arrWords = splitTheString(checkingStr, SYMBOL_OPEN_BRACKET);
+	vector<string> arrWords;
+
+	if (checkingStr.find(TYPE_SUCH) != std::string::npos) {
+		arrWords = splitTheString(checkingStr, '(');
+	}
+	else {
+		arrWords = splitTheStringIntoParts(checkingStr, '(', 2);
+	}
 
 	if (arrWords.size() < 2 || arrWords.size() > 3) {
 		return false;
 	}
-
+	cout << "\n" << "1: " << arrWords.at(0) << "2: " << arrWords.at(1);
 	if (isVarNameExists(arrWords.at(0))) {
 		if (getVarType(arrWords.at(0)).compare("assign") == 0) {
-
+			cout << "\n" << "Assign : " << arrWords.at(0);
 			leftChild = arrWords.at(0);
 			leftChildType = ASSIGN;
-			checkSecondLeftChild = leftChild;
-
-
+			if (!isSuchThanBeforePattern) {
+				checkFirstLeftChild = leftChild;
+			}
 			if (arrWords.at(1).find(")") == string::npos) {
 				return false;
 			}
@@ -656,13 +770,13 @@ bool QueryParser::checkPattern2(string checkingStr) {
 			if (arrWordsOne.size() < 1) {
 				return false;
 			}
-
+			cout << "\n" << "3: " << arrWordsOne.at(0) << " 4: " << arrWordsOne.at(1);
 			vector<string> arrPatterns = splitTheStringIntoParts(arrWordsOne.at(0), ',', 2);
 			if (arrPatterns.size() != 2) {
 				return false;
 			}
 
-
+			cout << "\n" << "5: " << arrPatterns.at(0) << " 6: " << arrPatterns.at(1);
 			for (int i = 0; i < arrPatterns.size(); i++) {
 				if (i == 0) {
 					if (isVarNameExists(arrPatterns.at(0))) {
@@ -673,65 +787,125 @@ bool QueryParser::checkPattern2(string checkingStr) {
 						if (queryTree.getSelect().count(var)) {
 							isLimit = true;
 						}
-						checkSecondRightChild = rightChild;
+						cout << "\n" << "rcType : " << rcType;
+						if (!isSuchThanBeforePattern) {
+							checkFirstRightChild = rightChild;
+						}
 					}
 					else if (arrPatterns.at(0).compare("_") == 0) {
 						rightChild = arrPatterns.at(0);
+						cout << "\n" << "rightChild : " << rightChild;
 						rightChildType = ANYTHING;
 					}
 					else if (isStringVar(arrPatterns.at(0))) {
-						rightChild = arrPatterns.at(0).substr(1, arrPatterns.at(0).size() - 1);// for checing stringVar
+						rightChild = arrPatterns.at(0).substr(1, arrPatterns.at(0).size() - 2);// for checing stringVar
+						cout << "\n" << "string Var for pattern leftC : " << rightChild;
 						rightChildType = STRINGVARIABLE;
+					}
+					else {
+						return false;
 					}
 				}
 				else {
 					//check the part of the patterna(..., here) (pattern before such that)
+					cout << "\n" << "right Child: " << arrPatterns.at(1);
 					if (arrPatterns.at(1).compare("_") == 0) {
 						factor = arrPatterns.at(1);
+						cout << "\n" << "factor underScore : " << factor;
+						factorType = ANYTHING;
+					}
+					else if (arrPatterns.at(1).substr(0, arrPatterns.at(1).size() - 1).compare("_") == 0) {// solve the null pointer problem
+						factor = arrPatterns.at(1).substr(0, arrPatterns.at(1).size() - 1);
+						cout << "\n" << "factor underScore : " << factor;
 						factorType = ANYTHING;
 					}
 					else if (isBothUnderScore(arrPatterns.at(1))) {
 						isUnderscore = true;
 						string strVar = arrPatterns.at(1).substr(1, arrPatterns.at(1).size() - 2);
+						cout << "\n" << "strVar : " << strVar;
 						string factorValue = strVar.substr(1, strVar.size() - 2);
+						cout << "\n" << "factorValue : " << factorValue;
 						factor = factorValue;
+						cout << "\n" << "factor here is: " << factor;
+						factorType = STRINGVARIABLE;
+					}
+					else if (isBothUnderScore(arrPatterns.at(1).substr(0, arrPatterns.at(1).size() - 1))) {
+						cout << "\n" << "Process both UnderScore";
+						isUnderscore = true;
+						string strVar = arrPatterns.at(1).substr(1, arrPatterns.at(1).size() - 2);
+						cout << "\n" << "strVar : " << strVar;
+						string factorValue = strVar.substr(1, strVar.size() - 2);
+						cout << "\n" << "factorValue : " << factorValue;
+						factor = factorValue;
+						cout<<"\n"<<"factor here is: "<< factor;
 						factorType = STRINGVARIABLE;
 					}
 					else if (isStringExpression(arrPatterns.at(1))) {
+						cout << "\n" << "Process String expression";
 						factor = arrPatterns.at(1).substr(1, arrPatterns.at(1).size() - 2);
+						cout << "\n" << "factor here is: " << factor;
 						factorType = STRINGVARIABLE;
+					}
+					else if (isStringExpression(arrPatterns.at(1).substr(0, arrPatterns.at(1).size() - 1))) {
+						cout << "\n" << "Process String expression";
+						factor = arrPatterns.at(1).substr(1, arrPatterns.at(1).size() - 3);//coz got null char
+						cout << "\n" << "factor here is: " << factor;
+						factorType = STRINGVARIABLE;
+					}
+					else {
+						return false;
 					}
 
 				}
 			}
-			// -----------------------		
-			if (arrWordsOne.size() == 1) {
+			// -----------------------
+			Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
+			if (isLimit) {
+				cout << "\n" << "inserted into limits the pattern alr";
+				queryTree.insertLimits(pt);
+			}
+			else {
+				cout << "\n" << "inserted into Unlimts the pattern alr";
+				queryTree.insertUnLimits(pt);
+			}
+
+			//check only have pattern clause
+			if (!strcmp(arrWordsOne.at(1).c_str(), "")) {
+				cout << "\n" << "for only pattern clause";
 				return true;
 			}
 
+
 			string word = arrWordsOne.at(1);//such that follows
 			word = trim(word);
+			cout << "\n" << "the word is: " << word;
 			//the pattern ... such that ends here!!
 			vector<string> arrSuch = splitTheStringIntoParts(word, ' ', 2);
 			if (arrSuch.at(0).compare("such") == 0) {
+				cout << "\n" << "arrSuch.at(0) is: " << arrSuch.at(0);
 				arrSuch = splitTheStringIntoParts(arrSuch.at(1), ' ', 2);
-
+				
+				cout << "\n" << "1: " << arrSuch.at(0) << " 2: " << arrSuch.at(1);
 				if (arrSuch.size() != 2 || arrSuch.at(0).compare("that") != 0) {
 					return false;
 				}
 
 				string relType = arrSuch.at(1);//Follows
-				if (find(RELATIONS.begin(), RELATIONS.end(), relType) == RELATIONS.end()) {
+				if (find(RELATIONS.begin(), RELATIONS.end(), relType) == RELATIONS.end() && 
+					find(RELATIONS.begin(), RELATIONS.end(), relType.substr(0,relType.size() - 1)) == RELATIONS.end()) {
 					return false;
 				}
+				cout << "\n" << "Follows FOUND";
+				string info = arrWords.at(2);
 
-				string info = arrWordsOne.at(2);
-
+				cout << "\n" << "arrWords.at(2) is: " << info;
 				if (info.find(")") == string::npos) {
 					return false;
 				}
 				info = info.substr(0, info.size() - 1);
+				cout << "\n" << "info is: " << info;
 				vector<string> arrInfo = splitTheStringIntoParts(info, ',', 2);
+				cout << "\n" << "1: " << arrInfo.at(0) << "2: " << arrInfo.at(1);
 				bool isValidSuchThat = checkChildren(relType, arrInfo);
 				return isValidSuchThat;
 			}
@@ -803,6 +977,7 @@ vector<string> QueryParser::splitTheStringIntoParts(string input, char c, int nu
 
 		result.push_back(trim(string(begin, strC)));
 	}
+
 	return result;
 }
 

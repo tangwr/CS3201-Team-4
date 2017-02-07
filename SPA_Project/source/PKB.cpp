@@ -48,7 +48,7 @@ int PKB::getNumOfStmt() {
 vector<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
 	vector<int> combinedLst;
 
-	vector<int> whileStmtId = this->getAllWhileStmtId();
+	vector<int> whileStmtId = this->getAllWhileStmt();
 	vector<int> assignStmtId = this->getAllAssignStmt();
 	std::sort(whileStmtId.begin(), whileStmtId.end());
 	std::sort(assignStmtId.begin(), assignStmtId.end());
@@ -289,7 +289,7 @@ bool PKB::setVarToWhileStmt(int stmtId, int varId) {
 	return this->whileTable.setVarToWhileStmt(stmtId, varId);
 }
 
-vector<int> PKB::getAllWhileStmtId() {
+vector<int> PKB::getAllWhileStmt() {
 	return this->whileTable.getAllStmtId();
 }
 int PKB::getVarInWhileStmt(int stmtId) {

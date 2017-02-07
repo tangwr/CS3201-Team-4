@@ -176,7 +176,7 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		break;
 	
 	case WHILES:
-		result = pkb->getAllWhileStmtId();
+		result = pkb->getAllWhileStmt();
 		break;
 	case VARIABLE:
 		result = pkb->getAllVarId();

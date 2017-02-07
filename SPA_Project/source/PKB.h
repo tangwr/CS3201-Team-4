@@ -1,4 +1,3 @@
-
 #pragma once
 
 #include<stdio.h>
@@ -21,10 +20,6 @@
 
 using namespace std;
 typedef short PROC;
-
-//class TNode;
-
-//class VarTable;  // no need to #include "VarTable.h" as all I need is pointer
 
 class PKB {
 private:
@@ -191,7 +186,7 @@ public:
 
 	int getVarInWhileStmt(int stmtId);//was get While Ctrl Var
 		//int getVarInWhileStmt(int stmtId);
-	vector<int> getAllWhileStmtId();
+	vector<int> getAllWhileStmt();
 
 	bool isStmtInWhileTable(int stmtId);
 

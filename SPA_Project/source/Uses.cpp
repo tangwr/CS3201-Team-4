@@ -35,7 +35,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		leftList = pkb->getAllAssignStmt();
 		break;
 	case WHILES:
-		leftList = pkb->getAllWhileStmtId();
+		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
 		int stmtNo = stoi(leftChild);
@@ -143,7 +143,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 		leftList = pkb->getAllAssignStmt();
 		break;
 	case WHILES:
-		leftList = pkb->getAllWhileStmtId();
+		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
 		int stmtId = stoi(leftChild);

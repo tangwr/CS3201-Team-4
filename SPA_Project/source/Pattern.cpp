@@ -39,11 +39,11 @@ vector<int> Pattern::getWithRelToRight(PKB *pkb) {
 vector<int> Pattern::getFirstPatternStmts(PKB* pkb) {
 	vector<int> leftPatternStmts;
 	if (rightChildType == STRINGVARIABLE) {
-		int varId = pkb->getVarId(rightChild);
+		int varId = pkb->getVarIdByName(rightChild);
 		leftPatternStmts = getAssignStmtModifiedByVar(pkb, varId);
 	}
 	else {
-		leftPatternStmts = pkb->getAllAssignStmtId();
+		leftPatternStmts = pkb->getAllAssignStmt();
 	}
 	return leftPatternStmts;
 }
@@ -54,38 +54,38 @@ vector<int> Pattern::getSecondPatternStmts(PKB* pkb) {
 	if (factorType == Type::STRINGVARIABLE) {
 		string prefix = getPrefix(factor);
 
-		vector<int> assignStmts = pkb->getAllAssignStmtId();
+		vector<int> assignStmts = pkb->getAllAssignStmt();
 		if (isUnderScore) {
 			for (int i = 0; i < (int)assignStmts.size(); i++) {
-				if (pkb->getAssignExp(assignStmts[i]).find(prefix) != string::npos) {
+				if (pkb->getExpInAssignStmt(assignStmts[i]).find(prefix) != string::npos) {
 					results.push_back(assignStmts[i]);
 				}
 			}
 		}
 		else {
 			for (int i = 0; i < (int)assignStmts.size(); i++) {
-				if (pkb->getAssignExp(assignStmts[i]).compare(prefix) == 0) {
+				if (pkb->getExpInAssignStmt(assignStmts[i]).compare(prefix) == 0) {
 					results.push_back(assignStmts[i]);
 				}
 			}
 		}
 	}
 	else {
-		results = pkb->getAllAssignStmtId();
+		results = pkb->getAllAssignStmt();
 	}
 	return results;
 }
 
 vector<int> Pattern::getAssignStmtModifiedByVar(PKB* pkb, int varId) {
-	vector<int> assignStmts = pkb->getAllAssignStmtId();
-	vector <int> modifyStmts = pkb->getModifiedByStmt(varId);
+	vector<int> assignStmts = pkb->getAllAssignStmt();
+	vector <int> modifyStmts = pkb->getStmtModifyVar(varId);
 	return VectorSetOperation<int>::setIntersection(assignStmts, modifyStmts);
 }
 
 vector<int> Pattern::getVarFromAssignStmts(PKB *pkb, vector<int> assignStmts) {
 	vector<int> resultVars;
 	for (int i = 0; i < (int)assignStmts.size(); i++) {
-		vector<int> modifiedVars = pkb->getStmtModify(assignStmts[i]);
+		vector<int> modifiedVars = pkb->getVarModifiedInStmt(assignStmts[i]);
 		resultVars = VectorSetOperation<int>::setUnion(modifiedVars, resultVars);
 	}
 	return resultVars;
@@ -145,4 +145,3 @@ Type Pattern::getRightChildType() {
 Type Pattern::getFactorType() {
 	return factorType;
 }
-

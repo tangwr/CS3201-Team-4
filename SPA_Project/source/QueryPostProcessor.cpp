@@ -46,7 +46,7 @@ list<string> QueryPostProcessor::formatVarResult(Result result) {
 	vector<int> resultVector = result.getResultVector();
 
 	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
-		resultLists.push_back(pkb->getVarName(resultVector[index]));
+		resultLists.push_back(pkb->getVarNameById(resultVector[index]));
 	}
 	return resultLists;
 }

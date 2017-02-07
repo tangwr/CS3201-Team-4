@@ -21,9 +21,9 @@ list<string> PQL::evaluateQuery(string querySource) {
 	}
 	else {
 		cout << "invalid query";
+		return list<string>();
 	}
 
 	Result result = evaluator->evaluate(queryTree);
 	return postProcessor->processResult(result);
-	//return list<string>();
 }

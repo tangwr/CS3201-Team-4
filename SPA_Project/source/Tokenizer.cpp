@@ -8,11 +8,23 @@ Tokenizer::Tokenizer(string source) {
 }
 
 string Tokenizer::getToken() {
-	return *(*tokenIter)++;
+	if (hasNextToken()) {
+		return *(*tokenIter)++;
+	}
+	else {
+		return "";
+	}
 }
 
 bool Tokenizer::hasNextToken() {
 	return *tokenIter != *rend;
+}
+
+bool Tokenizer::match(string token, string matchRe) {
+	if (regex_match(token, regex(matchRe))) {
+		return true;
+	}
+	return false;
 }
 
 Tokenizer::~Tokenizer() {

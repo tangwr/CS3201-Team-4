@@ -12,6 +12,7 @@ public:
 	~Tokenizer();
 	string getToken();
 	bool hasNextToken();
+	bool match(string token, string matchRe);
 
 private:
 	string *sourceStr;

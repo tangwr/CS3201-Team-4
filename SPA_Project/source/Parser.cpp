@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "Parser.h"
-#include "PrefixEvaluator.h"
+#include "ExpOperation.h"
 
 const string STRING_NAME = "([a-zA-Z][a-zA-Z0-9]*)";
 const string STRING_DIGIT = "([0-9]+)";
@@ -145,19 +145,25 @@ void Parser::createAssign(int assignStmtId) {
 
 stack<string> Parser::extractExp() {
 	stack<string> infix;
+	string expStr;
 
 	do {
 		string exp = token;
 		match(STRING_NAME + STRING_OR + STRING_DIGIT + STRING_OR + STRING_OPERATOR + STRING_OR + STRING_OPEN_RBRACKET + STRING_OR + STRING_CLOSE_RBRACKET);
 		infix.push(exp);
+		expStr += exp;
 	} while (token.compare(STRING_SEMICOLON) != COMPARE_EQUAL);
+
+	if (!ExpOperation::isValidExp(expStr)) {
+		cout << ERROR_MESSAGE << endl;
+		exit(0);
+	}
 
 	return infix;
 }
 
 string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
-	PrefixEvaluator prefixEval;
-	stack<string> prefix = prefixEval.evaluatePrefix(infix);
+	stack<string> prefix = ExpOperation::evaluatePrefix(infix);
 
 	string expStr;
 	string expWord;

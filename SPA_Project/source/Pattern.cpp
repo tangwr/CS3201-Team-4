@@ -1,5 +1,5 @@
 #include "Pattern.h"
-#include "PrefixEvaluator.h"
+#include "ExpOperation.h"
 #include "Tokenizer.h"
 #include "VectorSetOperation.h"
 
@@ -15,7 +15,7 @@ Pattern::Pattern(string stmtSynonym, Type synType, string leftPattern, Type left
 	factorType = rightPatType;
 }
 
-bool Pattern::hasRel(PKB *pkbSource) {
+bool Pattern::hasRel(PKB *pkb) {
 	vector<int> results = getWithRelToLeft(pkb);
 	if ((int)results.size() <= 0) {
 		return false;
@@ -98,8 +98,7 @@ string Pattern::getPrefix(string infixString) {
 		infix.push(tokenizer.getToken());
 	}
 
-	PrefixEvaluator evaluator;
-	stack<string> prefix = evaluator.evaluatePrefix(infix);
+	stack<string> prefix = ExpOperation::evaluatePrefix(infix);
 	string prefixString;
 	while (!prefix.empty()) {
 		prefixString += prefix.top();

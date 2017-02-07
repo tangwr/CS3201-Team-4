@@ -29,7 +29,7 @@
     <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
     <ClCompile Include="..\source\PQL.cpp" />
-    <ClCompile Include="..\source\PrefixEvaluator.cpp" />
+    <ClCompile Include="..\source\ExpOperation.cpp" />
     <ClCompile Include="..\source\ProcTable.cpp" />
     <ClCompile Include="..\source\QueryEvaluator.cpp" />
     <ClCompile Include="..\source\QueryParser.cpp" />
@@ -62,7 +62,7 @@
     <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
     <ClInclude Include="..\source\PQL.h" />
-    <ClInclude Include="..\source\PrefixEvaluator.h" />
+    <ClInclude Include="..\source\ExpOperation.h" />
     <ClInclude Include="..\source\ProcTable.h" />
     <ClInclude Include="..\source\QueryEvaluator.h" />
     <ClInclude Include="..\source\QueryParser.h" />

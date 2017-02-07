@@ -67,7 +67,12 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 			}
 			else {
 				if (selectType == leftChildType || selectType == rightChildType) {
-					limitList.push_back(c);
+					if (selectString == leftChild || selectString == rightChild) {
+						limitList.push_back(c);
+					}
+					else {
+						unlimitList.push_back(c);
+					}
 				}
 				else {
 					unlimitList.push_back(c);
@@ -214,7 +219,3 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 
 	return result;
 }
-
-
-
-

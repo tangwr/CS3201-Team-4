@@ -48,9 +48,9 @@ vector<int> Parent::getWithRelToRight(PKB* pkb) {
 }
 
 vector<int> Parent::getWithRelToLeft(PKB* pkb) {
-	cout << "LEFT" << endl;
+	//cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
-		cout << "LEFT IS SYNONYM" << endl;
+		//cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
 			int rightArgument = stoi(rightChild);
 			if (!isValidStmtNo(rightArgument, pkb)) {
@@ -58,7 +58,7 @@ vector<int> Parent::getWithRelToLeft(PKB* pkb) {
 			}
 			else { //if right is valid statement number, parent(syn, num)
 				int parent = pkb->getStmtParentStmt(rightArgument);
-				cout << "PARENT" << parent << endl;
+			//	cout << "PARENT" << parent << endl;
 				if (isStmtType(parent, leftChildType, pkb)) {
 					result.push_back(parent);
 					return result;

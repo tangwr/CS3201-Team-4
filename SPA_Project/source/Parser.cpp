@@ -170,7 +170,7 @@ string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
 
 	while (!prefix.empty()) {
 		expWord = prefix.top();
-		expStr += prefix.top();
+		expStr += prefix.top() + STRING_OR;
 		prefix.pop();
 
 		if (regex_match(expWord, regex(STRING_NAME))) {

@@ -101,7 +101,7 @@ string Pattern::getPrefix(string infixString) {
 	stack<string> prefix = ExpOperation::evaluatePrefix(infix);
 	string prefixString;
 	while (!prefix.empty()) {
-		prefixString += prefix.top();
+		prefixString += prefix.top() + "|";
 		prefix.pop();
 	}
 

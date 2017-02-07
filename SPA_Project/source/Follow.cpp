@@ -12,7 +12,7 @@ Follow::Follow(string lc, Type lcType, string rc, Type rcType) {
 }
 
 vector<int> Follow::getWithRelToRight(PKB* pkb) {
-	cout << "RIGHT" << endl;
+	//cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
 		if (isNumber(leftChildType)) {
 			int leftArgument = stoi(leftChild);
@@ -30,13 +30,13 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 			}
 		}
 		else if (isSynonym(leftChildType)) {
-			cout << " BOTH SYNONYM" << endl;
+			//cout << " BOTH SYNONYM" << endl;
 			left = getTypeStmt(leftChildType, pkb);
 			tempResult = getAllFollows(left, pkb);
-			cout << "TEMP RESULT SIZE: " << tempResult.size() << endl;
+			//cout << "TEMP RESULT SIZE: " << tempResult.size() << endl;
 			result = filterType(tempResult, rightChildType, pkb);
-			cout << "RESULT SIZE: " << result.size() << endl;
-			cout << "HERE" << endl;
+			//cout << "RESULT SIZE: " << result.size() << endl;
+			//cout << "HERE" << endl;
 			return result;
 		}
 		else {
@@ -50,7 +50,7 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 }
 
 vector<int> Follow::getWithRelToLeft(PKB* pkb) {
-	cout << "LEFT" << endl;
+//	cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
 		//cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
@@ -136,18 +136,18 @@ bool Follow::isStmtType(int stmtId, Type type, PKB* pkb) {
 		return false;
 	switch (type) {
 	case WHILES:
-		cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
+		//cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
-		cout << stmtId << " " << pkb->isStmtInAssignTable(stmtId) << endl;
+		//cout << stmtId << " " << pkb->isStmtInAssignTable(stmtId) << endl;
 		return pkb->isStmtInAssignTable(stmtId);
 	case PROG_LINE:
 	case STMT:
 	case ANYTHING:
-		cout << stmtId << "anything " << endl;
+		//cout << stmtId << "anything " << endl;
 		return true;
 	}
-	cout << stmtId << " false" << endl;
+	//cout << stmtId << " false" << endl;
 	return false;
 }
 

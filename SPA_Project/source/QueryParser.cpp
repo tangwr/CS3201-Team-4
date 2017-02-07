@@ -678,7 +678,7 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 				rightChildType = ANYTHING;
 			}
 			else if (isStringVar(arrPatterns.at(0))) {
-				rightChild = arrPatterns.at(0).substr(1, arrPatterns.at(0).size() - 1);// for checing stringVar
+				rightChild = arrPatterns.at(0).substr(1, arrPatterns.at(0).size() - 2);// for checing stringVar
 				rightChildType = STRINGVARIABLE;
 			}
 			else {
@@ -913,9 +913,13 @@ bool QueryParser::checkPattern2(string checkingStr) {
 				}
 
 				string relType = arrSuch.at(1);//Follows
-				if (find(RELATIONS.begin(), RELATIONS.end(), relType.substr(0, relType.size() - 1)) != RELATIONS.end()) {
-					relType = relType.substr(0, relType.size() - 1);
-				}
+				if (relType.compare("Parent*") == 0 || relType.compare("Follows*") == 0) {
+		        }
+				else {
+					if (find(RELATIONS.begin(), RELATIONS.end(), relType.substr(0, relType.size() - 1)) != RELATIONS.end()) {
+						relType = relType.substr(0, relType.size() - 1);
+					}
+				}			
 
 				if (find(RELATIONS.begin(), RELATIONS.end(), relType) == RELATIONS.end() && 
 					find(RELATIONS.begin(), RELATIONS.end(), relType.substr(0,relType.size() - 1)) == RELATIONS.end()) {

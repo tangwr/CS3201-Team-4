@@ -65,7 +65,6 @@ list<string> QueryPostProcessor::formatStmtResult(Result result) {
 	list<string> resultLists;
 	vector<int> resultVector = result.getResultVector();
 
-	string resultStr = to_string(resultVector[INITIAL_INDEX]);
 	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
 		resultLists.push_back(to_string(resultVector[index]));
 	}

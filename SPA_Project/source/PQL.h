@@ -17,7 +17,7 @@ class PQL {
 private:
 	PKB *pkb;
 	QueryParser preProcessor;
-	QueryEvaluator evaluator;
+	QueryEvaluator *evaluator;
 	QueryPostProcessor *postProcessor;
 
 public:

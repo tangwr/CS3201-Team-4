@@ -1,15 +1,18 @@
-procedure Example {
-  x = 2;
-  z = 3;
-  i = 5;
-  while i {
-    x = x - 1;
-
-      z = x + 1; 
-
-      y = z + x; 
-    z = z + x + i;
-
-    i = i - 1;
+procedure test1 {
+	x=1;
+	a=b;
+	while x{
+		c= b+d;
+		b = x+a+b+c;
+		e = a + 200;
+		while f{
+			b=3;
+			a= c;
+		}
+	b = 3 + a + b+c+d;
+	}
+	while b{
+		c = 1;
+	}
 }
-}
+

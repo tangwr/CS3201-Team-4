@@ -24,7 +24,7 @@ void PKB::printAllTables() {
 	parentTable.printContents();
 	procTable.printContents();
 	usesTable.printContents();
-	//variableTable.printContents(); waiting for implementation
+	variableTable.printContents();
 	constTable.printContents();
 	whileTable.printContents();
 	ifTable.printContents();
@@ -161,12 +161,6 @@ bool PKB::setProcModifyVarRel(int procId, int varId) {
 		return false;
 	}
 	return this->modifiesTable.setProcModifyVarRel(procId, varId);
-}
-bool PKB::setStmtModifyProcRel(int stmtId, int varId) {
-	if (!this->isValidVarId(varId)) {
-		return false;
-	}
-	return this->modifiesTable.setProcModifyVarRel(stmtId, varId);//original call set Proc Modify Rel check correctness
 }
 bool PKB::insertStmtModifyVarRel(int stmtId, int varId) {
     return this->modifiesTable.insertStmtModify(stmtId, varId);//yet implemented by table

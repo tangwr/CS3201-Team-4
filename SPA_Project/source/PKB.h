@@ -113,8 +113,6 @@ public:
 		//bool setStmtModifyVarRel(int stmtId, int varId);
 	bool setProcModifyVarRel(int procId, int varId);//was set Proc Modify Rel
 		//bool setProcModifyVarRel(int procId, int varId);
-	bool setStmtModifyProcRel(int procId, int varId);// was set Modify Direct Rel Proc //double check
-		//bool setStmtModifyProcRel(int procId, int varId);
     bool insertStmtModifyVarRel(int stmtId, int varId);//was insert Stmt Modifies Var
 		//bool insertStmtModifyVarRel(int stmtId, int varId);
 

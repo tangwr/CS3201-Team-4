@@ -75,9 +75,9 @@ public:
 
 
 	//Parent table
-	bool setStmtParentStmtRel(int parent, int child);//was set Parent Direct Rel
+	bool setStmtParentStmtRel(int parentStmtId, int childStmtId);//was set Parent Direct Rel
 		//bool setStmtParentStmtRel(int parentStmtId, int childStmtId);
-	bool insertStmtParentStmtRel(int parent, int child);//was insert Parent Rel
+	bool insertStmtParentStmtRel(int parentStmtId, int childStmtId);//was insert Parent Rel
 		//bool insertStmtParentStmtRel(int parentStmtId, int childStmtId);
     bool hasParentRel();
 
@@ -122,7 +122,7 @@ public:
 		//vector<int> getVarModifiedInStmt(int stmtId);
 	vector<int> getProcModifyVar(int varId);//was get Modified By Proc
 		//vector<int> getProcModifiyVar(int varId);
-	vector<int> getVarModifiedInProc(int stmtId);//was get Proc Modify
+	vector<int> getVarModifiedInProc(int procId);//was get Proc Modify
 		//vector<int> getVarModifiedInProc(int procId);
 
     vector<int> getAllModifyStmt();//was get All Modifies Stmt
@@ -133,8 +133,8 @@ public:
 		//bool hasModifyRel(int stmtId, int varId);
 
 	//Uses table
-	bool setStmtUseStmtRel(int stmtId, int varId);//was set Stmt Use Rel
-		//bool setStmtUseStmtRel(int stmtId, int varId);
+	bool setStmtUseVarRel(int stmtId, int varId);//was set Stmt Use Rel
+		//bool setStmtUseVarRel(int stmtId, int varId);
 	bool setStmtUseConstRel(int stmtId, int constId);//was set Stmt Use Rel Const
 		//bool setStmtUseConstRel(int stmtId, int constId);
 	bool setProcUseVarRel(int procId, int varId);//was set Proc Use Rel

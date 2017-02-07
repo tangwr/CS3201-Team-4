@@ -98,11 +98,11 @@ vector<int> PKB::getAllConstId() {
 
 
 //parent table
-bool PKB::setStmtParentStmtRel(int parent, int child) {
-	return this->parentTable.setStmtParentStmtRel(parent, child);//check param order
+bool PKB::setStmtParentStmtRel(int parentStmtId, int childStmtId) {
+	return this->parentTable.setStmtParentStmtRel(parentStmtId, childStmtId);//check param order
 }
-bool PKB::insertStmtParentStmtRel(int parent, int child) {
-	return this->parentTable.insertStmtParentStmtRel(parent, child);
+bool PKB::insertStmtParentStmtRel(int parentStmtId, int childStmtId) {
+	return this->parentTable.insertStmtParentStmtRel(parentStmtId, childStmtId);
 }
 bool PKB::hasParentRel() {
     return this->parentTable.hasParentRel();//yet to implement
@@ -176,8 +176,8 @@ vector<int> PKB::getVarModifiedInStmt(int stmtId) {
 vector<int> PKB::getProcModifyVar(int varId) {//get procs which modifies the given var
 	return this->modifiesTable.getProcModifyVar(varId);
 }
-vector<int> PKB::getVarModifiedInProc(int stmtId) {
-	return this->modifiesTable.getVarModifiedInProc(stmtId);
+vector<int> PKB::getVarModifiedInProc(int procId) {
+	return this->modifiesTable.getVarModifiedInProc(procId);
 }
 vector<int> PKB::getAllModifyStmt() {
     return this->modifiesTable.getAllStmt();
@@ -192,11 +192,11 @@ bool PKB::hasModifyRel(int stmtId, int varId) {
 
 
 //uses table
-bool PKB::setStmtUseStmtRel(int stmtId, int varId) {
+bool PKB::setStmtUseVarRel(int stmtId, int varId) {
 	if (!this->isValidVarId(varId)) {
 		return false;
 	}
-	return this->usesTable.setStmtUseStmtRel(stmtId, varId);
+	return this->usesTable.setStmtUseVarRel(stmtId, varId);
 }
 bool PKB::setStmtUseConstRel(int stmtId, int constId) {
 	if (!this->isValidConst(constId)) {

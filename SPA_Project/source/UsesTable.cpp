@@ -10,7 +10,7 @@ UsesTable::UsesTable()
 {
 }
 
-bool UsesTable::setStmtUseStmtRel(int stmtId, int varId)
+bool UsesTable::setStmtUseVarRel(int stmtId, int varId)
 {
 	unordered_map<int, vector<int>>::iterator it;
 	it = vUsesStmtMap.find(stmtId);

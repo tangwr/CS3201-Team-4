@@ -115,7 +115,7 @@ void Parser::createWhile(int whileStmtId) {
 
 	int varId = createVar(varName);
 	pkb->setVarToWhileStmt(whileStmtId, varId);
-	pkb->setStmtUseStmtRel(whileStmtId, varId);
+	pkb->setStmtUseVarRel(whileStmtId, varId);
 
 	match(STRING_OPEN_CBRACKET);
 
@@ -169,7 +169,7 @@ string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
 
 		if (regex_match(expWord, regex(STRING_NAME))) {
 			int varId = createVar(expWord);
-			pkb->setStmtUseStmtRel(assignStmtId, varId);
+			pkb->setStmtUseVarRel(assignStmtId, varId);
 		}
 		else if (regex_match(expWord, regex(STRING_DIGIT))) {
 			int constId = createConst(atoi(expWord.c_str()));

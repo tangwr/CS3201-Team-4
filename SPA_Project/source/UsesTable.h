@@ -30,7 +30,7 @@ private:
 
 public:
 	UsesTable();
-	bool setStmtUseStmtRel(int stmtId, int varId);
+	bool setStmtUseVarRel(int stmtId, int varId);
 	bool setProcUseVarRel(int procId, int varId);
 	bool setStmtUseConstRel(int stmtId, int constId);
 	bool setProcUseConstRel(int procId, int constId);

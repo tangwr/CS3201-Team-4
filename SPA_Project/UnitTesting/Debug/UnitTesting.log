@@ -1,6 +1,0 @@
-﻿  stdafx.cpp
-  TestAST.cpp
-c:\users\user\documents\visual studio 2015\projects\spa_project\unittesting\testast.cpp(15): warning C4101: 'T': unreferenced local variable
-     Creating library C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\UnitTesting.lib and object C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\UnitTesting.exp
-  UnitTesting.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\UnitTesting.dll
-  UnitTesting.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\UnitTesting.pdb (Full PDB)

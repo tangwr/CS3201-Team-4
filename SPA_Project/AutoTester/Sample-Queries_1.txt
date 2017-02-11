@@ -1,0 +1,100 @@
+1 - comment
+variable v; 
+Select v such that Modifies(1, v)
+abc
+5000
+2 - comment
+variable v; stmt n;
+Select v such that Modifies(5, v)
+ab, abc
+5000
+3- comment
+stmt n;
+Select n such that Modifies(n, "c")
+3, 4, 8, 9
+5000
+4 - comment
+variable v;
+Select v such that Uses(4, v)
+x, x1, c, a
+5000
+5 - comment
+stmt n;
+Select n such that Uses(n, "a")
+1, 2, 4, 8
+5000
+6 - comment
+stmt n;
+Select n such that Uses(n, _)
+1, 2, 3, 4, 5, 6, 7, 8, 9
+5000
+7 - comment
+stmt n;
+Select n such that Follows(5,n)
+8
+5000
+8 - comment
+stmt n;
+Select n such that Follows(_,n)
+2, 3, 4, 7, 8, 9
+5000
+9 - comment
+stmt n;
+Select n such that Follows*(n, 9)
+1, 2, 3, 4
+5000
+10 - comment
+stmt n; assign a;
+Select a such that Follows*(1, a) pattern a(_,_)
+2, 3, 9
+5000
+11 - comment 
+stmt n; assign a;
+Select a such that Parent(n, a) pattern a("ab", _)
+6
+5000
+12 - comment
+assign aaaan; while w;
+Select w such that Parent*(_,w) pattern aaaan(_, "aAA")
+none
+5000
+13 - comment 
+assign an; while w;
+Select w such that Parent*(_,w) pattern an(_, _"c123abc"_)
+5
+5000
+14 - comment
+variable v, v1,v2; assign a;
+Select a such that Uses(a, v1) pattern a(_, _"a"_)
+1, 2, 8
+5000
+15 - comment
+variable v1232v; assign pp; prog_line n;
+Select v1232v pattern pp(v1232v, _) such that Uses(n, v1232v)
+bc, c, abc
+5000
+16 - comment
+stmt n; assign a;
+Select a such that Parent*(n, a) pattern a(_, _)
+6, 7, 8
+5000
+17 - comment
+assign aaa; variable va;
+Select va pattern aaa("c", va) such that Uses(3, va)
+none
+5000
+18 - comment 
+stmt n1, n2; assign a,z1,a2;
+Select z1 such that Follows*(n1, z1) pattern z1(_, "c")
+7
+5000
+19 - comment
+stmt abc1abc; assign abcd;
+Select abc1abc pattern abcd("c", _) such that Parent*(abc1abc, abcd)
+4
+5000
+20 - comment
+stmt a1a1a1; assign a;
+Select a1a1a1 pattern a(_, "c") such that Parent*(a1a1a1, a)
+4, 5
+5000

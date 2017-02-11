@@ -1,0 +1,13 @@
+procedure a{
+	abc = a + bc;
+	bc = a;
+	c  = abc;
+	while x {
+		while x1{
+			ab = c;
+			abc = c;
+		}
+		c = a;
+	}
+	c= c123abc;
+}

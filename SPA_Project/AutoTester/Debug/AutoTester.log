@@ -1,8 +1,0 @@
-﻿  TestWrapper.cpp
-c:\users\user\documents\visual studio 2015\projects\spa_project\autotester\source\testwrapper.cpp(10): warning C4356: 'AbstractWrapper::GlobalStop': static data member cannot be initialized via derived class
-AutoTester_debug.lib(AutoTester.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(AutoTester.obj)' or at 'C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-AutoTester_debug.lib(Query.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(Query.obj)' or at 'C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-AutoTester_debug.lib(QueryManager.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(QueryManager.obj)' or at 'C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-AutoTester_debug.lib(Tokenizer.obj) : warning LNK4099: PDB 'AutoTester.pdb' was not found with 'AutoTester_debug.lib(Tokenizer.obj)' or at 'C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\AutoTester.pdb'; linking object as if no debug info
-  AutoTester.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\AutoTester.exe
-  AutoTester.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\AutoTester.pdb (Full PDB)

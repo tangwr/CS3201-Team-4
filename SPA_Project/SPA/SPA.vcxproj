@@ -11,14 +11,72 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\source\AssignTable.cpp" />
+    <ClCompile Include="..\source\CallTable.cpp" />
+    <ClCompile Include="..\source\ConstTable.cpp" />
+    <ClCompile Include="..\source\Controller.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
+    <ClCompile Include="..\source\Follow.cpp" />
+    <ClCompile Include="..\source\FollowsTable.cpp" />
+    <ClCompile Include="..\source\FollowStar.cpp" />
+    <ClCompile Include="..\source\IfTable.cpp" />
+    <ClCompile Include="..\source\Modifies.cpp" />
+    <ClCompile Include="..\source\ModifiesTable.cpp" />
+    <ClCompile Include="..\source\Parent.cpp" />
+    <ClCompile Include="..\source\ParentsTable.cpp" />
+    <ClCompile Include="..\source\ParentStar.cpp" />
     <ClCompile Include="..\source\Parser.cpp" />
+    <ClCompile Include="..\source\Pattern.cpp" />
     <ClCompile Include="..\source\PKB.cpp" />
-    <ClCompile Include="..\source\TNode.cpp" />
+    <ClCompile Include="..\source\PQL.cpp" />
+    <ClCompile Include="..\source\ExpOperation.cpp" />
+    <ClCompile Include="..\source\ProcTable.cpp" />
+    <ClCompile Include="..\source\QueryEvaluator.cpp" />
+    <ClCompile Include="..\source\QueryParser.cpp" />
+    <ClCompile Include="..\source\QueryPostProcessor.cpp" />
+    <ClCompile Include="..\source\QueryTree.cpp" />
+    <ClCompile Include="..\source\Result.cpp" />
+    <ClCompile Include="..\source\Tokenizer.cpp" />
+    <ClCompile Include="..\source\Uses.cpp" />
+    <ClCompile Include="..\source\UsesTable.cpp" />
+    <ClCompile Include="..\source\VarTable.cpp" />
+    <ClCompile Include="..\source\VectorSetOperation.cpp" />
+    <ClCompile Include="..\source\WhileTable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\source\AssignTable.h" />
+    <ClInclude Include="..\source\CallTable.h" />
+    <ClInclude Include="..\source\Clause.h" />
+    <ClInclude Include="..\source\ConstTable.h" />
+    <ClInclude Include="..\source\Controller.h" />
+    <ClInclude Include="..\source\DesignExtractor.h" />
+    <ClInclude Include="..\source\Follow.h" />
+    <ClInclude Include="..\source\FollowsTable.h" />
+    <ClInclude Include="..\source\FollowStar.h" />
+    <ClInclude Include="..\source\IfTable.h" />
+    <ClInclude Include="..\source\Modifies.h" />
+    <ClInclude Include="..\source\ModifiesTable.h" />
+    <ClInclude Include="..\source\Parent.h" />
+    <ClInclude Include="..\source\ParentsTable.h" />
+    <ClInclude Include="..\source\ParentStar.h" />
+    <ClInclude Include="..\source\Pattern.h" />
     <ClInclude Include="..\source\PKB.h" />
-    <ClInclude Include="..\source\TNode.h" />
+    <ClInclude Include="..\source\PQL.h" />
+    <ClInclude Include="..\source\ExpOperation.h" />
+    <ClInclude Include="..\source\ProcTable.h" />
+    <ClInclude Include="..\source\QueryEvaluator.h" />
+    <ClInclude Include="..\source\QueryParser.h" />
+    <ClInclude Include="..\source\QueryPostProcessor.h" />
+    <ClInclude Include="..\source\QueryTree.h" />
+    <ClInclude Include="..\source\Result.h" />
+    <ClInclude Include="..\source\Tokenizer.h" />
+    <ClInclude Include="..\source\Parser.h" />
+    <ClInclude Include="..\source\Type.h" />
+    <ClInclude Include="..\source\Uses.h" />
+    <ClInclude Include="..\source\UsesTable.h" />
+    <ClInclude Include="..\source\VarTable.h" />
+    <ClInclude Include="..\source\VectorSetOperation.h" />
+    <ClInclude Include="..\source\WhileTable.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

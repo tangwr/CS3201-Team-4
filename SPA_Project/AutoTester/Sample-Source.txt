@@ -1,0 +1,15 @@
+procedure abc {
+	a = 13;                          
+	c = a + b;			 
+	b = a + b + c;			 
+	while x{			 
+		x = x-1;		 
+		c = a+ d;		 
+		while c{		 
+			d = d+e;	 
+		}		
+		c = a + d;		 
+		d = d * e + 3;		 
+	}	
+	d = 2;				 
+}

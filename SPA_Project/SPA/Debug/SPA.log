@@ -1,0 +1,165 @@
+﻿  WhileTable.cpp
+  VectorSetOperation.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.cpp(11): warning C4018: '<': signed/unsigned mismatch
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.cpp(8): note: while compiling class template member function 'std::vector<T,std::allocator<_Ty>> VectorSetOperation<T>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)'
+          with
+          [
+              T=int,
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): note: see reference to class template instantiation 'VectorSetOperation<int>' being compiled
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.cpp(14): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.cpp(25): warning C4018: '<': signed/unsigned mismatch
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.cpp(23): note: while compiling class template member function 'std::vector<T,std::allocator<_Ty>> VectorSetOperation<T>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)'
+          with
+          [
+              T=int,
+              _Ty=int
+          ]
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.cpp(28): warning C4018: '<': signed/unsigned mismatch
+  VarTable.cpp
+  UsesTable.cpp
+  Uses.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  Tokenizer.cpp
+  Result.cpp
+  QueryTree.cpp
+  QueryPostProcessor.cpp
+  QueryParser.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(129): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(345): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(459): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(714): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryparser.cpp(868): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  QueryEvaluator.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryevaluator.cpp(120): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\queryevaluator.cpp(263): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ProcTable.cpp
+  ExpOperation.cpp
+  PQL.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKB.cpp
+  Pattern.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  Parser.cpp
+  ParentStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parentstar.cpp(91): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parentstar.cpp(93): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parentstar.cpp(106): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parentstar.cpp(109): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parentstar.cpp(124): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parentstar.cpp(220): warning C4018: '<': signed/unsigned mismatch
+  ParentsTable.cpp
+  Parent.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parent.cpp(95): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parent.cpp(97): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parent.cpp(112): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\parent.cpp(132): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
+  Compiling...
+  ModifiesTable.cpp
+  Modifies.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  IfTable.cpp
+  FollowStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(98): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(100): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(111): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(113): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(191): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(225): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\followstar.cpp(238): warning C4018: '<': signed/unsigned mismatch
+  FollowsTable.cpp
+  Follow.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\follow.cpp(96): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\follow.cpp(108): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\follow.cpp(126): warning C4018: '<': signed/unsigned mismatch
+  DesignExtractor.cpp
+  Controller.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ConstTable.cpp
+  CallTable.cpp
+  AssignTable.cpp
+  Generating Code...
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\modifiestable.cpp(131): warning C4715: 'ModifiesTable::insertProcModify': not all control paths return a value
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\modifiestable.cpp(62): warning C4715: 'ModifiesTable::insertStmtModify': not all control paths return a value
+  SPA.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\SPA.lib

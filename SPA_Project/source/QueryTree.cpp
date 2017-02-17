@@ -1,11 +1,13 @@
 #include "QueryTree.h"
 #include "Type.h"
 #include "Clause.h"
+#include "Parameter.h"
+
 
 #include <iostream>
 #include <string>
 #include <vector>
-#include <unordered_map>
+//#include <unordered_map>
 
 using namespace std;
 
@@ -15,7 +17,23 @@ QueryTree::QueryTree() {
 	
 }
 
-void QueryTree::setIsComonVar(bool result) {
+void QueryTree::insertSelect(Parameter p) {
+	select.push_back(p);
+}
+
+void QueryTree::insertResult(Clause* result) {
+	resultList.push_back(result);
+}
+
+vector<Clause*> QueryTree::getResult() {
+	return resultList;
+}
+
+vector<Parameter> QueryTree::getSelect() {
+	return select;
+}
+
+/*void QueryTree::setIsComonVar(bool result) {
 	isCommonVar = result;
 }
 void QueryTree::insertSelect(string key, Type value) {
@@ -32,9 +50,6 @@ void QueryTree::insertUnLimits(Clause* unlimit) {
 	unlimits.push_back(unlimit);
 }
 
-void QueryTree::clearComonMap() {
-	comonVar.clear();
-}
 vector<Clause*> QueryTree::getLimits() {
 	return limits;
 }
@@ -52,3 +67,4 @@ unordered_map<string, Type> QueryTree::getComonVar() {
 bool QueryTree::getIsComonVar() {
 	return isCommonVar;
 }
+*/

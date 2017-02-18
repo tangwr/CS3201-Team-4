@@ -100,16 +100,17 @@ vector<int> FollowsTable::getStmtFollowStarStmt(int stmtId) {
 	it = followeeListMap.find(stmtId);
     if (it != followeeListMap.end())
         //return it->second;
-        return vector(it->second.begin(), it->second.end());//decide if pkb only or global
+        return vector<int>(it->second.begin(), it->second.end());//decide if pkb only or global
     else
-        //return vector<int>();
-        return unordered_set();
+        return vector<int>();
+
 }
 vector<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = followerListMap.find(stmtId);
 	if (it != followerListMap.end())
-		return it->second;
+		//return it->second;
+        return vector<int>(it->second.begin(), it->second.end());
 	else
 		return vector<int>();
 

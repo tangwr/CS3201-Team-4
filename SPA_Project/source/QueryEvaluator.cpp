@@ -25,7 +25,7 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 //vector<int> QueryEvaluator::evaluate(QueryTree qt) {
 Result QueryEvaluator::evaluate(QueryTree qt) {
 
-
+	/*
 	//vector<Clause*> allList = qt.getAllList();
 	bool isCommon = qt.getIsComonVar();
 	unordered_map<string, Type> selectMap = qt.getSelect();
@@ -174,11 +174,11 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 					case PATTERN:
 						p = (Pattern*)allList[selectPos];
 						if (allList[selectPos]->getLeftChildType() == selectType && allList[selectPos]->getLeftChild().compare(selectString) == 0) {
-							Pattern q(string(), selectType, to_string(intersect3[i]), INTEGER, p->getUnderScore(), p->getFactor(), p->getFactorType());
+							Pattern q(string(), selectType, to_string(intersect3[i]), INTEGER, p->getFactor(), p->getFactorType(), p->getUnderScore());
 							temp = q.getWithRelToLeft(pkb);
 						}
 						else {
-							Pattern q(to_string(intersect3[i]), INTEGER, string(), selectType, p->getUnderScore(), p->getFactor(), p->getFactorType());
+							Pattern q(to_string(intersect3[i]), INTEGER, string(), selectType, p->getFactor(), p->getFactorType(), p->getUnderScore());
 							temp = q.getWithRelToRight(pkb);
 						}
 						break;
@@ -264,8 +264,10 @@ Result QueryEvaluator::evaluate(QueryTree qt) {
 		delete allList[i];
 	}
 	allList.clear();
-
+	
 	return returnResults;
+	*/
+	return Result();
 }
 
 /*Private methods*/
@@ -337,7 +339,7 @@ vector<int> QueryEvaluator::getAllSelectResults(Type selectType) {
 		result = pkb->getAllAssignStmt(); 
 		break;
 	
-	case WHILES:
+	case WHILE:
 		result = pkb->getAllWhileStmt();
 		break;
 	case VARIABLE:

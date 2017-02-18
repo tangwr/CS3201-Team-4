@@ -3,14 +3,14 @@
 #include "Tokenizer.h"
 #include "VectorSetOperation.h"
 
-Pattern::Pattern(string stmtSynonym, Type synType, string leftPattern, Type leftPatType, bool hasUnderscore, string rightPattern, Type rightPatType) {
+Pattern::Pattern(string stmtSynonym, Type synType, string leftPattern, Type leftPatType, string rightPattern, Type rightPatType, bool isUnderscore) {
 	leftChild = stmtSynonym;
 	leftChildType = synType;
 
 	rightChild = leftPattern;
 	rightChildType = leftPatType;
 
-	isUnderScore = hasUnderscore;
+	hasUnderScore = isUnderscore;
 	factor = rightPattern;
 	factorType = rightPatType;
 }
@@ -32,18 +32,17 @@ vector<int> Pattern::getWithRelToLeft(PKB *pkb) {
 
 vector<int> Pattern::getWithRelToRight(PKB *pkb) {
 	vector<int> resultStmts = getSecondPatternStmts(pkb);
-	cout << endl << "result of getRightPatternStmts: ";
-	return getVarFromAssignStmts(pkb, resultStmts);
+	return getVarFromStmts(pkb, resultStmts);
 }
 
 vector<int> Pattern::getFirstPatternStmts(PKB* pkb) {
 	vector<int> leftPatternStmts;
 	if (rightChildType == STRINGVARIABLE) {
 		int varId = pkb->getVarIdByName(rightChild);
-		leftPatternStmts = getAssignStmtModifiedByVar(pkb, varId);
+		leftPatternStmts = getTypeStmtModifiedByVar(pkb, varId);
 	}
 	else {
-		leftPatternStmts = pkb->getAllAssignStmt();
+		leftPatternStmts = getAllTypeStmts(pkb);
 	}
 	return leftPatternStmts;
 }
@@ -53,42 +52,71 @@ vector<int> Pattern::getSecondPatternStmts(PKB* pkb) {
 
 	if (factorType == Type::STRINGVARIABLE) {
 		string prefix = getPrefix(factor);
-
-		vector<int> assignStmts = pkb->getAllAssignStmt();
-		if (isUnderScore) {
-			for (int i = 0; i < (int)assignStmts.size(); i++) {
-				if (pkb->getExpInAssignStmt(assignStmts[i]).find(prefix) != string::npos) {
-					results.push_back(assignStmts[i]);
-				}
-			}
-		}
-		else {
-			for (int i = 0; i < (int)assignStmts.size(); i++) {
-				if (pkb->getExpInAssignStmt(assignStmts[i]).compare(prefix) == 0) {
-					results.push_back(assignStmts[i]);
-				}
-			}
-		}
+		results = getAssignStmtWithPrefix(pkb, prefix);
 	}
 	else {
-		results = pkb->getAllAssignStmt();
+		results = getAllTypeStmts(pkb);
 	}
 	return results;
 }
 
-vector<int> Pattern::getAssignStmtModifiedByVar(PKB* pkb, int varId) {
-	vector<int> assignStmts = pkb->getAllAssignStmt();
-	vector <int> modifyStmts = pkb->getStmtModifyVar(varId);
-	return VectorSetOperation<int>::setIntersection(assignStmts, modifyStmts);
+vector<int> Pattern::getAllTypeStmts(PKB* pkb) {
+	switch (leftChildType) {
+	case ASSIGN:
+		return pkb->getAllAssignStmt();
+	case WHILE:
+		return pkb->getAllWhileStmt();
+	case IF:
+		//return pkb->getallIfStmt();
+	default:
+		return vector<int>();
+	}
 }
 
-vector<int> Pattern::getVarFromAssignStmts(PKB *pkb, vector<int> assignStmts) {
+vector<int> Pattern::getTypeStmtModifiedByVar(PKB* pkb, int varId) {
+	vector<int> stmts;
+	switch (leftChildType) {
+	case ASSIGN:
+		stmts = pkb->getAllAssignStmt();
+	case WHILE:
+		stmts = pkb->getAllWhileStmt();
+	case IF:
+		//stmts = pkb->getallIfStmt();
+	default:
+		stmts = vector<int>();
+	}
+
+	vector <int> modifyStmts = pkb->getStmtModifyVar(varId);
+	return VectorSetOperation<int>::setIntersection(stmts, modifyStmts);
+}
+
+vector<int> Pattern::getVarFromStmts(PKB *pkb, vector<int> stmts) {
 	vector<int> resultVars;
-	for (int i = 0; i < (int)assignStmts.size(); i++) {
-		vector<int> modifiedVars = pkb->getVarModifiedInStmt(assignStmts[i]);
+	for (int i = 0; i < (int)stmts.size(); i++) {
+		vector<int> modifiedVars = pkb->getVarModifiedInStmt(stmts[i]);
 		resultVars = VectorSetOperation<int>::setUnion(modifiedVars, resultVars);
 	}
 	return resultVars;
+}
+
+vector<int> Pattern::getAssignStmtWithPrefix(PKB* pkb, string prefix) {
+	vector<int> results;
+	vector<int> assignStmts = pkb->getAllAssignStmt();
+	if (hasUnderScore) {
+		for (int i = 0; i < (int)assignStmts.size(); i++) {
+			if (pkb->getExpInAssignStmt(assignStmts[i]).find(prefix) != string::npos) {
+				results.push_back(assignStmts[i]);
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < (int)assignStmts.size(); i++) {
+			if (pkb->getExpInAssignStmt(assignStmts[i]).compare(prefix) == 0) {
+				results.push_back(assignStmts[i]);
+			}
+		}
+	}
+	return results;
 }
 
 string Pattern::getPrefix(string infixString) {
@@ -110,7 +138,7 @@ string Pattern::getPrefix(string infixString) {
 
 
 void Pattern::setUnderScore(bool us) {
-	isUnderScore = us;
+	hasUnderScore = us;
 }
 
 void Pattern::setFactor(string f) {
@@ -122,7 +150,7 @@ string Pattern::getFactor() {
 }
 
 bool Pattern::getUnderScore() {
-	return isUnderScore;
+	return hasUnderScore;
 }
 
 string Pattern::getLeftChild() {

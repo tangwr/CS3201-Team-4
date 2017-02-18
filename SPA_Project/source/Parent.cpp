@@ -141,7 +141,7 @@ bool Parent::isStmtType(int stmtId, Type type, PKB* pkb) {
 	if (stmtId < 1)
 		return false;
 	switch (type) {
-	case WHILES:
+	case WHILE:
 		//cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
@@ -167,7 +167,7 @@ vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
 		}
 		return stmtList;
 	}
-	case WHILES:
+	case WHILE:
 		return pkb->getAllWhileStmt();
 	case ASSIGN:
 		return pkb->getAllAssignStmt();
@@ -181,7 +181,7 @@ bool Parent::isNumber(Type type) {
 }
 
 bool Parent::isSynonym(Type type) {
-	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING || type == PROG_LINE);
+	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
 bool Parent::hasRel(PKB *pkb) {

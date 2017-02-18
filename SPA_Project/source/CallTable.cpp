@@ -38,6 +38,11 @@ int CallTable::getSize() {
 }
 
 void CallTable::printContents() {
+	cout << "Call Table" << endl;
+	cout << "====================" << endl;
+
 	for (auto& it : this->callList)
 		cout << it.first << ": " << it.second << endl;
+
+	cout << "====================" << endl;
 }

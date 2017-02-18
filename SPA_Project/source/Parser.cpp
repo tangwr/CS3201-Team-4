@@ -20,6 +20,7 @@ const string STRING_EMPTY = "";
 
 const string STRING_PROC = "procedure";
 const string STRING_IF = "if";
+const string STRING_THEN = "then";
 const string STRING_ELSE = "else";
 const string STRING_WHILE = "while";
 const string STRING_CALL = "call";
@@ -27,6 +28,7 @@ const string STRING_CALL = "call";
 const string ERROR_MESSAGE = "Error found in SIMPLE source code during parsing.";
 
 const int COMPARE_EQUAL = 0;
+const int INITAL_INDEX = 0;
 const int START_COUNT_INDEX = 1;
 
 
@@ -38,6 +40,14 @@ Parser::Parser(PKB *pkbSource, string source) {
 
 void Parser::parse() {
 	createProg();
+	populateCall();
+	/*
+	cout << "call relation:" << endl;
+	for (int i = 0; i < (int)callProcs.size(); i++) {
+		cout << callProcs[i].first << ", " << callProcs[i].second << endl;
+	}
+	cout << endl;
+	*/
 }
 
 void Parser::createProg() {
@@ -55,58 +65,62 @@ void Parser::createProc() {
 
 	match(STRING_NAME);
 	
-	pkb->insertProc(procName);
+	int procId = pkb->insertProc(procName);
 
 	match(STRING_OPEN_CBRACKET);
 
-	createStmtLst();
+	createStmtLst(procId);
 
 	match(STRING_CLOSE_CBRACKET);
 }
 
-void Parser::createStmtLst() {
+void Parser::createStmtLst(int procId) {
 	vector<int> stmts;
 
 	do {
 		stmts.push_back(stmtNum);
-		createStmt(stmtNum++);
+		createStmt(procId, stmtNum++);
 	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
 
+	//pkb->setProcToStmtRel(procId, stmts[0]);
 	for (int index = 1; index < (int) stmts.size(); index++) {
 		pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
+		//pkb->setProcToStmtRel(procId, stmts[index]);
 	}
 }
 
-void Parser::createStmtLst(int stmtId) {
+void Parser::createStmtLst(int procId, int stmtId) {
 	vector<int> stmts;
 
 	do {
 		stmts.push_back(stmtNum);
-		createStmt(stmtNum++);
+		createStmt(procId, stmtNum++);
 	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
 
 	pkb->setStmtParentStmtRel(stmtId, stmts[0]);
+	//pkb->setProcToStmtRel(procId, stmts[0]);
 	for (int index = 1; index < (int) stmts.size(); index++) {
 		pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
 		pkb->setStmtParentStmtRel(stmtId, stmts[index]);
+		//pkb->setProcToStmtRel(procId, stmts[index]);
 	}
 }
 
-void Parser::createStmt(int stmtId) {
+void Parser::createStmt(int procId, int stmtId) {
 	string stmtType = token;
 	
 	if (stmtType.compare(STRING_WHILE) == COMPARE_EQUAL) {
-		createWhile(stmtId);
+		createWhile(procId, stmtId);
 	} else if (stmtType.compare(STRING_IF) == COMPARE_EQUAL) {
-		//createIf();
+		createIf(procId, stmtId);
 	} else if (stmtType.compare(STRING_CALL) == COMPARE_EQUAL) {
-		//createCall();
+		createCall(stmtId);
 	} else {
 		createAssign(stmtId);
 	}
 }
 
-void Parser::createWhile(int whileStmtId) {
+void Parser::createWhile(int procId, int whileStmtId) {
 	match(STRING_WHILE);
 
 	string varName = token;
@@ -119,9 +133,46 @@ void Parser::createWhile(int whileStmtId) {
 
 	match(STRING_OPEN_CBRACKET);
 
-	createStmtLst(whileStmtId);
+	createStmtLst(procId, whileStmtId);
 
 	match(STRING_CLOSE_CBRACKET);
+}
+
+void Parser::createIf(int procId, int ifStmtId) {
+	match(STRING_IF);
+
+	string varName = token;
+
+	match(STRING_NAME);
+
+	int varId = createVar(varName);
+	pkb->setVarToIfStmt(ifStmtId, varId);
+	pkb->setStmtUseVarRel(ifStmtId, varId);
+
+	match(STRING_THEN);
+	match(STRING_OPEN_CBRACKET);
+
+	createStmtLst(procId, ifStmtId);
+
+	match(STRING_CLOSE_CBRACKET);
+	match(STRING_ELSE);
+	match(STRING_OPEN_CBRACKET);
+
+	createStmtLst(procId, ifStmtId);
+
+	match(STRING_CLOSE_CBRACKET);
+}
+
+void Parser::createCall(int callStmtId) {
+	match(STRING_CALL);
+
+	string procName = token;
+
+	match(STRING_NAME);
+
+	callProcs.push_back(make_pair(callStmtId, procName));
+
+	match(STRING_SEMICOLON);
 }
 
 void Parser::createAssign(int assignStmtId) {
@@ -155,8 +206,7 @@ stack<string> Parser::extractExp() {
 	} while (token.compare(STRING_SEMICOLON) != COMPARE_EQUAL);
 
 	if (!ExpOperation::isValidExp(expStr)) {
-		cout << ERROR_MESSAGE << endl;
-		exit(0);
+		throw ERROR_MESSAGE;
 	}
 
 	return infix;
@@ -193,6 +243,17 @@ int Parser::createConst(int constValue) {
 	return pkb->insertConst(constValue);
 }
 
+void Parser::populateCall() {
+	for (int index = INITAL_INDEX; index < (int)callProcs.size(); index++) {
+		//if (!pkb->isProcInProcTable(callProcs[index].second)) {
+		//	throw ERROR_MESSAGE;
+		//}
+		//
+		//int procId = pkb->getProcIdByName(callProcs[index].second);
+		//pkb->setStmtCallProcRel(callProcs[index].first, procId);
+	}
+}
+
 void Parser::match(string matchRe) {
 	if (regex_match(token, regex(matchRe))) {
 		if (tokenizer->hasNextToken()) {
@@ -202,7 +263,6 @@ void Parser::match(string matchRe) {
 			token = STRING_EMPTY;
 		}
 	} else {
-		cout << ERROR_MESSAGE << endl;
-		exit(0);
+		throw ERROR_MESSAGE;
 	}
 }

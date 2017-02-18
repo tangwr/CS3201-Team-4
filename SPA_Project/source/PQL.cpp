@@ -11,11 +11,13 @@ PQL::PQL(PKB *pkbSource) {
 }
 
 PQL::~PQL() {
+	delete evaluator;
 	delete postProcessor;
 }
 
 list<string> PQL::evaluateQuery(string querySource) {
 	QueryTree queryTree;
+	/*
 	if (preProcessor.isValid(querySource)) {
 		queryTree = preProcessor.getQuery();
 	}
@@ -23,7 +25,7 @@ list<string> PQL::evaluateQuery(string querySource) {
 		cout << "invalid query";
 		return list<string>();
 	}
-
+	*/
 	Result result = evaluator->evaluate(queryTree);
 	return postProcessor->processResult(result);
 }

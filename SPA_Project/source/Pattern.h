@@ -14,21 +14,22 @@ private:
 	string rightChild;
 	Type leftChildType;
 	Type rightChildType;
-	PKB *pkb;
 	bool isRel;
-	bool isUnderScore;
+	bool hasUnderScore;
 	string factor;
 	Type factorType;
 
 	string getPrefix(string infixString);
 	vector<int> getFirstPatternStmts(PKB* pkb);
 	vector<int> getSecondPatternStmts(PKB* pkb);
-	vector<int> getAssignStmtModifiedByVar(PKB* pkb, int varId);
-	vector<int> getVarFromAssignStmts(PKB *pkb, vector<int> stmts);
+	vector<int> getAllTypeStmts(PKB *pkb);
+	vector<int> getTypeStmtModifiedByVar(PKB* pkb, int varId);
+	vector<int> getVarFromStmts(PKB *pkb, vector<int> stmts);
+	vector<int> getAssignStmtWithPrefix(PKB* pkb, string prefix);
 	
 public:
 
-	Pattern(string lc, Type lcType, string rc, Type rcType, bool underscore, string factor, Type factorType);
+	Pattern(string lc, Type lcType, string rc, Type rcType, string factor, Type factorType, bool underscore);
 	bool hasRel(PKB *pkb);
 	void setUnderScore(bool);
 	void setFactor(string);

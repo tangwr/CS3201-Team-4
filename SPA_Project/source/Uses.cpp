@@ -34,7 +34,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	case ASSIGN:
 		leftList = pkb->getAllAssignStmt();
 		break;
-	case WHILES:
+	case WHILE:
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
@@ -142,7 +142,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	case ASSIGN:
 		leftList = pkb->getAllAssignStmt();
 		break;
-	case WHILES:
+	case WHILE:
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:

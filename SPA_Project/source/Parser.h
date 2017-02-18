@@ -21,16 +21,20 @@ private:
 	Tokenizer *tokenizer;
 	string token;
 	int stmtNum;
+	vector<pair<int, string>> callProcs;
 
 	void createProg();
 	void createProc();
-	void createStmtLst();
-	void createStmtLst(int stmtId);
-	void createStmt(int stmtId);
-	void createWhile(int whileStmtId);
+	void createStmtLst(int procId);
+	void createStmtLst(int procId, int stmtId);
+	void createStmt(int procId, int stmtId);
+	void createWhile(int procId, int whileStmtId);
+	void createIf(int procId, int ifStmtId);
+	void createCall(int callStmtId);
 	void createAssign(int assignStmtId);
 	int createVar(string varName);
 	int createConst(int constValue);
+	void populateCall();
 
 	string createExpPrefix(int assignStmtId, stack<string> infix);
 	stack<string> extractExp();

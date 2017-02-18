@@ -138,7 +138,7 @@ bool FollowStar::isStmtType(int stmtId, Type type, PKB* pkb) {
 	if (stmtId < 1)
 		return false;
 	switch (type) {
-	case WHILES:
+	case WHILE:
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
 		return pkb->isStmtInAssignTable(stmtId);
@@ -162,7 +162,7 @@ vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 		}
 		return stmtList;
 	}
-	case WHILES:
+	case WHILE:
 		return pkb->getAllWhileStmt();
 	case ASSIGN:
 		return pkb->getAllAssignStmt();
@@ -176,7 +176,7 @@ bool FollowStar::isNumber(Type type) {
 }
 
 bool FollowStar::isSynonym(Type type) {
-	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING || type == PROG_LINE);
+	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
 bool FollowStar::hasRel(PKB *pkb) {

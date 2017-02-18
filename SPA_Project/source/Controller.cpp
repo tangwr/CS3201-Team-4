@@ -14,7 +14,13 @@ Controller::~Controller() {
 
 void Controller::processSource(string source) {	
 	Parser parser(pkb, source);
-	parser.parse();
+	
+	try {
+		parser.parse();
+	} catch (string msg) {
+		cerr << msg << endl;
+		exit(1);
+	}
 
 	DesignExtractor extractor(pkb);
 	extractor.extractStarRelations();

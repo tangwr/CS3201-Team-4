@@ -34,7 +34,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 	case ASSIGN:
 		leftList = pkb->getAllAssignStmt();
 		break;
-	case WHILES:
+	case WHILE:
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
@@ -68,7 +68,7 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		break;
 	}
 
-	if (leftChildType == STMT || leftChildType == PROG_LINE || leftChildType == WHILES){
+	if (leftChildType == STMT || leftChildType == PROG_LINE || leftChildType == WHILE){
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
@@ -101,7 +101,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 	case ASSIGN:
 		leftList = pkb->getAllAssignStmt();
 		break;
-	case WHILES:
+	case WHILE:
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
@@ -111,7 +111,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 	}
 
 
-	if (leftChildType == WHILES) {
+	if (leftChildType == WHILE) {
 		vector<int> childrenList;
 		vector<int> temp;
 		for (int stmtId : leftList) {

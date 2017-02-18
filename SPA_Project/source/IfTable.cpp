@@ -44,6 +44,11 @@ int IfTable::getSize() {
 }
 
 void IfTable::printContents() {
+	cout << "If Table" << endl;
+	cout << "====================" << endl;
+
 	for (auto& it : this->ifList)
 		cout << it.first << ": " << it.second << endl;
+
+	cout << "====================" << endl;
 }

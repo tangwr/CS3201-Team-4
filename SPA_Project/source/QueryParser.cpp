@@ -63,6 +63,7 @@ QueryParser::QueryParser() {
 
 }
 bool QueryParser::isValid(string query) {
+	/*
 	counter1 = 0;
 	counter2 = 0;
 	checkFirstLeftChild = "";
@@ -103,7 +104,7 @@ bool QueryParser::isValid(string query) {
 	feedback = "\n Valid Query: ";
 
 	std::cout << feedback << std::endl;
-
+	*/
 	return true;
 }
 
@@ -114,6 +115,7 @@ QueryTree QueryParser::getQuery() {
 }
 
 bool QueryParser::isValidDeclaration(string input) {
+	/*
 	vector<string> arrDec = splitTheStringIntoParts(input, ' ', 2);
 	cout << "\n" << "1: " << arrDec.at(0) << "2: " << arrDec.at(1);
 	if (arrDec.size() < 2 || find(TYPES.begin(), TYPES.end(), arrDec.at(0)) == TYPES.end()) {
@@ -136,10 +138,12 @@ bool QueryParser::isValidDeclaration(string input) {
 
 		}
 	}
+	*/
 	return true;
 }
 
 bool QueryParser::isValidQuery(string query) {
+	/*
 	vector<string> arrClauses = splitTheStringIntoParts(query, ' ', 2); //split the query into 2 parts.
 
 	cout << "\n"<< "1: " << arrClauses.at(0) << " 2: " << arrClauses.at(1);
@@ -207,11 +211,11 @@ bool QueryParser::isValidQuery(string query) {
 			}
 		}
 	}
-	/*
+	
 	if (arrClauses.size() == 1) {
 		cout << "\n" << "reach unkowwn";
 		return true;
-	}*/
+	}
 
 
 	bool isRelationValid;
@@ -251,9 +255,12 @@ bool QueryParser::isValidQuery(string query) {
 		}
 
 	    return isRelationValid;
+		*/
+	return true;
 }
 
 bool QueryParser::checkRelation(string checkingStr) {
+	/*
 	vector<string> arrClauses;
 
 	if (checkingStr.find(TYPE_PATTERN) != std::string::npos) {
@@ -326,11 +333,12 @@ bool QueryParser::checkRelation(string checkingStr) {
 	else {
 		return false;
 	}
-
+	*/
 	return true;
 }
 // parse the "4,a" inside the Follows
 bool QueryParser::checkChildren(string relType, vector<string> variable) {
+	/*
 	string leftChild = "";
 	string rightChild = "";
 	string lcType = "";
@@ -670,10 +678,11 @@ bool QueryParser::checkChildren(string relType, vector<string> variable) {
 			queryTree->insertUnLimits(u);
 
 		}
-	}
+	}*/
 	return true;
 }
 bool QueryParser::checkPattern(string relType, string syn, Type synType, string subquery) {
+	/*
 	string leftChild = "";
 	string rightChild = "";
 	string factor = "";
@@ -810,17 +819,18 @@ bool QueryParser::checkPattern(string relType, string syn, Type synType, string 
 	}
 	//create a pattern obj
 
-	Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
+	Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, factor, factorType, isUnderscore);
 	if (isLimit) {
 		queryTree->insertLimits(pt);
 	}
 	else {
 		queryTree->insertUnLimits(pt);
-	}
+	}*/
 	return true;
 }
 
 bool QueryParser::checkPattern2(string checkingStr) {
+	/*
 	string leftChild = "";
 	string rightChild = "";
 	string factor = "";
@@ -949,7 +959,7 @@ bool QueryParser::checkPattern2(string checkingStr) {
 				}
 			}
 			// -----------------------
-			Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, isUnderscore, factor, factorType);
+			Pattern *pt = new Pattern(leftChild, leftChildType, rightChild, rightChildType, factor, factorType, isUnderscore);
 			if (isLimit) {
 				queryTree->insertLimits(pt);
 			}
@@ -1009,7 +1019,7 @@ bool QueryParser::checkPattern2(string checkingStr) {
 			return false;
 		}
 	}
-
+	*/
 	return true;// last edits
 }
 bool QueryParser::isValidVarName(string varName) {
@@ -1164,7 +1174,7 @@ Type QueryParser::getTypeOfChild(string input) {
 		result = VARIABLE;
 	}
 	else if (input.compare("while") == 0) {
-		result = WHILES;
+		result = WHILE;
 	}
 	else if (input.compare("prog_line") == 0) {
 		result = PROG_LINE;

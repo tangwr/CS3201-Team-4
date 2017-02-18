@@ -116,9 +116,9 @@ public:
     bool insertStmtModifyVarRel(int stmtId, int varId);//was insert Stmt Modifies Var
 		//bool insertStmtModifyVarRel(int stmtId, int varId);
 
-	vector<int> getStmtModifyVar(int varId);//was get Modified By Stmt
+	virtual vector<int> getStmtModifyVar(int varId);//was get Modified By Stmt
 		//vector<int> getStmtModifyVar(int varId);
-	vector<int> getVarModifiedInStmt(int stmtId);//was get Stmt Modify
+	virtual vector<int> getVarModifiedInStmt(int stmtId);//was get Stmt Modify
 		//vector<int> getVarModifiedInStmt(int stmtId);
 	vector<int> getProcModifyVar(int varId);//was get Modified By Proc
 		//vector<int> getProcModifiyVar(int varId);
@@ -170,9 +170,9 @@ public:
 	bool setExpToAssignStmt(int stmtId, string expression);// was set Assign Exp
 		//bool setExpToAssignStmt(int stmtId, string expression);
 
-	vector<int> getAllAssignStmt();//was get All Assign StmtId
+	virtual vector<int> getAllAssignStmt();//was get All Assign StmtId
 		//vector<int> getAllAssignStmt();
-	string getExpInAssignStmt(int stmtId);//was get Assign Exp
+	virtual string getExpInAssignStmt(int stmtId);//was get Assign Exp
 		//string getExpInAssignStmt(int stmtId);
 
 	bool isStmtInAssignTable(int stmtId);
@@ -184,7 +184,7 @@ public:
 
 	int getVarInWhileStmt(int stmtId);//was get While Ctrl Var
 		//int getVarInWhileStmt(int stmtId);
-	vector<int> getAllWhileStmt();
+	virtual vector<int> getAllWhileStmt();
 
 	bool isStmtInWhileTable(int stmtId);
 

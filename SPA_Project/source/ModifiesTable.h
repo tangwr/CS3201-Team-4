@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
+
 using namespace std;
 
 class ModifiesTable {
@@ -14,8 +16,11 @@ private:
 	bool insertStmtModifiedByRel(int stmtId, int varId);
 	bool insertProcModifiedByRel(int procId, int varId);
 	void printVector(vector<int> vec);
-	unordered_map<int, vector<int>> modifiesStmtMap, modifiedByStmtMap;
-	unordered_map<int, vector<int>> modifiesProcMap, modifiedByProcMap;
+    void printUnorderedSet(unordered_set<int> uSet);
+	//unordered_map<int, vector<int>> modifiesStmtMap, modifiedByStmtMap;
+	//unordered_map<int, vector<int>> modifiesProcMap, modifiedByProcMap;
+    unordered_map<int, unordered_set<int>> modifiesStmtMap, modifiedByStmtMap;
+    unordered_map<int, unordered_set<int>> modifiesProcMap, modifiedByProcMap;
 
 public:
 	ModifiesTable();

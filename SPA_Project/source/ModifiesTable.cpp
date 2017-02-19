@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -12,9 +13,9 @@ ModifiesTable::ModifiesTable()
 
 bool ModifiesTable::setStmtModifyVarRel(int stmtId, int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
-	vector<int> list;
+	unordered_set<int> tempSet;
 	if (it != modifiesStmtMap.end()) {
 //		list = it->second;
 //		if (std::find(list.begin(), list.end(), varId) != list.end()) {
@@ -22,68 +23,69 @@ bool ModifiesTable::setStmtModifyVarRel(int stmtId, int varId)
 		}
 //		modifiesStmtMap.erase(it);
 //	}
-	list.push_back(varId);
-	modifiesStmtMap.insert(make_pair(stmtId, list));
+	tempSet.insert(varId);
+	modifiesStmtMap.insert(make_pair(stmtId, tempSet));
 	setStmtModifiedByRel(stmtId, varId);
 	return true;
 }
 
 bool ModifiesTable::setStmtModifiedByRel(int stmtId, int varId) {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiedByStmtMap.find(varId);
-	vector<int> list;
+	unordered_set<int> tempSet;
 	if (it != modifiedByStmtMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), stmtId) != list.end()) {
+		tempSet = it->second;
+        //can be improved, use set native find
+		if (std::find(tempSet.begin(), tempSet.end(), stmtId) != tempSet.end()) {
 			return false;
 		}
 		modifiedByStmtMap.erase(it);
 	}
-	list.push_back(stmtId);
-	modifiedByStmtMap.insert(make_pair(varId, list));
+	tempSet.insert(stmtId);
+	modifiedByStmtMap.insert(make_pair(varId, tempSet));
 	return true;
 }
 
 bool ModifiesTable::insertStmtModify(int stmtId, int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
-	vector<int> list;
+	unordered_set<int> tempSet;
 	if (it != modifiesStmtMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+		tempSet = it->second;
+		if (std::find(tempSet.begin(), tempSet.end(), varId) != tempSet.end()) {
 			return false;
 		}
 		modifiesStmtMap.erase(it);
 	}
-	list.push_back(varId);
-	modifiesStmtMap.insert(make_pair(stmtId, list));
+	tempSet.insert(varId);
+	modifiesStmtMap.insert(make_pair(stmtId, tempSet));
 	insertStmtModifiedByRel(stmtId, varId);
 }
 
 
 bool ModifiesTable::insertStmtModifiedByRel(int stmtId, int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiedByStmtMap.find(varId);
-	vector<int> list;
+	unordered_set<int> tempSet;
 	if (it != modifiedByStmtMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), stmtId) != list.end()) {
+		tempSet = it->second;
+		if (std::find(tempSet.begin(), tempSet.end(), stmtId) != tempSet.end()) {
 			return false;
 		}
 		modifiedByStmtMap.erase(it);
 	}
-	list.push_back(stmtId);
-	modifiedByStmtMap.insert(make_pair(varId, list));
+	tempSet.insert(stmtId);
+	modifiedByStmtMap.insert(make_pair(varId, tempSet));
 	return true;
 }
 
 bool ModifiesTable::setProcModifyVarRel(int procId, int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesProcMap.find(procId);
-	vector<int> list;
+    unordered_set<int> tempSet;
 	if (it != modifiesProcMap.end()) {
 //		list = it->second;
 //		if (std::find(list.begin(), list.end(), procId) != list.end()) {
@@ -91,60 +93,60 @@ bool ModifiesTable::setProcModifyVarRel(int procId, int varId)
 		}
 //		modifiesStmtMap.erase(it);
 //	}
-	list.push_back(varId);
-	modifiesProcMap.insert(make_pair(procId, list));
+	tempSet.insert(varId);
+	modifiesProcMap.insert(make_pair(procId, tempSet));
 	setProcModifiedByRel(procId, varId);
 	return true;
 }
 
 bool ModifiesTable::setProcModifiedByRel(int procId, int varId) {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiedByProcMap.find(varId);
-	vector<int> list;
+    unordered_set<int> tempSet;
 	if (it != modifiedByProcMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), procId) != list.end()) {
+		tempSet = it->second;
+		if (std::find(tempSet.begin(), tempSet.end(), procId) != tempSet.end()) {
 			return false;
 		}
 		modifiedByProcMap.erase(it);
 	}
-	list.push_back(procId);
-	modifiedByProcMap.insert(make_pair(varId, list));
+	tempSet.insert(procId);
+	modifiedByProcMap.insert(make_pair(varId, tempSet));
 	return true;
 }
 
 bool ModifiesTable::insertProcModify(int procId, int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesProcMap.find(procId);
-	vector<int> list;
+    unordered_set<int> tempSet;
 	if (it != modifiesProcMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), varId) != list.end()) {
+		tempSet = it->second;
+		if (std::find(tempSet.begin(), tempSet.end(), varId) != tempSet.end()) {
 			return false;
 		}
 		modifiesProcMap.erase(it);
 	}
-	list.push_back(varId);
-	modifiesProcMap.insert(make_pair(procId, list));
+	tempSet.insert(varId);
+	modifiesProcMap.insert(make_pair(procId, tempSet));
 	insertProcModifiedByRel(procId, varId);
 }
 
 
 bool ModifiesTable::insertProcModifiedByRel(int procId, int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiedByProcMap.find(varId);
-	vector<int> list;
+    unordered_set<int> tempSet;
 	if (it != modifiedByProcMap.end()) {
-		list = it->second;
-		if (std::find(list.begin(), list.end(), procId) != list.end()) {
+		tempSet = it->second;
+		if (std::find(tempSet.begin(), tempSet.end(), procId) != tempSet.end()) {
 			return false;
 		}
 		modifiedByProcMap.erase(it);
 	}
-	list.push_back(procId);
-	modifiedByProcMap.insert(make_pair(varId, list));
+	tempSet.insert(procId);
+	modifiedByProcMap.insert(make_pair(varId, tempSet));
 	return true;
 }
 
@@ -168,10 +170,11 @@ int ModifiesTable::insertProcModify(int varNo, int procNo)
 */
 vector<int> ModifiesTable::getStmtModifyVar(int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiedByStmtMap.find(varId);
 	if (it != modifiedByStmtMap.end()) {
-		return it->second;
+		//return it->second;
+        return vector<int>(it->second.begin(), it->second.end());
 	}
 	return vector<int>();
 }
@@ -182,10 +185,11 @@ vector<int> ModifiesTable::getStmtModifyVar(int varId)
 */
 vector<int> ModifiesTable::getVarModifiedInStmt(int stmtId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
 	if (it != modifiesStmtMap.end()) {
-		return it->second;
+		//return it->second;
+        return vector<int>(it->second.begin(), it->second.end());
 	}
 	return vector<int>();
 }
@@ -195,10 +199,11 @@ vector<int> ModifiesTable::getVarModifiedInStmt(int stmtId)
 */
 vector<int> ModifiesTable::getProcModifyVar(int varId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiedByProcMap.find(varId);
 	if (it != modifiedByProcMap.end()) {
-		return it->second;
+		//return it->second;
+        return vector<int>(it->second.begin(), it->second.end());
 	}
 	return vector<int>();
 }
@@ -208,10 +213,11 @@ return list of variables that is modified in a given proc
 */
 vector<int> ModifiesTable::getVarModifiedInProc(int procId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesProcMap.find(procId);
 	if (it != modifiesProcMap.end()) {
-		return it->second;
+		//return it->second;
+        return vector<int>(it->second.begin(), it->second.end());
 	}
 	return vector<int>();
 }
@@ -220,20 +226,28 @@ vector<int> ModifiesTable::getVarModifiedInProc(int procId)
 void ModifiesTable::printContents()
 {
 	cout << "---PRINT MODIFIESTABLE---" << endl;
-	for (pair<int, vector<int>> it : modifiesStmtMap) {
+	for (pair<int, unordered_set<int>> it : modifiesStmtMap) {
 		cout << "StmtId: " << it.first;
 		cout << " Modifies VarId ";
-		printVector(it.second);
+		//printVector(it.second);
+        printUnorderedSet(it.second);
 		cout << endl;
 	}
-	for (pair<int, vector<int>> it : modifiesProcMap) {
+	for (pair<int, unordered_set<int>> it : modifiesProcMap) {
 		cout << "ProcId: " << it.first;
 		cout << " Modifies VarId ";
-		printVector(it.second);
+		//printVector(it.second);
+        printUnorderedSet(it.second);
 		cout << endl;
 	}
 
 	cout << "---END PRINT MODIFIESTABLE---" << endl;
+}
+
+void ModifiesTable::printUnorderedSet(unordered_set<int> uSet) {
+    for (int element : uSet) {
+        cout << element << ' ';
+    }
 }
 
 void ModifiesTable::printVector(vector<int> vec)
@@ -243,6 +257,7 @@ void ModifiesTable::printVector(vector<int> vec)
 	}
 }
 
+//improve efficiency
 bool ModifiesTable::checkStmtExist(int stmtId) {
 	for (auto stmtEntry : this->modifiesStmtMap) {
 		if (stmtEntry.first == stmtId) {

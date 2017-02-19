@@ -43,24 +43,24 @@ bool FollowsTable::insertStmtFollowStmtRel(int followeeId, int followerId)
 {
 	if (followeeId == followerId)
 		return false;
-	unordered_set<int> list1, list2;
+	unordered_set<int> set1, set2;
 	unordered_map<int, unordered_set<int>>::iterator it1, it2;
 	it1 = followeeListMap.find(followeeId);
 	it2 = followerListMap.find(followerId);
 	
 	if (it1 != followeeListMap.end()) {
-		list1 = it1->second;
+		set1 = it1->second;
 		followeeListMap.erase(it1);
 	}
-	list1.insert(followerId);
-	followeeListMap.insert(make_pair(followeeId, list1));
+	set1.insert(followerId);
+	followeeListMap.insert(make_pair(followeeId, set1));
 
 	if (it2 != followerListMap.end()) {
-		list2 = it2->second;
+		set2 = it2->second;
 		followerListMap.erase(it2);
 	}
-	list2.insert(followeeId);
-	followerListMap.insert(make_pair(followerId, list2));
+	set2.insert(followeeId);
+	followerListMap.insert(make_pair(followerId, set2));
 	return true;
 }
 

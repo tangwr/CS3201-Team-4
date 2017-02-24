@@ -14,9 +14,10 @@ private:
 	void printVector(vector<int> vec);
 	vector<string> procList;
 	unordered_map<string, int> procMap;
-    unordered_map<int, int> stmtContainedInProcMap;
+    unordered_map<int, int> stmtContainedInProcMap;//stmtId, procId
     unordered_map<int, unordered_set<int>> procContainsStmtMap;
 	int ptsize; // number of procedures in the program
+    void printUnorderedSet(unordered_set<int> uSet);
 
 public:
 	ProcTable(void);

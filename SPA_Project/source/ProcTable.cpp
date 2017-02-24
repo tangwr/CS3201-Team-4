@@ -121,6 +121,19 @@ void ProcTable::printContents()
 		cout << "ProcId: " << it.second;
 		cout << " ProcName " << it.first << endl;
 	}
+
+    for (pair<int, int> entry : stmtContainedInProcMap) {
+        cout << "StmtId " << entry.first;
+        cout << " is contained in procedure with index: " << entry.second;
+        cout << endl;
+    }
+
+    for (pair<int, unordered_set<int>> entry : procContainsStmtMap>) {
+        cout << "ProcId: " << entry.first;
+        cout << "contains stmtId ";
+        printUnorderedSet(entry.second);
+        cout << endl;
+    }
 	cout << "---END PRINT PROCTABLE---" << endl;
 }
 
@@ -129,4 +142,10 @@ void ProcTable::printVector(vector<int> vec)
 	for (int t : vec) {
 		cout << t << ' ';
 	}
+}
+
+void ProcTable::printUnorderedSet(unordered_set<int> uSet) {
+    for (int element : uSet) {
+        cout << element << ' ';
+    }
 }

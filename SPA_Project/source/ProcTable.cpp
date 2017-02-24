@@ -64,6 +64,37 @@ int ProcTable::getProcIndex(string procName)
 		return -1;
 }
 
+/*
+Sets the relation ship that a proc contains a certain statement.
+Also sets statement contained by the proc.
+*/
+bool ProcTable::setProcToStmtRel(int procId, int stmtId) {
+    if (this->stmtContainedInProcMap.find(stmtId) != this->stmtContainedInProcMap.end()) {
+        return false;
+    }
+    else {
+        //relationship not in yet, so insert
+        this->stmtContainedInProcMap.insert(make_pair(stmtId, procId));
+    }
+
+
+    //check if proc contains stmt 
+
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = procContainsStmtMap.find(procId);
+    unordered_set<int> stmtSet;
+    if (it != procContainsStmtMap.end()) {
+        stmtSet = it->second;
+        if (stmtSet.find(stmtId) == stmtSet.end()) {
+            //not there
+            stmtSet.insert(stmtId);
+        }
+        procContainsStmtMap.erase(it);
+    }
+    procContainsStmtMap.insert(make_pair(procId, stmtSet));
+    return true;
+}
+
 bool ProcTable::checkProcExistById(int procId)
 {
 	if (procId < ptsize)

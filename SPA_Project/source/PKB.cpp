@@ -62,6 +62,12 @@ vector<int> PKB::getAllStmtId() {//currently only returning while and assignment
 int PKB::insertProc(string procName) {
 	return this->procTable.insertProc(procName);
 }
+bool PKB::setProcToStmtRel(int procId, int stmtId) {
+    return this->procTable.setProcToStmtRel(procId, stmtId);
+}
+int PKB::getProcIdByName(string procName) {
+    return this->procTable.getProcIndex(procName);
+}
 
 
 //variable table

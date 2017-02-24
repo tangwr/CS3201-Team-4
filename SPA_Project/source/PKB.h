@@ -54,6 +54,10 @@ public:
 	//proc table
 	int insertProc(string procName);
 
+    bool setProcToStmtRel(int procId, int stmtId);
+
+    int getProcIdByName(string procName);
+
 
 	//variable table
 	int insertVar(string varName);

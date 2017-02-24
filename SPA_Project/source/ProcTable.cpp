@@ -82,7 +82,7 @@ bool ProcTable::setProcToStmtRel(int procId, int stmtId) {
 
     unordered_map<int, unordered_set<int>>::iterator it;
     it = procContainsStmtMap.find(procId);
-    unordered_set<int> stmtSet;
+    unordered_set<int> stmtSet;//stmtSet should be empty
     if (it != procContainsStmtMap.end()) {
         stmtSet = it->second;
         if (stmtSet.find(stmtId) == stmtSet.end()) {

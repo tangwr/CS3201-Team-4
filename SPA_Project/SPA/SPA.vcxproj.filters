@@ -153,6 +153,9 @@
     <ClCompile Include="..\source\Parameter.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\NextTable.cpp">
+      <Filter>Resource Files\Source Files\PKB\Tables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="..\source\Parameter.h">
       <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\NextTable.h">
+      <Filter>Header Files\PKB\Tables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,7 +20,7 @@ private:
 	PKB *pkb;
 	bool isRel;
 	vector<int> getCallProc(vector<int> leftProcList, vector<int> rightProcList);
-	bool hasDirectCall(int procId, vector<int> procList);
+	bool hasRelCall(int procId, vector<int> procList);
 	vector<int> getRelCallStmt(int procId, vector<int> procList);
 
 public:

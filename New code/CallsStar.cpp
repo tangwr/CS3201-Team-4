@@ -132,7 +132,7 @@ vector<int> CallsStar::getCallProc(vector<int> mainProcList, vector<int> compare
 	vector<int> results;
 
 	for (int procId : mainProcList) {
-		if (hasDirectCall(procId, compareProcList)) {
+		if (hasRelCall(procId, compareProcList)) {
 			results.push_back(procId);
 		}
 	}
@@ -140,7 +140,7 @@ vector<int> CallsStar::getCallProc(vector<int> mainProcList, vector<int> compare
 	return results;
 }
 
-bool CallsStar::hasDirectCall(int procId, vector<int> procList) {
+bool CallsStar::hasRelCall(int procId, vector<int> procList) {
 
 	vector<int> stmtList = pkb->getStmtByProcId(procId);
 	vector<int> callStmt = pkb->getAllCallStmt();
@@ -181,7 +181,7 @@ vector<int> CallsStar::getRelCallStmt(int procId, vector<int> procList) {
 		for (int callStmtId : callStmt) {
 			int callProcId = pkb->getCallStmtProcId(callStmtId);
 			procList.push_back(callProcId);
-			getAllCallStmt(callProcId, procList);
+			procList = getRelCallStmt(callProcId, procList);
 		}
 	}
 

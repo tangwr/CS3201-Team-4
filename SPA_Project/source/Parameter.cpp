@@ -3,6 +3,9 @@
 
 using namespace std;
 
+Parameter::Parameter() {
+}
+
 Parameter::Parameter(string name, Type type) {
 	paraName = name;
 	paraType = type;

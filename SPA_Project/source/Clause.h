@@ -16,10 +16,15 @@ public:
 	virtual vector<int> getWithRelToRight(PKB *pkb) = 0;
 	virtual vector<Parameter> getSynList() = 0;
 	virtual bool hasRel(PKB *pkb) = 0;
+	virtual Parameter getLeftChild() = 0;
+	virtual Parameter getRightChild() = 0;
+
+	/*
 	virtual string getLeftChild() = 0;
 	virtual string getRightChild() = 0;
 	virtual Type getLeftChildType() = 0;
 	virtual Type getRightChildType() = 0;
+	*/
 
 };
 #endif

@@ -168,58 +168,58 @@ int ModifiesTable::insertProcModify(int varNo, int procNo)
 /*
 	return list of stmt that modify the given variable
 */
-vector<int> ModifiesTable::getStmtModifyVar(int varId)
+unordered_set<int> ModifiesTable::getStmtModifyVar(int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = modifiedByStmtMap.find(varId);
 	if (it != modifiedByStmtMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+		resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
 
 /*
 	return list of variables that is modified in a given stmt
 */
-vector<int> ModifiesTable::getVarModifiedInStmt(int stmtId)
+unordered_set<int> ModifiesTable::getVarModifiedInStmt(int stmtId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = modifiesStmtMap.find(stmtId);
 	if (it != modifiesStmtMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+		resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
 /*
 	return list of procs that modifies given variable
 */
-vector<int> ModifiesTable::getProcModifyVar(int varId)
+unordered_set<int> ModifiesTable::getProcModifyVar(int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = modifiedByProcMap.find(varId);
 	if (it != modifiedByProcMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+		resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
 /*
 return list of variables that is modified in a given proc
 */
-vector<int> ModifiesTable::getVarModifiedInProc(int procId)
+unordered_set<int> ModifiesTable::getVarModifiedInProc(int procId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = modifiesProcMap.find(procId);
 	if (it != modifiesProcMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+		resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
 
@@ -268,13 +268,13 @@ bool ModifiesTable::checkStmtExist(int stmtId) {
 }
 
 bool ModifiesTable::checkStmtVarRelExist(int stmtId, int varId) {
-	vector<int> stmtVarLst = this->getVarModifiedInStmt(stmtId);
-	for (int varEntry : stmtVarLst) {
-		if (varEntry == varId) {
-			return true;
-		}
-	}
-	return false;
+	unordered_set<int> stmtVarLst = this->getVarModifiedInStmt(stmtId);
+    if (stmtVarLst.find(varId) != stmtVarLst.end()) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 
 /*

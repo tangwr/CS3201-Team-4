@@ -28,10 +28,10 @@ public:
 	bool setProcModifyVarRel(int procId, int varId);
 	bool insertStmtModify(int stmtId, int varId);
 	bool insertProcModify(int stmtId, int varId);
-	vector<int> getStmtModifyVar(int varId);
-	vector<int> getVarModifiedInStmt(int stmtId);
-	vector<int> getProcModifyVar(int varId);
-	vector<int> getVarModifiedInProc(int procId);
+	unordered_set<int> getStmtModifyVar(int varId);
+    unordered_set<int> getVarModifiedInStmt(int stmtId);
+	unordered_set<int> getProcModifyVar(int varId);
+    unordered_set<int> getVarModifiedInProc(int procId);
 	bool checkStmtExist(int stmtId);
 	bool checkStmtVarRelExist(int stmtId, int varId);
 	vector<int> getAllStmt();

@@ -45,16 +45,25 @@ bool PKB::isValidConst(int constId) {
 int PKB::getNumOfStmt() {
 	return this->whileTable.getSize() + this->assignTable.getSize();
 }
-vector<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
-	vector<int> combinedLst;
+unordered_set<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
+	//unordered_set<int> combinedLst;
+    unordered_set<int> combinedSet;
 
-	vector<int> whileStmtId = this->getAllWhileStmt();
-	vector<int> assignStmtId = this->getAllAssignStmt();
-	std::sort(whileStmtId.begin(), whileStmtId.end());
-	std::sort(assignStmtId.begin(), assignStmtId.end());
+    unordered_set<int> whileStmtIdSet = this->getAllWhileStmt();
+    unordered_set<int> assignStmtIdSet = this->getAllAssignStmt();
 
-	set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
-	return combinedLst;
+    for (int element : whileStmtIdSet) {
+        combinedSet.insert(element);
+    }
+
+    for (int element : assignStmtIdSet) {
+        combinedSet.insert(element);
+    }
+	//std::sort(whileStmtId.begin(), whileStmtId.end());
+	//std::sort(assignStmtId.begin(), assignStmtId.end());
+     
+	//set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
+	return combinedSet;
 }
 
 
@@ -118,13 +127,13 @@ bool PKB::hasParentRel() {
 int PKB::getStmtParentStmt(int stmtId) {
 	return this->parentTable.getParent(stmtId);
 }
-vector<int> PKB::getStmtParentStarStmt(int stmtId) {
+unordered_set<int> PKB::getStmtParentStarStmt(int stmtId) {
 	return this->parentTable.getStmtParentStarStmt(stmtId);
 }
-vector<int> PKB::getStmtChildrenStmt(int stmtId) {
+unordered_set<int> PKB::getStmtChildrenStmt(int stmtId) {
 	return this->parentTable.getStmtChildrenStmt(stmtId);
 }
-vector<int> PKB::getStmtChildrenStarStmt(int stmtId) {
+unordered_set<int> PKB::getStmtChildrenStarStmt(int stmtId) {
 	return this->parentTable.getStmtChildrenStarStmt(stmtId);
 }
 
@@ -147,10 +156,10 @@ int PKB::getStmtFollowStmt(int stmtId) {
 int PKB::getStmtFollowedByStmt(int stmtId) {
 	return this->followsTable.getDirectFollowedBy(stmtId);
 }
-vector<int> PKB::getStmtFollowStarStmt(int stmtId) {
+unordered_set<int> PKB::getStmtFollowStarStmt(int stmtId) {
 	return this->followsTable.getStmtFollowStarStmt(stmtId);
 }
-vector<int> PKB::getStmtFollowedByStarStmt(int stmtId) {
+unordered_set<int> PKB::getStmtFollowedByStarStmt(int stmtId) {
 	return this->followsTable.getStmtFollowedByStarStmt(stmtId);
 }
 
@@ -173,16 +182,16 @@ bool PKB::insertStmtModifyVarRel(int stmtId, int varId) {
 }
 
 
-vector<int> PKB::getStmtModifyVar(int varId) {
+unordered_set<int> PKB::getStmtModifyVar(int varId) {
 	return this->modifiesTable.getStmtModifyVar(varId);
 }
-vector<int> PKB::getVarModifiedInStmt(int stmtId) {
+unordered_set<int> PKB::getVarModifiedInStmt(int stmtId) {
 	return this->modifiesTable.getVarModifiedInStmt(stmtId);
 }
-vector<int> PKB::getProcModifyVar(int varId) {//get procs which modifies the given var
+unordered_set<int> PKB::getProcModifyVar(int varId) {//get procs which modifies the given var
 	return this->modifiesTable.getProcModifyVar(varId);
 }
-vector<int> PKB::getVarModifiedInProc(int procId) {
+unordered_set<int> PKB::getVarModifiedInProc(int procId) {
 	return this->modifiesTable.getVarModifiedInProc(procId);
 }
 vector<int> PKB::getAllModifyStmt() {
@@ -228,32 +237,32 @@ bool PKB::insertStmtUseVarRel(int stmtId, int varId) {
 
 
 
-vector<int> PKB::getVarUsedByStmt(int stmtId) {
+unordered_set<int> PKB::getVarUsedByStmt(int stmtId) {
 	return this->usesTable.getVarUsedByStmt(stmtId);
 }
-vector<int> PKB::getStmtUseVar(int varId) {
+unordered_set<int> PKB::getStmtUseVar(int varId) {
 	return this->usesTable.getStmtUseVar(varId);
 }
-vector<int> PKB::getVarUsedByProc(int procId) {
+unordered_set<int> PKB::getVarUsedByProc(int procId) {
 	return this->usesTable.getVarUsedByProc(procId);
 }
-vector<int> PKB::getProcUseVar(int varId) {
+unordered_set<int> PKB::getProcUseVar(int varId) {
 	return this->usesTable.getProcUseVar(varId);
 }
-vector<int> PKB::getConstUsedByStmt(int stmtId) {
+unordered_set<int> PKB::getConstUsedByStmt(int stmtId) {
 	return this->usesTable.getConstUsedByStmt(stmtId);
 }
-vector<int> PKB::getStmtUseConst(int constId) {
+unordered_set<int> PKB::getStmtUseConst(int constId) {
 	return this->usesTable.getStmtUseConst(constId);
 }
-vector<int> PKB::getConstUsedByProc(int procId) {
+unordered_set<int> PKB::getConstUsedByProc(int procId) {
 	return this->usesTable.getConstUsedByProc(procId);
 }
-vector<int> PKB::getProcUseConst(int constId) {
+unordered_set<int> PKB::getProcUseConst(int constId) {
 	return this->usesTable.getProcUseConst(constId);
 }
-vector<int> PKB::getAllUseStmt() {
-    return this->usesTable.getAllStmt();
+unordered_set<int> PKB::getAllUseStmt() {
+    return this->usesTable.getAllStmtId();
 }
 bool PKB::isStmtInUseTable(int stmtId) {
     return this->usesTable.checkStmtExist(stmtId);
@@ -269,7 +278,7 @@ bool PKB::setExpToAssignStmt(int stmtId, string expression) {
 	return this->assignTable.setExpToAssignStmt(stmtId, expression);
 }
 
-vector<int> PKB::getAllAssignStmt() {
+unordered_set<int> PKB::getAllAssignStmt() {
 	return this->assignTable.getAllStmtId();
 }
 string PKB::getExpInAssignStmt(int stmtId) {
@@ -289,7 +298,7 @@ bool PKB::setVarToWhileStmt(int stmtId, int varId) {
 	return this->whileTable.setVarToWhileStmt(stmtId, varId);
 }
 
-vector<int> PKB::getAllWhileStmt() {
+unordered_set<int> PKB::getAllWhileStmt() {
 	return this->whileTable.getAllStmtId();
 }
 int PKB::getVarInWhileStmt(int stmtId) {

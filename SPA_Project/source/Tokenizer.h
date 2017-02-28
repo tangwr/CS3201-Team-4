@@ -10,6 +10,7 @@ class Tokenizer {
 public:
 	Tokenizer(string source);
 	~Tokenizer();
+	string peekToken();
 	string getToken();
 	bool hasNextToken();
 	bool match(string token, string matchRe);

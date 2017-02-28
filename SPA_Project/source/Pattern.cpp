@@ -3,16 +3,11 @@
 #include "Tokenizer.h"
 #include "VectorSetOperation.h"
 
-Pattern::Pattern(string stmtSynonym, Type synType, string leftPattern, Type leftPatType, string rightPattern, Type rightPatType, bool isUnderscore) {
-	leftChild = stmtSynonym;
-	leftChildType = synType;
 
-	rightChild = leftPattern;
-	rightChildType = leftPatType;
-
-	hasUnderScore = isUnderscore;
-	factor = rightPattern;
-	factorType = rightPatType;
+Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
+	leftChild = lc;
+	rightChild = rc;
+	factor = f;
 }
 
 bool Pattern::hasRel(PKB *pkb) {
@@ -37,8 +32,8 @@ vector<int> Pattern::getWithRelToRight(PKB *pkb) {
 
 vector<int> Pattern::getFirstPatternStmts(PKB* pkb) {
 	vector<int> leftPatternStmts;
-	if (rightChildType == STRINGVARIABLE) {
-		int varId = pkb->getVarIdByName(rightChild);
+	if (rightChild.getParaType() == STRINGVARIABLE) {
+		int varId = pkb->getVarIdByName(rightChild.getParaName());
 		leftPatternStmts = getTypeStmtModifiedByVar(pkb, varId);
 	}
 	else {
@@ -50,8 +45,8 @@ vector<int> Pattern::getFirstPatternStmts(PKB* pkb) {
 vector<int> Pattern::getSecondPatternStmts(PKB* pkb) {
 	vector<int> results;
 
-	if (factorType == Type::STRINGVARIABLE) {
-		string prefix = getPrefix(factor);
+	if (factor.getParaType() == Type::STRINGVARIABLE) {
+		string prefix = getPrefix(factor.getParaName());
 		results = getAssignStmtWithPrefix(pkb, prefix);
 	}
 	else {
@@ -61,7 +56,7 @@ vector<int> Pattern::getSecondPatternStmts(PKB* pkb) {
 }
 
 vector<int> Pattern::getAllTypeStmts(PKB* pkb) {
-	switch (leftChildType) {
+	switch (leftChild.getParaType()) {
 	case ASSIGN:
 		return pkb->getAllAssignStmt();
 	case WHILE:
@@ -75,7 +70,7 @@ vector<int> Pattern::getAllTypeStmts(PKB* pkb) {
 
 vector<int> Pattern::getTypeStmtModifiedByVar(PKB* pkb, int varId) {
 	vector<int> stmts;
-	switch (leftChildType) {
+	switch (leftChild.getParaType()) {
 	case ASSIGN:
 		stmts = pkb->getAllAssignStmt();
 	case WHILE:
@@ -141,6 +136,7 @@ void Pattern::setUnderScore(bool us) {
 	hasUnderScore = us;
 }
 
+/*
 void Pattern::setFactor(string f) {
 	factor = f;
 }
@@ -148,11 +144,24 @@ void Pattern::setFactor(string f) {
 string Pattern::getFactor() {
 	return factor;
 }
+*/
 
 bool Pattern::getUnderScore() {
 	return hasUnderScore;
 }
 
+Parameter Pattern::getLeftChild() {
+	return leftChild;
+}
+
+Parameter Pattern::getRightChild() {
+	return rightChild;
+}
+
+Parameter Pattern::getFactor() {
+	return factor;
+}
+/*
 string Pattern::getLeftChild() {
 	return leftChild;
 }
@@ -172,7 +181,4 @@ Type Pattern::getRightChildType() {
 Type Pattern::getFactorType() {
 	return factorType;
 }
-
-ClauseType Pattern::getClauseType() {
-	return PATTERN;
-}
+*/

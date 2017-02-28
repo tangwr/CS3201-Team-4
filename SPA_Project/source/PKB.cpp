@@ -77,6 +77,9 @@ bool PKB::setProcToStmtRel(int procId, int stmtId) {
 int PKB::getProcIdByName(string procName) {
     return this->procTable.getProcIndex(procName);
 }
+bool PKB::isProcInTable(string procName) {
+    return this->procTable.checkProcExistByName(procName);
+}
 
 
 //variable table
@@ -333,6 +336,19 @@ bool PKB::setStmtCallProc(int stmtId, int varId) {
 		return false;
 	}
 	return this->callTable.setStmtCallProc(stmtId, varId);
+}
+bool PKB::setProcCallProc(int callerProcId, int calledProcId) {
+    //check if proc exist??
+    return this->callTable.setProcCallProc(callerProcId, calledProcId);
+}
+
+//next table
+bool PKB::setStmtNextStmt(int currentStmtId, int nextStmtId) {
+    return this->nextTable.setStmtNextStmt(currentStmtId, nextStmtId);
+}
+
+unordered_set<int> PKB::getNextStmt(int currentStmtId) {
+    return this->nextTable.getNextStmt(currentStmtId);
 }
 
 

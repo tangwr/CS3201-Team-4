@@ -11,7 +11,7 @@
 
 using namespace std;
 
-const string existingValue = "The value is exist already";
+//const string existingValue = "The value is exist already";
 
 QueryTree::QueryTree() {
 	
@@ -19,6 +19,10 @@ QueryTree::QueryTree() {
 
 void QueryTree::insertSelect(Parameter p) {
 	select.push_back(p);
+}
+
+void QueryTree::insertUsed(Parameter p) {
+	used.push_back(p);
 }
 
 void QueryTree::insertResult(Clause* result) {
@@ -29,9 +33,23 @@ vector<Clause*> QueryTree::getResult() {
 	return resultList;
 }
 
-vector<Parameter> QueryTree::getSelect() {
+vector<Parameter> QueryTree::getSelectParameter() {
 	return select;
 }
+
+vector<Parameter> QueryTree::getUsedParameter() {
+	return select;
+}
+
+int QueryTree::getClauseSize() {
+	return resultList.size();
+}
+
+Clause* QueryTree::getClause(int index){
+	Clause* result = resultList.at(index);
+    return result; 
+}
+
 
 /*void QueryTree::setIsComonVar(bool result) {
 	isCommonVar = result;

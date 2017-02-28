@@ -136,6 +136,21 @@ void Pattern::setUnderScore(bool us) {
 	hasUnderScore = us;
 }
 
+void Pattern::setSynList(Parameter lc, Parameter rc, Parameter factor) {
+	if (lc.getParaType() != Type::CONSTANT && lc.getParaType() != Type::BOOLEAN && lc.getParaType() != Type::ANYTHING
+		&& lc.getParaType() != Type::STRINGVARIABLE && lc.getParaType() != Type::INTEGER) {
+		synList.push_back(lc);
+	}
+	if (rc.getParaType() != Type::CONSTANT && rc.getParaType() != Type::BOOLEAN && rc.getParaType() != Type::ANYTHING
+		&& rc.getParaType() != Type::STRINGVARIABLE && rc.getParaType() != Type::INTEGER) {
+		synList.push_back(rc);
+	}
+	if (factor.getParaType() != Type::CONSTANT && factor.getParaType() != Type::BOOLEAN && factor.getParaType() != Type::ANYTHING
+		&& factor.getParaType() != Type::STRINGVARIABLE && factor.getParaType() != Type::INTEGER) {
+		synList.push_back(factor);
+	}
+}
+
 /*
 void Pattern::setFactor(string f) {
 	factor = f;
@@ -160,6 +175,10 @@ Parameter Pattern::getRightChild() {
 
 Parameter Pattern::getFactor() {
 	return factor;
+}
+
+vector<Parameter> Pattern::getSynList() {
+	return synList;
 }
 /*
 string Pattern::getLeftChild() {

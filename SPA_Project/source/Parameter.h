@@ -12,7 +12,7 @@ private:
 	Type paraType;
 
 public:
-
+	Parameter();
 	Parameter(string, Type);
 	string getParaName();
 	Type getParaType();

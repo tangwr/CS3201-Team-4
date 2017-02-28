@@ -26,8 +26,8 @@ public:
 	int getDirectFollowedBy(int followerId);
 	//vector<int> getFollowsList(int stmtNo);
 	//vector<int> getFollowedByList(int stmtNo);
-	vector<int> getStmtFollowStarStmt(int followeeId);
-	vector<int> getStmtFollowedByStarStmt(int followerId);
+	unordered_set<int> getStmtFollowStarStmt(int followeeId);
+	unordered_set<int> getStmtFollowedByStarStmt(int followerId);
 	void printContents();
 
 	bool hasFollowRel();

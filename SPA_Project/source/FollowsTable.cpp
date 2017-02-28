@@ -95,25 +95,23 @@ int FollowsTable::getDirectFollowedBy(int followerId)
 	return -1;
 }
 
-vector<int> FollowsTable::getStmtFollowStarStmt(int stmtId) {
+unordered_set<int> FollowsTable::getStmtFollowStarStmt(int stmtId) {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = followeeListMap.find(stmtId);
-    if (it != followeeListMap.end())
-        //return it->second;
-        return vector<int>(it->second.begin(), it->second.end());//decide if pkb only or global
-    else
-        return vector<int>();
-
+    if (it != followeeListMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
 }
-vector<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
+unordered_set<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = followerListMap.find(stmtId);
-	if (it != followerListMap.end())
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
-	else
-		return vector<int>();
-
+    if (it != followerListMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
 }
 
 void FollowsTable::printContents()

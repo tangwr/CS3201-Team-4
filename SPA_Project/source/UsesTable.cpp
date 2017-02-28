@@ -219,92 +219,100 @@ bool UsesTable::setProcUsedByRelConst(int procId, int varId) {
 }
 
 
-vector<int> UsesTable::getVarUsedByStmt(int stmtId)
+unordered_set<int> UsesTable::getVarUsedByStmt(int stmtId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = vUsesStmtMap.find(stmtId);
 	if (it != vUsesStmtMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
-vector<int> UsesTable::getStmtUseVar(int varId)
+unordered_set<int> UsesTable::getStmtUseVar(int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = vUsedByStmtMap.find(varId);
 	if (it != vUsedByStmtMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
-vector<int> UsesTable::getVarUsedByProc(int procId)
+unordered_set<int> UsesTable::getVarUsedByProc(int procId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = vUsesProcMap.find(procId);
 	if (it != vUsesProcMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
-vector<int> UsesTable::getProcUseVar(int varId)
+unordered_set<int> UsesTable::getProcUseVar(int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = vUsedByProcMap.find(varId);
 	if (it != vUsedByProcMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
-vector<int> UsesTable::getConstUsedByStmt(int stmtId)
+unordered_set<int> UsesTable::getConstUsedByStmt(int stmtId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = cUsesStmtMap.find(stmtId);
 	if (it != cUsesStmtMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
-vector<int> UsesTable::getStmtUseConst(int varId)
+unordered_set<int> UsesTable::getStmtUseConst(int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = cUsedByStmtMap.find(varId);
 	if (it != cUsedByStmtMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
-vector<int> UsesTable::getConstUsedByProc(int procId)
+unordered_set<int> UsesTable::getConstUsedByProc(int procId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = cUsesProcMap.find(procId);
 	if (it != cUsesProcMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+	return resultSet;
 }
 
-vector<int> UsesTable::getProcUseConst(int varId)
+unordered_set<int> UsesTable::getProcUseConst(int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = cUsedByProcMap.find(varId);
 	if (it != cUsedByProcMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+        resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
+}
+
+unordered_set<int> UsesTable::getAllStmtId() {
+    unordered_set<int> allUsesStmtLst;
+    for (auto entry : vUsesStmtMap) {
+        allUsesStmtLst.insert(entry.first);
+    }
+    return allUsesStmtLst;
 }
 
 void UsesTable::printContents()
@@ -351,13 +359,6 @@ void UsesTable::printVector(vector<int> vec)
 	}
 }
 
-vector<int> UsesTable::getAllStmt() {
-	vector<int> allUsesStmtLst;
-	for (auto entry : vUsesStmtMap) {
-		allUsesStmtLst.push_back(entry.first);
-	}
-	return allUsesStmtLst;
-}
 bool UsesTable::checkStmtExist(int stmtId) {
 	for (auto entry : this->vUsesStmtMap) {
 		if (entry.first == stmtId) {
@@ -367,12 +368,12 @@ bool UsesTable::checkStmtExist(int stmtId) {
 	return false;
 }
 bool UsesTable::checkStmtVarRelExist(int stmtId, int varId) {
-	vector<int> stmtVarIdLst = this->getVarUsedByStmt(stmtId);
-	for (int varEntry : stmtVarIdLst) {
-		if (varEntry == varId) {
-			return true;
-		}
-	}
-	return false;
+    unordered_set<int> stmtVarIdLst = this->getVarUsedByStmt(stmtId);
+    if (stmtVarIdLst.find(varId) != stmtVarIdLst.end()) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
 

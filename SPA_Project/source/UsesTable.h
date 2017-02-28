@@ -49,16 +49,16 @@ public:
 	bool insertStmtUseRel(int stmtId, int varId);
 	bool insertProcUseRel(int procId, int varId);
 
-	vector<int> getVarUsedByStmt(int stmtId);
-	vector<int> getStmtUseVar(int varId);
-	vector<int> getVarUsedByProc(int procId);
-	vector<int> getProcUseVar(int varId);
+    unordered_set<int> getVarUsedByStmt(int stmtId);
+    unordered_set<int> getStmtUseVar(int varId);
+    unordered_set<int> getVarUsedByProc(int procId);
+    unordered_set<int> getProcUseVar(int varId);
 
-	vector<int> getConstUsedByStmt(int stmtId);
-	vector<int> getStmtUseConst(int constId);
-	vector<int> getConstUsedByProc(int procId);
-	vector<int> getProcUseConst(int constId);
-	vector<int> getAllStmt();
+    unordered_set<int> getConstUsedByStmt(int stmtId);
+    unordered_set<int> getStmtUseConst(int constId);
+    unordered_set<int> getConstUsedByProc(int procId);
+    unordered_set<int> getProcUseConst(int constId);
+	unordered_set<int> getAllStmtId();
 	bool checkStmtExist(int stmtId);
 	bool checkStmtVarRelExist(int stmtId, int varId);
 	void printContents();

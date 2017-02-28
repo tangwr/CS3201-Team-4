@@ -95,6 +95,16 @@ bool ProcTable::setProcToStmtRel(int procId, int stmtId) {
     return true;
 }
 
+unordered_set<int> ProcTable::getProcStmts(int procId) {
+    unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
+    it = this->procContainsStmtMap.find(procId);
+    if (it != this->procContainsStmtMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
+}
+
 bool ProcTable::checkProcExistById(int procId)
 {
 	if (procId < ptsize)

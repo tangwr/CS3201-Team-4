@@ -10,15 +10,20 @@ using namespace std;
 
 class Pattern : public Clause {
 private:
+	/*
 	string leftChild;
 	string rightChild;
 	Type leftChildType;
 	Type rightChildType;
-	bool isRel;
-	bool hasUnderScore;
 	string factor;
 	Type factorType;
-
+	*/
+	Parameter leftChild;
+	Parameter rightChild;
+	Parameter factor;
+	bool isRel;
+	bool hasUnderScore;
+	
 	string getPrefix(string infixString);
 	vector<int> getFirstPatternStmts(PKB* pkb);
 	vector<int> getSecondPatternStmts(PKB* pkb);
@@ -29,19 +34,24 @@ private:
 	
 public:
 
-	Pattern(string lc, Type lcType, string rc, Type rcType, string factor, Type factorType, bool underscore);
+	//Pattern(string lc, Type lcType, string rc, Type rcType, string factor, Type factorType, bool underscore);
+	Pattern(Parameter lc, Parameter rc, Parameter factor);
 	bool hasRel(PKB *pkb);
 	void setUnderScore(bool);
-	void setFactor(string);
+	//void setFactor(string);
 	bool getUnderScore();
 	vector<int> getWithRelToLeft(PKB *pkb);
 	vector<int> getWithRelToRight(PKB *pkb);
+	/*
 	string getLeftChild();
 	string getRightChild();
 	string getFactor();
 	Type getLeftChildType();
 	Type getRightChildType();
 	Type getFactorType();
-	ClauseType getClauseType();
+	*/
+	Parameter getLeftChild();
+	Parameter getRightChild();
+	Parameter getFactor();
 };
 #endif

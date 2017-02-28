@@ -8,10 +8,10 @@ WhileTable::WhileTable() {
 }
 
 //returns a vector<int> of all while statements
-vector<int> WhileTable::getAllStmtId() {
-    vector<int> allWhileStmtList;
+unordered_set<int> WhileTable::getAllStmtId() {
+    unordered_set<int> allWhileStmtList;
     for (auto whileEntry : this->whileList) {
-        allWhileStmtList.push_back(whileEntry.first);
+        allWhileStmtList.insert(whileEntry.first);
     }
     return allWhileStmtList;
 }

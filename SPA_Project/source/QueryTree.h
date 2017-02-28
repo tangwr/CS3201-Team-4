@@ -22,6 +22,7 @@ private:
 	//vector<Clause*> limits;
 	//vector<Clause*> unlimits;
 	vector<Parameter> select;
+	vector<Parameter> used;
 	vector<Clause*> resultList;
 
 public:
@@ -33,6 +34,7 @@ public:
 	//void setIsComonVar(bool);
 	void insertSelect(Parameter p);
 	void insertResult(Clause*);
+	void insertUsed(Parameter p);
 	
 	//vector<Clause*> getLimits();
 	//vector<Clause*> getUnLimits();
@@ -40,7 +42,11 @@ public:
 	//unordered_map<string, Type> getComonVar();
 	//bool getIsComonVar();
 	vector<Clause*> getResult();
-	vector<Parameter> getSelect();
+	vector<Parameter> getSelectParameter();
+	vector<Parameter> getUsedParameter();
+	int getClauseSize();
+	Clause* getClause(int index);
+
 
 };
 #endif

@@ -71,15 +71,15 @@ bool ParentsTable::insertStmtParentStmtRel(int father, int child)
 return list of childrens
 return empty list if no result
 */
-vector<int> ParentsTable::getStmtChildrenStmt(int stmtId)
+unordered_set<int> ParentsTable::getStmtChildrenStmt(int stmtId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = childsMap.find(stmtId);
 	if (it != childsMap.end()) {
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
+		resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
 
@@ -120,25 +120,25 @@ vector<int> ParentsTable::getParentList(int stmtNo)
 }
 */
 
-vector<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)
+unordered_set<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = childListMap.find(stmtId);
-	if (it != childListMap.end())
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
-	else
-		return vector<int>();
+    if (it != childListMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
 }
-vector<int> ParentsTable::getStmtParentStarStmt(int stmtId)
+unordered_set<int> ParentsTable::getStmtParentStarStmt(int stmtId)
 {
-	unordered_map<int, unordered_set<int>>::iterator it;
-	it = parentListMap.find(stmtId);
-	if (it != parentListMap.end())
-		//return it->second;
-        return vector<int>(it->second.begin(), it->second.end());
-	else
-		return vector<int>();
+    unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
+    it = parentListMap.find(stmtId);
+    if (it != parentListMap.end()){
+        resultSet = it->second;
+    }
+    return resultSet;
 }
 
 bool ParentsTable::hasParentRel()

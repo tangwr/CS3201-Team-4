@@ -24,12 +24,12 @@ public:
 	ParentsTable();
 	bool setStmtParentStmtRel(int father, int child);
 	bool ParentsTable::insertStmtParentStmtRel(int father, int child);
-	vector<int> getStmtChildrenStmt(int stmtNo);  // direct children
+    unordered_set<int> getStmtChildrenStmt(int stmtNo);  // direct children
 	int getParent(int stmtNo);
 	//vector<int> getChildrenList(int stmtNo);
 	//vector<int> getParentList(int stmtNo);
-	vector<int> getStmtChildrenStarStmt(int stmtId);
-	vector<int> getStmtParentStarStmt(int stmtId);
+    unordered_set<int> getStmtChildrenStarStmt(int stmtId);
+    unordered_set<int> getStmtParentStarStmt(int stmtId);
 	bool hasParentRel();
 	void printContents();
 

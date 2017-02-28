@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -19,6 +20,6 @@ public:
 	void printContents();
 	bool setExpToAssignStmt(int stmtId, string exp);
 	string getExpInAssignStmt(int stmtId);
-    vector<int> getAllStmtId();
+    unordered_set<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
 };

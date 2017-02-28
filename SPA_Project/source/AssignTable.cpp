@@ -7,12 +7,12 @@ AssignTable::AssignTable() {
 }
 
 //returns a vector<int> of all assign statement Id
-vector<int> AssignTable::getAllStmtId() {
-    vector<int> allAssignStmtList;
+unordered_set<int> AssignTable::getAllStmtId() {
+    unordered_set<int> allAssignStmtSet;
     for (auto assignEntry : this->assignList) {
-        allAssignStmtList.push_back(assignEntry.first);
+        allAssignStmtSet.insert(assignEntry.first);
     }
-    return allAssignStmtList;
+    return allAssignStmtSet;
 }
 
 bool AssignTable::isStmtInTable(int stmtId)

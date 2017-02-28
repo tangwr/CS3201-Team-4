@@ -23,6 +23,7 @@ private:
 	Parameter factor;
 	bool isRel;
 	bool hasUnderScore;
+	vector<Parameter> synList;
 	
 	string getPrefix(string infixString);
 	vector<int> getFirstPatternStmts(PKB* pkb);
@@ -31,6 +32,7 @@ private:
 	vector<int> getTypeStmtModifiedByVar(PKB* pkb, int varId);
 	vector<int> getVarFromStmts(PKB *pkb, vector<int> stmts);
 	vector<int> getAssignStmtWithPrefix(PKB* pkb, string prefix);
+	vector<Parameter> getSynList();
 	
 public:
 
@@ -38,6 +40,7 @@ public:
 	Pattern(Parameter lc, Parameter rc, Parameter factor);
 	bool hasRel(PKB *pkb);
 	void setUnderScore(bool);
+	void setSynList(Parameter lc, Parameter rc, Parameter factor);
 	//void setFactor(string);
 	bool getUnderScore();
 	vector<int> getWithRelToLeft(PKB *pkb);
@@ -53,5 +56,6 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	Parameter getFactor();
+	
 };
 #endif

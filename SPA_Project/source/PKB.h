@@ -219,4 +219,5 @@ public:
     bool setStmtNextStmtRel(int currentStmtId, int nextStmtid);
 
     unordered_set<int> getNextStmt(int currentStmtId);
+    unordered_set<int> getPreviousStmt(int currentStmtId);
 };

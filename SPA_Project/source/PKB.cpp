@@ -371,6 +371,9 @@ unordered_set<int> PKB::getNextStmt(int currentStmtId) {
     return this->nextTable.getNextStmt(currentStmtId);
 }
 
+unordered_set<int> PKB::getPreviousStmt(int currentStmtId) {
+    return this->nextTable.getPreviousStmt(currentStmtId);
+}
 
 /*
 bool PKB::setFollowedByDirectRel(int stmtId, int followedByIndex) {

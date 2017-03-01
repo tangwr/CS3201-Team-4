@@ -333,6 +333,10 @@ bool PKB::isStmtInIfTable(int stmtId) {
 	return this->ifTable.isStmtInTable(stmtId);
 }
 
+unordered_set<int> PKB::getAllIfId() {
+    return this->ifTable.getAllIfId();
+}
+
 
 //call table
 bool PKB::setStmtCallProcRel(int stmtId, int varId) {

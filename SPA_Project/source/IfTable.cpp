@@ -29,6 +29,14 @@ int IfTable::getVarInIfStmt(int stmtId) {
 	}
 }
 
+unordered_set<int> IfTable::getAllIfId() {
+    unordered_set<int> resultSet;
+    for (auto entry : ifList) {
+        resultSet.insert(entry.first);
+    }
+    return resultSet;
+}
+
 bool IfTable::isStmtInTable(int stmtId)
 {
     for (auto stmtEntry : this->ifList) {

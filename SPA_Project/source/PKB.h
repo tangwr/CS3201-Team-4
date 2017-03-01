@@ -204,6 +204,7 @@ public:
 	int getVarInIfStmt(int stmtId);//was get If Ctrl Var
 		//int getVarInIfStmt(int stmtId);
 	bool isStmtInIfTable(int stmtId);
+    unordered_set<int> getAllIfId();
 
 
 	//call table

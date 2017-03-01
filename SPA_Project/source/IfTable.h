@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -20,5 +21,6 @@ public:
 	void printContents();
 	bool setVarToIfStmt(int stmtId, int varId);
 	int getVarInIfStmt(int stmtId);
+    unordered_set<int> getAllIfId();
 	bool isStmtInTable(int stmtId);
 };

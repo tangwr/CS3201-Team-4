@@ -27,6 +27,7 @@ private:
 	ResultTable* getParentStarNumSyn(PKB*);
 	ResultTable* getParentStarSynNum(PKB*);
 	ResultTable* getParentStarSynSyn(PKB*);
+	vector<Parameter> synList;
 
 	/*
 	string leftChild;
@@ -51,6 +52,7 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable* execute(PKB*);
+	vector<Parameter> getSynList();
 	/*
 	ParentStar(string, Type, string, Type);
 	vector<int> getWithRelToLeft(PKB *pkb);

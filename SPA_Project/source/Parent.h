@@ -24,6 +24,7 @@ private:
 	ResultTable* getParentNumSyn(PKB*);
 	ResultTable* getParentSynNum(PKB*);
 	ResultTable* getParentSynSyn(PKB*);
+	vector<Parameter> synList;
 	/*
 	string leftChild;
 	string rightChild;
@@ -47,6 +48,7 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable* execute(PKB*);
+	vector<Parameter> getSynList();
 	/*
 	Parent(string, Type, string, Type);
 	bool hasRel(PKB *pkb);

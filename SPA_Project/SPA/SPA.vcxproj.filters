@@ -159,6 +159,12 @@
     <ClCompile Include="..\source\CallsStar.cpp">
       <Filter>Resource Files\Source Files\PQL\Clause</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Next.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\NextStar.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -267,6 +273,12 @@
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
     <ClInclude Include="..\source\CallsStar.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Next.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\NextStar.h">
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
   </ItemGroup>

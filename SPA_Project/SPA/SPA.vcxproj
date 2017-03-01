@@ -24,6 +24,8 @@
     <ClCompile Include="..\source\IfTable.cpp" />
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
+    <ClCompile Include="..\source\Next.cpp" />
+    <ClCompile Include="..\source\NextStar.cpp" />
     <ClCompile Include="..\source\Parameter.cpp" />
     <ClCompile Include="..\source\Parent.cpp" />
     <ClCompile Include="..\source\ParentsTable.cpp" />
@@ -61,6 +63,8 @@
     <ClInclude Include="..\source\IfTable.h" />
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
+    <ClInclude Include="..\source\Next.h" />
+    <ClInclude Include="..\source\NextStar.h" />
     <ClInclude Include="..\source\Parameter.h" />
     <ClInclude Include="..\source\Parent.h" />
     <ClInclude Include="..\source\ParentsTable.h" />
@@ -118,6 +122,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\source\AssignTable.cpp" />
+    <ClCompile Include="..\source\Calls.cpp" />
+    <ClCompile Include="..\source\CallsStar.cpp" />
     <ClCompile Include="..\source\CallTable.cpp" />
     <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\Controller.cpp" />
@@ -46,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AssignTable.h" />
+    <ClInclude Include="..\source\Calls.h" />
+    <ClInclude Include="..\source\CallsStar.h" />
     <ClInclude Include="..\source\CallTable.h" />
     <ClInclude Include="..\source\Clause.h" />
     <ClInclude Include="..\source\ConstTable.h" />

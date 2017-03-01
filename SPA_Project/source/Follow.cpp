@@ -4,6 +4,166 @@
 
 using namespace std;
 
+
+Follow::Follow(Parameter lc, Parameter rc) {
+	leftChild = lc;
+	rightChild = rc;
+}
+
+ResultTable* Follow::execute(PKB* pkb) {
+	if (isNumber(leftChild)) {
+		if (isNumber(rightChild)) {
+			return getFollowNumNum(pkb);
+		}
+		else if (isSynonym(rightChild)) {
+			return getFollowNumSyn(pkb);
+		}
+	}
+	else if (isSynonym(leftChild)) {
+		if (isNumber(rightChild)) {
+			return getFollowSynNum(pkb);
+		}
+		else if (isSynonym(rightChild)) {
+			return getFollowSynSyn(pkb);
+		}
+	}
+	return result;
+}
+
+ResultTable* Follow::getFollowNumNum(PKB* pkb) {
+	int leftArgument = stoi(leftChild.getParaName());
+	int rightArgument = stoi(rightChild.getParaName());
+	if (!isValidStmtNo(leftArgument, pkb)) {
+		result->setBoolean(false);
+		return result;
+	}
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		result->setBoolean(false);
+		return result;
+	}
+
+	int follows = pkb->getStmtFollowedByStmt(rightArgument);
+	vector<int> tuple;
+	if (follows == leftArgument) {
+		result->setBoolean(true);
+	}
+	else {
+		result->setBoolean(false);
+	}
+	return result;
+}
+
+ResultTable* Follow::getFollowNumSyn(PKB* pkb) {
+	int leftArgument = stoi(leftChild.getParaName());
+	if (!isValidStmtNo(leftArgument, pkb)) {
+		return result;
+	}
+	else { //if left is a valid statement number, follows(num, syn)
+		result->setSynList(vector<Parameter>({rightChild}));
+		vector<int> tuple;
+		int followedBy = pkb->getStmtFollowStmt(leftArgument);
+
+		if (isStmtType(followedBy, rightChild, pkb)) {
+			tuple.push_back(followedBy);
+			result->insertTuple(tuple);
+			return result;
+		}
+	}
+}
+
+ResultTable* Follow::getFollowSynNum(PKB* pkb) {
+	int rightArgument = stoi(rightChild.getParaName());
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		return result;
+	}
+	else { //if right is a valid statement number, follows(syn, num)
+		result->setSynList(vector<Parameter>({ leftChild }));
+		vector<int> tuple;
+		int follows = pkb->getStmtFollowedByStmt(rightArgument);
+
+		if (isStmtType(follows, rightChild, pkb)) {
+			tuple.push_back(follows);
+			result->insertTuple(tuple);
+			return result;
+		}
+	}
+}
+
+ResultTable* Follow::getFollowSynSyn(PKB* pkb) {
+	if (leftChild.getParaName().compare(rightChild.getParaName()) == 0) {
+		return result;
+	}
+
+
+	result->setSynList(vector<Parameter>({ leftChild, rightChild }));
+	vector<int> right = getTypeStmt(rightChild.getParaType(), pkb);
+	for (int i = 0; i < right.size(); i++) {
+		int follows = pkb->getStmtFollowedByStmt(right[i]);
+		if (isStmtType(follows, leftChild, pkb))
+			result->insertTuple(vector<int>(follows, right[i]));
+	}
+	return result;
+}
+
+vector<int> Follow::getTypeStmt(Type type, PKB* pkb) {
+	switch (type) {
+	case PROG_LINE:
+	case STMT:
+	case ANYTHING: {
+		int numOfStmt = pkb->getNumOfStmt();
+		vector<int> stmtList(numOfStmt);
+		for (int i = 0; i < numOfStmt; i++) {
+			stmtList[i] = i + 1;
+		}
+		return stmtList;
+	}
+	case WHILE:
+		return pkb->getAllWhileStmt();
+	case ASSIGN:
+		return pkb->getAllAssignStmt();
+	}
+	return vector<int>();
+}
+
+bool Follow::isStmtType(int stmtId, Parameter parameter, PKB* pkb) {
+	Type type = parameter.getParaType();
+	if (stmtId < 1)
+		return false;
+	switch (type) {
+	case WHILE:
+		return pkb->isStmtInWhileTable(stmtId);
+	case ASSIGN:
+		return pkb->isStmtInAssignTable(stmtId);
+	case PROG_LINE:
+	case STMT:
+	case ANYTHING:
+		return true;
+	}
+	return false;
+}
+
+bool Follow::isNumber(Parameter parameter) {
+	Type type = parameter.getParaType();
+	return (type == INTEGER);
+}
+
+bool Follow::isSynonym(Parameter parameter) {
+	Type type = parameter.getParaType();
+	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
+}
+
+bool Follow::isValidStmtNo(int stmtId, PKB* pkb) {
+	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
+}
+
+Parameter Follow::getLeftChild() {
+	return leftChild;
+}
+Parameter Follow::getRightChild() {
+	return rightChild;
+}
+
+/*
 Follow::Follow(string lc, Type lcType, string rc, Type rcType) {
 	leftChild = lc;
 	rightChild = rc;
@@ -15,66 +175,44 @@ vector<int> Follow::getWithRelToRight(PKB* pkb) {
 	//cout << "RIGHT" << endl;
 	if (isSynonym(rightChildType)) {
 		if (isNumber(leftChildType)) {
-			int leftArgument = stoi(leftChild);
-			//cout << "LEFT ARGUMENT" << leftArgument << endl;
-			if (!isValidStmtNo(leftArgument, pkb)) {
-				return result;
-			}
-			else { //if left is a valid statement number, follows(num, syn)
-				int followedBy = pkb->getStmtFollowStmt(leftArgument);
-			//	cout << "FOLLOWEDBY " << followedBy << endl;
-				if (isStmtType(followedBy, rightChildType, pkb)) {
-					result.push_back(followedBy);
-					return result;
-				}
-			}
+			return getWithRelToRightNumSyn(pkb);
 		}
 		else if (isSynonym(leftChildType)) {
-			//cout << " BOTH SYNONYM" << endl;
-			left = getTypeStmt(leftChildType, pkb);
-			tempResult = getAllFollows(left, pkb);
-			//cout << "TEMP RESULT SIZE: " << tempResult.size() << endl;
-			result = filterType(tempResult, rightChildType, pkb);
-			//cout << "RESULT SIZE: " << result.size() << endl;
-			//cout << "HERE" << endl;
-			return result;
-		}
-		else {
-			return result;
+			return getWithRelToRightSynSyn(pkb);
 		}
 	}
-	else {
+	return result;
+}
+
+vector<int> Follow::getWithRelToRightSynSyn(PKB* pkb) {
+	left = getTypeStmt(leftChildType, pkb);
+	tempResult = getAllFollows(left, pkb);
+	result = filterType(tempResult, rightChildType, pkb);
+	return result;
+}
+
+vector<int> Follow::getWithRelToRightNumSyn(PKB* pkb) {
+	int leftArgument = stoi(leftChild);
+	if (!isValidStmtNo(leftArgument, pkb)) {
 		return result;
+	}
+	else { //if left is a valid statement number, follows(num, syn)
+		int followedBy = pkb->getStmtFollowStmt(leftArgument);
+		if (isStmtType(followedBy, rightChildType, pkb)) {
+			result.push_back(followedBy);
+			return result;
+		}
 	}
 	return result;
 }
 
 vector<int> Follow::getWithRelToLeft(PKB* pkb) {
-//	cout << "LEFT" << endl;
 	if (isSynonym(leftChildType)) {
-		//cout << "LEFT IS SYNONYM" << endl;
 		if (isNumber(rightChildType)) {
-			int rightArgument = stoi(rightChild);
-			if (!isValidStmtNo(rightArgument, pkb)) {
-				return result;
-			}
-			else { //if right is valid statement number, follows(syn, num)
-				int follows = pkb->getStmtFollowedByStmt(rightArgument);
-				if (isStmtType(follows, leftChildType, pkb)) {
-					result.push_back(follows);
-					return result;
-				}
-			}
+			return getWithRelToLeftSynNum(pkb);
 		}
 		else if (isSynonym(rightChildType)) {
-			//cout << "RIGHT IS SYNONYM" << endl;
-			right = getTypeStmt(rightChildType, pkb);
-			//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
-			tempResult = getAllFollowedBy(right, pkb);
-			//cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
-			result = filterType(tempResult, leftChildType, pkb);
-			//cout << "NUMBER OF RESULT is: " << result.size() << endl;
-			return result;
+			return getWithRelToLeftSynSyn(pkb);
 		}
 		else { // follows(synonym, invalid)
 			return result;
@@ -84,6 +222,27 @@ vector<int> Follow::getWithRelToLeft(PKB* pkb) {
 		return result;
 	}
 	return result;
+}
+
+vector<int> Follow::getWithRelToLeftSynSyn(PKB* pkb) {
+	right = getTypeStmt(rightChildType, pkb);
+	tempResult = getAllFollowedBy(right, pkb);
+	result = filterType(tempResult, leftChildType, pkb);
+	return result;
+}
+
+vector<int> Follow::getWithRelToLeftSynNum(PKB* pkb) {
+	int rightArgument = stoi(rightChild);
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		return result;
+	}
+	else { //if right is valid statement number, follows(syn, num)
+		int follows = pkb->getStmtFollowedByStmt(rightArgument);
+		if (isStmtType(follows, leftChildType, pkb)) {
+			result.push_back(follows);
+			return result;
+		}
+	}
 }
 
 bool Follow::isValidStmtNo(int stmtId, PKB* pkb) {
@@ -108,7 +267,6 @@ vector<int> Follow::getAllFollowedBy(vector<int> list, PKB* pkb) {
 	for (int i = 0; i < list.size(); i++) {
 		followedBy = pkb->getStmtFollowedByStmt(list[i]);
 		if (followedBy != -1) {
-			//cout << followedBy << " added bcuz it follows " << list[i] << endl;
 			listFollowedBy.push_back(followedBy);
 		}
 		else {
@@ -135,19 +293,15 @@ bool Follow::isStmtType(int stmtId, Type type, PKB* pkb) {
 	if (stmtId < 1)
 		return false;
 	switch (type) {
-	case WHILE:
-		//cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
+	case WHILES:
 		return pkb->isStmtInWhileTable(stmtId);
 	case ASSIGN:
-		//cout << stmtId << " " << pkb->isStmtInAssignTable(stmtId) << endl;
 		return pkb->isStmtInAssignTable(stmtId);
 	case PROG_LINE:
 	case STMT:
 	case ANYTHING:
-		//cout << stmtId << "anything " << endl;
 		return true;
 	}
-	//cout << stmtId << " false" << endl;
 	return false;
 }
 
@@ -163,7 +317,7 @@ vector<int> Follow::getTypeStmt(Type type, PKB* pkb) {
 		}
 		return stmtList;
 	}
-	case WHILE:
+	case WHILES:
 		return pkb->getAllWhileStmt();
 	case ASSIGN:
 		return pkb->getAllAssignStmt();
@@ -177,75 +331,80 @@ bool Follow::isNumber(Type type) {
 }
 
 bool Follow::isSynonym(Type type) {
-	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
+	return (type == ASSIGN || type == WHILES || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
 bool Follow::hasRel(PKB *pkb) {
 	if (isSynonym(leftChildType)) {
 		if (isNumber(rightChildType)) {
-			int rightArgument = stoi(rightChild);
-			if (!isValidStmtNo(rightArgument, pkb)) {
-				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
-			}
-			else { //if right is valid statement number, follows(syn, num)
-				int follows = pkb->getStmtFollowedByStmt(rightArgument);
-				if (isStmtType(follows, leftChildType, pkb)) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
+			return hasRelSynNum(pkb);
 		}
 		else if (isSynonym(rightChildType)) { // follows(syn,syn)
-			right = getTypeStmt(rightChildType, pkb);
-			//cout << "NUMBER OF RIGHT IS " << right.size() << endl;
-			tempResult = getAllFollowedBy(right, pkb);
-			//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
-			result = filterType(tempResult, leftChildType, pkb);
-			return (result.size() != 0);
-		}
-		else { // follows(synonym, invalid)
-			return false; // return what!??!?!?!?!?!?!?!??!
+			return hasRelSynSyn(pkb);
 		}
 	}
 	else if (isNumber(leftChildType)) {
 		int leftArgument = stoi(leftChild);
 		if (!isValidStmtNo(leftArgument, pkb)) {
-			return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
+			return false;
 		}
 		if (isNumber(rightChildType)) {
-			int rightArgument = stoi(rightChild);
-			if (!isValidStmtNo(rightArgument, pkb)) {
-				return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
-			}
-			else { //if right is valid statement number, follows(num, num)
-				int follows = pkb->getStmtFollowedByStmt(rightArgument);
-				if (follows == leftArgument) {
-					return true;
-				}
-				else {
-					return false;
-				}
-			}
+			return hasRelNumNum(pkb, leftArgument);
 		}
 		else if (isSynonym(rightChildType)) { //follows(num , syn)
-			int followedBy = pkb->getStmtFollowStmt(leftArgument);
-			if (isStmtType(followedBy, rightChildType, pkb)) {
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		else {
-			return false; // return what!?! ?!?!? !? !??! ?
+			return hasRelNumSyn(pkb, leftArgument);
 		}
 	}
-	else { //invalid left argument
+	return false;
+}
+
+bool Follow::hasRelNumSyn(PKB *pkb, int leftArgument) {
+	int followedBy = pkb->getStmtFollowStmt(leftArgument);
+	if (isStmtType(followedBy, rightChildType, pkb)) {
+		return true;
+	}
+	else {
 		return false;
 	}
-	return isRel;
+}
+
+bool Follow::hasRelNumNum(PKB *pkb, int leftArgument) {
+	int rightArgument = stoi(rightChild);
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		return false;
+	}
+	else { //if right is valid statement number, follows(num, num)
+		int follows = pkb->getStmtFollowedByStmt(rightArgument);
+		if (follows == leftArgument) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+}
+
+bool Follow::hasRelSynSyn(PKB *pkb) {
+	right = getTypeStmt(rightChildType, pkb);
+	tempResult = getAllFollowedBy(right, pkb);
+	result = filterType(tempResult, leftChildType, pkb);
+	return (result.size() != 0);
+}
+
+bool Follow::hasRelSynNum(PKB *pkb) {
+	int rightArgument = stoi(rightChild);
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		return false;
+	}
+	else { //if right is valid statement number, follows(syn, num)
+		int follows = pkb->getStmtFollowedByStmt(rightArgument);
+		if (isStmtType(follows, leftChildType, pkb)) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
 
 string Follow::getLeftChild() {
@@ -260,6 +419,4 @@ Type Follow::getLeftChildType() {
 Type Follow::getRightChildType() {
 	return rightChildType;
 }
-ClauseType Follow::getClauseType() {
-	return FOLLOW;
-}
+*/

@@ -36,7 +36,7 @@ void NextTable::printContents() {
 
 }
 
-bool NextTable::setStmtNextStmt(int currentStmtId, int nextStmtId) {
+bool NextTable::setStmtNextStmtRel(int currentStmtId, int nextStmtId) {
     //next
     unordered_map<int, unordered_set<int>>::iterator it;
     it = nextMap.find(currentStmtId);

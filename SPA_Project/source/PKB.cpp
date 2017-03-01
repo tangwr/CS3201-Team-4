@@ -81,6 +81,9 @@ bool PKB::isProcInTable(string procName) {
     return this->procTable.checkProcExistByName(procName);
 }
 
+unordered_set<int> PKB::getAllProcId() {
+    return this->procTable.getAllProcId();
+}
 
 //variable table
 int PKB::insertVar(string varName) {
@@ -331,20 +334,32 @@ bool PKB::isStmtInIfTable(int stmtId) {
 
 
 //call table
-bool PKB::setStmtCallProc(int stmtId, int varId) {
+bool PKB::setStmtCallProcRel(int stmtId, int varId) {
 	if (!this->isValidVarId(varId)) {
 		return false;
 	}
-	return this->callTable.setStmtCallProc(stmtId, varId);
+	return this->callTable.setStmtCallProcRel(stmtId, varId);
 }
-bool PKB::setProcCallProc(int callerProcId, int calledProcId) {
+bool PKB::setProcCallProcRel(int callerProcId, int calledProcId) {
     //check if proc exist??
-    return this->callTable.setProcCallProc(callerProcId, calledProcId);
+    return this->callTable.setProcCallProcRel(callerProcId, calledProcId);
+}
+
+int PKB::getProcCalledByStmt(int callStmtId) {
+    return this->callTable.getProcCalledByStmt(callStmtId);
+}
+
+unordered_set<int> PKB::getProcCalledByProc(int callerProcId) {
+    return this->callTable.getProcCalledByProc(callerProcId);
+}
+
+unordered_set<int> PKB::getAllCallId() {
+    return this->callTable.getAllCallId();
 }
 
 //next table
-bool PKB::setStmtNextStmt(int currentStmtId, int nextStmtId) {
-    return this->nextTable.setStmtNextStmt(currentStmtId, nextStmtId);
+bool PKB::setStmtNextStmtRel(int currentStmtId, int nextStmtId) {
+    return this->nextTable.setStmtNextStmtRel(currentStmtId, nextStmtId);
 }
 
 unordered_set<int> PKB::getNextStmt(int currentStmtId) {

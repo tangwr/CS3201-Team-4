@@ -105,6 +105,14 @@ unordered_set<int> ProcTable::getProcStmts(int procId) {
     return resultSet;
 }
 
+unordered_set<int> ProcTable::getAllProcId() {
+    unordered_set<int> resultSet;
+    for (auto element : procMap) {
+        resultSet.insert(element.second);
+    }
+    return resultSet;
+}
+
 bool ProcTable::checkProcExistById(int procId)
 {
 	if (procId < ptsize)
@@ -138,7 +146,7 @@ void ProcTable::printContents()
         cout << endl;
     }
 
-    for (pair<int, unordered_set<int>> entry : procContainsStmtMap>) {
+    for (pair<int, unordered_set<int>> entry : procContainsStmtMap) {
         cout << "ProcId: " << entry.first;
         cout << "contains stmtId ";
         printUnorderedSet(entry.second);

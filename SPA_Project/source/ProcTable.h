@@ -27,6 +27,7 @@ public:
 	int getProcIndex(string procName);
     bool setProcToStmtRel(int procId, int stmtId);
     unordered_set<int> getProcStmts(int procId);
+    unordered_set<int> getAllProcId();
 	bool checkProcExistByName(string procName);
 	void printContents();
 	bool checkProcExistById(int ProcId);

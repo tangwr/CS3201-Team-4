@@ -21,7 +21,7 @@ public:
     NextTable();
     int getSize();
     void printContents();
-    bool setStmtNextStmt(int currentStmtId, int nextStmtId);//sets both next and previous
+    bool setStmtNextStmtRel(int currentStmtId, int nextStmtId);//sets both next and previous
     unordered_set<int> getNextStmt(int stmtId);
     unordered_set<int> getPreviousStmt(int stmtId);
 

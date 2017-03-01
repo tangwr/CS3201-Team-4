@@ -61,6 +61,8 @@ public:
     int getProcIdByName(string procName);
     bool isProcInTable(string procName);
 
+    unordered_set<int> getAllProcId();
+
 
 	//variable table
 	int insertVar(string varName);
@@ -205,12 +207,15 @@ public:
 
 
 	//call table
-	bool setStmtCallProc(int stmtId, int procId);//was set Call Proc
-		//bool setStmtCallProc(int stmtId, int procId);
-    bool setProcCallProc(int callerProcId, int calledProcId);
+	bool setStmtCallProcRel(int stmtId, int procId);//was set Call Proc
+		//bool setStmtCallProcRel(int stmtId, int procId);
+    bool setProcCallProcRel(int callerProcId, int calledProcId);
+    int getProcCalledByStmt(int callStmtId);
+    unordered_set<int> getProcCalledByProc(int callerProcId);
+    unordered_set<int> getAllCallId();
 
     //next table
-    bool setStmtNextStmt(int currentStmtId, int nextStmtid);
+    bool setStmtNextStmtRel(int currentStmtId, int nextStmtid);
 
     unordered_set<int> getNextStmt(int currentStmtId);
 };

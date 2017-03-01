@@ -3,6 +3,164 @@
 #include "Clause.h"
 #include "unordered_set"
 
+
+
+
+Parent::Parent(Parameter lc, Parameter rc) {
+	leftChild = lc;
+	rightChild = rc;
+}
+
+ResultTable* Parent::execute(PKB* pkb) {
+	if (isNumber(leftChild)) {
+		if (isNumber(rightChild)) {
+			return getParentNumNum(pkb);
+		}
+		else if (isSynonym(rightChild)) {
+			return getParentNumSyn(pkb);
+		}
+	}
+	else if (isSynonym(leftChild)) {
+		if (isNumber(rightChild)) {
+			return getParentSynNum(pkb);
+		}
+		else if (isSynonym(rightChild)) {
+			return getParentSynSyn(pkb);
+		}
+	}
+	return result;
+}
+
+ResultTable* Parent::getParentNumNum(PKB* pkb) {
+	int leftArgument = stoi(leftChild.getParaName());
+	int rightArgument = stoi(rightChild.getParaName());
+	if (!isValidStmtNo(leftArgument, pkb)) {
+		result->setBoolean(false);
+		return result;
+	}
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		result->setBoolean(false);
+		return result;
+	}
+
+	int parent = pkb->getStmtParentStmt(rightArgument);
+	vector<int> tuple;
+	if (parent == leftArgument) {
+		result->setBoolean(true);
+	}
+	else {
+		result->setBoolean(false);
+	}
+	return result;
+}
+
+ResultTable* Parent::getParentNumSyn(PKB* pkb) {
+	int leftArgument = stoi(leftChild.getParaName());
+	if (!isValidStmtNo(leftArgument, pkb)) {
+		return result;
+	}
+	else { //if left is a valid statement number, Parents(num, syn)
+		result->setSynList(vector<Parameter>({ rightChild }));
+		vector<int> children = pkb->getStmtChildrenStmt(leftArgument);
+		for (int i = 0; i < children.size(); i++) {
+			if (isStmtType(children[i], rightChild, pkb)) {
+				result->insertTuple(vector<int>(children[i]));
+				return result;
+			}
+		}
+	}
+}
+
+ResultTable* Parent::getParentSynNum(PKB* pkb) {
+	int rightArgument = stoi(rightChild.getParaName());
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		return result;
+	}
+	else { //if right is a valid statement number, Parents(syn, num)
+		result->setSynList(vector<Parameter>({ leftChild }));
+		vector<int> tuple;
+		int parent = pkb->getStmtParentStmt(rightArgument);
+		if (isStmtType(parent, rightChild, pkb)) {
+			result->insertTuple(vector<int>(parent));
+			return result;
+		}
+	}
+}
+
+ResultTable* Parent::getParentSynSyn(PKB* pkb) {
+	if (leftChild.getParaName().compare(rightChild.getParaName()) == 0) {
+		return result;
+	}
+
+	result->setSynList(vector<Parameter>({ leftChild, rightChild }));
+	vector<int> right = getTypeStmt(rightChild.getParaType(), pkb);
+	for (int i = 0; i < right.size(); i++) {
+		int parent = pkb->getStmtParentStmt(right[i]);
+		if (isStmtType(parent, leftChild, pkb))
+			result->insertTuple(vector<int>(parent, right[i]));
+	}
+	return result;
+}
+
+vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
+	switch (type) {
+	case PROG_LINE:
+	case STMT:
+	case ANYTHING: {
+		int numOfStmt = pkb->getNumOfStmt();
+		vector<int> stmtList(numOfStmt);
+		for (int i = 0; i < numOfStmt; i++) {
+			stmtList[i] = i + 1;
+		}
+		return stmtList;
+	}
+	case WHILE:
+		return pkb->getAllWhileStmt();
+	case ASSIGN:
+		return pkb->getAllAssignStmt();
+	}
+	return vector<int>();
+}
+
+bool Parent::isStmtType(int stmtId, Parameter parameter, PKB* pkb) {
+	Type type = parameter.getParaType();
+	if (stmtId < 1)
+		return false;
+	switch (type) {
+	case WHILE:
+		return pkb->isStmtInWhileTable(stmtId);
+	case ASSIGN:
+		return pkb->isStmtInAssignTable(stmtId);
+	case PROG_LINE:
+	case STMT:
+	case ANYTHING:
+		return true;
+	}
+	return false;
+}
+
+bool Parent::isNumber(Parameter parameter) {
+	Type type = parameter.getParaType();
+	return (type == INTEGER);
+}
+
+bool Parent::isSynonym(Parameter parameter) {
+	Type type = parameter.getParaType();
+	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
+}
+
+bool Parent::isValidStmtNo(int stmtId, PKB* pkb) {
+	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
+}
+
+Parameter Parent::getLeftChild() {
+	return leftChild;
+}
+Parameter Parent::getRightChild() {
+	return rightChild;
+}
+
+/*
 Parent::Parent(string lc, Type lcType, string rc, Type rcType) {
 	leftChild = lc;
 	rightChild = rc;
@@ -263,3 +421,4 @@ Type Parent::getRightChildType() {
 ClauseType Parent::getClauseType() {
 	return PARENT;
 }
+*/

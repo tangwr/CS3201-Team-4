@@ -8,6 +8,19 @@ Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
 	leftChild = lc;
 	rightChild = rc;
 	factor = f;
+
+	if (lc.getParaType() != Type::CONSTANT && lc.getParaType() != Type::BOOLEAN && lc.getParaType() != Type::ANYTHING
+		&& lc.getParaType() != Type::STRINGVARIABLE && lc.getParaType() != Type::INTEGER) {
+		synList.push_back(lc);
+	}
+	if (rc.getParaType() != Type::CONSTANT && rc.getParaType() != Type::BOOLEAN && rc.getParaType() != Type::ANYTHING
+		&& rc.getParaType() != Type::STRINGVARIABLE && rc.getParaType() != Type::INTEGER) {
+		synList.push_back(rc);
+	}
+	if (factor.getParaType() != Type::CONSTANT && factor.getParaType() != Type::BOOLEAN && factor.getParaType() != Type::ANYTHING
+		&& factor.getParaType() != Type::STRINGVARIABLE && factor.getParaType() != Type::INTEGER) {
+		synList.push_back(factor);
+	}
 }
 
 bool Pattern::hasRel(PKB *pkb) {
@@ -134,21 +147,6 @@ string Pattern::getPrefix(string infixString) {
 
 void Pattern::setUnderScore(bool us) {
 	hasUnderScore = us;
-}
-
-void Pattern::setSynList(Parameter lc, Parameter rc, Parameter factor) {
-	if (lc.getParaType() != Type::CONSTANT && lc.getParaType() != Type::BOOLEAN && lc.getParaType() != Type::ANYTHING
-		&& lc.getParaType() != Type::STRINGVARIABLE && lc.getParaType() != Type::INTEGER) {
-		synList.push_back(lc);
-	}
-	if (rc.getParaType() != Type::CONSTANT && rc.getParaType() != Type::BOOLEAN && rc.getParaType() != Type::ANYTHING
-		&& rc.getParaType() != Type::STRINGVARIABLE && rc.getParaType() != Type::INTEGER) {
-		synList.push_back(rc);
-	}
-	if (factor.getParaType() != Type::CONSTANT && factor.getParaType() != Type::BOOLEAN && factor.getParaType() != Type::ANYTHING
-		&& factor.getParaType() != Type::STRINGVARIABLE && factor.getParaType() != Type::INTEGER) {
-		synList.push_back(factor);
-	}
 }
 
 /*

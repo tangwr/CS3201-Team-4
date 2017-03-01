@@ -1,14 +1,19 @@
 #include "Type.h"
 #include "Modifies.h"
 #include "Clause.h"
-
+/*
 Modifies::Modifies(string lc, Type lcType, string rc, Type rcType) {
 	//cltype = MODIFIES;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;
 	rightChildType = rcType;
+}*/
+Modifies::Modifies(Parameter lc, Parameter rc) {
+	leftChild = lc;
+	rightChild = rc;
 }
+
 bool Modifies::hasRel(PKB *pkbSource) {
 	vector<int> result;
 
@@ -26,7 +31,7 @@ bool Modifies::hasRel(PKB *pkbSource) {
 vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 	vector<int> result, leftList, rightList, varIdList, stmtList;
 
-	switch (leftChildType) {
+	switch (leftChild.getParaType()) {
 	case PROG_LINE:
 	case STMT:
 		leftList = pkb->getAllStmtId(); 
@@ -38,13 +43,13 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
-		int stmtNo = stoi(leftChild);
+		int stmtNo = stoi(leftChild.getParaName());
 		leftList.push_back(stmtNo);
 		break;
 	}
 
 
-	switch (rightChildType) {
+	switch (rightChild.getParaType()) {
 
 	case VARIABLE:
 		varIdList = pkb->getAllVarId();
@@ -62,13 +67,13 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 		}
 		break;
 	case STRINGVARIABLE:
-		int varId = pkb->getVarIdByName(rightChild);
+		int varId = pkb->getVarIdByName(rightChild.getParaName());
 		rightList = pkb->getStmtModifyVar(varId);
 		int i = 0;
 		break;
 	}
 
-	if (leftChildType == STMT || leftChildType == PROG_LINE || leftChildType == WHILE){
+	if (leftChild.getParaType() == STMT || leftChild.getParaType() == PROG_LINE || leftChild.getParaType() == WHILE){
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
@@ -87,13 +92,13 @@ vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
 vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 	vector<int> result, leftList, rightList, varIdList, stmtList, tempList;
 
-	switch (rightChildType) {
+	switch (rightChild.getParaType()) {
 	case VARIABLE:
 		rightList = pkb->getAllVarId();
 		break;
 	}
 	
-	switch (leftChildType) {
+	switch (leftChild.getParaType()) {
 	case PROG_LINE:
 	case STMT:
 		leftList = pkb->getAllStmtId();
@@ -105,13 +110,13 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
-		int stmtId = stoi(leftChild);
+		int stmtId = stoi(leftChild.getParaName());
 		leftList.push_back(stmtId);
 		break;
 	}
 
 
-	if (leftChildType == WHILE) {
+	if (leftChild.getParaType() == WHILE) {
 		vector<int> childrenList;
 		vector<int> temp;
 		for (int stmtId : leftList) {
@@ -135,7 +140,7 @@ vector<int> Modifies::getWithRelToRight(PKB *pkb) {
 	//return variable Id
 	return result;
 }
-
+/*
 string Modifies::getLeftChild() {
 	return leftChild;
 }
@@ -148,6 +153,10 @@ Type Modifies::getLeftChildType() {
 Type Modifies::getRightChildType() {
 	return rightChildType;
 }
-ClauseType Modifies::getClauseType() {
-	return MODIFIES;
+*/
+Parameter Modifies::getLeftChild() {
+	return leftChild;
+}
+Parameter Modifies::getRightChild() {
+	return rightChild;
 }

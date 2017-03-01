@@ -30,6 +30,7 @@ void PKB::printAllTables() {
 	ifTable.printContents();
 	callTable.printContents();
 	assignTable.printContents();
+    nextTable.printContents();
 }
 
 bool PKB::isValidVarId(int varId) {

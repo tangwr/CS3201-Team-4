@@ -27,6 +27,7 @@ private:
 	ResultTable* getFollowStarNumSyn(PKB*);
 	ResultTable* getFollowStarSynNum(PKB*);
 	ResultTable* getFollowStarSynSyn(PKB*);
+	vector<Parameter> synList;
 	/*
 	string leftChild;
 	string rightChild;
@@ -53,6 +54,7 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable* execute(PKB*);
+	vector<Parameter> getSynList();
 	/*
 	FollowStar(string, Type, string, Type);
 	bool hasRel(PKB *pkb);

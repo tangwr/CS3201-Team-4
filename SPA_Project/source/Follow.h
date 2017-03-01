@@ -24,6 +24,7 @@ private:
 	ResultTable* getFollowNumSyn(PKB*);
 	ResultTable* getFollowSynNum(PKB*);
 	ResultTable* getFollowSynSyn(PKB*);
+	vector<Parameter> synList;
 	/*
 	string leftChild;
 	string rightChild;
@@ -53,6 +54,7 @@ public:
 	Follow(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
+	vector<Parameter> getSynList();
 	ResultTable* execute(PKB*);
 	/*
 

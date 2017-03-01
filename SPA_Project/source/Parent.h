@@ -6,11 +6,25 @@
 #include "Clause.h"
 #include "Type.h"
 #include "PKB.h"
+#include "ResultTable.h"
 
 using namespace std;
 
 class Parent : public Clause {
 private:
+	Parameter leftChild;
+	Parameter rightChild;
+	ResultTable* result;
+	bool isNumber(Parameter);
+	bool isSynonym(Parameter);
+	bool isValidStmtNo(int, PKB*);
+	bool isStmtType(int, Parameter, PKB*);
+	vector<int> getTypeStmt(Type, PKB*);
+	ResultTable* getParentNumNum(PKB*);
+	ResultTable* getParentNumSyn(PKB*);
+	ResultTable* getParentSynNum(PKB*);
+	ResultTable* getParentSynSyn(PKB*);
+	/*
 	string leftChild;
 	string rightChild;
 	Type leftChildType;
@@ -26,9 +40,14 @@ private:
 	vector<int> getTypeStmt(Type, PKB*);
 	bool isNumber(Type);
 	bool isSynonym(Type);
+	*/
 
 public:
-
+	Parent(Parameter, Parameter);
+	Parameter getLeftChild();
+	Parameter getRightChild();
+	ResultTable* execute(PKB*);
+	/*
 	Parent(string, Type, string, Type);
 	bool hasRel(PKB *pkb);
 	vector<int> getWithRelToLeft(PKB *pkb);
@@ -38,6 +57,6 @@ public:
 	Type getLeftChildType();
 	Type getRightChildType();
 	ClauseType getClauseType();
-
+	*/
 };
 #endif

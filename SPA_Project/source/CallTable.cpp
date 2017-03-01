@@ -72,7 +72,32 @@ int CallTable::getSize() {
 	return this->size;
 }
 
+void CallTable::printUnorderedSet(unordered_set<int> uSet) {
+    for (int element : uSet) {
+        cout << element << ' ';
+    }
+}
+
 void CallTable::printContents() {
+
+    cout << "---PRINT CALL TABLE---" << endl;
+
+    cout << "StmtId : ProcId" << endl;
+    for (auto entry : stmtCallProcList) {
+        cout << entry.first << " : " << entry.second << endl;
+    }
+    cout << endl;
+
+    cout << "Caller ProcId : Called ProcId" << endl;
+    for (auto entry : procCallProcList) {
+        cout << entry.first << " : ";
+        printUnorderedSet(entry.second);
+        cout << endl;
+    }
+    cout << endl;
+
+    cout << "---END PRINT CALL TABLE---" << endl;
+    /*
 	cout << "Call Table" << endl;
 	cout << "====================" << endl;
 
@@ -80,4 +105,5 @@ void CallTable::printContents() {
 		cout << it.first << ": " << it.second << endl;
 
 	cout << "====================" << endl;
+    */
 }

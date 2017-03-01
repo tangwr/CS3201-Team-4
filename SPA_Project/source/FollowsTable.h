@@ -17,7 +17,7 @@ private:
 	//unordered_map<int, vector<int>> followeeListMap;
 	//unordered_map<int, vector<int>> followerListMap;
     unordered_map<int, unordered_set<int>> followeeListMap;
-    unordered_map<int, unordered_set<int>> followerListMap;
+    unordered_map<int, unordered_set<int>> followerListMap;//follower to list of followee
 public:
 	FollowsTable();
 	bool setStmtFollowStmtRel(int followeeId, int followerId);

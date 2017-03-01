@@ -117,22 +117,34 @@ unordered_set<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
 void FollowsTable::printContents()
 {
 	cout << "---PRINT FOLLOWSTABLE---" << endl;
+
+    cout << "StmtId : Direct Follower StmtId" << endl;
 	for (pair<int, int> it : followeeMap) {
-		cout << "StmtId: " << it.second;
-		cout << " Directly Follows StmtId " << it.first << endl;
+        cout << it.first << " : " << it.second << endl;
+		//cout << "StmtId: " << it.second;
+		//cout << " Directly Follows StmtId " << it.first << endl;
 	}
+    cout << endl;
+
+    cout << "StmtId : List of follower stmtId" << endl;
 	for (pair<int, unordered_set<int>> it : followeeListMap) {
-		cout << "Stmts that follows StmtId: " << it.first;
-		cout << " are ";
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " followed by*: ";
 		printUnorderedSet(it.second);
 		cout << endl;
 	}
+    cout << endl;
+
+    cout << "StmtId : List of followee stmtId" << endl;
 	for (pair<int, unordered_set<int>> it : followerListMap) {
-		cout << "Stmts that StmtId" << it.first;
-		cout << " Follows are ";
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " Follows* : ";
 		printUnorderedSet(it.second);
 		cout << endl;
 	}
+    cout << endl;
 
 	cout << "---END PRINT FOLLOWSTABLE---" << endl;
 }

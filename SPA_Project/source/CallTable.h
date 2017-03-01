@@ -14,6 +14,7 @@ private:
 	unordered_map<int, int> stmtCallProcList;//stmtId, procId
     unordered_map<int, unordered_set<int>> procCallProcList;//procId, calledprocId
 	int size;//check if need another size
+    void printUnorderedSet(unordered_set<int> uSet);
 
 public:
 	CallTable();

@@ -149,19 +149,30 @@ bool ParentsTable::hasParentRel()
 void ParentsTable::printContents()
 {
 	cout << "---PRINT PARENTSTABLE---" << endl;
+
+    cout << "Direct parent : Direct child" << endl;
 	for (pair<int, int> it : parentsMap) {
-		cout << "StmtId: " << it.second;
-		cout << " is father of Stmt Id " << it.first <<endl;
+        cout << it.second << " : " << it.first << endl;
+		//cout << "StmtId: " << it.second;
+		//cout << " is father of Stmt Id " << it.first <<endl;
 	}
+    cout << endl;
+
+    cout << "child : parent* " << endl;
 	for (pair<int, unordered_set<int>> it : parentListMap) {
-		cout << "StmtId: " << it.first;
-		cout << " has parents StmtId ";
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " has parents StmtId ";
 		printUnorderedSet(it.second);
 		cout << endl;
 	}
+    cout << endl;
+
+    cout << "parent stmtId : child *" << endl;
 	for (pair<int, unordered_set<int>> it : childListMap) {
-		cout << "ProcId: " << it.first;
-		cout << " has children StmtId ";
+        cout << it.first << " : ";
+		//cout << "ProcId: " << it.first;
+		//cout << " has children StmtId ";
 		printUnorderedSet(it.second);
 		cout << endl;
 	}

@@ -135,20 +135,29 @@ void ProcTable::printContents()
 {
 	cout << "---PRINT PROCTABLE---" << endl;
 
+    cout << "ProcId : ProcName" << endl;
 	for (pair<string, int> it : procMap) {
-		cout << "ProcId: " << it.second;
-		cout << " ProcName " << it.first << endl;
+        cout << it.second << " : " << it.first << endl;
+		//cout << "ProcId: " << it.second;
+		//cout << " ProcName " << it.first << endl;
+        //cout << endl;
 	}
+    cout << endl;
 
+    cout << "StmtId : Direct containing proc" << endl;
     for (pair<int, int> entry : stmtContainedInProcMap) {
-        cout << "StmtId " << entry.first;
-        cout << " is contained in procedure with index: " << entry.second;
-        cout << endl;
+        cout << entry.first << " : " << entry.second << endl;
+        //cout << "StmtId " << entry.first;
+        //cout << " is contained in procedure with index: " << entry.second;
+        //cout << endl;
     }
+    cout << endl;
 
+    cout << "ProcId : contained stmtId" << endl;
     for (pair<int, unordered_set<int>> entry : procContainsStmtMap) {
-        cout << "ProcId: " << entry.first;
-        cout << "contains stmtId ";
+        cout << entry.first << " : ";
+        //cout << "ProcId: " << entry.first;
+        //cout << "contains stmtId ";
         printUnorderedSet(entry.second);
         cout << endl;
     }

@@ -17,20 +17,27 @@ int NextTable::getSize() {
 void NextTable::printContents() {
 
     cout << "---PRINT NEXTTABLE---" << endl;
+
+    cout << "StmtId : Next stmtId" << endl;//can have more than one next
     for (pair<int, unordered_set<int>> it : nextMap) {
-        cout << "The next statements of StmtId: " << it.first;
-        cout << " are stmtId ";
-        //printVector(it.second);
+        cout << it.first << " : ";
+        //cout << "The next statements of StmtId: " << it.first;
+        //cout << " are stmtId ";
         printUnorderedSet(it.second);
         cout << endl;
     }
+    cout << endl;
+
+    cout << "StmtId : previous stmtId" << endl;
     for (pair<int, unordered_set<int>> it : previousMap) {
-        cout << "The previous statements of StmtId: " << it.first;
-        cout << " are stmtId ";
+        cout << it.first << " : ";
+        //cout << "The previous statements of StmtId: " << it.first;
+        //cout << " are stmtId ";
         //printVector(it.second);
         printUnorderedSet(it.second);
         cout << endl;
     }
+    cout << endl;
 
     cout << "---END PRINT NEXTTABLE---" << endl;
 

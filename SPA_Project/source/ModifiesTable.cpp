@@ -226,20 +226,28 @@ unordered_set<int> ModifiesTable::getVarModifiedInProc(int procId)
 void ModifiesTable::printContents()
 {
 	cout << "---PRINT MODIFIESTABLE---" << endl;
+
+    cout << "StmtId : Modified varId" << endl;
 	for (pair<int, unordered_set<int>> it : modifiesStmtMap) {
-		cout << "StmtId: " << it.first;
-		cout << " Modifies VarId ";
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " Modifies VarId: ";
 		//printVector(it.second);
         printUnorderedSet(it.second);
 		cout << endl;
 	}
+    cout << endl;
+
+    cout << "ProcId : Modified varId" << endl;
 	for (pair<int, unordered_set<int>> it : modifiesProcMap) {
-		cout << "ProcId: " << it.first;
-		cout << " Modifies VarId ";
+        cout << it.first << " : ";
+		//cout << "ProcId: " << it.first;
+		//cout << " Modifies VarId: ";
 		//printVector(it.second);
         printUnorderedSet(it.second);
 		cout << endl;
 	}
+    cout << endl;
 
 	cout << "---END PRINT MODIFIESTABLE---" << endl;
 }

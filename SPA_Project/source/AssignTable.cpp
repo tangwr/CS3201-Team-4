@@ -51,6 +51,17 @@ int AssignTable::getSize() {
 }
 
 void AssignTable::printContents() {
+
+    cout << "---PRINT ASSIGN TABLE---" << endl;
+
+    cout << "StmtId : Expression" << endl;
+    for (auto entry : assignList) {
+        cout << entry.first << " : " << entry.second << endl;
+    }
+
+    cout << "---END PRINT ASSIGN TABLE---" << endl;
+
+    /*
 	cout << "Assign Table" << endl;
 	cout << "====================" << endl;
 
@@ -58,4 +69,5 @@ void AssignTable::printContents() {
 		cout << it.first << ": " << it.second << endl;
 
 	cout << "====================" << endl;
+    */
 }

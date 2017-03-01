@@ -105,9 +105,11 @@ void VarTable::printContents()
 {
 	cout << "---PRINT VARTABLE---" << endl;
 
+    cout << "VarId : VarName" << endl;
 	for (pair<string, int> it : varMap) {
-		cout << "VarId: " << it.second;
-		cout << " VarName " << it.first << endl;
+        cout << it.second << " : " << it.first << endl;
+		//cout << "VarId: " << it.second;
+		//cout << " VarName " << it.first << endl;
 	}
 	cout << "---END PRINT VARTABLE---" << endl;
 }

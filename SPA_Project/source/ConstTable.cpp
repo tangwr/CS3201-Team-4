@@ -81,7 +81,16 @@ vector<int> ConstTable::getAllConstId() {
 
 void ConstTable::printContents()
 {
-	for (int it : constList)
-		cout << it << endl;
+    cout << "---PRINT CONST TABLE---" << endl;
+
+    cout << "ConstId : Value" << endl;
+
+    for (pair<int, int> element : constMap) {
+        cout << element.second << " : " << element.first << endl;
+    }
+	//for (int it : constList)
+	//	cout << it << endl;
+
+    cout << "---END PRINT CONST TABLE---" << endl;
 }
 

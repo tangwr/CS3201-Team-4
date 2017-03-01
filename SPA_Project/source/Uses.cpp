@@ -2,12 +2,17 @@
 #include "Uses.h"
 #include "Clause.h"
 
-Uses::Uses(string lc, Type lcType, string rc, Type rcType) {
+/*Uses::Uses(string lc, Type lcType, string rc, Type rcType) {
 	//cltype = USES;
 	leftChild = lc;
 	rightChild = rc;
 	leftChildType = lcType;
 	rightChildType = rcType;
+}
+*/
+Uses::Uses(Parameter lc, Parameter rc) {
+    leftChild = lc;
+	rightChild = rc;
 }
 bool Uses::hasRel(PKB *pkbSource) {
 	vector<int> result;
@@ -26,7 +31,7 @@ bool Uses::hasRel(PKB *pkbSource) {
 vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	vector<int> result, leftList, rightList, varIdList, stmtList;
 
-	switch (leftChildType) {
+	switch (leftChild.getParaType()) {
 	case PROG_LINE:
 	case STMT:
 		leftList = pkb->getAllStmtId();
@@ -38,13 +43,13 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
-		int stmtNo = stoi(leftChild);
+		int stmtNo = stoi(leftChild.getParaName());
 		leftList.push_back(stmtNo);
 		break;
 	}
 
 
-	switch (rightChildType) {
+	switch (rightChild.getParaType()) {
 
 	case VARIABLE:
 		varIdList = pkb->getAllVarId();
@@ -62,13 +67,13 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		}
 		break;
 	case STRINGVARIABLE:
-		int varId = pkb->getVarIdByName(rightChild);
+		int varId = pkb->getVarIdByName(rightChild.getParaName());
 		rightList = pkb->getStmtUseVar(varId);
 		
 		break;
 	}
 
-	if (leftChildType == STMT || leftChildType == PROG_LINE) {
+	if (leftChild.getParaType() == STMT || leftChild.getParaType() == PROG_LINE) {
 		vector<int> parentList;
 		vector<int> temp;
 		
@@ -95,7 +100,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	*/
 
 
-	if ((leftChildType != ASSIGN ) && (rightChildType == STRINGVARIABLE || rightChildType == VARIABLE || rightChildType == ANYTHING)) {
+	if ((leftChild.getParaType() != ASSIGN ) && (rightChild.getParaType() == STRINGVARIABLE || rightChild.getParaType() == VARIABLE || rightChild.getParaType() == ANYTHING)) {
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
@@ -106,7 +111,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	
 	}
 	
-	if ((leftChildType == ASSIGN) && (rightChildType == VARIABLE || rightChildType == ANYTHING)) {
+	if ((leftChild.getParaType() == ASSIGN) && (rightChild.getParaType() == VARIABLE || rightChild.getParaType() == ANYTHING)) {
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
@@ -128,13 +133,13 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	vector<int> result, leftList, rightList, varIdList, stmtList, tempList;
 
-	switch (rightChildType) {
+	switch (rightChild.getParaType()) {
 	case VARIABLE:
 		rightList = pkb->getAllVarId();
 		break;
 	}
 
-	switch (leftChildType) {
+	switch (leftChild.getParaType()) {
 	case PROG_LINE:
 	case STMT:
 		leftList = pkb->getAllStmtId();
@@ -146,7 +151,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 		leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
-		int stmtId = stoi(leftChild);
+		int stmtId = stoi(leftChild.getParaName());
 		leftList.push_back(stmtId);
 		break;
 	}
@@ -166,7 +171,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 	//return variable Id results
 	return result;
 }
-
+/*
 string Uses::getLeftChild() {
 	return leftChild;
 }
@@ -179,6 +184,11 @@ Type Uses::getLeftChildType() {
 Type Uses::getRightChildType() {
 	return rightChildType;
 }
-ClauseType Uses::getClauseType() {
-	return USES;
+*/
+
+Parameter Uses::getLeftChild() {
+	return leftChild;
+}
+Parameter Uses::getRightChild() {
+	return rightChild;
 }

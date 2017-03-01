@@ -21,6 +21,7 @@ private:
 	Parameter rightChild;
 	PKB *pkb;
 	bool isRel;
+	vector<Parameter> synList;
 	
 
 public:
@@ -39,7 +40,7 @@ public:
 
 	Parameter getLeftChild();
 	Parameter getRightChild();
-
+	vector<Parameter> getSynList();
 
 };
 #endif

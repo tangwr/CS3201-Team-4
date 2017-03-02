@@ -16,7 +16,12 @@ public:
 	bool setBoolean(bool b);
 	bool setSynList(vector<Parameter> list);
 	int getsize();
-	int getcount(Parameter p);
+	int getSynCount();
+	int getCount(Parameter p);
+	bool getBoolean();
 	vector<Parameter> getSynList();
 	vector<vector<int>> getTupleList();
+	ResultTable join(ResultTable rt);
+	ResultTable select(vector<Parameter> paramList);
+	void printTable();
 };

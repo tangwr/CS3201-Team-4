@@ -1,0 +1,5 @@
+27 - comment
+assign a;
+Select a such that Modifies(a, "b")
+5, 8, 10
+5000

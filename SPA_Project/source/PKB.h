@@ -16,6 +16,7 @@
 #include "ConstTable.h"
 #include "AssignTable.h"
 #include "NextTable.h"
+#include "StmtLstTable.h"
 #include <algorithm>
 #include <iterator>
 
@@ -36,6 +37,7 @@ private:
 	CallTable callTable;
 	AssignTable assignTable;
     NextTable nextTable;
+    StmtLstTable stmtLstTable;
 
 	bool isValidVarId(int VarId);
 	bool isValidVar(string varName);
@@ -220,4 +222,12 @@ public:
 
     unordered_set<int> getNextStmt(int currentStmtId);
     unordered_set<int> getPreviousStmt(int currentStmtId);
+
+    //stmtLst table
+    bool setProcStmtLstContainsStmtRel(int procId, int stmtId);
+    bool setContainerStmtStmtLstContainsStmtRel(int containerStmtId, int stmtId);
+
+    vector<int> getStmtLstContainedInProc(int procId);
+    vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
+    unordered_set<int> getAllStmtLst();
 };

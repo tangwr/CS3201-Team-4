@@ -31,6 +31,7 @@ void PKB::printAllTables() {
 	callTable.printContents();
 	assignTable.printContents();
     nextTable.printContents();
+    stmtLstTable.printContents();
 }
 
 bool PKB::isValidVarId(int varId) {
@@ -373,6 +374,27 @@ unordered_set<int> PKB::getNextStmt(int currentStmtId) {
 
 unordered_set<int> PKB::getPreviousStmt(int currentStmtId) {
     return this->nextTable.getPreviousStmt(currentStmtId);
+}
+
+//stmtLst table
+bool PKB::setProcStmtLstContainsStmtRel(int procId, int stmtId) {
+    return this->stmtLstTable.setProcStmtLstContainsStmtRel(procId, stmtId);
+}
+
+bool PKB::setContainerStmtStmtLstContainsStmtRel(int containerStmtId, int stmtId) {
+    return this->stmtLstTable.setContainerStmtStmtLstContainsStmtRel(containerStmtId, stmtId);
+}
+
+vector<int> PKB::getStmtLstContainedInProc(int procId) {
+    return this->stmtLstTable.getStmtLstContainedInProc(procId);
+}
+
+vector<int> PKB::getStmtlstContainedInContainerStmt(int containerStmtId) {
+    return this->stmtLstTable.getStmtlstContainedInContainerStmt(containerStmtId);
+}
+
+unordered_set<int> PKB::getAllStmtLst() {
+    return this->stmtLstTable.getAllStmtLst();
 }
 
 /*

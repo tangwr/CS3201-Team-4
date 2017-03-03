@@ -5,3 +5,9 @@ void TableOperations::printUnorderedSet(unordered_set<int> uSet) {
         cout << element << ' ';
     }
 }
+
+void TableOperations::printTableVector(vector<int> vList) {
+    for (int element : vList) {
+        cout << element << ' ';
+    }
+}

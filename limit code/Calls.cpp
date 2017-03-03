@@ -151,11 +151,11 @@ bool Calls::hasRelation(PKB *pkb) {
 }
 
 vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
-	vector<int> procList, callProcList, resultList, callList;
+	vector<int> procList, callProcList, resultList, callList, stmtList;
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
-	int procId;
-	unordered_set<int> callSet, procSet;
+	int procId, callProcId;
+	unordered_set<int> callSet, procSet, stmtSet;
 
 	switch (synType) {
 	case PROCEDURE:
@@ -174,8 +174,14 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(synName);
-		callSet = pkb->getProcCalledByProc(procId);
-		callList = convertSetToVector(callSet);
+		//stmtSet = pkb->getStmtInProc(procId);
+		stmtList = convertSetToVector(stmtSet);
+		for (int stmtId : stmtList) {
+			callProcId = pkb->getProcCalledByStmt(stmtId);
+			if (callProcId != -1) {
+				callList.push_back(callProcId);
+			}
+		}
 		if (synName == lcName) {
 			callProcList = getCallRightProcList();
 		}
@@ -207,9 +213,9 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 vector<int> Calls::getCallLeftProcList() {
 	Type lcType = leftChild.getParaType();
 	string lcName = leftChild.getParaName();
-	vector<int> procList, callList;
-	unordered_set<int> callSet, procSet;
-	int procId;
+	vector<int> procList, callList, stmtList;
+	unordered_set<int> callSet, procSet, stmtSet;
+	int procId, callProcId;
 
 	switch (lcType) {
 	case PROCEDURE:
@@ -221,8 +227,14 @@ vector<int> Calls::getCallLeftProcList() {
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(lcName);
-		callSet = pkb->getProcCalledByProc(procId);
-		callList = convertSetToVector(callSet);
+		//stmtSet = pkb->getStmtInProc(procId);
+		stmtList = convertSetToVector(stmtSet);
+		for (int stmtId : stmtList) {
+			callProcId = pkb->getProcCalledByStmt(stmtId);
+			if (callProcId != -1) {
+				callList.push_back(callProcId);
+			}
+		}
 		break;
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
@@ -241,9 +253,9 @@ vector<int> Calls::getCallLeftProcList() {
 vector<int> Calls::getCallRightProcList() {
 	Type rcType = rightChild.getParaType();
 	string rcName = rightChild.getParaName();
-	vector<int> procList, callList;
-	unordered_set<int> callSet, procSet;
-	int procId;
+	vector<int> procList, callList, stmtList;
+	unordered_set<int> callSet, procSet, stmtSet;
+	int procId, callProcId;
 
 	switch (rcType) {
 	case PROCEDURE:
@@ -255,8 +267,14 @@ vector<int> Calls::getCallRightProcList() {
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(rcName);
-		callSet = pkb->getProcCalledByProc(procId);
-		callList = convertSetToVector(callSet);
+		//stmtSet = pkb->getStmtInProc(procId);
+		stmtList = convertSetToVector(stmtSet);
+		for (int stmtId : stmtList) {
+			callProcId = pkb->getProcCalledByStmt(stmtId);
+			if (callProcId != -1) {
+				callList.push_back(callProcId);
+			}
+		}
 		break;
 	case ANYTHING:
 		procSet = pkb->getAllProcId();

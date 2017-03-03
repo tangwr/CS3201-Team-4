@@ -156,6 +156,12 @@
     <ClCompile Include="..\source\NextTable.cpp">
       <Filter>Resource Files\Source Files\PKB\Tables</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\TableOperations.cpp">
+      <Filter>Resource Files\Source Files\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\StmtLstTable.cpp">
+      <Filter>Resource Files\Source Files\PKB\Tables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -261,6 +267,12 @@
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\NextTable.h">
+      <Filter>Header Files\PKB\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\TableOperations.h">
+      <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\StmtLstTable.h">
       <Filter>Header Files\PKB\Tables</Filter>
     </ClInclude>
   </ItemGroup>

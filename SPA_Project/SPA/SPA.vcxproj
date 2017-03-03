@@ -38,6 +38,8 @@
     <ClCompile Include="..\source\QueryPostProcessor.cpp" />
     <ClCompile Include="..\source\QueryTree.cpp" />
     <ClCompile Include="..\source\Result.cpp" />
+    <ClCompile Include="..\source\StmtLstTable.cpp" />
+    <ClCompile Include="..\source\TableOperations.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\UsesTable.cpp" />
@@ -73,6 +75,8 @@
     <ClInclude Include="..\source\QueryPostProcessor.h" />
     <ClInclude Include="..\source\QueryTree.h" />
     <ClInclude Include="..\source\Result.h" />
+    <ClInclude Include="..\source\StmtLstTable.h" />
+    <ClInclude Include="..\source\TableOperations.h" />
     <ClInclude Include="..\source\Tokenizer.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\Type.h" />

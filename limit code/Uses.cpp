@@ -74,6 +74,7 @@ ResultTable Uses::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<
 				tuple.push_back(firstSyn);
 				tuple.push_back(secondSyn);
 				resultTable.insertTuple(tuple);
+				tuple.clear();
 			}
 		}
 	}
@@ -81,6 +82,7 @@ ResultTable Uses::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<
 		for (int firstSyn : firstSynList) {
 			tuple.push_back(firstSyn);
 			resultTable.insertTuple(tuple);
+			tuple.clear();
 		}
 	}
 
@@ -237,8 +239,8 @@ vector<int> Uses::getUseStmtListOfVar() {
 	case VARIABLE:
 		varIdList = getRestrictedList(rcType);
 		for (int var : varIdList) {
-			varId = pkb->getVarIdByName(rcName);
-			stmtSet = pkb->getStmtUseVar(varId);
+			//varId = pkb->getVarIdByName(rcName);
+			stmtSet = pkb->getStmtUseVar(var);
 			stmtList = VectorSetOperation<int>::setUnion(convertSetToVector(stmtSet), stmtList);
 		}
 		break;
@@ -269,8 +271,8 @@ vector<int> Uses::getUseProcListOfVar() {
 	case VARIABLE:
 		varIdList = getRestrictedList(rcType);
 		for (int var : varIdList) {
-			varId = pkb->getVarIdByName(rcName);
-			procSet = pkb->getProcUseVar(varId);
+			//varId = pkb->getVarIdByName(rcName);
+			procSet = pkb->getProcUseVar(var);
 			procList = VectorSetOperation<int>::setUnion(convertSetToVector(procSet), procList);
 		}
 		break;

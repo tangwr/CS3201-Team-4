@@ -76,6 +76,7 @@ ResultTable Modifies::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vec
 				tuple.push_back(firstSyn);
 				tuple.push_back(secondSyn);
 				resultTable.insertTuple(tuple);
+				tuple.clear();
 			}
 		}
 	}
@@ -83,6 +84,7 @@ ResultTable Modifies::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vec
 		for (int firstSyn : firstSynList) {
 			tuple.push_back(firstSyn);
 			resultTable.insertTuple(tuple);
+			tuple.clear();
 		}
 	}
 
@@ -240,8 +242,7 @@ vector<int> Modifies::getModifyStmtListOfVar() {
 	case VARIABLE:
 		varIdList = getRestrictedList(rcType);
 		for (int var : varIdList) {
-			varId = pkb->getVarIdByName(rcName);
-			stmtSet = pkb->getStmtModifyVar(varId);
+			stmtSet = pkb->getStmtModifyVar(var);
 			stmtList = VectorSetOperation<int>::setUnion(convertSetToVector(stmtSet), stmtList);	
 		}
 		break;
@@ -273,8 +274,8 @@ vector<int> Modifies::getModifyProcListOfVar() {
 	case VARIABLE:
 		varIdList = getRestrictedList(rcType);
 		for (int var : varIdList) {
-			varId = pkb->getVarIdByName(rcName);
-			procSet = pkb->getProcModifyVar(varId);
+			//varId = pkb->getVarIdByName(rcName);
+			procSet = pkb->getProcModifyVar(var);
 			procList = VectorSetOperation<int>::setUnion(convertSetToVector(procSet), procList);
 		}
 		break;

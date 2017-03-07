@@ -154,6 +154,8 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 	vector<int> procList, callProcList, resultList, callList, stmtList;
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
+	Type lcType = leftChild.getParaType();
+	Type rcType = rightChild.getParaType();
 	int procId, callProcId;
 	unordered_set<int> callSet, procSet, stmtSet;
 
@@ -165,10 +167,12 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
 		}
 		if (synName == lcName) {
-			callProcList = getCallRightProcList();
+			//callProcList = getCallRightProcList();
+			callProcList = getCallProcList(rcType, rcName);
 		}
 		if (synName == rcName) {
-			callProcList = getCallLeftProcList();
+			//callProcList = getCallLeftProcList();
+			callProcList = getCallProcList(lcType, lcName);
 		}
 		resultList = VectorSetOperation<int>::setIntersection(callList, callProcList);
 		break;
@@ -183,10 +187,12 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 			}
 		}
 		if (synName == lcName) {
-			callProcList = getCallRightProcList();
+			//callProcList = getCallRightProcList();
+			callProcList = getCallProcList(rcType, rcName);
 		}
 		if (synName == rcName) {
-			callProcList = getCallLeftProcList();
+			//callProcList = getCallLeftProcList();
+			callProcList = getCallProcList(lcType, lcName);
 		}
 		resultList = VectorSetOperation<int>::setIntersection(callList, callProcList);
 		break;
@@ -198,10 +204,12 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
 		}
 		if (synName == lcName) {
-			callProcList = getCallRightProcList();
+			//callProcList = getCallRightProcList();
+			callProcList = getCallProcList(rcType, rcName);
 		}
 		if (synName == rcName) {
-			callProcList = getCallLeftProcList();
+			//callProcList = getCallLeftProcList();
+			callProcList = getCallProcList(lcType, lcName);
 		}
 		resultList = VectorSetOperation<int>::setIntersection(callList, callProcList);
 		break;
@@ -209,6 +217,45 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 
 	return resultList;
 }
+
+vector<int> Calls::getCallProcList(Type paraType, string paraName) {
+	vector<int> procList, callList, stmtList;
+	unordered_set<int> callSet, procSet, stmtSet;
+	int procId, callProcId;
+
+	switch (paraType) {
+	case PROCEDURE:
+		procList = getRestrictedList(paraType, paraName);
+		for (int procId : procList) {
+			callSet = pkb->getProcCalledByProc(procId);
+			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+		}
+		break;
+	case STRINGVARIABLE:
+		procId = pkb->getProcIdByName(paraName);
+		//stmtSet = pkb->getStmtInProc(procId);
+		stmtList = convertSetToVector(stmtSet);
+		for (int stmtId : stmtList) {
+			callProcId = pkb->getProcCalledByStmt(stmtId);
+			if (callProcId != -1) {
+				callList.push_back(callProcId);
+			}
+		}
+		break;
+	case ANYTHING:
+		procSet = pkb->getAllProcId();
+		procList = convertSetToVector(procSet);
+		for (int procId : procList) {
+			callSet = pkb->getProcCalledByProc(procId);
+			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+		}
+		break;
+	}
+
+	return callList;
+
+}
+
 
 vector<int> Calls::getCallLeftProcList() {
 	Type lcType = leftChild.getParaType();

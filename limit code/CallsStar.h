@@ -30,6 +30,7 @@ private:
 
 	vector<int> getCallLeftProcList();
 	vector<int> getCallRightProcList();
+	vector<int> getCallProcList(Type paraType, string paraName);
 
 	vector<int> convertSetToVector(unordered_set<int> unorderedSet);
 

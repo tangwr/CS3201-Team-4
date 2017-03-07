@@ -34,7 +34,8 @@ public:
     unordered_set<int> getVarModifiedInProc(int procId);
 	bool checkStmtExist(int stmtId);
 	bool checkStmtVarRelExist(int stmtId, int varId);
-	vector<int> getAllStmt();
+	//vector<int> getAllStmt();
+    unordered_set<int> getAllStmt();
 	void printContents();
 
 };

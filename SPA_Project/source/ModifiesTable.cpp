@@ -288,10 +288,10 @@ bool ModifiesTable::checkStmtVarRelExist(int stmtId, int varId) {
 /*
 return list of all statements(stmtId) in this table
 */
-vector<int> ModifiesTable::getAllStmt() {
-	vector<int> stmtVector;
+unordered_set<int> ModifiesTable::getAllStmt() {
+	unordered_set<int> stmtSet;
 	for (auto stmtEntry : modifiesStmtMap) {
-		stmtVector.push_back(stmtEntry.first);
+		stmtSet.insert(stmtEntry.first);
 	}
-	return stmtVector;
+	return stmtSet;
 }

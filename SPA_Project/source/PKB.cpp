@@ -202,7 +202,7 @@ unordered_set<int> PKB::getProcModifyVar(int varId) {//get procs which modifies 
 unordered_set<int> PKB::getVarModifiedInProc(int procId) {
 	return this->modifiesTable.getVarModifiedInProc(procId);
 }
-vector<int> PKB::getAllModifyStmt() {
+unordered_set<int> PKB::getAllModifyStmt() {
     return this->modifiesTable.getAllStmt();
 }
 bool PKB::isStmtInModifyTable(int stmtId) {

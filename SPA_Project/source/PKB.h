@@ -136,7 +136,7 @@ public:
     unordered_set<int> getVarModifiedInProc(int procId);//was get Proc Modify
 		//vector<int> getVarModifiedInProc(int procId);
 
-    vector<int> getAllModifyStmt();//was get All Modifies Stmt
+    unordered_set<int> getAllModifyStmt();//was get All Modifies Stmt
 		//vector<int> getAllModifyStmt();
     bool isStmtInModifyTable(int stmtId);//was is Stmt In Modifies Table
 		//bool isStmtInModifyTable(int stmtId);

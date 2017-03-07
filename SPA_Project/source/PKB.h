@@ -54,6 +54,9 @@ public:
 		//int getNumOfStmt();
 	unordered_set<int> getAllStmtId();//currentnly only returning while and assignment statements
 
+    //multi-table api
+    unordered_set<int> getUseStmtInProc(int procId);
+    unordered_set<int> getModifyStmtInProc(int procId);
 
 	//proc table
 	int insertProc(string procName);
@@ -62,7 +65,8 @@ public:
 
     int getProcIdByName(string procName);
     bool isProcInTable(string procName);
-
+    
+    //unordered_set<int> getStmtInProc();
     unordered_set<int> getAllProcId();
 
 

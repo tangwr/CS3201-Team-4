@@ -47,6 +47,30 @@ bool PKB::isValidConst(int constId) {
 int PKB::getNumOfStmt() {
 	return this->whileTable.getSize() + this->assignTable.getSize();
 }
+
+//multi-table
+unordered_set<int> PKB::getUseStmtInProc(int procId) {
+    unordered_set<int> resultSet;
+    unordered_set<int> procStmtSet = this->procTable.getProcStmts(procId);
+    for (int stmt : procStmtSet) {
+        if (this->isStmtInUseTable(stmt)) {
+            resultSet.insert(stmt);
+        }
+    }
+    return resultSet;
+}
+
+unordered_set<int> PKB::getModifyStmtInProc(int procId) {
+    unordered_set<int> resultSet;
+    unordered_set<int> procStmtSet = this->procTable.getProcStmts(procId);
+    for (int element : procStmtSet) {
+        if (this->isStmtInModifyTable(element)) {
+            resultSet.insert(element);
+        }
+    }
+    return resultSet;
+}
+
 unordered_set<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
 	//unordered_set<int> combinedLst;
     unordered_set<int> combinedSet;

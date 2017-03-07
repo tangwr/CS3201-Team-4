@@ -44,7 +44,7 @@ bool UsesTable::setStmtUsedByRel(int stmtId, int varId) {
 	return true;
 }
 
-bool UsesTable::insertStmtUseRel(int stmtId, int varId)
+bool UsesTable::insertStmtUseVarRel(int stmtId, int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
 	it = vUsesStmtMap.find(stmtId);
@@ -112,7 +112,7 @@ bool UsesTable::setProcUsedByRel(int procId, int varId) {
 	return true;
 }
 
-bool UsesTable::insertProcUseRel(int procId, int varId)
+bool UsesTable::insertProcUseVarRel(int procId, int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
 	it = vUsesProcMap.find(procId);
@@ -147,27 +147,27 @@ bool UsesTable::insertProcUsedByRel(int procId, int varId) {
 }
  
 // function for constant
-bool UsesTable::setStmtUseConstRel(int stmtId, int varId)//varId or constId?
+bool UsesTable::setStmtUseConstRel(int stmtId, int constId)//varId or constId?
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
 	it = cUsesStmtMap.find(stmtId);
     unordered_set<int> constantSet;
 	if (it != cUsesStmtMap.end()) {
 		constantSet = it->second;
-		if (std::find(constantSet.begin(), constantSet.end(), varId) != constantSet.end()) {
+		if (std::find(constantSet.begin(), constantSet.end(), constId) != constantSet.end()) {
 			return false;
 		}
 		cUsesStmtMap.erase(it);
 	}
-	constantSet.insert(varId);
+	constantSet.insert(constId);
 	cUsesStmtMap.insert(make_pair(stmtId, constantSet));
-	setStmtUsedByRelConst(stmtId, varId);
-	return true;
+	return setStmtUsedByRelConst(stmtId, constId);
+	//return true;
 }
 
-bool UsesTable::setStmtUsedByRelConst(int stmtId, int varId) {
+bool UsesTable::setStmtUsedByRelConst(int stmtId, int constId) {
 	unordered_map<int, unordered_set<int>>::iterator it;
-	it = cUsedByStmtMap.find(varId);
+	it = cUsedByStmtMap.find(constId);
     unordered_set<int> statementSet;
 	if (it != cUsedByStmtMap.end()) {
 		statementSet = it->second;
@@ -177,9 +177,45 @@ bool UsesTable::setStmtUsedByRelConst(int stmtId, int varId) {
 		cUsedByStmtMap.erase(it);
 	}
 	statementSet.insert(stmtId);
-	cUsedByStmtMap.insert(make_pair(varId, statementSet));
+	cUsedByStmtMap.insert(make_pair(constId, statementSet));
 	return true;
 }
+
+bool UsesTable::insertStmtUseConstRel(int stmtId, int constId)//varId or constId?
+{
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = cUsesStmtMap.find(stmtId);
+    unordered_set<int> constantSet;
+    if (it != cUsesStmtMap.end()) {
+        constantSet = it->second;
+        if (std::find(constantSet.begin(), constantSet.end(), constId) != constantSet.end()) {
+            return false;
+        }
+        cUsesStmtMap.erase(it);
+    }
+    constantSet.insert(constId);
+    cUsesStmtMap.insert(make_pair(stmtId, constantSet));
+    return insertStmtUsedByRelConst(stmtId, constId);
+    //return true;
+}
+
+bool UsesTable::insertStmtUsedByRelConst(int stmtId, int constId) {
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = cUsedByStmtMap.find(constId);
+    unordered_set<int> statementSet;
+    if (it != cUsedByStmtMap.end()) {
+        statementSet = it->second;
+        if (std::find(statementSet.begin(), statementSet.end(), stmtId) != statementSet.end()) {
+            return false;
+        }
+        cUsedByStmtMap.erase(it);
+    }
+    statementSet.insert(stmtId);
+    cUsedByStmtMap.insert(make_pair(constId, statementSet));
+    return true;
+}
+
+
 
 
 
@@ -217,6 +253,41 @@ bool UsesTable::setProcUsedByRelConst(int procId, int varId) {
 	cUsedByProcMap.insert(make_pair(varId, procedureSet));
 	return true;
 }
+
+bool UsesTable::insertProcUseConstRel(int procId, int constId) {
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = cUsesProcMap.find(procId);
+    unordered_set<int> constantSet;
+    if (it != cUsesProcMap.end()) {
+        constantSet = it->second;
+        if (std::find(constantSet.begin(), constantSet.end(), constId) != constantSet.end()) {
+            return false;
+        }
+        cUsesProcMap.erase(it);
+    }
+    constantSet.insert(constId);
+    cUsesProcMap.insert(make_pair(procId, constantSet));
+    return setProcUsedByRelConst(procId, constId);
+    //return true;
+
+}
+
+bool UsesTable::insertProcUsedByRelConst(int procId, int constId) {
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = cUsedByProcMap.find(constId);
+    unordered_set<int> procedureSet;
+    if (it != cUsedByProcMap.end()) {
+        procedureSet = it->second;
+        if (std::find(procedureSet.begin(), procedureSet.end(), procId) != procedureSet.end()) {
+            return false;
+        }
+        cUsedByProcMap.erase(it);
+    }
+    procedureSet.insert(procId);
+    cUsedByProcMap.insert(make_pair(constId, procedureSet));
+    return true;
+}
+
 
 
 unordered_set<int> UsesTable::getVarUsedByStmt(int stmtId)

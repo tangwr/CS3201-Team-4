@@ -214,7 +214,11 @@ bool PKB::setProcModifyVarRel(int procId, int varId) {
 	return this->modifiesTable.setProcModifyVarRel(procId, varId);
 }
 bool PKB::insertStmtModifyVarRel(int stmtId, int varId) {
-    return this->modifiesTable.insertStmtModify(stmtId, varId);//yet implemented by table
+    return this->modifiesTable.insertStmtModifyVarRel(stmtId, varId);
+}
+
+bool PKB::insertProcModifyVarRel(int procId, int varId) {
+    return this->modifiesTable.insertProcModifyVarRel(procId, varId);
 }
 
 
@@ -268,7 +272,19 @@ bool PKB::setProcUseConstRel(int procId, int constId) {
 	return this->usesTable.setProcUseConstRel(procId, constId);
 }
 bool PKB::insertStmtUseVarRel(int stmtId, int varId) {
-    return this->usesTable.insertStmtUseRel(stmtId, varId);
+    return this->usesTable.insertStmtUseVarRel(stmtId, varId);
+}
+
+bool PKB::insertStmtUseConstRel(int stmtId, int constId) {
+    return this->usesTable.insertStmtUseConstRel(stmtId, constId);
+}
+
+bool PKB::insertProcUseVarRel(int procId, int varId) {
+    return this->usesTable.insertProcUseVarRel(procId, varId);
+}
+
+bool PKB::insertProcUseConstRel(int procId, int constId) {
+    return this->usesTable.insertStmtUseConstRel(procId, constId);
 }
 
 

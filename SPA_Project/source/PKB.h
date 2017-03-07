@@ -130,6 +130,7 @@ public:
 		//bool setProcModifyVarRel(int procId, int varId);
     bool insertStmtModifyVarRel(int stmtId, int varId);//was insert Stmt Modifies Var
 		//bool insertStmtModifyVarRel(int stmtId, int varId);
+    bool insertProcModifyVarRel(int procId, int varId);
 
 	virtual unordered_set<int> getStmtModifyVar(int varId);//was get Modified By Stmt
 		//vector<int> getStmtModifyVar(int varId);
@@ -158,6 +159,9 @@ public:
 		//bool setProcUseConstRel(int procId, int constId);
     bool insertStmtUseVarRel(int stmtId, int varId);//was insert Stmt Uses Var
 		//bool insertStmtUseVarRel(int stmtId, int varId);
+    bool insertStmtUseConstRel(int stmtId, int constId);
+    bool insertProcUseVarRel(int procId, int varId);
+    bool insertProcUseConstRel(int procId, int constId);
 
     unordered_set<int> getVarUsedByStmt(int stmtId);
     unordered_set<int> getStmtUseVar(int varId);//was get Stmt Uses Var
@@ -217,9 +221,12 @@ public:
 	bool setStmtCallProcRel(int stmtId, int procId);//was set Call Proc
 		//bool setStmtCallProcRel(int stmtId, int procId);
     bool setProcCallProcRel(int callerProcId, int calledProcId);
+    bool insertProcCallStarProcRel(int callerProcId, int calledProcId);
     int getProcCalledByStmt(int callStmtId);
     unordered_set<int> getProcCalledByProc(int callerProcId);
     unordered_set<int> getAllCallId();
+    unordered_set<int> getStmtCallProc(int calledProcId);
+    unordered_set<int> getProcCalledByStarProc(int callerProcId);
 
     //next table
     bool setStmtNextStmtRel(int currentStmtId, int nextStmtid);

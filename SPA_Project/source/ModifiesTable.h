@@ -26,8 +26,8 @@ public:
 	ModifiesTable();
 	bool setStmtModifyVarRel(int stmtId, int varId);
 	bool setProcModifyVarRel(int procId, int varId);
-	bool insertStmtModify(int stmtId, int varId);
-	bool insertProcModify(int stmtId, int varId);
+	bool insertStmtModifyVarRel(int stmtId, int varId);
+	bool insertProcModifyVarRel(int stmtId, int varId);
 	unordered_set<int> getStmtModifyVar(int varId);
     unordered_set<int> getVarModifiedInStmt(int stmtId);
 	unordered_set<int> getProcModifyVar(int varId);

@@ -46,7 +46,7 @@ bool ModifiesTable::setStmtModifiedByRel(int stmtId, int varId) {
 	return true;
 }
 
-bool ModifiesTable::insertStmtModify(int stmtId, int varId)
+bool ModifiesTable::insertStmtModifyVarRel(int stmtId, int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesStmtMap.find(stmtId);
@@ -115,7 +115,7 @@ bool ModifiesTable::setProcModifiedByRel(int procId, int varId) {
 	return true;
 }
 
-bool ModifiesTable::insertProcModify(int procId, int varId)
+bool ModifiesTable::insertProcModifyVarRel(int procId, int varId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
 	it = modifiesProcMap.find(procId);
@@ -152,7 +152,7 @@ bool ModifiesTable::insertProcModifiedByRel(int procId, int varId)
 
 
 /*
-int ModifiesTable::insertProcModify(int varNo, int procNo)
+int ModifiesTable::insertProcModifyVarRel(int varNo, int procNo)
 {
 	if (varNo >= vsize) throw "InvalidVarIndexException";
 	for (int t : modifiesProcList.at(varNo)) {

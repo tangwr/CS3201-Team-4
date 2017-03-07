@@ -13,10 +13,12 @@ class UsesTable {
 private:
 	bool setStmtUsedByRel(int stmtId, int varId);
 	bool setProcUsedByRel(int procId, int varId);
-	bool setStmtUsedByRelConst(int stmtId, int varId);
-	bool setProcUsedByRelConst(int procId, int varId);
+	bool setStmtUsedByRelConst(int stmtId, int constId);
+	bool setProcUsedByRelConst(int procId, int constId);
 	bool insertStmtUsedByRel(int stmtId, int varId);
 	bool insertProcUsedByRel(int procId, int varId);
+    bool insertStmtUsedByRelConst(int stmtId, int constId);
+    bool insertProcUsedByRelConst(int procId, int constId);
 	void printVector(vector<int> vec);
     void printUnorderedSet(unordered_set<int> uSet);
 
@@ -46,8 +48,11 @@ public:
 	bool setProcUseVarRel(int procId, int varId);
 	bool setStmtUseConstRel(int stmtId, int constId);
 	bool setProcUseConstRel(int procId, int constId);
-	bool insertStmtUseRel(int stmtId, int varId);
-	bool insertProcUseRel(int procId, int varId);
+	bool insertStmtUseVarRel(int stmtId, int varId);
+	bool insertProcUseVarRel(int procId, int varId);
+    bool insertStmtUseConstRel(int stmtId, int constId);
+    bool insertProcUseConstRel(int procId, int constId);
+
 
     unordered_set<int> getVarUsedByStmt(int stmtId);
     unordered_set<int> getStmtUseVar(int varId);

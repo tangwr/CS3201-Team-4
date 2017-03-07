@@ -30,6 +30,140 @@ void DesignExtractor::extractStarRelations() {
 	extractParentStar();
 	extractModifiesStar();
 	extractUsesStar();
+    extractProcModifiesUsesStar();
+}
+
+void DesignExtractor::extractProcModifiesUsesStar() {
+    unordered_map<int, bool> isProcInPath;
+    unordered_map<int, bool> isProcValidated;
+    unordered_set<int> procSet = pkb->getAllProcId();
+    for (int procId : procSet) {
+        recursiveTablePopulation(procId, &isProcInPath, &isProcValidated);
+    }
+}
+
+void DesignExtractor::recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, 
+                                               unordered_map<int, bool> *isProcValidated) {
+    //???NEED CHECK IF GIVEN PROC IS VALIDATED ALREADY???
+    
+    //if got circular call
+    if (isProcInPath->at(procId)) {
+        //throw ERROR_MESSAGE;
+        throw "Circular call detected";
+    }
+    //set visited
+    isProcInPath->at(procId) = true;
+
+    //get list of proc this proc calls
+    unordered_set<int> calledProcLst = pkb->getProcCalledByProc(procId);
+
+    if (calledProcLst.empty()) {
+        //if leaf
+        unordered_set<int> currentProcStmtLst = pkb->getStmtInProc(procId);
+        for (int stmtId : currentProcStmtLst) {
+            //get stmt uses and set as proc uses
+            unordered_set<int> currentStmtUsedVarLst = pkb->getVarUsedByStmt(stmtId);
+            for (int varId : currentStmtUsedVarLst) {
+                pkb->insertProcUseVarRel(procId, varId);
+                //use inset
+            }
+
+            unordered_set<int> currentStmtUsedConstLst = pkb->getConstUsedByStmt(stmtId);
+            for (int constVal : currentStmtUsedConstLst) {
+                pkb->insertProcUseConstRel(procId, constVal);
+            }
+            //get stmt modifies and set as proc modifies
+
+            unordered_set<int> currentStmtModifiedVarLst = pkb->getVarModifiedInStmt(stmtId);
+            for (int varId : currentStmtModifiedVarLst) {
+                //pkb->setProcModifyVarRel(procId, varId);
+                pkb->insertProcModifyVarRel(procId, varId);
+            }
+        }
+        //isProcValidated->at(procId) = true; maybe set after all
+    }
+    else {
+        //unordered_set<int> callStmtContainedInCurrentProcSet;// to keep track of all call statements in proc
+        for (int calledProcId : calledProcLst) {
+            if (isProcValidated->at(calledProcId) == false) {
+                //not validated
+                //figure out how to throw
+                recursiveTablePopulation(calledProcId, isProcInPath, isProcValidated);
+            }
+            unordered_set<int> callerStmtLst = pkb->getStmtCallProc(calledProcId);//pkb implement
+            unordered_set<int> currentProcStmtLst = pkb->getStmtInProc(procId);
+            unordered_set<int> callerStmtInCurrentProcLst;
+
+            //
+
+            for (int callerStmtId : callerStmtLst) {
+                if (currentProcStmtLst.find(callerStmtId) != currentProcStmtLst.end()) {
+                    callerStmtInCurrentProcLst.insert(callerStmtId);
+                    //insert into current proc call stmt set
+                    //callStmtContainedInCurrentProcSet.insert(callerStmtId);
+                }
+            }
+            //populate modifies and uses for call stmts in current proc
+            //uses
+            unordered_set<int> varUsedByCalledProcSet = pkb->getVarUsedByProc(calledProcId);
+            for (int currentProcCallerStmtId : callerStmtInCurrentProcLst) {
+                for (int usedVarId : varUsedByCalledProcSet) {
+                    pkb->insertStmtUseVarRel(currentProcCallerStmtId, usedVarId);
+                }
+            }
+
+            unordered_set<int> constUsedByCalledProcSet = pkb->getConstUsedByProc(calledProcId);
+            for (int currentProcCallerStmtId : callerStmtInCurrentProcLst) {
+                for (int usedConstId : constUsedByCalledProcSet) {
+                    //pkb->insertStmtModifyVarRel(currentProcCallerStmtId, usedConstId);
+                    pkb->insertStmtUseConstRel(currentProcCallerStmtId, usedConstId);
+                }
+            }
+
+            //modifies
+            unordered_set<int> varModifiedByCalledProcSet = pkb->getVarModifiedInProc(calledProcId);
+            for (int currentProcCallerStmtId : callerStmtInCurrentProcLst) {
+                for (int modifiedVarId : varModifiedByCalledProcSet) {
+                    pkb->insertStmtModifyVarRel(currentProcCallerStmtId, modifiedVarId);
+                }
+            }
+
+            //populate call* for current proc
+            //get the procs that calledProcId calls
+            unordered_set<int> calledProcCallStarSet = pkb->getProcCalledByStarProc(calledProcId);//pkb implement
+            for (int calledStarProcId : calledProcCallStarSet) {
+                pkb->insertProcCallStarProcRel(procId, calledStarProcId);//pkb implement
+            }
+        }
+
+        //loop through all contained stmts, add their uses/modifies to current proc
+        unordered_set<int> currentProcStmtLst = pkb->getStmtInProc(procId);
+        for (int stmtId : currentProcStmtLst) {
+            //get stmt uses and set as proc uses
+            unordered_set<int> currentStmtUsedVarLst = pkb->getVarUsedByStmt(stmtId);
+            for (int varId : currentStmtUsedVarLst) {
+                pkb->insertProcUseVarRel(procId, varId);
+                //use inset
+            }
+
+            unordered_set<int> currentStmtUsedConstLst = pkb->getConstUsedByStmt(stmtId);
+            for (int constVal : currentStmtUsedConstLst) {
+                pkb->insertProcUseConstRel(procId, constVal);
+            }
+            //get stmt modifies and set as proc modifies
+
+            unordered_set<int> currentStmtModifiedVarLst = pkb->getVarModifiedInStmt(stmtId);
+            for (int varId : currentStmtModifiedVarLst) {
+                //pkb->setProcModifyVarRel(procId, varId);
+                pkb->insertProcModifyVarRel(procId, varId);
+            }
+        }
+
+    }
+    //unset visited
+    isProcInPath->at(procId) = false;
+    isProcValidated->at(procId) = true;
+
 }
 
 void DesignExtractor::extractFollowsStar() {
@@ -62,12 +196,16 @@ void DesignExtractor::extractParentStar() {
 
 void DesignExtractor::extractModifiesStar() {
     // get all stmt from modify table
-    vector<int> allModifyStmt = pkb->getAllModifyStmt();
+    //vector<int> allModifyStmt = pkb->getAllModifyStmt();
+    unordered_set<int> allModifyStmt = pkb->getAllModifyStmt();
     // iterate through each stmt, finding their parent *
     for (int stmtId : allModifyStmt) {
 
-        vector<int> currentVarIdLst = pkb->getVarModifiedInStmt(stmtId);
-        vector<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
+        //vector<int> currentVarIdLst = pkb->getVarModifiedInStmt(stmtId);
+        //vector<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
+
+        unordered_set<int> currentVarIdLst = pkb->getVarModifiedInStmt(stmtId);
+        unordered_set<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
 
         for (int currentVarId : currentVarIdLst) {
             for (int parentStmtId : currentStmtParentStar) {
@@ -84,11 +222,15 @@ void DesignExtractor::extractModifiesStar() {
     //for each parent *, set modify relationship
 }
 void DesignExtractor::extractUsesStar() {
-    vector<int> allUsesStmt = pkb->getAllUseStmt();
+    //vector<int> allUsesStmt = pkb->getAllUseStmt();
+    unordered_set<int> allUsesStmt = pkb->getAllUseStmt();
 
     for (int stmtId : allUsesStmt) {
-        vector<int> currentVarIdLst = pkb->getVarUsedByStmt(stmtId);
-        vector<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
+        //vector<int> currentVarIdLst = pkb->getVarUsedByStmt(stmtId);
+        //vector<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
+        unordered_set<int> currentVarIdLst = pkb->getVarUsedByStmt(stmtId);
+        unordered_set<int> currentStmtParentStar = pkb->getStmtParentStarStmt(stmtId);
+
         for (int currentVarId : currentVarIdLst) {
             for (int parentStmtId : currentStmtParentStar) {
                 //only if parent statement in table and already uses given varId then do not insert, else insert

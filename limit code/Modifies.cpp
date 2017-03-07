@@ -282,7 +282,7 @@ vector<int> Modifies::getModifyProcListOfVar() {
 	case ANYTHING:
 		varIdList = pkb->getAllVarId();
 		for (int var : varIdList) {
-			procSet = pkb->getProcModifyVar(varId);
+			procSet = pkb->getProcModifyVar(var);
 			procList = VectorSetOperation<int>::setUnion(convertSetToVector(procSet), procList);
 		}
 		break;

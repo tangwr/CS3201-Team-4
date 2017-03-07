@@ -279,7 +279,7 @@ vector<int> Uses::getUseProcListOfVar() {
 	case ANYTHING:
 		varIdList = pkb->getAllVarId();
 		for (int var : varIdList) {
-			procSet = pkb->getProcUseVar(varId);
+			procSet = pkb->getProcUseVar(var);
 			procList = VectorSetOperation<int>::setUnion(convertSetToVector(procSet), procList);
 		}
 		break;

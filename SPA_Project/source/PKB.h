@@ -66,7 +66,7 @@ public:
     int getProcIdByName(string procName);
     bool isProcInTable(string procName);
     
-    //unordered_set<int> getStmtInProc();
+    unordered_set<int> getStmtInProc(int procId);
     unordered_set<int> getAllProcId();
 
 

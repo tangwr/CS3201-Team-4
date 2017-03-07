@@ -107,6 +107,10 @@ bool PKB::isProcInTable(string procName) {
     return this->procTable.checkProcExistByName(procName);
 }
 
+unordered_set<int> PKB::getStmtInProc(int procId) {
+    return this->procTable.getProcStmts(procId);
+}
+
 unordered_set<int> PKB::getAllProcId() {
     return this->procTable.getAllProcId();
 }

@@ -10,6 +10,7 @@ class Parameter {
 private:
 	string paraName;
 	Type paraType;
+	bool isSyn;
 
 public:
 	Parameter();
@@ -18,5 +19,7 @@ public:
 	Type getParaType();
 	void setParaName(string);
 	void setParaType(Type);
+	bool isSynonym();
+	bool isSame(Parameter);
 };
 #endif

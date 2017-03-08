@@ -16,6 +16,7 @@ public:
 	Parameter(string, Type);
 	string getParaName();
 	Type getParaType();
-
+	void setParaName(string);
+	void setParaType(Type);
 };
 #endif

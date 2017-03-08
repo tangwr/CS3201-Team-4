@@ -1,8 +1,10 @@
-#ifndef UsesH
-#define UsesH
+#ifndef ModifiesH
+#define ModifiesH
 
 #include <string>
 #include <unordered_map>
+#include <iterator>
+#include <algorithm>
 #include <unordered_set>
 #include "Clause.h"
 #include "Type.h"
@@ -12,8 +14,9 @@
 
 using namespace std;
 
-class Uses : public Clause {
+class Modifies : public Clause {
 private:
+	
 	Parameter leftChild;
 	Parameter rightChild;
 	PKB *pkb;
@@ -28,13 +31,13 @@ private:
 	bool hasRelation(PKB *pkb);
 	vector<int> evaluateRelation(PKB *pkb, Type synType);
 
-	//vector<int> getUseStmtListOfVar();
-	//vector<int> getUseProcListOfVar();
-	//vector<int> getUseVarListOfStmt();
+	//vector<int> getModifyStmtListOfVar();
+	//vector<int> getModifyProcListOfVar();
+	//vector<int> getModifyVarListOfStmt();
 
-	vector<int> getUseStmtListOfVar(unordered_set<int> stmtListSet);
-	vector<int> getUseProcListOfVar(unordered_set<int> procListSet);
-	vector<int> getUseVarListOfStmt(unordered_set<int> varListSet);
+	vector<int> getModifyStmtListOfVar(unordered_set<int> stmtListSet);
+	vector<int> getModifyProcListOfVar(unordered_set<int> procListSet);
+	vector<int> getModifyVarListOfStmt(unordered_set<int> varListSet);
 
 	vector<int> convertSetToVector(unordered_set<int> unorderedSet);
 	unordered_set<int> convertVectorToSet(vector<int> vectorList);
@@ -43,11 +46,9 @@ private:
 
 	//vector<int> getRestrictedList(Type synType);
 	unordered_set<int> getUnRestrictedSet(Type synType);
-	
 
 public:
-
-	Uses(Parameter lc, Parameter rc);
+	Modifies(Parameter lc, Parameter rc);
 
 	bool hasRel(PKB *pkb);
 	vector<int> getWithRelToLeft(PKB *pkb);
@@ -65,5 +66,6 @@ public:
 
 	//testing
 	void setPKB(PKB* pkbInput);
+
 };
 #endif

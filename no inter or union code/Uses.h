@@ -33,6 +33,8 @@ private:
 	vector<int> getUseVarListOfStmt();
 
 	vector<int> getUseStmtListOfVar(vector<int> stmtList);
+	vector<int> getUseProcListOfVar(vector<int> procList);
+	vector<int> getUseVarListOfStmt(vector<int> varList);
 
 	vector<int> convertSetToVector(unordered_set<int> unorderedSet);
 

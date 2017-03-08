@@ -26,4 +26,5 @@ private:
 	void extractFollowsStar();
     void extractModifiesStar();
     void extractUsesStar();
+    void populateProcRel(int procId, int containerStmtId);
 };

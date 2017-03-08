@@ -47,6 +47,8 @@ public:
 	Parameter getRightChild();
 	vector<Parameter> getSynList();
 
+	void insertSynList(Parameter p);
+
 	ResultTable evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList);
 };
 

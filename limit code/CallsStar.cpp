@@ -6,14 +6,6 @@ CallsStar::CallsStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
 
-	if (lc.getParaType() != Type::CONSTANT && lc.getParaType() != Type::BOOLEAN && lc.getParaType() != Type::ANYTHING
-		&& lc.getParaType() != Type::STRINGVARIABLE && lc.getParaType() != Type::INTEGER) {
-		synList.push_back(lc);
-	}
-	if (rc.getParaType() != Type::CONSTANT && rc.getParaType() != Type::BOOLEAN && rc.getParaType() != Type::ANYTHING
-		&& rc.getParaType() != Type::STRINGVARIABLE && rc.getParaType() != Type::INTEGER) {
-		synList.push_back(rc);
-	}
 }
 
 ResultTable CallsStar::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
@@ -163,7 +155,7 @@ vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) 
 	case PROCEDURE:
 		procList = getRestrictedList(synType, synName);
 		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
+			callSet = pkb->getProcCalledByProc(procId); // call star
 			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
 		}
 		if (synName == lcName) {
@@ -375,4 +367,9 @@ Parameter CallsStar::getRightChild() {
 
 vector<Parameter> CallsStar::getSynList() {
 	return synList;
+}
+
+
+void CallsStar::insertSynList(Parameter p) {
+	synList.push_back(p);
 }

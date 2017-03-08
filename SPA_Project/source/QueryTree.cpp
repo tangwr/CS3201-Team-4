@@ -38,7 +38,7 @@ vector<Parameter> QueryTree::getSelectParameter() {
 }
 
 vector<Parameter> QueryTree::getUsedParameter() {
-	return select;
+	return used;
 }
 
 int QueryTree::getClauseSize() {

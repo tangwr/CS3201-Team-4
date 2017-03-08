@@ -178,8 +178,8 @@ unordered_set<int> PKB::getStmtChildrenStarStmt(int stmtId) {
 bool PKB::setStmtFollowStmtRel(int stmtId, int followsId) {
 	return this->followsTable.setStmtFollowStmtRel(stmtId, followsId);//check order
 }
-bool PKB::insertStmtFollowStmtRel(int stmtId, int followNum) {
-	return this->followsTable.insertStmtFollowStmtRel(stmtId, followNum);//check param order
+bool PKB::insertStmtFollowStmtRel(int followeeId, int followerId) {
+	return this->followsTable.insertStmtFollowStmtRel(followeeId, followerId);//check param order
 }
 bool PKB::hasFollowRel() {
     return this->followsTable.hasFollowRel();//yet to implement
@@ -395,6 +395,14 @@ bool PKB::setProcCallProcRel(int callerProcId, int calledProcId) {
     return this->callTable.setProcCallProcRel(callerProcId, calledProcId);
 }
 
+bool PKB::insertProcCallStarProcRel(int callerProcId, int calledStarProcId) {
+    return this->callTable.insertProcCallStarProcRel(callerProcId, calledStarProcId);
+}
+
+bool PKB::isStmtInCalltable(int stmtId) {
+    return this->callTable.isStmtInTable(stmtId);
+}
+
 int PKB::getProcCalledByStmt(int callStmtId) {
     return this->callTable.getProcCalledByStmt(callStmtId);
 }
@@ -405,6 +413,10 @@ unordered_set<int> PKB::getProcCalledByProc(int callerProcId) {
 
 unordered_set<int> PKB::getAllCallId() {
     return this->callTable.getAllCallId();
+}
+
+unordered_set<int> PKB::getProcCalledByStarProc(int callerProcId) {
+    return this->callTable.getProcCalledByStarProc(callerProcId);
 }
 
 //next table

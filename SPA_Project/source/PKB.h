@@ -109,7 +109,7 @@ public:
 	//Follow table
 	bool setStmtFollowStmtRel(int stmtId, int followStmtId);//was set Follow Direct Rel
 		//bool setStmtFollowStmtRel(int stmtId, int followStmtId);
-	bool insertStmtFollowStmtRel(int stmtId, int followStmtId);// was insert Follow Rel
+	bool insertStmtFollowStmtRel(int followeeId, int followerId);// was insert Follow Rel
 		//bool insertStmtFollowStmtRel(int stmtId, int followStmtId);
     bool hasFollowRel();
 
@@ -221,7 +221,8 @@ public:
 	bool setStmtCallProcRel(int stmtId, int procId);//was set Call Proc
 		//bool setStmtCallProcRel(int stmtId, int procId);
     bool setProcCallProcRel(int callerProcId, int calledProcId);
-    bool insertProcCallStarProcRel(int callerProcId, int calledProcId);
+    bool insertProcCallStarProcRel(int callerProcId, int calledStarProcId);
+    bool isStmtInCalltable(int stmtId);
     int getProcCalledByStmt(int callStmtId);
     unordered_set<int> getProcCalledByProc(int callerProcId);
     unordered_set<int> getAllCallId();

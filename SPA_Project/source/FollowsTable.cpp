@@ -39,7 +39,7 @@ bool FollowsTable::setStmtFollowStmtRel(int followeeId, int followerId)
 
 
 
-bool FollowsTable::insertStmtFollowStmtRel(int followeeId, int followerId)
+bool FollowsTable::insertStmtFollowStmtRel(int followeeId, int followerId)//star
 {
 	if (followeeId == followerId)
 		return false;

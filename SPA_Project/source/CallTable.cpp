@@ -35,6 +35,24 @@ bool CallTable::setProcCallProcRel(int callerProcId, int calledProcId) {
     return true;
 }
 
+bool CallTable::insertProcCallStarProcRel(int callerProcId, int calledStarProcId) {
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = procCallStarProcList.find(callerProcId);
+    unordered_set<int> procSet;//procSet should be empty
+    if (it != procCallStarProcList.end()) {
+        procSet = it->second;
+        if (procSet.find(calledStarProcId) != procSet.end()) {
+            return false;
+        }
+        procCallStarProcList.erase(it);
+    }
+    procSet.insert(calledStarProcId);
+    procCallStarProcList.insert(make_pair(callerProcId, procSet));
+    return true;
+
+}
+
+
 int CallTable::getProcCalledByStmt(int stmtId) {
 	auto it = this->stmtCallProcList.find(stmtId);
 	if (it != stmtCallProcList.end()) {
@@ -55,6 +73,18 @@ unordered_set<int> CallTable::getProcCalledByProc(int callerProcId) {
         return emptySet;
     }
 }
+
+unordered_set<int> CallTable::getProcCalledByStarProc(int callerProcId) {
+    unordered_map<int, unordered_set<int>>::iterator it = this->procCallStarProcList.find(callerProcId);
+    if (it != procCallStarProcList.end()) {
+        return it->second;
+    }
+    else {
+        unordered_set<int> emptySet;
+        return emptySet;
+    }
+}
+
 
 unordered_set<int> CallTable::getAllCallId() {
     unordered_set<int> resultSet;

@@ -8,10 +8,10 @@ WhileTable::WhileTable() {
 }
 
 //returns a vector<int> of all while statements
-vector<int> WhileTable::getAllStmtId() {
-    vector<int> allWhileStmtList;
+unordered_set<int> WhileTable::getAllStmtId() {
+    unordered_set<int> allWhileStmtList;
     for (auto whileEntry : this->whileList) {
-        allWhileStmtList.push_back(whileEntry.first);
+        allWhileStmtList.insert(whileEntry.first);
     }
     return allWhileStmtList;
 }
@@ -52,6 +52,16 @@ int WhileTable::getSize() {
 }
 
 void WhileTable::printContents() {
+    cout << "---PRINT WHILE TABLE---" << endl;
+
+    cout << "StmtId : ControlVarId" << endl;
+    for (auto entry : whileList) {
+        cout << entry.first << " : " << entry.second << endl;
+    }
+
+    cout << "---END PRINT WHILE TABLE---" << endl;
+
+    /*
 	cout << "While Table" << endl;
 	cout << "====================" << endl;
 
@@ -59,4 +69,5 @@ void WhileTable::printContents() {
 		cout << it.first << ": " << it.second << endl;
 
 	cout << "====================" << endl;
+    */
 }

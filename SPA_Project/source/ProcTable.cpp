@@ -64,6 +64,55 @@ int ProcTable::getProcIndex(string procName)
 		return -1;
 }
 
+/*
+Sets the relation ship that a proc contains a certain statement.
+Also sets statement contained by the proc.
+*/
+bool ProcTable::setProcToStmtRel(int procId, int stmtId) {
+    if (this->stmtContainedInProcMap.find(stmtId) != this->stmtContainedInProcMap.end()) {
+        return false;
+    }
+    else {
+        //relationship not in yet, so insert
+        this->stmtContainedInProcMap.insert(make_pair(stmtId, procId));
+    }
+
+
+    //check if proc contains stmt 
+
+    unordered_map<int, unordered_set<int>>::iterator it;
+    it = procContainsStmtMap.find(procId);
+    unordered_set<int> stmtSet;//stmtSet should be empty
+    if (it != procContainsStmtMap.end()) {
+        stmtSet = it->second;
+        if (stmtSet.find(stmtId) == stmtSet.end()) {
+            //not there
+            stmtSet.insert(stmtId);
+        }
+        procContainsStmtMap.erase(it);
+    }
+    procContainsStmtMap.insert(make_pair(procId, stmtSet));
+    return true;
+}
+
+unordered_set<int> ProcTable::getProcStmts(int procId) {
+    unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
+    it = this->procContainsStmtMap.find(procId);
+    if (it != this->procContainsStmtMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
+}
+
+unordered_set<int> ProcTable::getAllProcId() {
+    unordered_set<int> resultSet;
+    for (auto element : procMap) {
+        resultSet.insert(element.second);
+    }
+    return resultSet;
+}
+
 bool ProcTable::checkProcExistById(int procId)
 {
 	if (procId < ptsize)
@@ -86,10 +135,32 @@ void ProcTable::printContents()
 {
 	cout << "---PRINT PROCTABLE---" << endl;
 
+    cout << "ProcId : ProcName" << endl;
 	for (pair<string, int> it : procMap) {
-		cout << "ProcId: " << it.second;
-		cout << " ProcName " << it.first << endl;
+        cout << it.second << " : " << it.first << endl;
+		//cout << "ProcId: " << it.second;
+		//cout << " ProcName " << it.first << endl;
+        //cout << endl;
 	}
+    cout << endl;
+
+    cout << "StmtId : Direct containing proc" << endl;
+    for (pair<int, int> entry : stmtContainedInProcMap) {
+        cout << entry.first << " : " << entry.second << endl;
+        //cout << "StmtId " << entry.first;
+        //cout << " is contained in procedure with index: " << entry.second;
+        //cout << endl;
+    }
+    cout << endl;
+
+    cout << "ProcId : contained stmtId" << endl;
+    for (pair<int, unordered_set<int>> entry : procContainsStmtMap) {
+        cout << entry.first << " : ";
+        //cout << "ProcId: " << entry.first;
+        //cout << "contains stmtId ";
+        printUnorderedSet(entry.second);
+        cout << endl;
+    }
 	cout << "---END PRINT PROCTABLE---" << endl;
 }
 
@@ -98,4 +169,10 @@ void ProcTable::printVector(vector<int> vec)
 	for (int t : vec) {
 		cout << t << ' ';
 	}
+}
+
+void ProcTable::printUnorderedSet(unordered_set<int> uSet) {
+    for (int element : uSet) {
+        cout << element << ' ';
+    }
 }

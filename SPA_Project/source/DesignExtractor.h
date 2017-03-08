@@ -19,9 +19,12 @@ public:
 
 private:
 	PKB *pkb;
+    void extractProcModifiesUsesStar();
+    void recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated);
 	//void extractStarRelations();
 	void extractParentStar();
 	void extractFollowsStar();
     void extractModifiesStar();
     void extractUsesStar();
+    void populateProcRel(int procId, int containerStmtId);
 };

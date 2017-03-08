@@ -29,6 +29,14 @@ int IfTable::getVarInIfStmt(int stmtId) {
 	}
 }
 
+unordered_set<int> IfTable::getAllIfId() {
+    unordered_set<int> resultSet;
+    for (auto entry : ifList) {
+        resultSet.insert(entry.first);
+    }
+    return resultSet;
+}
+
 bool IfTable::isStmtInTable(int stmtId)
 {
     for (auto stmtEntry : this->ifList) {
@@ -44,6 +52,16 @@ int IfTable::getSize() {
 }
 
 void IfTable::printContents() {
+
+    cout << "---PRINT IF TABLE---" << endl;
+
+    cout << "StmtId : ControlVarId" << endl;
+    for (auto entry : ifList) {
+        cout << entry.first << " : " << entry.second << endl;
+    }
+
+    cout << "---END PRINT IF TABLE---" << endl;
+    /*
 	cout << "If Table" << endl;
 	cout << "====================" << endl;
 
@@ -51,4 +69,5 @@ void IfTable::printContents() {
 		cout << it.first << ": " << it.second << endl;
 
 	cout << "====================" << endl;
+    */
 }

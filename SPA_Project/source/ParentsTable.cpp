@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -19,18 +20,18 @@ bool ParentsTable::setStmtParentStmtRel(int father, int child)
 	}
 	parentsMap.insert(make_pair(child, father));
 
-	unordered_map<int, vector<int>>::iterator it2;
-	vector<int> list;
+	unordered_map<int, unordered_set<int>>::iterator it2;
+    unordered_set<int> childSet;
 	it2 = childsMap.find(father);
 	if (it2 != childsMap.end()) {
-		list = it2->second;
+		childSet = it2->second;
 		childsMap.erase(it2);
-		list.push_back(child);
-		childsMap.insert(make_pair(father, list));
+		childSet.insert(child);
+		childsMap.insert(make_pair(father, childSet));
 	}
 	else {
-		list.push_back(child);
-		childsMap.insert(make_pair(father, list));
+		childSet.insert(child);
+		childsMap.insert(make_pair(father, childSet));
 	}
 
 	// star table 
@@ -42,24 +43,24 @@ bool ParentsTable::insertStmtParentStmtRel(int father, int child)
 {
 	if (father == child)
 		return false;
-	vector<int> list1, list2;
-	unordered_map<int, vector<int>>::iterator it1, it2;
+	unordered_set<int> parentSet, childSet;
+	unordered_map<int, unordered_set<int>>::iterator it1, it2;
 	it1 = parentListMap.find(child);
 	it2 = childListMap.find(father);
 
 	if (it1 != parentListMap.end()) {
-		list1 = it1->second;
+		parentSet = it1->second;
 		parentListMap.erase(it1);
 	}
-	list1.push_back(father);
-	parentListMap.insert(make_pair(child, list1));
+	parentSet.insert(father);
+	parentListMap.insert(make_pair(child, parentSet));
 
 	if (it2 != childListMap.end()) {
-		list2 = it2->second;
+		childSet = it2->second;
 		childListMap.erase(it2);
 	}
-	list2.push_back(child);
-	childListMap.insert(make_pair(father, list2));
+	childSet.insert(child);
+	childListMap.insert(make_pair(father, childSet));
 	return true;
 }
 
@@ -70,14 +71,15 @@ bool ParentsTable::insertStmtParentStmtRel(int father, int child)
 return list of childrens
 return empty list if no result
 */
-vector<int> ParentsTable::getStmtChildrenStmt(int stmtId)
+unordered_set<int> ParentsTable::getStmtChildrenStmt(int stmtId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = childsMap.find(stmtId);
 	if (it != childsMap.end()) {
-		return it->second;
+		resultSet = it->second;
 	}
-	return vector<int>();
+    return resultSet;
 }
 
 
@@ -118,23 +120,25 @@ vector<int> ParentsTable::getParentList(int stmtNo)
 }
 */
 
-vector<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)
+unordered_set<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)
 {
-	unordered_map<int, vector<int>>::iterator it;
+	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = childListMap.find(stmtId);
-	if (it != childListMap.end())
-		return it->second;
-	else
-		return vector<int>();
+    if (it != childListMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
 }
-vector<int> ParentsTable::getStmtParentStarStmt(int stmtId)
+unordered_set<int> ParentsTable::getStmtParentStarStmt(int stmtId)
 {
-	unordered_map<int, vector<int>>::iterator it;
-	it = parentListMap.find(stmtId);
-	if (it != parentListMap.end())
-		return it->second;
-	else
-		return vector<int>();
+    unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
+    it = parentListMap.find(stmtId);
+    if (it != parentListMap.end()){
+        resultSet = it->second;
+    }
+    return resultSet;
 }
 
 bool ParentsTable::hasParentRel()
@@ -145,24 +149,41 @@ bool ParentsTable::hasParentRel()
 void ParentsTable::printContents()
 {
 	cout << "---PRINT PARENTSTABLE---" << endl;
+
+    cout << "Direct parent : Direct child" << endl;
 	for (pair<int, int> it : parentsMap) {
-		cout << "StmtId: " << it.second;
-		cout << " is father of Stmt Id " << it.first <<endl;
+        cout << it.second << " : " << it.first << endl;
+		//cout << "StmtId: " << it.second;
+		//cout << " is father of Stmt Id " << it.first <<endl;
 	}
-	for (pair<int, vector<int>> it : parentListMap) {
-		cout << "StmtId: " << it.first;
-		cout << " has parents StmtId ";
-		printVector(it.second);
+    cout << endl;
+
+    cout << "child : parent* " << endl;
+	for (pair<int, unordered_set<int>> it : parentListMap) {
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " has parents StmtId ";
+		printUnorderedSet(it.second);
 		cout << endl;
 	}
-	for (pair<int, vector<int>> it : childListMap) {
-		cout << "ProcId: " << it.first;
-		cout << " has children StmtId ";
-		printVector(it.second);
+    cout << endl;
+
+    cout << "parent stmtId : child *" << endl;
+	for (pair<int, unordered_set<int>> it : childListMap) {
+        cout << it.first << " : ";
+		//cout << "ProcId: " << it.first;
+		//cout << " has children StmtId ";
+		printUnorderedSet(it.second);
 		cout << endl;
 	}
 
 	cout << "---END PRINT PARENTSTABLE---" << endl;
+}
+
+void ParentsTable::printUnorderedSet(unordered_set<int> uSet) {
+    for (int element : uSet) {
+        cout << element << ' ';
+    }
 }
 
 void ParentsTable::printVector(vector<int> vec)

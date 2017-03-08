@@ -15,6 +15,8 @@
 #include "CallTable.h"
 #include "ConstTable.h"
 #include "AssignTable.h"
+#include "NextTable.h"
+#include "StmtLstTable.h"
 #include <algorithm>
 #include <iterator>
 
@@ -34,6 +36,8 @@ private:
 	IfTable ifTable;
 	CallTable callTable;
 	AssignTable assignTable;
+    NextTable nextTable;
+    StmtLstTable stmtLstTable;
 
 	bool isValidVarId(int VarId);
 	bool isValidVar(string varName);
@@ -48,11 +52,22 @@ public:
 
 	int getNumOfStmt();//was get total stmt num
 		//int getNumOfStmt();
-	vector<int> getAllStmtId();//currentnly only returning while and assignment statements
+	unordered_set<int> getAllStmtId();//currentnly only returning while and assignment statements
 
+    //multi-table api
+    unordered_set<int> getUseStmtInProc(int procId);
+    unordered_set<int> getModifyStmtInProc(int procId);
 
 	//proc table
 	int insertProc(string procName);
+
+    bool setProcToStmtRel(int procId, int stmtId);
+
+    int getProcIdByName(string procName);
+    bool isProcInTable(string procName);
+    
+    unordered_set<int> getStmtInProc(int procId);
+    unordered_set<int> getAllProcId();
 
 
 	//variable table
@@ -83,18 +98,18 @@ public:
 
 	int getStmtParentStmt(int stmtId);//-1 if no parent, was get Parent Direct
 		//int getStmtParentStmt(int stmtId);
-	vector<int> getStmtParentStarStmt(int stmtId);//was get Parent Star
+    unordered_set<int> getStmtParentStarStmt(int stmtId);//was get Parent Star
 		//vector<int> getStmtParentStarStmt(int stmtId);
-	vector<int> getStmtChildrenStmt(int stmtId);//was get Children
+    unordered_set<int> getStmtChildrenStmt(int stmtId);//was get Children
 		//vector<int> getStmtChildrenStmt(int stmtId);
-	vector<int> getStmtChildrenStarStmt(int stmtId);//was get Children Star
+    unordered_set<int> getStmtChildrenStarStmt(int stmtId);//was get Children Star
 		//vector<int> getStmtChildrenStarStmt(int stmtId);
 
 
 	//Follow table
 	bool setStmtFollowStmtRel(int stmtId, int followStmtId);//was set Follow Direct Rel
 		//bool setStmtFollowStmtRel(int stmtId, int followStmtId);
-	bool insertStmtFollowStmtRel(int stmtId, int followStmtId);// was insert Follow Rel
+	bool insertStmtFollowStmtRel(int followeeId, int followerId);// was insert Follow Rel
 		//bool insertStmtFollowStmtRel(int stmtId, int followStmtId);
     bool hasFollowRel();
 
@@ -102,9 +117,9 @@ public:
 		//int getStmtFollowStmt(int stmtId);
 	int getStmtFollowedByStmt(int stmtId);//-1 if no followedby, was get Followed By Direct
 		//int getStmtFollowedByStmt(int stmtId);
-	vector<int> getStmtFollowStarStmt(int stmtId);
+    unordered_set<int> getStmtFollowStarStmt(int stmtId);
 		//vector<int> getStmtFollowStarStmt(int stmtId);
-	vector<int> getStmtFollowedByStarStmt(int stmtId);//was get Followed By Star
+    unordered_set<int> getStmtFollowedByStarStmt(int stmtId);//was get Followed By Star
 		//vector<int> getStmtFollowedByStarStmt(int stmtId);
 
 
@@ -115,17 +130,18 @@ public:
 		//bool setProcModifyVarRel(int procId, int varId);
     bool insertStmtModifyVarRel(int stmtId, int varId);//was insert Stmt Modifies Var
 		//bool insertStmtModifyVarRel(int stmtId, int varId);
+    bool insertProcModifyVarRel(int procId, int varId);
 
-	virtual vector<int> getStmtModifyVar(int varId);//was get Modified By Stmt
+	virtual unordered_set<int> getStmtModifyVar(int varId);//was get Modified By Stmt
 		//vector<int> getStmtModifyVar(int varId);
-	virtual vector<int> getVarModifiedInStmt(int stmtId);//was get Stmt Modify
+	virtual unordered_set<int> getVarModifiedInStmt(int stmtId);//was get Stmt Modify
 		//vector<int> getVarModifiedInStmt(int stmtId);
-	vector<int> getProcModifyVar(int varId);//was get Modified By Proc
+    unordered_set<int> getProcModifyVar(int varId);//was get Modified By Proc
 		//vector<int> getProcModifiyVar(int varId);
-	vector<int> getVarModifiedInProc(int procId);//was get Proc Modify
+    unordered_set<int> getVarModifiedInProc(int procId);//was get Proc Modify
 		//vector<int> getVarModifiedInProc(int procId);
 
-    vector<int> getAllModifyStmt();//was get All Modifies Stmt
+    unordered_set<int> getAllModifyStmt();//was get All Modifies Stmt
 		//vector<int> getAllModifyStmt();
     bool isStmtInModifyTable(int stmtId);//was is Stmt In Modifies Table
 		//bool isStmtInModifyTable(int stmtId);
@@ -143,21 +159,24 @@ public:
 		//bool setProcUseConstRel(int procId, int constId);
     bool insertStmtUseVarRel(int stmtId, int varId);//was insert Stmt Uses Var
 		//bool insertStmtUseVarRel(int stmtId, int varId);
+    bool insertStmtUseConstRel(int stmtId, int constId);
+    bool insertProcUseVarRel(int procId, int varId);
+    bool insertProcUseConstRel(int procId, int constId);
 
-	vector<int> getVarUsedByStmt(int stmtId);
-	vector<int> getStmtUseVar(int varId);//was get Stmt Uses Var
+    unordered_set<int> getVarUsedByStmt(int stmtId);
+    unordered_set<int> getStmtUseVar(int varId);//was get Stmt Uses Var
 		//vector<int> getStmtUseVar(int varId);
-	vector<int> getVarUsedByProc(int procId);
-	vector<int> getProcUseVar(int varId);//was get Proc Uses Var
+    unordered_set<int> getVarUsedByProc(int procId);
+    unordered_set<int> getProcUseVar(int varId);//was get Proc Uses Var
 		//vector<int> getProcUseVar(int varId);
-	vector<int> getConstUsedByStmt(int stmtId);
-	vector<int> getStmtUseConst(int constId);//was get Stmt Uses Const
+    unordered_set<int> getConstUsedByStmt(int stmtId);
+    unordered_set<int> getStmtUseConst(int constId);//was get Stmt Uses Const
 		//vector<int> getStmtUseConst(int constId);
-	vector<int> getConstUsedByProc(int procId);
-	vector<int> getProcUseConst(int constId);//was get Proc Uses Const
+    unordered_set<int> getConstUsedByProc(int procId);
+    unordered_set<int> getProcUseConst(int constId);//was get Proc Uses Const
 		//vector<int> getProcUseConst(int constId);
 
-    vector<int> getAllUseStmt();//was get All Use Stmt
+    unordered_set<int> getAllUseStmt();//was get All Use Stmt
 		//vector<int> getAllUseStmt();
 
     bool isStmtInUseTable(int stmtId);// was is Stmt In Uses Table
@@ -170,7 +189,7 @@ public:
 	bool setExpToAssignStmt(int stmtId, string expression);// was set Assign Exp
 		//bool setExpToAssignStmt(int stmtId, string expression);
 
-	virtual vector<int> getAllAssignStmt();//was get All Assign StmtId
+	virtual unordered_set<int> getAllAssignStmt();//was get All Assign StmtId
 		//vector<int> getAllAssignStmt();
 	virtual string getExpInAssignStmt(int stmtId);//was get Assign Exp
 		//string getExpInAssignStmt(int stmtId);
@@ -184,7 +203,7 @@ public:
 
 	int getVarInWhileStmt(int stmtId);//was get While Ctrl Var
 		//int getVarInWhileStmt(int stmtId);
-	virtual vector<int> getAllWhileStmt();
+	virtual unordered_set<int> getAllWhileStmt();
 
 	bool isStmtInWhileTable(int stmtId);
 
@@ -195,9 +214,32 @@ public:
 	int getVarInIfStmt(int stmtId);//was get If Ctrl Var
 		//int getVarInIfStmt(int stmtId);
 	bool isStmtInIfTable(int stmtId);
+    unordered_set<int> getAllIfId();
 
 
 	//call table
-	bool setStmtCallProc(int stmtId, int procId);//was set Call Proc
-		//bool setStmtCallProc(int stmtId, int procId);
+	bool setStmtCallProcRel(int stmtId, int procId);//was set Call Proc
+		//bool setStmtCallProcRel(int stmtId, int procId);
+    bool setProcCallProcRel(int callerProcId, int calledProcId);
+    bool insertProcCallStarProcRel(int callerProcId, int calledStarProcId);
+    bool isStmtInCalltable(int stmtId);
+    int getProcCalledByStmt(int callStmtId);
+    unordered_set<int> getProcCalledByProc(int callerProcId);
+    unordered_set<int> getAllCallId();
+    unordered_set<int> getStmtCallProc(int calledProcId);
+    unordered_set<int> getProcCalledByStarProc(int callerProcId);
+
+    //next table
+    bool setStmtNextStmtRel(int currentStmtId, int nextStmtid);
+
+    unordered_set<int> getNextStmt(int currentStmtId);
+    unordered_set<int> getPreviousStmt(int currentStmtId);
+
+    //stmtLst table
+    bool setProcStmtLstContainsStmtRel(int procId, int stmtId);
+    bool setContainerStmtStmtLstContainsStmtRel(int containerStmtId, int stmtId);
+
+    vector<int> getStmtLstContainedInProc(int procId);
+    vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
+    unordered_set<int> getAllStmtLst();
 };

@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <unordered_map>
+#include <unordered_set>
 
 
 using namespace std;
@@ -21,6 +22,6 @@ public:
 	void printContents();
 	bool setVarToWhileStmt(int stmtId, int varId);
 	int getVarInWhileStmt(int stmtId);
-    vector<int> getAllStmtId();
+    unordered_set<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
 };

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <unordered_set>
 
 using namespace std;
 
@@ -38,28 +39,28 @@ bool FollowsTable::setStmtFollowStmtRel(int followeeId, int followerId)
 
 
 
-bool FollowsTable::insertStmtFollowStmtRel(int followeeId, int followerId)
+bool FollowsTable::insertStmtFollowStmtRel(int followeeId, int followerId)//star
 {
 	if (followeeId == followerId)
 		return false;
-	vector<int> list1, list2;
-	unordered_map<int, vector<int>>::iterator it1, it2;
+	unordered_set<int> set1, set2;
+	unordered_map<int, unordered_set<int>>::iterator it1, it2;
 	it1 = followeeListMap.find(followeeId);
 	it2 = followerListMap.find(followerId);
 	
 	if (it1 != followeeListMap.end()) {
-		list1 = it1->second;
+		set1 = it1->second;
 		followeeListMap.erase(it1);
 	}
-	list1.push_back(followerId);
-	followeeListMap.insert(make_pair(followeeId, list1));
+	set1.insert(followerId);
+	followeeListMap.insert(make_pair(followeeId, set1));
 
 	if (it2 != followerListMap.end()) {
-		list2 = it2->second;
+		set2 = it2->second;
 		followerListMap.erase(it2);
 	}
-	list2.push_back(followeeId);
-	followerListMap.insert(make_pair(followerId, list2));
+	set2.insert(followeeId);
+	followerListMap.insert(make_pair(followerId, set2));
 	return true;
 }
 
@@ -94,43 +95,56 @@ int FollowsTable::getDirectFollowedBy(int followerId)
 	return -1;
 }
 
-vector<int> FollowsTable::getStmtFollowStarStmt(int stmtId) {
-	unordered_map<int, vector<int>>::iterator it;
+unordered_set<int> FollowsTable::getStmtFollowStarStmt(int stmtId) {
+	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = followeeListMap.find(stmtId);
-	if (it != followeeListMap.end())
-		return it->second;
-	else
-		return vector<int>();
+    if (it != followeeListMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
 }
-vector<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
-	unordered_map<int, vector<int>>::iterator it;
+unordered_set<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
+	unordered_map<int, unordered_set<int>>::iterator it;
+    unordered_set<int> resultSet;
 	it = followerListMap.find(stmtId);
-	if (it != followerListMap.end())
-		return it->second;
-	else
-		return vector<int>();
-
+    if (it != followerListMap.end()) {
+        resultSet = it->second;
+    }
+    return resultSet;
 }
 
 void FollowsTable::printContents()
 {
 	cout << "---PRINT FOLLOWSTABLE---" << endl;
+
+    cout << "StmtId : Direct Follower StmtId" << endl;
 	for (pair<int, int> it : followeeMap) {
-		cout << "StmtId: " << it.second;
-		cout << " Directly Follows StmtId " << it.first << endl;
+        cout << it.first << " : " << it.second << endl;
+		//cout << "StmtId: " << it.second;
+		//cout << " Directly Follows StmtId " << it.first << endl;
 	}
-	for (pair<int, vector<int>> it : followeeListMap) {
-		cout << "Stmts that follows StmtId: " << it.first;
-		cout << " are ";
-		printVector(it.second);
+    cout << endl;
+
+    cout << "StmtId : List of follower stmtId" << endl;
+	for (pair<int, unordered_set<int>> it : followeeListMap) {
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " followed by*: ";
+		printUnorderedSet(it.second);
 		cout << endl;
 	}
-	for (pair<int, vector<int>> it : followerListMap) {
-		cout << "Stmts that StmtId" << it.first;
-		cout << " Follows are ";
-		printVector(it.second);
+    cout << endl;
+
+    cout << "StmtId : List of followee stmtId" << endl;
+	for (pair<int, unordered_set<int>> it : followerListMap) {
+        cout << it.first << " : ";
+		//cout << "StmtId: " << it.first;
+		//cout << " Follows* : ";
+		printUnorderedSet(it.second);
 		cout << endl;
 	}
+    cout << endl;
 
 	cout << "---END PRINT FOLLOWSTABLE---" << endl;
 }
@@ -138,6 +152,12 @@ void FollowsTable::printContents()
 bool FollowsTable::hasFollowRel()
 {
 	return followeeMap.empty();
+}
+
+void FollowsTable::printUnorderedSet(unordered_set<int> uSet) {
+    for (int element : uSet) {
+        cout << element << ' ';
+    }
 }
 
 void FollowsTable::printVector(vector<int> vec)

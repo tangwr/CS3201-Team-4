@@ -18,3 +18,11 @@ string Parameter::getParaName() {
 Type Parameter::getParaType() {
 	return paraType;
 }
+
+void Parameter::setParaName(string name) {
+	paraName = name;
+}
+
+void Parameter::setParaType(Type type) {
+	paraType = type;
+}

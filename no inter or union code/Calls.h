@@ -29,9 +29,13 @@ private:
 	bool hasRelation(PKB *pkb);
 	vector<int> evaluateRelation(PKB *pkb, Type synType, string synName);
 
-	//vector<int> getCallLeftProcList();
-	//vector<int> getCallRightProcList();
+	vector<int> getCallLeftProcList();
+	vector<int> getCallRightProcList();
 	vector<int> getCallProcList(Type paraType, string paraName);
+
+	unordered_set<int> getCallLeftProcSet();
+	unordered_set<int> getCallRightProcSet();
+	unordered_set<int> getCallProcSet(Type paraType, string paraName);
 
 	vector<int> convertSetToVector(unordered_set<int> unorderedSet);
 	unordered_set<int> convertVectorToSet(vector<int> vectorList);

@@ -81,16 +81,16 @@ pair<int, vector<int>> Parser::createStmtLst(int procId, int contStmtId) {
 	vector<int> prevStmts;
 
 	if (contStmtId != NOT_FOUND) {
-		//pkb->setStmtLstTContStmt(contStmtId, curStmtNum);
+		pkb->setContainerStmtStmtLstContainsStmtRel(contStmtId, curStmtNum);
 	} else {
-		//pkb->setStmtLstTProc(procId, curStmtNum);
+		pkb->setProcStmtLstContainsStmtRel(procId, curStmtNum);
 	}
 
 	do {
-		//pkb->setProcToStmtRel(procId, stmt[index]);
+		pkb->setProcToStmtRel(procId, curStmtNum);
 		stmts.push_back(curStmtNum);
 		for (int index = INITAL_INDEX; index < (int)prevStmts.size(); index++) {
-			//pkb->setStmtNextStmtRel(prevStmts[index], curStmtNum);
+			pkb->setStmtNextStmtRel(prevStmts[index], curStmtNum);
 		}
 		prevStmts = createStmt(procId, curStmtNum++);
 	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
@@ -141,9 +141,9 @@ void Parser::createWhile(int procId, int whileStmtId) {
 
 	match(STRING_CLOSE_CBRACKET);
 
-	//pkb->setStmtNextStmtRel(whileId, firstStmtId);
+	pkb->setStmtNextStmtRel(whileStmtId, firstStmtId);
 	for (int index = INITAL_INDEX; index < (int)lastStmts.size(); index++) {
-		//pkb->setStmtNextStmtRel(lastStmts[index], whileId);
+		pkb->setStmtNextStmtRel(lastStmts[index], whileStmtId);
 	}
 }
 
@@ -171,8 +171,8 @@ vector<int> Parser::createIf(int procId, int ifStmtId) {
 
 	match(STRING_CLOSE_CBRACKET);
 
-	//pkb->setStmtNextStmtRel(ifId, thenStmtLst.first);
-	//pkb->setStmtNextStmtRel(ifId, elseStmtLst.first);
+	pkb->setStmtNextStmtRel(ifStmtId, thenStmtLst.first);
+	pkb->setStmtNextStmtRel(ifStmtId, elseStmtLst.first);
 
 	return VectorSetOperation<int>::setUnion(thenStmtLst.second, elseStmtLst.second);
 }
@@ -257,13 +257,13 @@ int Parser::createConst(int constValue) {
 
 void Parser::setProcAndStmtCallRel() {
 	for (int index = INITAL_INDEX; index < (int)callTuples.size(); index++) {
-		//if (!pkb->isProcInProcTable(get<2>(callTuples[index]))) {
-		//	throw ERROR_MESSAGE;
-		//}
-		//
-		//int calledProcId = pkb->getProcIdByName(get<2>(callTuples[index]));
-		//pkb->setProcCallProcRel(get<0>(callTuples[index]), calledProcId);
-		//pkb->setStmtCallProcRel(get<1>(callTuples[index]), calledProcId);
+		if (!pkb->isProcInTable(get<2>(callTuples[index]))) {
+			throw ERROR_MESSAGE;
+		}
+		
+		int calledProcId = pkb->getProcIdByName(get<2>(callTuples[index]));
+		pkb->setProcCallProcRel(get<0>(callTuples[index]), calledProcId);
+		pkb->setStmtCallProcRel(get<1>(callTuples[index]), calledProcId);
 	}
 }
 

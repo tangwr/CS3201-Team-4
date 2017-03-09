@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DesignExtractor.h"
+#include "TableOperations.h"
 
 using namespace std;
 /*
@@ -58,27 +59,37 @@ void DesignExtractor::extractStarRelations() {
     	if (!isProcValidated.at(procId)) {
     		unordered_set<int> calledProcs = pkb->getProcCalledByProc(procId);
     		for (auto calledProcId : calledProcs) {
-                recursiveTablePopulation(procId, &isProcInPath, &isProcValidated);
+                recursiveTablePopulation(calledProcId, &isProcInPath, &isProcValidated);
+                isProcInPath.at(calledProcId) = false;
     		}
     	}
+        cout << "end iter" << endl;
     }
 }
 
 
 void DesignExtractor::recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated) {
-    if (isProcInPath->at(procId)) {
+    cout << "procID : "<< procId << endl;
+    if (isProcInPath->at(procId)) {        
         throw "Circular call detected";
     }
     isProcInPath->at(procId) = true;
 
     if (!isProcValidated->at(procId)) {
     	unordered_set<int> calledProcs = pkb->getProcCalledByProc(procId);
+        //cout << procId << " calls proc ";
+        //TableOperations::printUnorderedSet(calledProcs);
+        //cout << endl;
+        
     	for (auto calledProcId : calledProcs) {
+            //cout << "proc " << procId << " called " << calledProcId << endl;
+
             recursiveTablePopulation(calledProcId, isProcInPath, isProcValidated);
     		isProcInPath->at(calledProcId) = false;
     	}
-    populateProcRel(procId, -1);
-    isProcValidated->at(procId) = true;
+        populateProcRel(procId, -1);
+        //cout << "validate proc : " << procId << endl;
+        isProcValidated->at(procId) = true;
     }
 
 
@@ -239,8 +250,10 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
     currentStmt = pkb->getStmtFollowStmt(currentStmt);
     //end
 
-    for (int i = 1; i <= (int) stmtLstStmt.size; i++) {
-        int reverseStmtId = stmtLstStmt[(int) stmtLstStmt.size - i];
+    for (int i = 1; i <= (int) stmtLstStmt.size(); i++) {
+        cout << "counter : ";
+        cout << i << endl;
+        int reverseStmtId = stmtLstStmt[(int) stmtLstStmt.size() - i];
         //check for index out of bound
         //get stmt uses and set as proc/container stmt uses
         unordered_set<int> currentStmtUsedVarLst = pkb->getVarUsedByStmt(reverseStmtId);
@@ -278,10 +291,10 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
         }
 
         //get follow star insert into 1 stmt up
-        if (reverseStmtId > 0) {
+        if (((int)stmtLstStmt.size() - i) > 0) {
             unordered_set<int> stmtFollowerStarLst = pkb->getStmtFollowStarStmt(reverseStmtId);
             for (int followerStarStmtId : stmtFollowerStarLst) {
-                int stmtAtPreviousIndex = stmtLstStmt[(int) stmtLstStmt.size - (i + 1)];
+                int stmtAtPreviousIndex = stmtLstStmt[(int) stmtLstStmt.size() - (i + 1)];
                 pkb->insertStmtFollowStmtRel(stmtAtPreviousIndex, followerStarStmtId);
             }
         }

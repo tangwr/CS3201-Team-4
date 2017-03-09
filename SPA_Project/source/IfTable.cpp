@@ -19,7 +19,7 @@ bool IfTable::setVarToIfStmt(int stmtId, int varId) {
 	}
 }
 
-int IfTable::getVarInIfStmt(int stmtId) {
+int IfTable::getCtrlVarInIfStmt(int stmtId) {
 	auto it = this->ifList.find(stmtId);
 	if (it != ifList.end()) {
 		return it->second;

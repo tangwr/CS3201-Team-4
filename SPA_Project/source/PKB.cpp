@@ -353,8 +353,8 @@ bool PKB::setVarToWhileStmt(int stmtId, int varId) {
 unordered_set<int> PKB::getAllWhileStmt() {
 	return this->whileTable.getAllStmtId();
 }
-int PKB::getVarInWhileStmt(int stmtId) {
-	return this->whileTable.getVarInWhileStmt(stmtId);
+int PKB::getCtrlVarInWhileStmt(int stmtId) {
+	return this->whileTable.getCtrlVarInWhileStmt(stmtId);
 }
 
 bool PKB::isStmtInWhileTable(int stmtId) {
@@ -370,8 +370,8 @@ bool PKB::setVarToIfStmt(int stmtId, int varId) {
 	return this->ifTable.setVarToIfStmt(stmtId, varId);
 }
 
-int PKB::getVarInIfStmt(int stmtId) {
-	return this->ifTable.getVarInIfStmt(stmtId);
+int PKB::getCtrlVarInIfStmt(int stmtId) {
+	return this->ifTable.getCtrlVarInIfStmt(stmtId);
 }
 
 bool PKB::isStmtInIfTable(int stmtId) {

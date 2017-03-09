@@ -20,7 +20,7 @@ public:
 	int getSize();
 	void printContents();
 	bool setVarToIfStmt(int stmtId, int varId);
-	int getVarInIfStmt(int stmtId);
+	int getCtrlVarInIfStmt(int stmtId);
     unordered_set<int> getAllIfId();
 	bool isStmtInTable(int stmtId);
 };

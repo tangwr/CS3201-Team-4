@@ -37,7 +37,7 @@ bool WhileTable::setVarToWhileStmt(int stmtId, int varId) {
 	}
 }
 
-int WhileTable::getVarInWhileStmt(int stmtId) {
+int WhileTable::getCtrlVarInWhileStmt(int stmtId) {
 	auto it = this->whileList.find(stmtId);
 	if (it != whileList.end()) {
 		return it->second;

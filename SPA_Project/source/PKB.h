@@ -201,8 +201,8 @@ public:
 	bool setVarToWhileStmt(int stmtId, int varId);//check var exist//was set While Ctrl Var
 		//bool setVarToWhileStmt(int stmtId, int varId);
 
-	int getVarInWhileStmt(int stmtId);//was get While Ctrl Var
-		//int getVarInWhileStmt(int stmtId);
+	int getCtrlVarInWhileStmt(int stmtId);//was get While Ctrl Var
+		//int getCtrlVarInWhileStmt(int stmtId);
 	virtual unordered_set<int> getAllWhileStmt();
 
 	bool isStmtInWhileTable(int stmtId);
@@ -211,8 +211,8 @@ public:
 	//if table
 	bool setVarToIfStmt(int stmtId, int varId);//was set If Ctrl Var
 		//bool setVarToIfStmt(int stmtId, int varId);
-	int getVarInIfStmt(int stmtId);//was get If Ctrl Var
-		//int getVarInIfStmt(int stmtId);
+	int getCtrlVarInIfStmt(int stmtId);//was get If Ctrl Var
+		//int getCtrlVarInIfStmt(int stmtId);
 	bool isStmtInIfTable(int stmtId);
     unordered_set<int> getAllIfId();
 

@@ -154,7 +154,7 @@ namespace UnitTesting
 			Assert::AreEqual(0, it.getSize());
 			it.setVarToIfStmt(2, 5);
 			it.setVarToIfStmt(3, 6);
-			Assert::AreEqual(5, it.getVarInIfStmt(2));
+			Assert::AreEqual(5, it.getCtrlVarInIfStmt(2));
 			Assert::AreEqual(2, it.getSize());
 		}
 		TEST_METHOD(UnitTest_WhileTable)
@@ -163,7 +163,7 @@ namespace UnitTesting
 			Assert::AreEqual(0, wt.getSize());
 			wt.setVarToWhileStmt(2, 5);
 			wt.setVarToWhileStmt(3, 6);
-			Assert::AreEqual(5, wt.getVarInWhileStmt(2));
+			Assert::AreEqual(5, wt.getCtrlVarInWhileStmt(2));
 			Assert::AreEqual(2, wt.getSize());
 		}
 		TEST_METHOD(UnitTest_AssignTable)

@@ -21,7 +21,7 @@ public:
 	int getSize();
 	void printContents();
 	bool setVarToWhileStmt(int stmtId, int varId);
-	int getVarInWhileStmt(int stmtId);
+	int getCtrlVarInWhileStmt(int stmtId);
     unordered_set<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
 };

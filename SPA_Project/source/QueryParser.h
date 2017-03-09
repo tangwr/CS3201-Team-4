@@ -5,49 +5,47 @@
 #include <unordered_map>
 
 #include "QueryTree.h"
+#include "Tokenizer.h"
 
 using namespace std;
-
 class QueryParser {
 private:
-	unordered_map<string, string> varMap;
-	QueryTree *queryTree;
+	unordered_map<string, Parameter> varMap;
+	unordered_map<string, Parameter> usedMap;
+	Tokenizer *tokenizer;
 
+	void getDeclaration(QueryTree* queryTree);
+	void getDeclare(QueryTree* queryTree);
+	void getSelect(QueryTree* queryTree);
+	void getClause(QueryTree* queryTree);
+	void getSuchThat(QueryTree* queryTree);
+	void getModifies(QueryTree* queryTree);
+	void getUses(QueryTree* queryTree);
+	void getCalls(QueryTree* queryTree);
+	void getCallsStar(QueryTree* queryTree);
+	void getParent(QueryTree* queryTree);
+	void getParentStar(QueryTree* queryTree);
+	void getFollows(QueryTree* queryTree);
+	void getFollowsStar(QueryTree* queryTree);
+	void getNext(QueryTree* queryTree);
+	void getNextStar(QueryTree* queryTree);
+	void getAffects(QueryTree* queryTree);
+	void getAffectsStar(QueryTree* queryTree);
+	void getPattern(QueryTree* queryTree);
+	void getWith(QueryTree* queryTree);
+    void match(string token, string matchRe);
+	void throwError(string error);
 
-	bool isValidDeclaration(string declaration);
-	bool isValidQuery(string query);
-	
-	bool checkRelation(string subquery);
-	bool checkChildren(string relType, vector<string> arrVariable);
-
-	bool checkPattern(string relType, string syn, Type synType, string subquery);
-	bool checkPattern2(string subquery);
-
-	bool isValidVarName(string varName);
+	string getSyn(Type synType);
+	string getSelectSyn();
 	bool isVarNameExists(string varName);
-
-	string getVarType(string varName);
-	bool isStringVar(string str);
-	bool isInteger(string str);
 	bool isPositiveInteger(string str);
-
-
-	vector<string> QueryParser::splitTheString(string str, char c);
-	vector<string> QueryParser::splitTheStringIntoParts(string str, char c, int num);
-	string QueryParser::trim(string content);
-	string QueryParser::removeSpaces(string line);
-	string stringToLower(string str);
-	
-	//vector<string> parseExpression(string expression);
-	//bool isValidExpression(string expression);
-	
-	Type getTypeOfChild(string input);
-	bool isBothUnderScore(string str);
-	bool isStringExpression(string str);
+	bool isUsedExists(string name);
 
 public:
 	QueryParser();
-	bool isValid(string query);
-	QueryTree getQuery(); 
+	~QueryParser();
+	QueryTree parse(string query);
+
 };
 #endif

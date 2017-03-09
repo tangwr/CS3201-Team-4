@@ -18,7 +18,7 @@ public:
 	virtual bool hasRel(PKB *pkb) = 0;
 	virtual Parameter getLeftChild() = 0;
 	virtual Parameter getRightChild() = 0;
-
+        virtual ClauseType getType() = 0;
 	/*
 	virtual string getLeftChild() = 0;
 	virtual string getRightChild() = 0;

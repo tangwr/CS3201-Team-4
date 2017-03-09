@@ -4,37 +4,11 @@
 #include "TableOperations.h"
 
 using namespace std;
-/*
-Unused Code:
-unordered_map<int, int> parentsMap, followsMap, followedByMap;
-unordered_map<int, vector<int>> childrensMap;
-stack<int> statementStack;
 
-int assignedStatementNum;
-
-
-void processAssign(Tnode currentNode);
-void processWhile(Tnode currentNode);
-void processProcedure(Tnode currentNode);
-void processVariable(Tnode currentNode);
-void processArithmetic(Tnode currentNode);
-void processStatementList(Tnode* currentNode);
-void processChildren(Tnode parent);
-*/
 
 DesignExtractor::DesignExtractor(PKB* pkbSource) {
 	pkb = pkbSource;
 }
-/*
-void DesignExtractor::extractStarRelations() {
-	//extractFollowsStar();
-	//extractParentStar();
-	//extractModifiesStar();
-	//extractUsesStar();
- //   extractProcModifiesUsesStar();
-    
-}
-*/
 
 void DesignExtractor::extractProcModifiesUsesStar() {
     unordered_map<int, bool> isProcInPath;

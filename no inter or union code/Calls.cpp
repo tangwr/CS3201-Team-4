@@ -12,6 +12,7 @@ Calls::Calls(Parameter lc, Parameter rc){
 ResultTable Calls::evaluate(PKB *pkb, ResultTable restrictedTable){
 	ResultTable resultTable;
 
+	Parameter param1, param2;
 	vector<Parameter> synList;
 	vector<int> tuple, firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
@@ -23,7 +24,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable restrictedTable){
 	string rcName = rightChild.getParaName();
 
 	vector<Parameter> paramList = restrictedTable.getSynList(); // restricted paramlist
-	vector<vector<int>> valueList = restrictedTable.getTupleList(); // valueList
+	//vector<vector<int>> valueList = restrictedTable.getTupleList(); // valueList
 	
 	isLeftSyn = isSynonym(lcType);
 	isRightSyn = isSynonym(rcType);
@@ -35,18 +36,25 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable restrictedTable){
 
 	//Change  valueList <<s>,<s>> || <<s,v>,<s,v>>
 	if (paramList.size() == 1) {
-		paramType1 = paramList.at(0).getParaType();
-		paramName1 = paramList.at(0).getParaName();
-		valueList1 = valueList.at(0);
+		param1 = paramList.at(0);
+		paramType1 = param1.getParaType();
+		paramName1 = param1.getParaName();
+		valueList1 = restrictedTable.getSynValue(param1);
+		valueSet1 = convertVectorToSet(valueList1);
 	}
 
 	if (paramList.size() == 2) {
-		paramType1 = paramList.at(0).getParaType();
-		paramName1 = paramList.at(0).getParaName();
-		valueList1 = valueList.at(0);
-		paramType2 = paramList.at(1).getParaType();
-		paramName2 = paramList.at(2).getParaName();
-		valueList2 = valueList.at(1);
+		param1 = paramList.at(0);
+		paramType1 = param1.getParaType();
+		paramName1 = param1.getParaName();
+		valueList1 = restrictedTable.getSynValue(param1);
+		valueSet1 = convertVectorToSet(valueList1);
+
+		param2 = paramList.at(1);
+		paramType2 = param2.getParaType();
+		paramName2 = param2.getParaName();
+		valueList2 = restrictedTable.getSynValue(param2);
+		valueSet2 = convertVectorToSet(valueList2);
 	}
 	//end change
 
@@ -158,7 +166,7 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 
 	switch (synType) {
 	case PROCEDURE:
-		procSet = getUnRestrictedSet(synType, synName);
+		procSet = getRestrictedSet(synType, synName);
 		for (int procId : procSet) {
 			callSet = pkb->getProcCalledByProc(procId);
 			mergeCallSet = mergeSet(mergeCallSet, callSet);
@@ -210,7 +218,7 @@ vector<int> Calls::getCallProcList(Type paraType, string paraName) {
 
 	switch (paraType) {
 	case PROCEDURE:
-		procSet = getUnRestrictedSet(paraType, paraName);
+		procSet = getRestrictedSet(paraType, paraName);
 		for (int procId : procSet) {
 			callSet = pkb->getProcCalledByProc(procId);
 			mergeCallSet = mergeSet(mergeCallSet, callSet);
@@ -245,112 +253,30 @@ vector<int> Calls::getCallProcList(Type paraType, string paraName) {
 
 }
 
-/*
-vector<int> Calls::getCallLeftProcList() {
-	Type lcType = leftChild.getParaType();
-	string lcName = leftChild.getParaName();
-	vector<int> procList, callList, stmtList;
-	unordered_set<int> callSet, procSet, stmtSet;
-	int procId, callProcId;
-
-	switch (lcType) {
-	case PROCEDURE:
-		procList = getRestrictedList(lcType, lcName);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	case STRINGVARIABLE:
-		procId = pkb->getProcIdByName(lcName);
-		//stmtSet = pkb->getStmtInProc(procId);
-		stmtList = convertSetToVector(stmtSet);
-		for (int stmtId : stmtList) {
-			callProcId = pkb->getProcCalledByStmt(stmtId);
-			if (callProcId != -1) {
-				callList.push_back(callProcId);
-			}
-		}
-		break;
-	case ANYTHING:
-		procSet = pkb->getAllProcId();
-		procList = convertSetToVector(procSet);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	}
-
-	return callList;
-
-}
-
-vector<int> Calls::getCallRightProcList() {
-	Type rcType = rightChild.getParaType();
-	string rcName = rightChild.getParaName();
-	vector<int> procList, callList, stmtList;
-	unordered_set<int> callSet, procSet, stmtSet;
-	int procId, callProcId;
-
-	switch (rcType) {
-	case PROCEDURE:
-		procList = getRestrictedList(rcType, rcName);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	case STRINGVARIABLE:
-		procId = pkb->getProcIdByName(rcName);
-		//stmtSet = pkb->getStmtInProc(procId);
-		stmtList = convertSetToVector(stmtSet);
-		for (int stmtId : stmtList) {
-			callProcId = pkb->getProcCalledByStmt(stmtId);
-			if (callProcId != -1) {
-				callList.push_back(callProcId);
-			}
-		}
-		break;
-	case ANYTHING:
-		procSet = pkb->getAllProcId();
-		procList = convertSetToVector(procSet);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	}
-
-	return callList;
-
-}
-*/
 
 //vector<int> Calls::getRestrictedList(Type synType, string synName) {
-unordered_set<int> Calls::getUnRestrictedSet(Type synType, string synName) {
+unordered_set<int> Calls::getRestrictedSet(Type synType, string synName) {
 	
-	unordered_set<int> stmtSet, procSet, unRestrictedSet;
+	unordered_set<int> stmtSet, procSet, restrictedSet;
 
 	switch (synType) {
 	case PROCEDURE:
-		/*
+		
 		if (synName == paramName1) {
-			restrictedList = valueList1;
+			restrictedSet = valueSet1;
 			break;
 		}
 		if (synName == paramName2) {
-			restrictedList = valueList2;
+			restrictedSet = valueSet2;
 			break;
 		}
-		*/
 		procSet = pkb->getAllProcId();
-		unRestrictedSet = procSet;
+		restrictedSet = procSet;
 		//restrictedList = convertSetToVector(procSet);
 		break;
 	}
 
-	return unRestrictedSet;
+	return restrictedSet;
 }
 
 vector<int> Calls::convertSetToVector(unordered_set<int> unorderedSet) {
@@ -409,7 +335,87 @@ void Calls::insertSynList(Parameter p) {
 }
 
 
+/*
+vector<int> Calls::getCallLeftProcList() {
+Type lcType = leftChild.getParaType();
+string lcName = leftChild.getParaName();
+vector<int> procList, callList, stmtList;
+unordered_set<int> callSet, procSet, stmtSet;
+int procId, callProcId;
 
+switch (lcType) {
+case PROCEDURE:
+procList = getRestrictedList(lcType, lcName);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+case STRINGVARIABLE:
+procId = pkb->getProcIdByName(lcName);
+//stmtSet = pkb->getStmtInProc(procId);
+stmtList = convertSetToVector(stmtSet);
+for (int stmtId : stmtList) {
+callProcId = pkb->getProcCalledByStmt(stmtId);
+if (callProcId != -1) {
+callList.push_back(callProcId);
+}
+}
+break;
+case ANYTHING:
+procSet = pkb->getAllProcId();
+procList = convertSetToVector(procSet);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+}
+
+return callList;
+
+}
+
+vector<int> Calls::getCallRightProcList() {
+Type rcType = rightChild.getParaType();
+string rcName = rightChild.getParaName();
+vector<int> procList, callList, stmtList;
+unordered_set<int> callSet, procSet, stmtSet;
+int procId, callProcId;
+
+switch (rcType) {
+case PROCEDURE:
+procList = getRestrictedList(rcType, rcName);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+case STRINGVARIABLE:
+procId = pkb->getProcIdByName(rcName);
+//stmtSet = pkb->getStmtInProc(procId);
+stmtList = convertSetToVector(stmtSet);
+for (int stmtId : stmtList) {
+callProcId = pkb->getProcCalledByStmt(stmtId);
+if (callProcId != -1) {
+callList.push_back(callProcId);
+}
+}
+break;
+case ANYTHING:
+procSet = pkb->getAllProcId();
+procList = convertSetToVector(procSet);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+}
+
+return callList;
+
+}
+*/
 
 
 

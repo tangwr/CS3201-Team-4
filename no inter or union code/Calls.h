@@ -22,6 +22,7 @@ private:
 	Type paramType1, paramType2;
 	string paramName1, paramName2;
 	vector<int> valueList1, valueList2;
+	unordered_set<int> valueSet1, valueSet2;
 
 	bool isValidParameter(Parameter param);
 	bool isSynonym(Type synType);
@@ -38,7 +39,7 @@ private:
 	unordered_set<int> mergeSet(unordered_set<int> s1, unordered_set<int> s2);
 
 	//vector<int> getRestrictedList(Type synType, string synName);
-	unordered_set<int> getUnRestrictedSet(Type synType, string synName);
+	unordered_set<int> getRestrictedSet(Type synType, string synName);
 	
 public:
 	Calls(Parameter lc, Parameter rc);

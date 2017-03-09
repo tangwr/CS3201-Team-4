@@ -12,6 +12,7 @@ CallsStar::CallsStar(Parameter lc, Parameter rc) {
 ResultTable CallsStar::evaluate(PKB *pkb, ResultTable restrictedTable) {
 	ResultTable resultTable;
 
+	Parameter param1, param2;
 	vector<Parameter> synList;
 	vector<int> tuple, firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
@@ -35,18 +36,25 @@ ResultTable CallsStar::evaluate(PKB *pkb, ResultTable restrictedTable) {
 
 	//Change  valueList <<s>,<s>> || <<s,v>,<s,v>>
 	if (paramList.size() == 1) {
-		paramType1 = paramList.at(0).getParaType();
-		paramName1 = paramList.at(0).getParaName();
-		valueList1 = valueList.at(0);
+		param1 = paramList.at(0);
+		paramType1 = param1.getParaType();
+		paramName1 = param1.getParaName();
+		valueList1 = restrictedTable.getSynValue(param1);
+		valueSet1 = convertVectorToSet(valueList1);
 	}
 
 	if (paramList.size() == 2) {
-		paramType1 = paramList.at(0).getParaType();
-		paramName1 = paramList.at(0).getParaName();
-		valueList1 = valueList.at(0);
-		paramType2 = paramList.at(1).getParaType();
-		paramName2 = paramList.at(2).getParaName();
-		valueList2 = valueList.at(1);
+		param1 = paramList.at(0);
+		paramType1 = param1.getParaType();
+		paramName1 = param1.getParaName();
+		valueList1 = restrictedTable.getSynValue(param1);
+		valueSet1 = convertVectorToSet(valueList1);
+
+		param2 = paramList.at(1);
+		paramType2 = param2.getParaType();
+		paramName2 = param2.getParaName();
+		valueList2 = restrictedTable.getSynValue(param2);
+		valueSet2 = convertVectorToSet(valueList2);
 	}
 	// end
 
@@ -158,7 +166,7 @@ vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) 
 
 	switch (synType) {
 	case PROCEDURE:
-		procSet = getUnRestrictedSet(synType, synName);
+		procSet = getRestrictedSet(synType, synName);
 		for (int procId : procSet) {
 			callSet = pkb->getProcCalledByProc(procId); // call star
 			mergeCallSet = mergeSet(mergeCallSet, callSet);
@@ -210,7 +218,7 @@ vector<int> CallsStar::getCallProcList(Type paraType, string paraName) {
 
 	switch (paraType) {
 	case PROCEDURE:
-		procSet = getUnRestrictedSet(paraType, paraName);
+		procSet = getRestrictedSet(paraType, paraName);
 		for (int procId : procSet) {
 			callSet = pkb->getProcCalledByProc(procId);
 			mergeCallSet = mergeSet(mergeCallSet, callSet);
@@ -245,99 +253,31 @@ vector<int> CallsStar::getCallProcList(Type paraType, string paraName) {
 
 }
 
-/*
-vector<int> CallsStar::getCallLeftProcList() {
-	Type lcType = leftChild.getParaType();
-	string lcName = leftChild.getParaName();
-	vector<int> procList, callList;
-	unordered_set<int> callSet, procSet;
-	int procId;
 
-	switch (lcType) {
-	case PROCEDURE:
-		procList = getRestrictedList(lcType, lcName);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	case STRINGVARIABLE:
-		procId = pkb->getProcIdByName(lcName);
-		callSet = pkb->getProcCalledByProc(procId);
-		callList = convertSetToVector(callSet);
-		break;
-	case ANYTHING:
-		procSet = pkb->getAllProcId();
-		procList = convertSetToVector(procSet);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	}
-
-	return callList;
-
-}
-
-vector<int> CallsStar::getCallRightProcList() {
-	Type rcType = rightChild.getParaType();
-	string rcName = rightChild.getParaName();
-	vector<int> procList, callList;
-	unordered_set<int> callSet, procSet;
-	int procId;
-
-	switch (rcType) {
-	case PROCEDURE:
-		procList = getRestrictedList(rcType, rcName);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	case STRINGVARIABLE:
-		procId = pkb->getProcIdByName(rcName);
-		callSet = pkb->getProcCalledByProc(procId);
-		callList = convertSetToVector(callSet);
-		break;
-	case ANYTHING:
-		procSet = pkb->getAllProcId();
-		procList = convertSetToVector(procSet);
-		for (int procId : procList) {
-			callSet = pkb->getProcCalledByProc(procId);
-			callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		break;
-	}
-
-	return callList;
-
-}
-*/
 
 //vector<int> CallsStar::getRestrictedList(Type synType, string synName) {
-unordered_set<int> CallsStar::getUnRestrictedSet(Type synType, string synName) {
-	unordered_set<int> stmtSet, procSet, unRestrictedSet;
+unordered_set<int> CallsStar::getRestrictedSet(Type synType, string synName) {
+	unordered_set<int> stmtSet, procSet, restrictedSet;
 
 	switch (synType) {
 	case PROCEDURE:
-		/*
+		
 		if (synName == paramName1) {
-		restrictedList = valueList1;
+			restrictedSet = valueSet1;
 		break;
 		}
 		if (synName == paramName2) {
-		restrictedList = valueList2;
+			restrictedSet = valueSet2;
 		break;
 		}
-		*/
+		
 		procSet = pkb->getAllProcId();
-		unRestrictedSet = procSet;
+		restrictedSet = procSet;
 		//restrictedList = convertSetToVector(procSet);
 		break;
 	}
 
-	return unRestrictedSet;
+	return restrictedSet;
 }
 
 vector<int> CallsStar::convertSetToVector(unordered_set<int> unorderedSet) {
@@ -397,3 +337,74 @@ vector<Parameter> CallsStar::getSynList() {
 void CallsStar::insertSynList(Parameter p) {
 	synList.push_back(p);
 }
+
+
+/*
+vector<int> CallsStar::getCallLeftProcList() {
+Type lcType = leftChild.getParaType();
+string lcName = leftChild.getParaName();
+vector<int> procList, callList;
+unordered_set<int> callSet, procSet;
+int procId;
+
+switch (lcType) {
+case PROCEDURE:
+procList = getRestrictedList(lcType, lcName);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+case STRINGVARIABLE:
+procId = pkb->getProcIdByName(lcName);
+callSet = pkb->getProcCalledByProc(procId);
+callList = convertSetToVector(callSet);
+break;
+case ANYTHING:
+procSet = pkb->getAllProcId();
+procList = convertSetToVector(procSet);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+}
+
+return callList;
+
+}
+
+vector<int> CallsStar::getCallRightProcList() {
+Type rcType = rightChild.getParaType();
+string rcName = rightChild.getParaName();
+vector<int> procList, callList;
+unordered_set<int> callSet, procSet;
+int procId;
+
+switch (rcType) {
+case PROCEDURE:
+procList = getRestrictedList(rcType, rcName);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+case STRINGVARIABLE:
+procId = pkb->getProcIdByName(rcName);
+callSet = pkb->getProcCalledByProc(procId);
+callList = convertSetToVector(callSet);
+break;
+case ANYTHING:
+procSet = pkb->getAllProcId();
+procList = convertSetToVector(procSet);
+for (int procId : procList) {
+callSet = pkb->getProcCalledByProc(procId);
+callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+}
+break;
+}
+
+return callList;
+
+}
+*/

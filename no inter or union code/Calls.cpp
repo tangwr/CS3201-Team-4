@@ -238,7 +238,7 @@ vector<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synName) {
 	*/
 	return resultList;
 }
-
+/*
 //vector<int> Calls::getCallLeftProcList() {
 unordered_set<int> Calls::getCallLeftProcSet(){
 	Type lcType = leftChild.getParaType();
@@ -251,36 +251,36 @@ unordered_set<int> Calls::getCallLeftProcSet(){
 	switch (lcType) {
 	case PROCEDURE:
 		procSet = getRestrictedSet(lcType, lcName);
-		/*
-		for (int procId : procSet) {
-			callSet = pkb->getProcCalledByProc(procId);
-			mergeCallSet = mergeSet(mergeCallSet, callSet);
-		}
-		*/
+		
+		//for (int procId : procSet) {
+		//	callSet = pkb->getProcCalledByProc(procId);
+		//	mergeCallSet = mergeSet(mergeCallSet, callSet);
+		//}
+		
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(lcName);
 		procSet.insert(procId);
 		//stmtSet = pkb->getStmtInProc(procId);
 		//stmtList = convertSetToVector(stmtSet);
-		/*
-		for (int stmtId : stmtSet) {
-			callProcId = pkb->getProcCalledByStmt(stmtId);
-			if (callProcId != -1) {
-				callSet.insert(callProcId);
-			}
-		}
-		*/
+		
+		//for (int stmtId : stmtSet) {
+		//	callProcId = pkb->getProcCalledByStmt(stmtId);
+		//	if (callProcId != -1) {
+		//		callSet.insert(callProcId);
+		//	}
+		//}
+		
 		break;
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
 		//procList = convertSetToVector(procSet);
-		/*
-		for (int procId : procSet) {
-			callSet = pkb->getProcCalledByProc(procId);
-			mergeCallSet = mergeSet(mergeCallSet, callSet);
-		}
-		*/
+		
+		//for (int procId : procSet) {
+		//	callSet = pkb->getProcCalledByProc(procId);
+		//	mergeCallSet = mergeSet(mergeCallSet, callSet);
+		//}
+		
 		break;
 	}
 
@@ -301,36 +301,36 @@ unordered_set<int> Calls::getCallRightProcSet(){
 	switch (rcType) {
 	case PROCEDURE:
 		procSet = getRestrictedSet(rcType, rcName);
-		/*
-		for (int procId : procSet) {
-			callSet = pkb->getProcCalledByProc(procId);
+		
+		//for (int procId : procSet) {
+		//	callSet = pkb->getProcCalledByProc(procId);
 			//callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		*/
+		//}
+		
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(rcName);
 		procSet.insert(procId);
 		//stmtSet = pkb->getStmtInProc(procId);
 		//stmtList = convertSetToVector(stmtSet);
-		/*
-		for (int stmtId : stmtSet) {
-			callProcId = pkb->getProcCalledByStmt(stmtId);
-			if (callProcId != -1) {
-				callSet.insert(callProcId);
-			}
-		}
-		*/
+		
+		//for (int stmtId : stmtSet) {
+		//	callProcId = pkb->getProcCalledByStmt(stmtId);
+		//	if (callProcId != -1) {
+		//		callSet.insert(callProcId);
+		//	}
+		//}
+		
 		break;
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
 		//procList = convertSetToVector(procSet);
-		/*
-		for (int procId : procSet) {
-			callSet = pkb->getProcCalledByProc(procId);
-			//callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
-		}
-		*/
+		
+		//for (int procId : procSet) {
+		//	callSet = pkb->getProcCalledByProc(procId);
+		//	//callList = VectorSetOperation<int>::setUnion(convertSetToVector(callSet), callList);
+		//}
+		
 		break;
 	}
 
@@ -338,7 +338,7 @@ unordered_set<int> Calls::getCallRightProcSet(){
 	return procSet;
 
 }
-
+*/
 
 //vector<int> Calls::getCallProcList(Type paraType, string paraName) {
 unordered_set<int> Calls::getCallProcSet(Type paraType, string paraName) {

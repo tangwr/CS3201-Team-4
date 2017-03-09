@@ -163,17 +163,22 @@ vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) 
 	Type rcType = rightChild.getParaType();
 	int procId, callProcId;
 	unordered_set<int> callSet, procSet, stmtSet, mergeCallSet;
+	unordered_set<int> callerProcSet, calledByProcSet, resultSet;
 
 	switch (synType) {
 	case PROCEDURE:
 		procSet = getRestrictedSet(synType, synName);
+		/*
 		for (int procId : procSet) {
-			callSet = pkb->getProcCalledByProc(procId); // call star
+			//callSet = pkb->getProcCalledByStarProc(procId); // call star
 			mergeCallSet = mergeSet(mergeCallSet, callSet);
 		}
+		*/
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(synName);
+		procSet.insert(procId);
+		/*
 		//stmtSet = pkb->getStmtInProc(procId);
 		for (int stmtId : stmtSet) {
 			callProcId = pkb->getProcCalledByStmt(stmtId);
@@ -181,35 +186,54 @@ vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) 
 				mergeCallSet.insert(callProcId);
 			}
 		}
+		*/
 		break;
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
+		/*
 		for (int procId : procSet) {
 			callSet = pkb->getProcCalledByProc(procId);
 			mergeCallSet = mergeSet(mergeCallSet, callSet);
 		}
+		*/
 		break;
 	}
 
 	if (synName == lcName) {
+		callerProcSet = procSet;
+		calledByProcSet = getCallProcSet(rcType, rcName);
 		//callProcList = getCallRightProcList();
-		callProcList = getCallProcList(rcType, rcName);
+		//callProcList = getCallProcList(rcType, rcName);
 	}
 	if (synName == rcName) {
+		callerProcSet = getCallProcSet(lcType, lcName);
+		calledByProcSet = procSet;
 		//callProcList = getCallLeftProcList();
-		callProcList = getCallProcList(lcType, lcName);
+		//callProcList = getCallProcList(lcType, lcName);
 	}
 
+	/*
 	for (int procid : callProcList) {
 		auto it = mergeCallSet.find(procid);
 		if (it != mergeCallSet.end()) {
 			resultList.push_back(procid);
 		}
 	}
-
+	*/
+	for (int callerProcId : callerProcSet) {
+		//callSet = pkb->getProcCalledByStarProc(callerProcId);
+		for (int calledProcId : calledByProcSet) {
+			auto it = callSet.find(calledProcId);
+			if (it != callSet.end()) {
+				resultSet.insert(callerProcId);
+				break;
+			}
+		}
+	}
+	resultList = convertSetToVector(resultSet);
 	return resultList;
 }
-
+/*
 vector<int> CallsStar::getCallProcList(Type paraType, string paraName) {
 	vector<int> resultList;
 	//vector<int>  procList, callList, stmtList;
@@ -252,8 +276,28 @@ vector<int> CallsStar::getCallProcList(Type paraType, string paraName) {
 	return resultList;
 
 }
+*/
+unordered_set<int> CallsStar::getCallProcSet(Type paraType, string paraName) {
+	vector<int> resultList;
+	//vector<int>  procList, callList, stmtList;
+	unordered_set<int> callSet, procSet, stmtSet, mergeCallSet;
+	int procId, callProcId;
 
+	switch (paraType) {
+	case PROCEDURE:
+		procSet = getRestrictedSet(paraType, paraName);
+		break;
+	case STRINGVARIABLE:
+		procId = pkb->getProcIdByName(paraName);
+		procSet.insert(procId);
+		break;
+	case ANYTHING:
+		procSet = pkb->getAllProcId();
+		break;
+	}
+	return procSet;
 
+}
 
 //vector<int> CallsStar::getRestrictedList(Type synType, string synName) {
 unordered_set<int> CallsStar::getRestrictedSet(Type synType, string synName) {

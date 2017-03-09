@@ -20,7 +20,13 @@ const string STRING_CLOSE_RBRACKET = "\\)";
 
 const string STRING_OR = "|";
 
-stack<string> ExpOperation::evaluatePrefix(stack<string> infix) {
+stack<string> ExpOperation::evaluatePrefix(string infixString) {
+	Tokenizer tokenizer(infixString);
+	stack<string> infix;
+	while (tokenizer.hasNextToken()) {
+		infix.push(tokenizer.getToken());
+	}
+
 	stack<string> prefix;
 	stack<string> operators;
 	string exp;

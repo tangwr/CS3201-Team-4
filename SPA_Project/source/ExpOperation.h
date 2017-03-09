@@ -7,7 +7,7 @@ using namespace std;
 
 class ExpOperation {
 public:
-	static stack<string> evaluatePrefix(stack<string> infix);
+	static stack<string> evaluatePrefix(string infix);
 	static bool isValidExp(string exp);
 
 private:

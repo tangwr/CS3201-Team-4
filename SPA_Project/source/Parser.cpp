@@ -3,6 +3,7 @@
 
 #include "Parser.h"
 #include "ExpOperation.h"
+#include "VectorSetOperation.h"
 
 const string STRING_NAME = "([a-zA-Z][a-zA-Z0-9]*)";
 const string STRING_DIGIT = "([0-9]+)";
@@ -16,6 +17,7 @@ const string STRING_CLOSE_RBRACKET = "\\)";
 const string STRING_CLOSE_BRACKET = "}";
 const string STRING_EQUAL = "=";
 const string STRING_OR = "|";
+const string STRING_SEPARATOR = "|";
 const string STRING_EMPTY = "";
 
 const string STRING_PROC = "procedure";
@@ -29,25 +31,25 @@ const string ERROR_MESSAGE = "Error found in SIMPLE source code during parsing."
 
 const int COMPARE_EQUAL = 0;
 const int INITAL_INDEX = 0;
-const int START_COUNT_INDEX = 1;
+const int INITIAL_STMT_NUM = 1;
+const int NOT_FOUND = -1;
 
 
 Parser::Parser(PKB *pkbSource, string source) {
 	tokenizer = new Tokenizer(source);
 	pkb = pkbSource;
-	stmtNum = START_COUNT_INDEX;
+	curStmtNum = INITIAL_STMT_NUM;
 }
 
 void Parser::parse() {
 	createProg();
-	populateCall();
-	/*
+	setProcAndStmtCallRel();
+	
 	cout << "call relation:" << endl;
-	for (int i = 0; i < (int)callProcs.size(); i++) {
-		cout << callProcs[i].first << ", " << callProcs[i].second << endl;
+	for (int i = 0; i < (int)callTuples.size(); i++) {
+		cout << get<0>(callTuples[i]) << ", " << get<1>(callTuples[i]) << ", " << get<2>(callTuples[i]) << endl;
 	}
 	cout << endl;
-	*/
 }
 
 void Parser::createProg() {
@@ -69,55 +71,55 @@ void Parser::createProc() {
 
 	match(STRING_OPEN_CBRACKET);
 
-	createStmtLst(procId);
+	createStmtLst(procId, NOT_FOUND);
 
 	match(STRING_CLOSE_CBRACKET);
 }
 
-void Parser::createStmtLst(int procId) {
+pair<int, vector<int>> Parser::createStmtLst(int procId, int contStmtId) {
 	vector<int> stmts;
+	vector<int> prevStmts;
+
+	if (contStmtId != NOT_FOUND) {
+		//pkb->setStmtLstTContStmt(contStmtId, curStmtNum);
+	} else {
+		//pkb->setStmtLstTProc(procId, curStmtNum);
+	}
 
 	do {
-		stmts.push_back(stmtNum);
-		createStmt(procId, stmtNum++);
+		//pkb->setProcToStmtRel(procId, stmt[index]);
+		stmts.push_back(curStmtNum);
+		for (int index = INITAL_INDEX; index < (int)prevStmts.size(); index++) {
+			//pkb->setStmtNextStmtRel(prevStmts[index], curStmtNum);
+		}
+		prevStmts = createStmt(procId, curStmtNum++);
 	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
-
-	//pkb->setProcToStmtRel(procId, stmts[0]);
-	for (int index = 1; index < (int) stmts.size(); index++) {
-		pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
-		//pkb->setProcToStmtRel(procId, stmts[index]);
+	
+	for (int index = INITAL_INDEX; index < (int)stmts.size(); index++) {
+		if (index > 0) {
+			pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
+		}
+		if (contStmtId != NOT_FOUND) {
+			pkb->setStmtParentStmtRel(contStmtId, stmts[index]);
+		}
 	}
+	return make_pair(stmts[INITIAL_INDEX], prevStmts);
 }
 
-void Parser::createStmtLst(int procId, int stmtId) {
-	vector<int> stmts;
-
-	do {
-		stmts.push_back(stmtNum);
-		createStmt(procId, stmtNum++);
-	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
-
-	pkb->setStmtParentStmtRel(stmtId, stmts[0]);
-	//pkb->setProcToStmtRel(procId, stmts[0]);
-	for (int index = 1; index < (int) stmts.size(); index++) {
-		pkb->setStmtFollowStmtRel(stmts[index - 1], stmts[index]);
-		pkb->setStmtParentStmtRel(stmtId, stmts[index]);
-		//pkb->setProcToStmtRel(procId, stmts[index]);
-	}
-}
-
-void Parser::createStmt(int procId, int stmtId) {
+vector<int> Parser::createStmt(int procId, int stmtId) {
 	string stmtType = token;
 	
 	if (stmtType.compare(STRING_WHILE) == COMPARE_EQUAL) {
 		createWhile(procId, stmtId);
 	} else if (stmtType.compare(STRING_IF) == COMPARE_EQUAL) {
-		createIf(procId, stmtId);
+		return createIf(procId, stmtId);
 	} else if (stmtType.compare(STRING_CALL) == COMPARE_EQUAL) {
-		createCall(stmtId);
+		createCall(procId, stmtId);
 	} else {
-		createAssign(stmtId);
+		createAssign(procId, stmtId);
 	}
+
+	return vector<int>() = { stmtId };
 }
 
 void Parser::createWhile(int procId, int whileStmtId) {
@@ -133,12 +135,19 @@ void Parser::createWhile(int procId, int whileStmtId) {
 
 	match(STRING_OPEN_CBRACKET);
 
-	createStmtLst(procId, whileStmtId);
+	pair<int, vector<int>> stmtLst = createStmtLst(procId, whileStmtId);
+	int firstStmtId = stmtLst.first;
+	vector<int> lastStmts = stmtLst.second;
 
 	match(STRING_CLOSE_CBRACKET);
+
+	//pkb->setStmtNextStmtRel(whileId, firstStmtId);
+	for (int index = INITAL_INDEX; index < (int)lastStmts.size(); index++) {
+		//pkb->setStmtNextStmtRel(lastStmts[index], whileId);
+	}
 }
 
-void Parser::createIf(int procId, int ifStmtId) {
+vector<int> Parser::createIf(int procId, int ifStmtId) {
 	match(STRING_IF);
 
 	string varName = token;
@@ -152,30 +161,35 @@ void Parser::createIf(int procId, int ifStmtId) {
 	match(STRING_THEN);
 	match(STRING_OPEN_CBRACKET);
 
-	createStmtLst(procId, ifStmtId);
+	pair<int, vector<int>> thenStmtLst = createStmtLst(procId, ifStmtId);
 
 	match(STRING_CLOSE_CBRACKET);
 	match(STRING_ELSE);
 	match(STRING_OPEN_CBRACKET);
 
-	createStmtLst(procId, ifStmtId);
+	pair<int, vector<int>> elseStmtLst = createStmtLst(procId, ifStmtId);
 
 	match(STRING_CLOSE_CBRACKET);
+
+	//pkb->setStmtNextStmtRel(ifId, thenStmtLst.first);
+	//pkb->setStmtNextStmtRel(ifId, elseStmtLst.first);
+
+	return VectorSetOperation<int>::setUnion(thenStmtLst.second, elseStmtLst.second);
 }
 
-void Parser::createCall(int callStmtId) {
+void Parser::createCall(int procId, int callStmtId) {
 	match(STRING_CALL);
 
 	string procName = token;
 
 	match(STRING_NAME);
 
-	callProcs.push_back(make_pair(callStmtId, procName));
+	callTuples.push_back(make_tuple(procId, callStmtId, procName));
 
 	match(STRING_SEMICOLON);
 }
 
-void Parser::createAssign(int assignStmtId) {
+void Parser::createAssign(int procId, int assignStmtId) {
 	string varName = token;
 
 	match(STRING_NAME);
@@ -186,7 +200,7 @@ void Parser::createAssign(int assignStmtId) {
 
 	match(STRING_EQUAL);
 
-	stack<string> infix = extractExp();
+	string infix = extractExp();
 	string prefix = createExpPrefix(assignStmtId, infix);
 
 	pkb->setExpToAssignStmt(assignStmtId, prefix);
@@ -194,25 +208,23 @@ void Parser::createAssign(int assignStmtId) {
 	match(STRING_SEMICOLON);
 }
 
-stack<string> Parser::extractExp() {
-	stack<string> infix;
-	string expStr;
-
+string Parser::extractExp() {
+	string infix;
 	do {
 		string exp = token;
-		match(STRING_NAME + STRING_OR + STRING_DIGIT + STRING_OR + STRING_OPERATOR + STRING_OR + STRING_OPEN_RBRACKET + STRING_OR + STRING_CLOSE_RBRACKET);
-		infix.push(exp);
-		expStr += exp;
+		match(STRING_NAME + STRING_OR + STRING_DIGIT + STRING_OR
+			+ STRING_OPERATOR + STRING_OR + STRING_OPEN_RBRACKET
+			+ STRING_OR + STRING_CLOSE_RBRACKET);
+		infix += exp;
 	} while (token.compare(STRING_SEMICOLON) != COMPARE_EQUAL);
 
-	if (!ExpOperation::isValidExp(expStr)) {
+	if (!ExpOperation::isValidExp(infix)) {
 		throw ERROR_MESSAGE;
 	}
-
 	return infix;
 }
 
-string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
+string Parser::createExpPrefix(int assignStmtId, string infix) {
 	stack<string> prefix = ExpOperation::evaluatePrefix(infix);
 
 	string expStr;
@@ -220,7 +232,7 @@ string Parser::createExpPrefix(int assignStmtId, stack<string> infix) {
 
 	while (!prefix.empty()) {
 		expWord = prefix.top();
-		expStr += prefix.top() + STRING_OR;
+		expStr += prefix.top() + STRING_SEPARATOR;
 		prefix.pop();
 
 		if (regex_match(expWord, regex(STRING_NAME))) {
@@ -243,14 +255,15 @@ int Parser::createConst(int constValue) {
 	return pkb->insertConst(constValue);
 }
 
-void Parser::populateCall() {
-	for (int index = INITAL_INDEX; index < (int)callProcs.size(); index++) {
-		//if (!pkb->isProcInProcTable(callProcs[index].second)) {
+void Parser::setProcAndStmtCallRel() {
+	for (int index = INITAL_INDEX; index < (int)callTuples.size(); index++) {
+		//if (!pkb->isProcInProcTable(get<2>(callTuples[index]))) {
 		//	throw ERROR_MESSAGE;
 		//}
 		//
-		//int procId = pkb->getProcIdByName(callProcs[index].second);
-		//pkb->setStmtCallProcRel(callProcs[index].first, procId);
+		//int calledProcId = pkb->getProcIdByName(get<2>(callTuples[index]));
+		//pkb->setProcCallProcRel(get<0>(callTuples[index]), calledProcId);
+		//pkb->setStmtCallProcRel(get<1>(callTuples[index]), calledProcId);
 	}
 }
 
@@ -265,4 +278,8 @@ void Parser::match(string matchRe) {
 	} else {
 		throw ERROR_MESSAGE;
 	}
+}
+
+Parser::~Parser() {
+	delete tokenizer;
 }

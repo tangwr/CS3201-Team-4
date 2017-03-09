@@ -2,7 +2,7 @@
 
 Tokenizer::Tokenizer(string source) {
 	sourceStr = new string(source);
-	tokenRe = new regex("([a-zA-Z][a-zA-Z0-9]*)|([;=\\+\\*\\-\\{\\}\\(\\)<>\\,\\\"#_])|([0-9]+)|\\S+");
+	tokenRe = new regex("([a-zA-Z][a-zA-Z0-9]*)|([;=\\+\\*\\-\\{\\}\\(\\).<>\\,\\\"#_])|([0-9]+)|\\S+");
 	rend = new regex_token_iterator<string::iterator>();
 	tokenIter = new regex_token_iterator<string::iterator>(sourceStr->begin(), sourceStr->end(), *tokenRe);
 }

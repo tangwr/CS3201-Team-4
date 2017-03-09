@@ -14,16 +14,15 @@ Controller::~Controller() {
 
 void Controller::processSource(string source) {	
 	Parser parser(pkb, source);
+	DesignExtractor designExtractor(pkb);
 	
 	try {
 		parser.parse();
+		designExtractor.extractStarRelations();
 	} catch (string msg) {
 		cerr << msg << endl;
 		exit(1);
 	}
-
-	DesignExtractor extractor(pkb);
-	extractor.extractStarRelations();
 
 	pkb->printAllTables();
 

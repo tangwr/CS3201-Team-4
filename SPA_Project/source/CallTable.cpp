@@ -91,6 +91,7 @@ unordered_set<int> CallTable::getAllCallId() {
     for (auto entry : stmtCallProcList) {
         resultSet.insert(entry.first);
     }
+    return resultSet;
 }
 
 bool CallTable::isStmtInTable(int stmtId)

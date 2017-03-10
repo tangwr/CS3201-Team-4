@@ -1,7 +1,6 @@
 #include "Pattern.h"
 #include "ExpOperation.h"
 #include "Tokenizer.h"
-#include "VectorSetOperation.h"
 
 
 Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
@@ -9,132 +8,222 @@ Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
 	rightChild = rc;
 	factor = f;
 
-	if (lc.getParaType() != Type::CONSTANT && lc.getParaType() != Type::BOOLEAN && lc.getParaType() != Type::ANYTHING
-		&& lc.getParaType() != Type::STRINGVARIABLE && lc.getParaType() != Type::INTEGER) {
-		synList.push_back(lc);
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
 	}
-	if (rc.getParaType() != Type::CONSTANT && rc.getParaType() != Type::BOOLEAN && rc.getParaType() != Type::ANYTHING
-		&& rc.getParaType() != Type::STRINGVARIABLE && rc.getParaType() != Type::INTEGER) {
-		synList.push_back(rc);
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
 	}
-	if (factor.getParaType() != Type::CONSTANT && factor.getParaType() != Type::BOOLEAN && factor.getParaType() != Type::ANYTHING
-		&& factor.getParaType() != Type::STRINGVARIABLE && factor.getParaType() != Type::INTEGER) {
-		synList.push_back(factor);
+	if (factor.getParaType == STRINGVARIABLE) {
+		prefix = getPrefix(factor.getParaName());
 	}
 }
 
-bool Pattern::hasRel(PKB *pkb) {
-	vector<int> results = getWithRelToLeft(pkb);
-	if ((int)results.size() <= 0) {
-		return false;
+ResultTable Pattern::evaluate(PKB* pkb, ResultTable intResultTable) {
+	ResultTable pattResultTable;
+	setSynToTable(&pattResultTable);
+	setResultToTable(pkb, &intResultTable, &pattResultTable);
+	setBooleanToTable(&pattResultTable);
+	return pattResultTable;
+}
+
+void Pattern::setSynToTable(ResultTable* pattResultTable) {
+	pattResultTable->setSynList(synList);
+}
+
+void Pattern::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable) {
+	switch (intResultTable->getSynCount()) {
+	case 0:
+		setVarsFromStmts(pkb, pattResultTable, getVars(pkb));
+		break;
+	case 1:
+		if (intResultTable->hasSynonym(leftChild)) {
+			setVarsFromStmts(pkb, pattResultTable, intResultTable->getSynValue(leftChild));
+		}
+		else if (intResultTable->hasSynonym(rightChild)) {
+			setStmtsFromVars(pkb, pattResultTable, intResultTable->getSynValue(rightChild));
+		}
+		break;
+	case 2:
+		matchTuplePattern(pkb, intResultTable, pattResultTable);
+		break;
+	}
+}
+
+void Pattern::setBooleanToTable(ResultTable* pattResultTable) {
+	if (pattResultTable->getTupleSize() > 0) {
+		pattResultTable->setBoolean(true);
 	} else {
+		pattResultTable->setBoolean(false);
+	}
+}
+
+void Pattern::setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered_set<int> stmts) {
+	for (auto stmtId : stmts) {
+		if (!isValidStmtType(pkb, stmtId)) {
+			continue;
+		}
+
+		unordered_set<int> varInStmt = getVarsWithStmt(pkb, stmtId);
+		switch (rightChild.getParaType()) {
+		case STRINGVARIABLE:
+			int varId = pkb->getVarIdByName(rightChild.getParaName());
+			if (varInStmt.find(varId) != varInStmt.end()) {
+				setResultTupleToTable(pkb, pattResultTable, stmtId, varId);
+			}
+			break;
+		case VARIABLE:
+			/* falls through */
+		case ANYTHING:
+			for (auto varId : varInStmt) {
+				setResultTupleToTable(pkb, pattResultTable, stmtId, varId);
+			}
+			break;
+		}
+	}
+}
+
+void Pattern::setStmtsFromVars(PKB* pkb, ResultTable* pattResultTable, unordered_set<int> vars) {
+	for (auto varId : vars) {
+		unordered_set<int> stmtWithVar = getStmtsWithVar(pkb, varId);
+		for (auto stmtId : stmtWithVar) {
+			setResultTupleToTable(pkb, pattResultTable, stmtId, varId);
+		}
+	}
+}
+
+unordered_set<int> Pattern::getStmtsWithVar(PKB* pkb, int varId) {
+	unordered_set<int> stmtWithVar;
+	switch (leftChild.getParaType()) {
+	case ASSIGN:
+		stmtWithVar = pkb->getStmtInAssignWithVar(varId);
+		break;
+	case WHILE:
+		stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
+		break;
+	case IF:
+		stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
+		break;
+	}
+	return stmtWithVar;
+}
+
+unordered_set<int> Pattern::getVarsWithStmt(PKB* pkb, int stmtId) {
+	unordered_set<int> varInStmt;
+	switch (leftChild.getParaType()) {
+	case ASSIGN:
+		varInStmt = pkb->getVarAtLeftOfAssignStmt(stmtId);
+		break;
+	case WHILE:
+		varInStmt = pkb->getCtrlVarInWhileStmt(stmtId);
+		break;
+	case IF:
+		varInStmt = pkb->getCtrlVarInIfStmt(stmtId);
+		break;
+	}
+	return varInStmt;
+}
+
+unordered_set<int> Pattern::getVars(PKB* pkb) {
+	unordered_set<int> vars;
+	switch (rightChild.getParaType()) {
+	case STRINGVARIABLE:
+		vars = { pkb->getVarIdByName(rightChild.getParaName()) };
+		break;
+	case ANYTHING:
+		/* falls through */
+	case VARIABLE:
+		vars = pkb->getAllVarId();
+		break;
+	}
+	return vars;
+}
+
+void Pattern::setResultTupleToTable(PKB* pkb, ResultTable* pattResultTable, int stmtId, int varId) {
+	switch (leftChild.getParaType()) {
+	case ASSIGN:
+		if (hasPattern(pkb, stmtId)) {
+			pattResultTable->insertTuple({ stmtId, varId });
+		}
+		break;
+	case WHILE:
+		/* falls through */
+	case IF:
+		pattResultTable->insertTuple({ stmtId, varId });
+		break;
+	}
+}
+
+void Pattern::matchTuplePattern(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable) {
+	if (!leftChild.isSynonym() || !rightChild.isSynonym()) {
+		return;
+	}
+
+	int stmtSynIndex = intResultTable->getSynIndex(leftChild);
+	int varSynIndex = intResultTable->getSynIndex(rightChild);
+
+	vector<vector<int>> tupleList = intResultTable->getTupleList();
+	for (int tupleIndex = 0; tupleIndex < (int)tupleList.size(); tupleIndex++) {
+		switch (leftChild.getParaType()) {
+		case ASSIGN:
+			if (pkb->getVarInAssignStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]
+				&& hasPattern(pkb, tupleList[tupleIndex][stmtSynIndex])) {
+				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
+			}
+		case WHILE:
+			if (pkb->getCtrlVarInWhileStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]) {
+				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
+			}
+		case IF:
+			if (pkb->getCtrlVarInIfStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]) {
+				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
+			}
+		}
+	}
+}
+
+bool Pattern::hasPattern(PKB* pkb, int assignStmtId) {
+	switch (factor.getParaType()) {
+	case ANYTHING:
 		return true;
-	}
-}
-
-vector<int> Pattern::getWithRelToLeft(PKB *pkb) {
-	vector<int> leftPatternStmts = getFirstPatternStmts(pkb);
-	vector<int> rightPatternStmts = getSecondPatternStmts(pkb);
-	return VectorSetOperation<int>::setIntersection(leftPatternStmts, rightPatternStmts);
-}
-
-vector<int> Pattern::getWithRelToRight(PKB *pkb) {
-	vector<int> resultStmts = getSecondPatternStmts(pkb);
-	return getVarFromStmts(pkb, resultStmts);
-}
-
-vector<int> Pattern::getFirstPatternStmts(PKB* pkb) {
-	vector<int> leftPatternStmts;
-	if (rightChild.getParaType() == STRINGVARIABLE) {
-		int varId = pkb->getVarIdByName(rightChild.getParaName());
-		leftPatternStmts = getTypeStmtModifiedByVar(pkb, varId);
-	}
-	else {
-		leftPatternStmts = getAllTypeStmts(pkb);
-	}
-	return leftPatternStmts;
-}
-
-vector<int> Pattern::getSecondPatternStmts(PKB* pkb) {
-	vector<int> results;
-
-	if (factor.getParaType() == Type::STRINGVARIABLE) {
-		string prefix = getPrefix(factor.getParaName());
-		results = getAssignStmtWithPrefix(pkb, prefix);
-	}
-	else {
-		results = getAllTypeStmts(pkb);
-	}
-	return results;
-}
-
-vector<int> Pattern::getAllTypeStmts(PKB* pkb) {
-	switch (leftChild.getParaType()) {
-	case ASSIGN:
-		return pkb->getAllAssignStmt();
-	case WHILE:
-		return pkb->getAllWhileStmt();
-	case IF:
-		//return pkb->getallIfStmt();
-	default:
-		return vector<int>();
-	}
-}
-
-vector<int> Pattern::getTypeStmtModifiedByVar(PKB* pkb, int varId) {
-	vector<int> stmts;
-	switch (leftChild.getParaType()) {
-	case ASSIGN:
-		stmts = pkb->getAllAssignStmt();
-	case WHILE:
-		stmts = pkb->getAllWhileStmt();
-	case IF:
-		//stmts = pkb->getallIfStmt();
-	default:
-		stmts = vector<int>();
-	}
-
-	vector <int> modifyStmts = pkb->getStmtModifyVar(varId);
-	return VectorSetOperation<int>::setIntersection(stmts, modifyStmts);
-}
-
-vector<int> Pattern::getVarFromStmts(PKB *pkb, vector<int> stmts) {
-	vector<int> resultVars;
-	for (int i = 0; i < (int)stmts.size(); i++) {
-		vector<int> modifiedVars = pkb->getVarModifiedInStmt(stmts[i]);
-		resultVars = VectorSetOperation<int>::setUnion(modifiedVars, resultVars);
-	}
-	return resultVars;
-}
-
-vector<int> Pattern::getAssignStmtWithPrefix(PKB* pkb, string prefix) {
-	vector<int> results;
-	vector<int> assignStmts = pkb->getAllAssignStmt();
-	if (hasUnderScore) {
-		for (int i = 0; i < (int)assignStmts.size(); i++) {
-			if (pkb->getExpInAssignStmt(assignStmts[i]).find(prefix) != string::npos) {
-				results.push_back(assignStmts[i]);
+	case STRINGVARIABLE:
+		if (hasUnderScore) {
+			if (pkb->getExpInAssignStmt(assignStmtId).find(prefix) != string::npos) {
+				return true;
+			}
+		}
+		else {
+			if (pkb->getExpInAssignStmt(assignStmtId).compare(prefix) == 0) {
+				return true;
 			}
 		}
 	}
-	else {
-		for (int i = 0; i < (int)assignStmts.size(); i++) {
-			if (pkb->getExpInAssignStmt(assignStmts[i]).compare(prefix) == 0) {
-				results.push_back(assignStmts[i]);
-			}
+	return false;
+}
+
+bool Pattern::isValidStmtType(PKB* pkb, int stmtId) {
+	switch (leftChild.getParaType()) {
+	case ASSIGN:
+		if (pkb->isStmtInAssignTable(stmtId)) {
+			return true;
 		}
+		break;
+	case WHILE:
+		if (pkb->isStmtInWhileTable(stmtId)) {
+			return true;
+		}
+		break;
+	case IF:
+		if (pkb->isStmtInIfTable(stmtId)) {
+			return true;
+		}
+		break;
 	}
-	return results;
+	return false;
 }
 
 string Pattern::getPrefix(string infixString) {
-	Tokenizer tokenizer(infixString);
-	stack<string> infix;
-	while (tokenizer.hasNextToken()) {
-		infix.push(tokenizer.getToken());
-	}
-
-	stack<string> prefix = ExpOperation::evaluatePrefix(infix);
+	stack<string> prefix = ExpOperation::evaluatePrefix(infixString);
 	string prefixString;
 	while (!prefix.empty()) {
 		prefixString += prefix.top() + "|";
@@ -149,15 +238,9 @@ void Pattern::setUnderScore(bool us) {
 	hasUnderScore = us;
 }
 
-/*
-void Pattern::setFactor(string f) {
+void Pattern::setFactor(Parameter f) {
 	factor = f;
 }
-
-string Pattern::getFactor() {
-	return factor;
-}
-*/
 
 bool Pattern::getUnderScore() {
 	return hasUnderScore;
@@ -178,24 +261,7 @@ Parameter Pattern::getFactor() {
 vector<Parameter> Pattern::getSynList() {
 	return synList;
 }
-/*
-string Pattern::getLeftChild() {
-	return leftChild;
-}
 
-string Pattern::getRightChild() {
-	return rightChild;
+ClauseType Pattern::getClauseType() {
+	return PATTERN;
 }
-
-Type Pattern::getLeftChildType() {
-	return leftChildType;
-}
-
-Type Pattern::getRightChildType() {
-	return rightChildType;
-}
-
-Type Pattern::getFactorType() {
-	return factorType;
-}
-*/

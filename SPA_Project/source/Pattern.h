@@ -2,59 +2,54 @@
 #define PatternH
 
 #include <string>
+#include <unordered_set>
+
 #include "Clause.h"
+#include "ClauseType.h"
 #include "Type.h"
 #include "PKB.h"
+#include "ResultTable.h"
 
 using namespace std;
 
 class Pattern : public Clause {
-private:
-	/*
-	string leftChild;
-	string rightChild;
-	Type leftChildType;
-	Type rightChildType;
-	string factor;
-	Type factorType;
-	*/
-	Parameter leftChild;
-	Parameter rightChild;
-	Parameter factor;
-	bool isRel;
-	bool hasUnderScore;
-	vector<Parameter> synList;
-	
-	string getPrefix(string infixString);
-	vector<int> getFirstPatternStmts(PKB* pkb);
-	vector<int> getSecondPatternStmts(PKB* pkb);
-	vector<int> getAllTypeStmts(PKB *pkb);
-	vector<int> getTypeStmtModifiedByVar(PKB* pkb, int varId);
-	vector<int> getVarFromStmts(PKB *pkb, vector<int> stmts);
-	vector<int> getAssignStmtWithPrefix(PKB* pkb, string prefix);
-	
 public:
-
-	//Pattern(string lc, Type lcType, string rc, Type rcType, string factor, Type factorType, bool underscore);
 	Pattern(Parameter lc, Parameter rc, Parameter factor);
-	bool hasRel(PKB *pkb);
+	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+
 	void setUnderScore(bool);
-	//void setFactor(string);
+	void setFactor(Parameter factor);
+
 	bool getUnderScore();
-	vector<int> getWithRelToLeft(PKB *pkb);
-	vector<int> getWithRelToRight(PKB *pkb);
-	/*
-	string getLeftChild();
-	string getRightChild();
-	string getFactor();
-	Type getLeftChildType();
-	Type getRightChildType();
-	Type getFactorType();
-	*/
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	Parameter getFactor();
 	vector<Parameter> getSynList();
-	
+	ClauseType getClauseType();
+
+private:
+	Parameter leftChild;
+	Parameter rightChild;
+	Parameter factor;
+	bool hasUnderScore;
+	vector<Parameter> synList;
+	string prefix;
+
+	void setSynToTable(ResultTable* pattResultTable);
+	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable);
+	void setBooleanToTable(ResultTable* pattResultTable);
+
+	void setStmtsFromVars(PKB* pkb, ResultTable* pattResultTable, unordered_set<int> vars);
+	void setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered_set<int> stmts);
+	void matchTuplePattern(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable);
+	void setResultTupleToTable(PKB* pkb, ResultTable* pattResultTable, int stmtId, int varId);
+
+	unordered_set<int> getStmtsWithVar(PKB* pkb, int varId);
+	unordered_set<int> getVarsWithStmt(PKB* pkb, int stmtId);
+	unordered_set<int> getVars(PKB* pkb);
+
+	bool hasPattern(PKB* pkb, int assignStmtId);
+	bool isValidStmtType(PKB* pkb, int stmtId);
+	string getPrefix(string infixString);
 };
 #endif

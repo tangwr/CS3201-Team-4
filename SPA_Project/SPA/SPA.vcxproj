@@ -45,11 +45,13 @@
     <ClCompile Include="..\source\StmtLstTable.cpp" />
     <ClCompile Include="..\source\TableOperations.cpp" />
     <ClCompile Include="..\source\Tokenizer.cpp" />
+    <ClCompile Include="..\source\UnorderedSetOperation.cpp" />
     <ClCompile Include="..\source\Uses.cpp" />
     <ClCompile Include="..\source\UsesTable.cpp" />
     <ClCompile Include="..\source\VarTable.cpp" />
     <ClCompile Include="..\source\VectorSetOperation.cpp" />
     <ClCompile Include="..\source\WhileTable.cpp" />
+    <ClCompile Include="..\source\With.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\AssignTable.h" />
@@ -57,6 +59,7 @@
     <ClInclude Include="..\source\CallsStar.h" />
     <ClInclude Include="..\source\CallTable.h" />
     <ClInclude Include="..\source\Clause.h" />
+    <ClInclude Include="..\source\ClauseType.h" />
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Controller.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
@@ -88,11 +91,13 @@
     <ClInclude Include="..\source\Tokenizer.h" />
     <ClInclude Include="..\source\Parser.h" />
     <ClInclude Include="..\source\Type.h" />
+    <ClInclude Include="..\source\UnorderedSetOperation.h" />
     <ClInclude Include="..\source\Uses.h" />
     <ClInclude Include="..\source\UsesTable.h" />
     <ClInclude Include="..\source\VarTable.h" />
     <ClInclude Include="..\source\VectorSetOperation.h" />
     <ClInclude Include="..\source\WhileTable.h" />
+    <ClInclude Include="..\source\With.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DC21A1EA-D2C6-4D14-A2B4-E025B64BDE81}</ProjectGuid>

@@ -17,6 +17,19 @@ Parameter::Parameter(string name, Type type) {
 	else {
 		isSyn = false;
 	}
+
+	if (paraType == INTEGER) {
+		isInt = true;
+	}
+	else {
+		isInt = false;
+	}
+	if (paraType == STRINGVARIABLE) {
+		isStr = true;
+	}
+	else {
+		isStr = false;
+	}
 }
 
 string Parameter::getParaName() {
@@ -39,11 +52,19 @@ bool Parameter::isSynonym() {
 	return isSyn;
 }
 
+bool Parameter::isInteger() {
+	return isInt;
+}
+
+bool Parameter::isString() {
+	return isStr;
+}
+
 bool Parameter::isSame(Parameter paraObj) {
 	if (paraName.compare(paraObj.getParaName()) != 0) {
 		return false;
 	}
-	if (paraType != paraObj.getParaType) {
+	if (paraType != paraObj.getParaType()) {
 		return false;
 	}
 	return true;

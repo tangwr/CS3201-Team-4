@@ -14,16 +14,19 @@ class Parent : public Clause {
 private:
 	Parameter leftChild;
 	Parameter rightChild;
-	ResultTable* result;
+	ResultTable result;
 	bool isNumber(Parameter);
 	bool isSynonym(Parameter);
 	bool isValidStmtNo(int, PKB*);
+	bool isLeftChild(Parameter);
+	bool isParent(PKB*, int, int);
 	bool isStmtType(int, Parameter, PKB*);
-	vector<int> getTypeStmt(Type, PKB*);
-	ResultTable* getParentNumNum(PKB*);
-	ResultTable* getParentNumSyn(PKB*);
-	ResultTable* getParentSynNum(PKB*);
-	ResultTable* getParentSynSyn(PKB*);
+	unordered_set<int> getTypeStmt(Type, PKB*);
+	ResultTable getParentNumNum(PKB*, int, int);
+	ResultTable getParentNumSyn(PKB*, unordered_set<int>, int);
+	ResultTable getParentSynNum(PKB*, unordered_set<int>, int);
+	ResultTable getParentSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
+	ResultTable getParentSynSyn(PKB*, ResultTable*);
 	vector<Parameter> synList;
 	/*
 	string leftChild;
@@ -47,7 +50,9 @@ public:
 	Parent(Parameter, Parameter);
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	ResultTable* execute(PKB*);
+	ResultTable evaluate(PKB*);
+	ResultTable evaluate(PKB*, ResultTable*);
+	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	/*
 	Parent(string, Type, string, Type);

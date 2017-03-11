@@ -1,0 +1,279 @@
+#pragma once
+
+#include "DesignExtractor.h"
+
+using namespace std;
+/*
+Unused Code:
+unordered_map<int, int> parentsMap, followsMap, followedByMap;
+unordered_map<int, vector<int>> childrensMap;
+stack<int> statementStack;
+
+int assignedStatementNum;
+
+
+void processAssign(Tnode currentNode);
+void processWhile(Tnode currentNode);
+void processProcedure(Tnode currentNode);
+void processVariable(Tnode currentNode);
+void processArithmetic(Tnode currentNode);
+void processStatementList(Tnode* currentNode);
+void processChildren(Tnode parent);
+*/
+
+DesignExtractor::DesignExtractor(PKB* pkbSource) {
+	pkb = pkbSource;
+}
+
+void DesignExtractor::extractStarRelations() {
+	extractFollowsStar();
+	extractParentStar();
+	extractModifiesStar();
+	extractUsesStar();
+}
+
+void DesignExtractor::extractFollowsStar() {
+	int statementNum = 0, numOfStatements = pkb->getNumOfStmt(), followStar = 0;
+	
+	for (int i = 1; i <= numOfStatements; i++) {
+		statementNum = i;
+		followStar = pkb->getStmtFollowStmt(statementNum);
+		followStar = pkb->getStmtFollowStmt(followStar);
+		while (followStar != -1) {
+			
+			pkb->insertStmtFollowStmtRel(statementNum, followStar);
+			followStar = pkb->getStmtFollowStmt(followStar);
+		}
+	}
+}
+
+void DesignExtractor::extractParentStar() {
+	int statementNum = 0, numOfStatements = pkb->getNumOfStmt(), parentStar = 0;
+	for (int i = 1; i <= numOfStatements; i++) {
+		statementNum = i;
+		parentStar = pkb->getStmtParentStmt(statementNum);
+		parentStar = pkb->getStmtParentStmt(parentStar);
+		while (parentStar != -1) {
+			pkb->insertStmtParentStmtRel(parentStar, statementNum);
+			parentStar = pkb->getStmtParentStmt(parentStar);
+		}
+	}
+}
+
+void DesignExtractor::extractModifiesStar() {
+    // get all stmt from modify table
+    vector<int> allModifyStmt = pkb->getAllModifyStmt();
+    // iterate through each stmt, finding their parent *
+    for (int stmtId : allModifyStmt) {
+		unordered_set<int> currentVarIdSet = pkb->getVarModifiedInStmt(stmtId);
+		vector<int> currentVarIdLst = convertSetToVector(currentVarIdSet);
+		unordered_set<int> currentStmtParentStarSet = pkb->getStmtParentStarStmt(stmtId);
+		vector<int> currentStmtParentStar = convertSetToVector(currentStmtParentStarSet);
+
+        for (int currentVarId : currentVarIdLst) {
+            for (int parentStmtId : currentStmtParentStar) {
+                //if ((pkb->isStmtInModifyTable(parentStmtId)
+                //    && pkb->ckeckStmtVarModifiesRelExist(parentStmtId, currentVarId))) {
+                //}
+
+				if (!pkb->hasModifyRel(parentStmtId, currentVarId)) {
+					pkb->insertStmtModifyVarRel(parentStmtId, currentVarId);
+				}
+            }
+        }
+    }
+    //for each parent *, set modify relationship
+}
+void DesignExtractor::extractUsesStar() {
+	unordered_set<int> allUsesSet = pkb->getAllUseStmt();
+	vector<int> allUsesStmt = convertSetToVector(allUsesSet);
+
+    for (int stmtId : allUsesStmt) {
+		unordered_set<int> currentVarIdSet = pkb->getVarUsedByStmt(stmtId);
+		vector<int> currentVarIdLst = convertSetToVector(currentVarIdSet);
+		unordered_set<int> currentStmtParentStarSet = pkb->getStmtParentStarStmt(stmtId);
+		vector<int> currentStmtParentStar = convertSetToVector(currentStmtParentStarSet);
+        for (int currentVarId : currentVarIdLst) {
+            for (int parentStmtId : currentStmtParentStar) {
+                //only if parent statement in table and already uses given varId then do not insert, else insert
+               // if ((pkb->isStmtInUseTable(parentStmtId)
+                //    && pkb->checkStmtVarUseRelExist(parentStmtId, currentVarId))) {
+
+//                    pkb->insertStmtUseVarRel(parentStmtId, currentVarId);
+
+				if (!pkb->checkStmtVarUseRelExist(parentStmtId, currentVarId)) {
+					pkb->insertStmtUseVarRel(parentStmtId, currentVarId);
+                }
+            }
+        }
+    }
+}
+
+vector<int> DesignExtractor::convertSetToVector(unordered_set<int> unorderedSet) {
+	vector<int> vectorList;
+	copy(unorderedSet.begin(), unorderedSet.end(), back_inserter(vectorList));
+
+	return vectorList;
+}
+
+/*
+Unused code:
+
+//performs depth first search and extract information from AST
+void initialiseTables(TNode* currentNode) {
+	switch (getType(currentNode)) {
+	case Procedure:
+		processProcedure((TNodeProc*)currentNode);
+		break;
+	case Variable:
+		processVariable((TNodeVar*)currentNode);
+		break;
+	case while:
+		processWhile((TNodeWhile*)currentNode);
+		break;
+	case assign:
+		processAssign((TNodeAssign*)currentNode);
+		break;
+	case statementList:
+		processStatementList((TNodeStmtLst*)currentNode);
+		break;
+	case minus:
+	case plus:
+	case times:
+		processArithmetic((TNodeExpr*)currentNode);
+		break;
+
+	}
+}
+
+void processStatementList(TNodeStmtLst* currentNode) {
+	vector<int> childrenStatements = getStmtLstChildren();
+	int numberOfStatements = childrenStatements.size();
+	for (int i = 0; i < numberOfStatements; i++) {
+		followsMap.insert(childrenStatements[i], childrenStatements[i + 1]);
+		followedByMap.insert(childrenStatements[i + 1], childrenStatements[i]);
+	}
+}
+
+void processChildren(TNode parent) {
+	for (int i = 0; i < parent.childList.size; i++) {
+		initialiseTables(parent.childList.get(i));
+	}
+}
+
+void processArithmetic(TNodeExpr* currentNode) {
+	vector<TNode*> childList = getExprChildren();
+	int numChildren = childList.size();
+	for (int i = 0; i < numChildren; i++) {
+		TNode* child = childList[i];
+		if(getType(child) == variable)
+			addUses(assignedStateNum, child.name);
+	}
+	processChildren(currentNode);
+}
+
+void processVariable(TNodeVar* currentNode) {
+	addVariable(getName(currentNode));
+	processChildren(currentNode);
+}
+
+void processProcedure(TNodeProc* currentNode) {
+	addProcedure(getName(currentNode));
+	processChildren(currentNode);
+}
+
+void processWhile(TNodeWhile* currentNode) {
+	int statementNum = getStatementNum(currentNode);
+	if (!statementStack.empty()) {
+		parentsMap.insert(statementNum, statementStack.top());
+		auto iterator = childrensMap.find(statementStack.top());
+		if (iterator != childrensMap.end()) {
+			vector<int> childrenList = iterator->second;
+			childrenList.push_back(statementNum);
+		}
+		else {
+			childrensMap.insert(statementStack.top(), statementNum);
+		}
+	}
+	statementStack.push(statementNum);
+	addStatement(statementNum, while);
+	addUses(statementNum, getCtrlVar(currentNode));
+	processChildren(currentNode);
+	statementStack.pop();
+}
+
+void processAssign(TNodeAssign* currentNode) {
+	int statementNum = getStatementNum(currentNode);
+	if (!statementStack.empty()) {
+		parentsMap.insert(statementNum, statementStack.top());
+		childrensMap.insert(statementStack.top(), statementNum);
+	}
+	addStatement(statementNum, getType(currentNode));
+	addModifies(statementNum, getModifiedVar(currentNode));
+	assignedStatementNum = statementNum;
+	processChildren(currentNode);
+}
+
+
+void extractFollowsStar() {
+	int statementNum = 0, numOfStatements = getNumOfStatements();
+	for (int i = 0; i< numOfStatements; i++) {
+		statementNum = i;
+		vector<int> listOfFollows;
+		unordered_map<int, int>::const_iterator iterator = followsMap.find(statementNum);
+		while (iterator != followsMap.end()) {
+			listOfFollows.push_back(iterator->second);
+			iterator++;
+		}
+		addFollows(statementNum, listOfFollows);
+	}
+}
+
+void extractParentStar() {
+	int statementNum = 0, numOfStatements = getNumOfStatements();
+	for (int i = 0; i< numOfStatements; i++) {
+		statementNum = i;
+		vector<int> listOfParents;
+		unordered_map<int, int>::const_iterator iterator = parentsMap.find(statementNum);
+		while (iterator != parentsMap.end()) {
+			listOfParents.push_back(iterator->second);
+			iterator++;
+		}
+		addParents(statementNum, listOfParents);
+	}
+}
+
+void extractFollowedByStar() {
+	
+	int statementNum = 0, numOfStatements = getNumOfStatements();
+	for (int i = 0; i< numOfStatements; i++) {
+		statementNum = i;
+		vector<int> listOfFollowedBy;
+		unordered_map<int, int>::const_iterator iterator = followedByMap.find(statementNum);
+		while (iterator != followsMap.end()) {
+			listOfFollowedBy.push_back(iterator->second);
+			iterator++;
+		}
+		addFollowedBy(statementNum, listOfFollowedBy);
+	}
+}
+
+void extractChildrenStar() {
+	int statementNum = 0, numOfStatements = getNumOfStatements();
+	for (int i = 0; i< numOfStatements; i++) {
+		statementNum = i;
+		vector<int> listOfDirectChildren, listOfChildrenStar;
+		unordered_map<int, vector<int>>::const_iterator iterator = childrensMap.find(statementNum);
+		if (iterator != childrensMap.end()) {
+			listOfDirectChildren = iterator->second;
+			for (int j = 0; j < listOfDirectChildren.size(); j++) {
+				auto it = childrensMap.find(listOfDirectChildren[j]);
+				while (it != childrensMap.end()) {
+					listOfChildrenStar.push_back(it)
+				}
+			}
+
+		}
+	}
+}
+*/

@@ -5,6 +5,7 @@
 #include "Clause.h"
 #include "Type.h"
 #include "PKB.h"
+#include "unordered_set"
 #include "ResultTable.h"
 
 using namespace std;
@@ -14,16 +15,23 @@ private:
 
 	Parameter leftChild;
 	Parameter rightChild;
-	ResultTable* result;
+	ResultTable result;
 	bool isNumber(Parameter);
 	bool isSynonym(Parameter);
+	bool isLeftChild(Parameter);
+	bool isRightChild(Parameter);
 	bool isValidStmtNo(int, PKB*);
-	bool isStmtType(int, Parameter, PKB*);
-	vector<int> getTypeStmt(Type, PKB*);
-	ResultTable* getFollowNumNum(PKB*);
-	ResultTable* getFollowNumSyn(PKB*);
-	ResultTable* getFollowSynNum(PKB*);
-	ResultTable* getFollowSynSyn(PKB*);
+	bool isFollows(PKB*, int, int);
+//	bool isStmtType(int, Parameter, PKB*);
+	unordered_set<int> getTypeStmt(Type, PKB*);
+	ResultTable getFollowNumNum(PKB*, int, int);
+//	ResultTable getFollowNumSyn(PKB*);
+	ResultTable getFollowNumSyn(PKB*, unordered_set<int>, int);
+//	ResultTable getFollowSynNum(PKB*);
+	ResultTable getFollowSynNum(PKB*, unordered_set<int>, int);
+	//ResultTable getFollowSynSyn(PKB*);
+	ResultTable getFollowSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
+	ResultTable getFollowSynSyn(PKB*, ResultTable*);
 	vector<Parameter> synList;
 	/*
 	string leftChild;
@@ -54,8 +62,10 @@ public:
 	Follow(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
+	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
-	ResultTable* execute(PKB*);
+	ResultTable evaluate(PKB*);
+	ResultTable evaluate(PKB*, ResultTable*);
 	/*
 
 	Follow(string, Type, string, Type);

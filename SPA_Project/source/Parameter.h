@@ -11,6 +11,8 @@ private:
 	string paraName;
 	Type paraType;
 	bool isSyn;
+	bool isInt;
+	bool isStr;
 
 public:
 	Parameter();
@@ -21,5 +23,7 @@ public:
 	void setParaType(Type);
 	bool isSynonym();
 	bool isSame(Parameter);
+	bool isInteger();
+	bool isString();
 };
 #endif

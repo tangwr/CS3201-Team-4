@@ -1,38 +1,33 @@
 #include "Type.h"
-#include "Parent.h"
+#include "FollowStar.h"
 #include "Clause.h"
-#include "unordered_set"
 
-
-
-
-Parent::Parent(Parameter lc, Parameter rc) {
+FollowStar::FollowStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
 }
 
-
-ResultTable Parent::evaluate(PKB* pkb) {
+ResultTable FollowStar::evaluate(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getParentNumNum(pkb);
+			return getFollowStarNumNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
-			return getParentNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
+			return getFollowStarNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
 		}
 	}
 	else if (isSynonym(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getParentSynNum(pkb, getTypeStmt(leftChild.getParaType(), pkb), stoi(rightChild.getParaName()));
+			return getFollowStarSynNum(pkb, getTypeStmt(leftChild.getParaType(), pkb), stoi(rightChild.getParaName()));
 		}
 		else if (isSynonym(rightChild)) {
-			return getParentSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), getTypeStmt(rightChild.getParaType(), pkb));
+			return getFollowStarSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), getTypeStmt(rightChild.getParaType(), pkb));
 		}
 	}
 	return result;
 }
 
-ResultTable Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
+ResultTable FollowStar::evaluate(PKB* pkb, ResultTable* resultTable) {
 	unordered_set<int> left = resultTable->getSynValue(leftChild);
 	unordered_set<int> right = resultTable->getSynValue(rightChild);
 	if (resultTable->getSynCount() == 0) {
@@ -40,82 +35,98 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
 	}
 	else if (resultTable->getSynCount() == 1) {
 		if (left.size() != 0) {
-			return getParentSynNum(pkb, left, stoi(rightChild.getParaName()));
+			return getFollowStarSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
 		else if (right.size() != 0) {
-			return getParentNumSyn(pkb, right, stoi(leftChild.getParaName()));
+			return getFollowStarNumSyn(pkb, right, stoi(leftChild.getParaName()));
 		}
 	}
 	else if (resultTable->getSynCount() == 2) {
 		if (left.size() == 0) {
-			return getParentSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
+			return getFollowStarSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
 		}
 		else if (right.size() == 0) {
-			return getParentSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
+			return getFollowStarSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
 		}
 		else {
-			return getParentSynSyn(pkb, resultTable);
+			return getFollowStarSynSyn(pkb, resultTable);
 		}
 	}
 	return result;
 }
 
-ResultTable Parent::getParentSynNum(PKB* pkb, unordered_set<int> left, int right) {
+ResultTable FollowStar::getFollowStarSynNum(PKB* pkb, unordered_set<int> left, int right) {
 	result.setSynList(vector<Parameter>({ leftChild }));
-	if (isValidStmtNo(right, pkb)) {
-		int parent = pkb->getStmtParentStmt(right);
-		if (left.find(parent) != left.end()) {
-			result.insertTuple(vector<int>(parent));
-		}
-	}
-	return result;
-}
-
-ResultTable Parent::getParentNumSyn(PKB* pkb, unordered_set<int> right, int left) {
-	result.setSynList(vector<Parameter>({ rightChild }));
-	if (isValidStmtNo(left, pkb)) {
-		unordered_set<int> children = pkb->getStmtChildrenStmt(left);
-		for (auto& childIterator : children) {
-			if (right.find(childIterator) != right.end()) {
-				result.insertTuple(vector<int>(childIterator));
-
+	if (isValidStmtNo(right, pkb)) { //if right is a valid statement number, follows(syn, num)
+		unordered_set<int> followStar = pkb->getStmtFollowedByStarStmt(right);
+		for (auto& it : followStar) {
+			if (left.find(it) != left.end()) {
+				result.insertTuple(vector<int>(it));
 			}
 		}
 	}
 	return result;
 }
 
-ResultTable Parent::getParentSynSyn(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
-	if (isLeftChild(rightChild)) {
-		return result;
-	}
-	for (auto& rightIterator : right) {
-		int parent = pkb->getStmtParentStmt(rightIterator);
-		if (left.find(parent) != left.end()) {
-			result.insertTuple(vector<int>(parent, rightIterator));
+ResultTable FollowStar::getFollowStarNumSyn(PKB* pkb, unordered_set<int> right, int left) {
+	result.setSynList(vector<Parameter>({ rightChild }));
+	if (isValidStmtNo(left, pkb)) { //if right is a valid statement number, follows(syn, num)
+		unordered_set<int> followedByStar = pkb->getStmtFollowStarStmt(left);
+		for (auto& it : followedByStar) {
+			if (right.find(it) != right.end()) {
+				result.insertTuple(vector<int>(it));
+			}
 		}
 	}
 	return result;
 }
 
-ResultTable Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
+ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
+	if (isLeftChild(rightChild)) {
+		return result;
+	}
+	if (left.size() < right.size()) {
+		for (auto& leftIterator : left) {
+			unordered_set<int> followedByStar = pkb->getStmtFollowStarStmt(leftIterator);
+			for (auto& it : followedByStar) {
+				if (right.find(it) != right.end()) {
+					result.insertTuple(vector<int>(leftIterator, it));
+				}
+			}
+		}
+	}
+	else {
+		for (auto& rightIterator : right) {
+			unordered_set<int> followStar = pkb->getStmtFollowedByStarStmt(rightIterator);
+			for (auto& it : followStar) {
+				if (left.find(it) != left.end()) {
+					result.insertTuple(vector<int>(it, rightIterator));
+				}
+			}
+		}
+	}
+	return result;
+}
+
+ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
 		return result;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
+
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
-			if (isParent(pkb, tupleList[i][0], tupleList[i][1])) {
+			if (isFollowStar(pkb, tupleList[i][0], tupleList[i][1])) {
 				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
-			if (isParent(pkb, tupleList[i][1], tupleList[i][0])) {
+			if (isFollowStar(pkb, tupleList[i][1], tupleList[i][0])) {
 				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
 			}
 		}
@@ -123,7 +134,7 @@ ResultTable Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
 	return result;
 }
 
-ResultTable Parent::getParentNumNum(PKB* pkb, int left, int right) {
+ResultTable FollowStar::getFollowStarNumNum(PKB* pkb, int left, int right) {
 	if (!isValidStmtNo(left, pkb)) {
 		result.setBoolean(false);
 		return result;
@@ -132,13 +143,13 @@ ResultTable Parent::getParentNumNum(PKB* pkb, int left, int right) {
 		result.setBoolean(false);
 		return result;
 	}
-	result.setBoolean(isParent(pkb, left, right));
+	result.setBoolean(isFollowStar(pkb, left, right));
 	return result;
 }
 
-bool Parent::isParent(PKB* pkb, int left, int right) {
-	int parent = pkb->getStmtParentStmt(right);
-	if (parent == left) {
+bool FollowStar::isFollowStar(PKB* pkb, int left, int right) {
+	unordered_set<int> followStar = pkb->getStmtFollowedByStmt(right);
+	if (followStar.find(left) != followStar.end()) {
 		return true;
 	}
 	else {
@@ -146,7 +157,7 @@ bool Parent::isParent(PKB* pkb, int left, int right) {
 	}
 }
 
-unordered_set<int> Parent::getTypeStmt(Type type, PKB* pkb) {
+unordered_set<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case PROG_LINE:
 	case STMT:
@@ -170,131 +181,146 @@ unordered_set<int> Parent::getTypeStmt(Type type, PKB* pkb) {
 	return unordered_set<int>();
 }
 
-bool Parent::isNumber(Parameter parameter) {
+bool FollowStar::isNumber(Parameter parameter) {
 	Type type = parameter.getParaType();
 	return (type == INTEGER);
 }
 
-bool Parent::isSynonym(Parameter parameter) {
+bool FollowStar::isSynonym(Parameter parameter) {
 	Type type = parameter.getParaType();
 	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE || type == IF || type == CALL);
 }
 
-bool Parent::isLeftChild(Parameter parameter) {
+bool FollowStar::isLeftChild(Parameter parameter) {
 	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType == leftChild.getParaType());
 }
 
-bool Parent::isValidStmtNo(int stmtId, PKB* pkb) {
+bool FollowStar::isValidStmtNo(int stmtId, PKB* pkb) {
 	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
-void Parent::insertSynList(Parameter p) {
+void FollowStar::insertSynList(Parameter p) {
 	synList.push_back(p);
 }
 
-Parameter Parent::getLeftChild() {
+Parameter FollowStar::getLeftChild() {
 	return leftChild;
 }
-Parameter Parent::getRightChild() {
+Parameter FollowStar::getRightChild() {
 	return rightChild;
 }
-vector<Parameter> Parent::getSynList() {
+vector<Parameter> FollowStar::getSynList() {
 	return synList;
 }
 
 /*
-ResultTable Parent::evaluate(PKB* pkb) {
+ResultTable FollowStar::execute(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getParentNumNum(pkb);
+			return getFollowStarNumNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
-			return getParentNumSyn(pkb);
+			return getFollowStarNumSyn(pkb);
 		}
 	}
 	else if (isSynonym(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getParentSynNum(pkb);
+			return getFollowStarSynNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
-			return getParentSynSyn(pkb);
+			return getFollowStarSynSyn(pkb);
 		}
 	}
 	return result;
 }
 
-ResultTable Parent::getParentNumNum(PKB* pkb) {
-	int leftArgument = stoi(leftChild.getParaName());
-	int rightArgument = stoi(rightChild.getParaName());
-	if (!isValidStmtNo(leftArgument, pkb)) {
-		result.setBoolean(false);
-		return result;
-	}
-	if (!isValidStmtNo(rightArgument, pkb)) {
-		result.setBoolean(false);
-		return result;
-	}
-
-	int parent = pkb->getStmtParentStmt(rightArgument);
-	vector<int> tuple;
-	if (parent == leftArgument) {
-		result.setBoolean(true);
+ResultTable FollowStar::getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+	if (left.size() < right.size()) {
+		for (auto& leftIterator : left) {
+			unordered_set<int> followedByStar = pkb->getStmtFollowStarStmt(leftIterator);
+			for (auto& it : followedByStar) {
+				if (right.find(it) != right.end()) { //if contains
+					result.insertTuple(vector<int>(leftIterator, it));
+				}
+			}
+		}
 	}
 	else {
-		result.setBoolean(false);
-	}
-	return result;
-}
-
-ResultTable Parent::getParentNumSyn(PKB* pkb) {
-	int leftArgument = stoi(leftChild.getParaName());
-	if (!isValidStmtNo(leftArgument, pkb)) {
-		return result;
-	}
-	else { //if left is a valid statement number, Parents(num, syn)
-		result.setSynList(vector<Parameter>({ rightChild }));
-		vector<int> children = pkb->getStmtChildrenStmt(leftArgument);
-		for (int i = 0; i < children.size(); i++) {
-			if (isStmtType(children[i], rightChild, pkb)) {
-				result.insertTuple(vector<int>(children[i]));
-				return result;
+		for (auto& rightIterator : right) {
+			unordered_set<int> followStar = pkb->getStmtFollowedByStmt(rightIterator);
+			for (auto& it : followStar) {
+				if (left.find(it) != left.end()) {
+					result.insertTuple(vector<int>(it, rightIterator));
+				}
 			}
 		}
 	}
 }
 
-ResultTable Parent::getParentSynNum(PKB* pkb) {
+/*
+
+ResultTable FollowStar::getFollowStarNumNum(PKB* pkb) {
+	int leftArgument = stoi(leftChild.getParaName());
+	int rightArgument = stoi(rightChild.getParaName());
+	if (!isValidStmtNo(leftArgument, pkb)) {
+		result.setBoolean(false);
+		return result;
+	}
+	if (!isValidStmtNo(rightArgument, pkb)) {
+		result.setBoolean(false);
+		return result;
+	}
+
+	vector<int> follows = pkb->getStmtFollowedByStarStmt(rightArgument);
+	for (int i = 0; i < follows.size(); i++) {
+		if (follows[i] == leftArgument) {
+			result.setBoolean(true);
+			return result;
+		}
+	}
+	result.setBoolean(false);
+	return result;
+}
+
+ResultTable FollowStar::getFollowStarNumSyn(PKB* pkb) {
+	int leftArgument = stoi(leftChild.getParaName());
+	if (!isValidStmtNo(leftArgument, pkb)) {
+		return result;
+	}
+	else { //if left is a valid statement number, follows(num, syn)
+
+		result.setSynList(vector<Parameter>({ rightChild }));
+		return getAllFollowsStar(vector<int>(leftArgument), pkb);
+		//result = filterType(tempResult, rightChildType, pkb);
+		//return result;
+	}
+}
+
+ResultTable FollowStar::getFollowStarSynNum(PKB* pkb) {
 	int rightArgument = stoi(rightChild.getParaName());
 	if (!isValidStmtNo(rightArgument, pkb)) {
 		return result;
 	}
-	else { //if right is a valid statement number, Parents(syn, num)
+	else { //if right is a valid statement number, follows(syn, num)
 		result.setSynList(vector<Parameter>({ leftChild }));
-		vector<int> tuple;
-		int parent = pkb->getStmtParentStmt(rightArgument);
-		if (isStmtType(parent, rightChild, pkb)) {
-			result.insertTuple(vector<int>(parent));
-			return result;
-		}
+		return getAllFollowedByStar(vector<int>(rightArgument), pkb);
 	}
 }
 
-ResultTable Parent::getParentSynSyn(PKB* pkb) {
+ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb) {
 	if (leftChild.getParaName().compare(rightChild.getParaName()) == 0) {
 		return result;
 	}
 
+
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	vector<int> right = getTypeStmt(rightChild.getParaType(), pkb);
-	for (int i = 0; i < right.size(); i++) {
-		int parent = pkb->getStmtParentStmt(right[i]);
-		if (isStmtType(parent, leftChild, pkb))
-			result.insertTuple(vector<int>(parent, right[i]));
-	}
-	return result;
+	return getAllFollowedByStar(right, pkb);
+	//return result;
 }
-
-vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
+*/
+/*
+vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 	switch (type) {
 	case PROG_LINE:
 	case STMT:
@@ -314,7 +340,35 @@ vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
 	return vector<int>();
 }
 
-bool Parent::isStmtType(int stmtId, Parameter parameter, PKB* pkb) {
+
+ResultTable FollowStar::getAllFollowsStar(vector<int> list, PKB* pkb) {
+	vector<int> followsStar;
+	for (int i = 0; i < list.size(); i++) {
+		followsStar = pkb->getStmtFollowStarStmt(list[i]);
+		for (int j = 0; j < followsStar.size(); j++) {
+			if (isStmtType(followsStar[j], rightChild, pkb)) {
+				result.insertTuple(vector<int>(list[i], followsStar[j]));
+			}
+		}
+
+	}
+	return result;
+}
+
+ResultTable FollowStar::getAllFollowedByStar(vector<int> list, PKB* pkb) {
+	vector<int> followedByStar;
+	for (int i = 0; i < list.size(); i++) {
+		followedByStar = pkb->getStmtFollowedByStarStmt(list[i]);
+		for (int j = 0; j < followedByStar.size(); j++) {
+			if (isStmtType(followedByStar[j], leftChild, pkb)) {
+				result.insertTuple(vector<int>(followedByStar[j], list[i]));
+			}
+		}
+	}
+	return result;
+}
+
+bool FollowStar::isStmtType(int stmtId, Parameter parameter, PKB* pkb) {
 	Type type = parameter.getParaType();
 	if (stmtId < 1)
 		return false;
@@ -331,66 +385,62 @@ bool Parent::isStmtType(int stmtId, Parameter parameter, PKB* pkb) {
 	return false;
 }
 
-void Parent::insertSynList(Parameter p) {
+void FollowStar::insertSynList(Parameter p) {
 	synList.push_back(p);
 }
 
-bool Parent::isNumber(Parameter parameter) {
+bool FollowStar::isNumber(Parameter parameter) {
 	Type type = parameter.getParaType();
 	return (type == INTEGER);
 }
 
-bool Parent::isSynonym(Parameter parameter) {
+bool FollowStar::isSynonym(Parameter parameter) {
 	Type type = parameter.getParaType();
 	return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
-bool Parent::isValidStmtNo(int stmtId, PKB* pkb) {
+bool FollowStar::isValidStmtNo(int stmtId, PKB* pkb) {
 	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
-Parameter Parent::getLeftChild() {
+Parameter FollowStar::getLeftChild() {
 	return leftChild;
 }
-Parameter Parent::getRightChild() {
+Parameter FollowStar::getRightChild() {
 	return rightChild;
 }
-vector<Parameter> Parent::getSynList() {
+vector<Parameter> FollowStar::getSynList() {
 	return synList;
-}
+}*/
 /*
-Parent::Parent(string lc, Type lcType, string rc, Type rcType) {
-leftChild = lc;
-rightChild = rc;
-leftChildType = lcType;
-rightChildType = rcType;
-}
-
-vector<int> Parent::getWithRelToRight(PKB* pkb) {
-//	cout << "RIGHT" << endl;
+vector<int> FollowStar::getWithRelToRight(PKB* pkb) {
+//cout << "RIGHT" << endl;
 if (isSynonym(rightChildType)) {
-//cout << "RIGHT IS SYNONYM" << endl;
 if (isNumber(leftChildType)) {
 int leftArgument = stoi(leftChild);
 if (!isValidStmtNo(leftArgument, pkb)) {
 return result;
 }
-else { //if left is a valid statement number, parent(num, syn)
-vector<int> children = pkb->getStmtChildrenStmt(leftArgument);
-result = filterType(children, rightChildType, pkb);
-return result;
-}
-}
-else if (isSynonym(leftChildType)) { //parent(syn,syn)
-//	cout << "LEFT IS SYNONYM" << endl;
-left = getTypeStmt(leftChildType, pkb);
-//	cout << "LEFT SIZE IS " << left.size() << endl;
-tempResult = getAllChildren(left, pkb);
-//cout << "TEMP SIZE IS " << tempResult.size() << endl;
-//cout << endl;
+else { //if left is a valid statement number, follows(num, syn)
+left.push_back(leftArgument);
+tempResult = getAllFollowsStar(left, pkb);
 result = filterType(tempResult, rightChildType, pkb);
-//cout << "RESULT SIZE IS " << result.size() << endl;
-//cout << endl;
+return result;
+}
+}
+else if (isSynonym(leftChildType)) {
+//cout << endl << "FOLLOWSTAR: " << endl;
+//pkb->printFollows();
+//cout << endl << endl;
+//cout << " LEFT IS SYNONYM" << endl;
+left = getTypeStmt(leftChildType, pkb);
+//cout << "NUMBER OF LEFT IS " << left.size() << endl;
+tempResult = getAllFollowsStar(left, pkb);
+//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+//for (auto& it : tempResult) {
+//cout << it << " " << endl;
+//}
+result = filterType(tempResult, rightChildType, pkb);
 return result;
 }
 else {
@@ -400,105 +450,97 @@ return result;
 else {
 return result;
 }
-return result;
 }
 
-vector<int> Parent::getWithRelToLeft(PKB* pkb) {
-//cout << "LEFT" << endl;
+
+//select synonym is left argument
+vector<int> FollowStar::getWithRelToLeft(PKB* pkb) {
+cout << "LEFT" << endl;
 if (isSynonym(leftChildType)) {
-//cout << "LEFT IS SYNONYM" << endl;
 if (isNumber(rightChildType)) {
 int rightArgument = stoi(rightChild);
 if (!isValidStmtNo(rightArgument, pkb)) {
 return result;
 }
-else { //if right is valid statement number, parent(syn, num)
-int parent = pkb->getStmtParentStmt(rightArgument);
-//	cout << "PARENT" << parent << endl;
-if (isStmtType(parent, leftChildType, pkb)) {
-result.push_back(parent);
-return result;
-}
-}
-}
-else if (isSynonym(rightChildType)) { //parent(syn, syn)
-//cout << "RIGHT IS SYNONYM" << endl;
-right = getTypeStmt(rightChildType, pkb);
-//cout << "NUMBER OF " << rightChildType << " is: " << right.size() << endl;
-tempResult = getAllParents(right, pkb);
-//cout << "NUMBER OF TEMP RESULT is: " << tempResult.size() << endl;
+else { //if right is valid statement number, follows(syn, num)
+cout << "SYN NUM" << endl;
+right.push_back(rightArgument);
+tempResult = getAllFollowedByStar(right, pkb);
+cout << "tempResult SIZE " << tempResult.size() << endl;
 result = filterType(tempResult, leftChildType, pkb);
-//cout << "NUMBER OF RESULT is: " << result.size() << endl;
+cout << "result SIZE " << result.size() << endl;
 return result;
 }
-else { // parent(synonym, invalid)
+}
+else if (isSynonym(rightChildType)) { // follows(syn,syn)
+//cout << " RIGHT IS SYNONYM" << endl;
+right = getTypeStmt(rightChildType, pkb);
+//cout << "NUMBER OF RIGHT IS " << right.size() << endl;
+tempResult = getAllFollowedByStar(right, pkb);
+//cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
+result = filterType(tempResult, leftChildType, pkb);
+return result;
+}
+else { // follows(synonym, invalid)
 return result;
 }
 }
 else { //invalid left argument
 return result;
 }
-return result;
 }
 
-bool Parent::isValidStmtNo(int stmtId, PKB* pkb) {
+bool FollowStar::isValidStmtNo(int stmtId, PKB* pkb) {
 return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
-vector<int> Parent::getAllChildren(vector<int> list, PKB* pkb) {
-vector<int> children;
-unordered_set<int> allChildren;
+unordered_set<int> FollowStar::getAllFollowsStar(vector<int> list, PKB* pkb) {
+unordered_set<int> result;
+vector<int> followsStar;
 for (int i = 0; i < list.size(); i++) {
-children = pkb->getStmtChildrenStmt(list[i]);
-for (int j = 0; j < children.size(); j++) {
-if (children[j] != -1) {
-allChildren.insert(children[j]);
+followsStar = pkb->getStmtFollowStarStmt(list[i]);
+for (int j = 0; j < followsStar.size(); j++) {
+result.insert(followsStar[j]);
 }
-}
-}
-vector<int> result(allChildren.size());
-copy(allChildren.begin(), allChildren.end(), result.begin());
 
+}
 return result;
 }
 
-vector<int> Parent::getAllParents(vector<int> list, PKB* pkb) {
-int parent;
-unordered_set<int> allParents;
+unordered_set<int> FollowStar::getAllFollowedByStar(vector<int> list, PKB* pkb) {
+unordered_set<int> result;
+vector<int> followedByStar;
 for (int i = 0; i < list.size(); i++) {
-parent = pkb->getStmtParentStmt(list[i]);
-if (parent != -1) {
-//cout << parent << " added bcuz it is parent of " << list[i] << endl;
-allParents.insert(parent);
+followedByStar = pkb->getStmtFollowedByStarStmt(list[i]);
+for (int j = 0; j < followedByStar.size(); j++) {
+result.insert(followedByStar[j]);
+}
+}
+return result;
+}
+
+vector<int> FollowStar::filterType(unordered_set<int> list, Type type, PKB* pkb) {
+if (type == STMT || type == ANYTHING || type == PROG_LINE) {
+vector<int> result(list.size());
+copy(list.begin(), list.end(), result.begin());
+return result;
 }
 else {
-//cout << list[i] << " is not parent" << endl;
-}
-}
-vector<int> listParent(allParents.size());
-copy(allParents.begin(), allParents.end(), listParent.begin());
-return listParent;
-}
-
-vector<int> Parent::filterType(vector<int> list, Type type, PKB* pkb) {
-if (type == STMT || type == ANYTHING || type == PROG_LINE) {
-return list;
-}
 vector<int> result;
-for (int i = 0; i < list.size(); i++) {
-if (isStmtType(list[i], type, pkb)) {
-result.push_back(list[i]);
+for (auto& it : list) {
+if (isStmtType(it, type, pkb)) {
+result.push_back(it);
 }
 }
 return result;
 }
+}
 
-bool Parent::isStmtType(int stmtId, Type type, PKB* pkb) {
+bool FollowStar::isStmtType(int stmtId, Type type, PKB* pkb) {
 if (stmtId < 1)
 return false;
 switch (type) {
 case WHILE:
-//cout << stmtId << " " << pkb->isStmtInWhileTable(stmtId) << endl;
 return pkb->isStmtInWhileTable(stmtId);
 case ASSIGN:
 return pkb->isStmtInAssignTable(stmtId);
@@ -507,11 +549,10 @@ case PROG_LINE:
 case ANYTHING:
 return true;
 }
-//cout << stmtId << " false" << endl;
 return false;
 }
 
-vector<int> Parent::getTypeStmt(Type type, PKB* pkb) {
+vector<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 switch (type) {
 case STMT:
 case PROG_LINE:
@@ -532,67 +573,80 @@ vector<int> result;
 return result;
 }
 
-bool Parent::isNumber(Type type) {
+bool FollowStar::isNumber(Type type) {
 return (type == INTEGER);
 }
 
-bool Parent::isSynonym(Type type) {
+bool FollowStar::isSynonym(Type type) {
 return (type == ASSIGN || type == WHILE || type == STMT || type == ANYTHING || type == PROG_LINE);
 }
 
-bool Parent::hasRel(PKB *pkb) {
+bool FollowStar::hasRel(PKB *pkb) {
 if (isSynonym(leftChildType)) {
 if (isNumber(rightChildType)) {
 int rightArgument = stoi(rightChild);
 if (!isValidStmtNo(rightArgument, pkb)) {
 return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 }
-else { //if right is valid statement number, parent(syn, num)
-int parent = pkb->getStmtParentStmt(rightArgument);
-if (isStmtType(parent, leftChildType, pkb)) {
+else { //if right is valid statement number, follows*(syn, num)
+vector<int> follows = pkb->getStmtFollowedByStarStmt(rightArgument);
+for (int i = 0; i < follows.size(); i++) {
+if (isStmtType(follows[i], leftChildType, pkb)) {
 return true;
 }
-else {
+}
 return false;
 }
 }
-}
-else if (isSynonym(rightChildType)) { // parent(syn,syn)
+else if (isSynonym(rightChildType)) { // follows*(syn,syn)
 right = getTypeStmt(rightChildType, pkb);
 //cout << "NUMBER OF RIGHT IS " << right.size() << endl;
-tempResult = getAllParents(right, pkb);
+tempResult = getAllFollowedByStar(right, pkb);
 //cout << "NUMBER OF TEMP IS " << tempResult.size() << endl;
 result = filterType(tempResult, leftChildType, pkb);
 return (result.size() != 0);
 }
-else { // parent(synonym, invalid)
+else { // follows(synonym, invalid)
 return false; // return what!??!?!?!?!?!?!?!??!
 }
 }
 else if (isNumber(leftChildType)) {
 int leftArgument = stoi(leftChild);
+//	cout << "LEFT ARGUMENT: " << leftArgument << endl;
 if (!isValidStmtNo(leftArgument, pkb)) {
 return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 }
+//	cout << "LEFT ARGUMENT VALID" << endl;
 if (isNumber(rightChildType)) {
 int rightArgument = stoi(rightChild);
 if (!isValidStmtNo(rightArgument, pkb)) {
 return false; // return what!??!!??!?!?!?!?!?!?!?!?!?!?!?!
 }
-else { //if right is valid statement number, parent(num, num)
-int parent = pkb->getStmtParentStmt(rightArgument);
-if (parent == leftArgument) {
+else { //if right is valid statement number, follows*(num, num)
+vector<int> follows = pkb->getStmtFollowedByStarStmt(rightArgument);
+for (int i = 0; i < follows.size(); i++) {
+if (follows[i] == leftArgument) {
 return true;
 }
-else {
+}
 return false;
 }
 }
+else if (isSynonym(rightChildType)) { //follows(num , syn)
+
+//cout << "RIGHT SYNONYM" << endl;
+vector<int> followedByStar = pkb->getStmtFollowStarStmt(leftArgument);
+//cout << "RESULT SIZE: " << followedByStar.size() << endl;
+for (int i = 0; i < followedByStar.size(); i++) {
+if (isStmtType(followedByStar[i], rightChildType, pkb)) {
+// << followedByStar[i] << " is valid type" << endl;
+return true;
 }
-else if (isSynonym(rightChildType)) { //parent(num , syn)
-vector<int> children = pkb->getStmtChildrenStmt(leftArgument);
-result = filterType(children, rightChildType, pkb);
-return (result.size() != 0);
+else {
+//cout << followedByStar[i] << " is invalid type" << endl;
+}
+}
+return false;
 }
 else {
 return false; // return what!?! ?!?!? !? !??! ?
@@ -603,20 +657,19 @@ return false;
 }
 return isRel;
 }
-
-string Parent::getLeftChild() {
+string FollowStar::getLeftChild() {
 return leftChild;
 }
-string Parent::getRightChild() {
+string FollowStar::getRightChild() {
 return rightChild;
 }
-Type Parent::getLeftChildType() {
+Type FollowStar::getLeftChildType() {
 return leftChildType;
 }
-Type Parent::getRightChildType() {
+Type FollowStar::getRightChildType() {
 return rightChildType;
 }
-ClauseType Parent::getClauseType() {
-return PARENT;
+ClauseType FollowStar::getClauseType() {
+return FOLLOWSTAR;
 }
 */

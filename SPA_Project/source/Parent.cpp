@@ -35,7 +35,10 @@ ResultTable Parent::evaluate(PKB* pkb) {
 ResultTable Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
 	unordered_set<int> left = resultTable->getSynValue(leftChild);
 	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (resultTable->getSynCount() == 1) {
+	if (resultTable->getSynCount() == 0) {
+		return evaluate(pkb);
+	}
+	else if (resultTable->getSynCount() == 1) {
 		if (left.size() != 0) {
 			return getParentSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}

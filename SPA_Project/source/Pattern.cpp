@@ -2,6 +2,7 @@
 #include "ExpOperation.h"
 #include "Tokenizer.h"
 
+const int NOT_FOUND = -1;
 
 Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
 	leftChild = lc;
@@ -34,7 +35,7 @@ void Pattern::setSynToTable(ResultTable* pattResultTable) {
 void Pattern::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable) {
 	switch (intResultTable->getSynCount()) {
 	case 0:
-		setVarsFromStmts(pkb, pattResultTable, getVars(pkb));
+		setStmtsFromVars(pkb, pattResultTable, getVars(pkb));
 		break;
 	case 1:
 		if (intResultTable->hasSynonym(leftChild)) {
@@ -64,20 +65,18 @@ void Pattern::setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered
 			continue;
 		}
 
-		unordered_set<int> varInStmt = getVarsWithStmt(pkb, stmtId);
+		int varInStmt = getVarWithStmt(pkb, stmtId);
 		switch (rightChild.getParaType()) {
 		case STRINGVARIABLE:
 			int varId = pkb->getVarIdByName(rightChild.getParaName());
-			if (varInStmt.find(varId) != varInStmt.end()) {
-				setResultTupleToTable(pkb, pattResultTable, stmtId, varId);
+			if (varInStmt != varId) {
+				setResultTupleToTable(pkb, pattResultTable, stmtId, varInStmt);
 			}
 			break;
 		case VARIABLE:
 			/* falls through */
 		case ANYTHING:
-			for (auto varId : varInStmt) {
-				setResultTupleToTable(pkb, pattResultTable, stmtId, varId);
-			}
+			setResultTupleToTable(pkb, pattResultTable, stmtId, varInStmt);
 			break;
 		}
 	}
@@ -108,8 +107,8 @@ unordered_set<int> Pattern::getStmtsWithVar(PKB* pkb, int varId) {
 	return stmtWithVar;
 }
 
-unordered_set<int> Pattern::getVarsWithStmt(PKB* pkb, int stmtId) {
-	unordered_set<int> varInStmt;
+int Pattern::getVarWithStmt(PKB* pkb, int stmtId) {
+	int varInStmt;
 	switch (leftChild.getParaType()) {
 	case ASSIGN:
 		varInStmt = pkb->getVarAtLeftOfAssignStmt(stmtId);
@@ -128,7 +127,10 @@ unordered_set<int> Pattern::getVars(PKB* pkb) {
 	unordered_set<int> vars;
 	switch (rightChild.getParaType()) {
 	case STRINGVARIABLE:
-		vars = { pkb->getVarIdByName(rightChild.getParaName()) };
+		int varId = pkb->getVarIdByName(rightChild.getParaName());
+		if (varId != NOT_FOUND) {
+			vars = { varId };
+		}
 		break;
 	case ANYTHING:
 		/* falls through */
@@ -143,13 +145,21 @@ void Pattern::setResultTupleToTable(PKB* pkb, ResultTable* pattResultTable, int 
 	switch (leftChild.getParaType()) {
 	case ASSIGN:
 		if (hasPattern(pkb, stmtId)) {
-			pattResultTable->insertTuple({ stmtId, varId });
+			if (rightChild.isSynonym()) {
+				pattResultTable->insertTuple({ stmtId, varId });
+			} else {
+				pattResultTable->insertTuple({ stmtId });
+			}
 		}
 		break;
 	case WHILE:
 		/* falls through */
 	case IF:
-		pattResultTable->insertTuple({ stmtId, varId });
+		if (rightChild.isSynonym()) {
+			pattResultTable->insertTuple({ stmtId, varId });
+		} else {
+			pattResultTable->insertTuple({ stmtId });
+		}
 		break;
 	}
 }

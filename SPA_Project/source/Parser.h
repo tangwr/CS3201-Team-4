@@ -25,19 +25,19 @@ private:
 	Tokenizer *tokenizer;
 	string token;
 	int curStmtNum;
-	vector<tuple<int, int, string>> callTuples;
+	unordered_set<int> procInSource;
 
 	void createProg();
 	void createProc();
 	pair<int, vector<int>> createStmtLst(int procId, int contId);
 	vector<int> createStmt(int procId, int stmtId);
-	void createWhile(int procId, int whileStmtId);
+	vector<int> createWhile(int procId, int whileStmtId);
 	vector<int> createIf(int procId, int ifStmtId);
-	void createCall(int procId, int callStmtId);
-	void createAssign(int procId, int assignStmtId);
+	vector<int> createCall(int procId, int callStmtId);
+	vector<int> createAssign(int procId, int assignStmtId);
 	int createVar(string varName);
 	int createConst(int constValue);
-	void setProcAndStmtCallRel();
+	void ensureAllCalledProcExisted();
 
 	string extractExp();
 	string createExpPrefix(int assignStmtId, string infix);

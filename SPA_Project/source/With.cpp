@@ -4,6 +4,7 @@
 using namespace std;
 
 const int ERROR = -1;
+const int NOT_FOUND = -1;
 
 With::With(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -45,7 +46,10 @@ unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTabl
 		rightResultList = { stoi(rightChild.getParaName()) };
 	}
 	else if (rightChild.isString()) {
-		rightResultList = { getStringId(pkb) };
+		int Id = getStringId(pkb);
+		if (Id != NOT_FOUND) {
+			rightResultList = { getStringId(pkb) };
+		}
 	}
 	else {
 		//error

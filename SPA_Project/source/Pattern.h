@@ -45,7 +45,7 @@ private:
 	void setResultTupleToTable(PKB* pkb, ResultTable* pattResultTable, int stmtId, int varId);
 
 	unordered_set<int> getStmtsWithVar(PKB* pkb, int varId);
-	unordered_set<int> getVarsWithStmt(PKB* pkb, int stmtId);
+	int getVarWithStmt(PKB* pkb, int stmtId);
 	unordered_set<int> getVars(PKB* pkb);
 
 	bool hasPattern(PKB* pkb, int assignStmtId);

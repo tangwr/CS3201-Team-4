@@ -17,16 +17,15 @@ CallsStar::CallsStar(Parameter lc, Parameter rc) {
 }
 
 bool CallsStar::hasRel(PKB *pkbSource) {
-
+	return true;
 }
 
 vector<int> CallsStar::getWithRelToLeft(PKB *pkb) {
-
-
+	return vector<int>();
 }
 
 vector<int> CallsStar::getWithRelToRight(PKB *pkb) {
-
+	return vector<int>();
 }
 
 Parameter CallsStar::getLeftChild() {
@@ -38,4 +37,12 @@ Parameter CallsStar::getRightChild() {
 
 vector<Parameter> CallsStar::getSynList() {
 	return synList;
+}
+
+ClauseType CallsStar::getClauseType() {
+	return CALLSSTAR;
+}
+
+ResultTable CallsStar::evaluate(PKB* pkb, ResultTable intResultTable) {
+	return ResultTable();
 }

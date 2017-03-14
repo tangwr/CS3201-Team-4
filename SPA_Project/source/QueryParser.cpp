@@ -1,7 +1,7 @@
 #include "QueryParser.h"
 #include "QueryTree.h"
-#include "Affects.h"
-#include "AffectsStar.h"
+//#include "Affects.h"
+//#include "AffectsStar.h"
 #include "Clause.h"
 #include "Follow.h"
 #include "FollowStar.h"
@@ -377,12 +377,6 @@ void QueryParser::getModifies(QueryTree* qt) {
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Modifies *m = new Modifies(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		m->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		m->insertSynList(rightChild);
-	}
 	qt->insertResult(m);
 }
 void QueryParser::getUses(QueryTree* qt) {
@@ -463,12 +457,6 @@ void QueryParser::getUses(QueryTree* qt) {
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Uses *u = new Uses(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		u->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		u->insertSynList(rightChild);
-	}
 	qt->insertResult(u);
 }
 void QueryParser::getCalls(QueryTree* qt) {
@@ -552,12 +540,6 @@ void QueryParser::getCalls(QueryTree* qt) {
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Calls *c = new Calls(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		c->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		c->insertSynList(rightChild);
-	}
 	qt->insertResult(c);
 }
 void QueryParser::getCallsStar(QueryTree* qt) {
@@ -641,12 +623,6 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	CallsStar *cs = new CallsStar(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		cs->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		cs->insertSynList(rightChild);
-	}
 	qt->insertResult(cs);
 }
 void QueryParser::getParent(QueryTree* qt) {
@@ -712,12 +688,6 @@ void QueryParser::getParent(QueryTree* qt) {
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Parent *p = new Parent(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		p->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		p->insertSynList(rightChild);
-	}
 	qt->insertResult(p);
 }
 void QueryParser::getParentStar(QueryTree* qt) {
@@ -1138,14 +1108,8 @@ void QueryParser::getAffects(QueryTree* qt) {
 	cout << "\n the cur quote is : " << tokenizer->peekToken();
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	Affects *a = new Affects(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		a->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		a->insertSynList(rightChild);
-	}
-	qt->insertResult(a);
+	//Affects *a = new Affects(leftChild, rightChild);
+	//qt->insertResult(a);
 }
 void QueryParser::getAffectsStar(QueryTree* qt) {
 	Parameter leftChild;
@@ -1209,14 +1173,8 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 	cout << "\n the cur quote is : " << tokenizer->peekToken();
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	AffectsStar *as = new AffectsStar(leftChild, rightChild);
-	if (isVarNameExists(leftChild.getParaName())) {
-		as->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		as->insertSynList(rightChild);
-	}
-	qt->insertResult(as);
+	//AffectsStar *as = new AffectsStar(leftChild, rightChild);
+	//qt->insertResult(as);
 }
 void QueryParser::getPattern(QueryTree *qt) {
 	Parameter leftChild;
@@ -1388,15 +1346,6 @@ void QueryParser::getPattern(QueryTree *qt) {
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Pattern *p = new Pattern(leftChild, rightChild, factor);
-	if (isVarNameExists(leftChild.getParaName())) {
-		p->insertSynList(leftChild);
-	}
-	if (isVarNameExists(rightChild.getParaName())) {
-		p->insertSynList(rightChild);
-	}
-	if (isVarNameExists(factor.getParaName())) {
-		p->insertSynList(factor);
-	}
 	qt->insertResult(p);
 	string andStr = tokenizer->peekToken();
 	if (andStr.compare(TYPE_AND) == EQUAL) {

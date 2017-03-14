@@ -65,7 +65,7 @@ public:
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	ResultTable evaluate(PKB*);
-	ResultTable evaluate(PKB*, ResultTable*);
+	ResultTable evaluate(PKB*, ResultTable);
 	/*
 
 	Follow(string, Type, string, Type);
@@ -77,5 +77,6 @@ public:
 	Type getRightChildType();
 	bool hasRel(PKB *pkb);
 	*/
+	ClauseType getClauseType();
 };
 #endif

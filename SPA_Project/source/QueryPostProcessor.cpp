@@ -4,13 +4,14 @@
 const string STRING_TRUE = "true";
 const string STRING_FALSE = "false";
 
-const int INITIAL_INDEX = 0;
+//const int INITIAL_INDEX = 0;
 
 QueryPostProcessor::QueryPostProcessor(PKB *pkbSource) {
 	pkb = pkbSource;
 }
 
-list<string> QueryPostProcessor::processResult(Result result) {
+list<string> QueryPostProcessor::processResult(ResultTable result) {
+	/*
 	switch (result.getResultType()) {
 	case BOOLEAN:
 		return formatBoolResult(result);
@@ -28,45 +29,55 @@ list<string> QueryPostProcessor::processResult(Result result) {
 		return formatStmtResult(result);
 		break;
 	}
+	*/
+	return list<string>();
 }
 
-list<string> QueryPostProcessor::formatBoolResult(Result result) {
+list<string> QueryPostProcessor::formatBoolResult(ResultTable result) {
 	list<string> resultLists;
+	/*
 	if (result.getResultBool()) {
 		resultLists.push_back(STRING_TRUE);
 	}
 	else {
 		resultLists.push_back(STRING_FALSE);
 	}
+	*/
 	return resultLists;
 }
 
-list<string> QueryPostProcessor::formatVarResult(Result result) {
+list<string> QueryPostProcessor::formatVarResult(ResultTable result) {
 	list<string> resultLists;
+	/*
 	vector<int> resultVector = result.getResultVector();
 
 	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
 		resultLists.push_back(pkb->getVarNameById(resultVector[index]));
 	}
+	*/
 	return resultLists;
 }
 
-list<string> QueryPostProcessor::formatConstResult(Result result) {
+list<string> QueryPostProcessor::formatConstResult(ResultTable result) {
 	list<string> resultLists;
+	/*
 	vector<int> resultVector = result.getResultVector();
 
 	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
 		resultLists.push_back(to_string(pkb->getConstValueById(resultVector[index])));
 	}
+	*/
 	return resultLists;
 }
 
-list<string> QueryPostProcessor::formatStmtResult(Result result) {
+list<string> QueryPostProcessor::formatStmtResult(ResultTable result) {
 	list<string> resultLists;
+	/*
 	vector<int> resultVector = result.getResultVector();
 
 	for (int index = INITIAL_INDEX; index < (int)resultVector.size(); index++) {
 		resultLists.push_back(to_string(resultVector[index]));
 	}
+	*/
 	return resultLists;
 }

@@ -31,6 +31,8 @@ public:
 	bool hasRel(PKB *pkb);
 	vector<int> getWithRelToLeft(PKB *pkb);
 	vector<int> getWithRelToRight(PKB *pkb);
+	ClauseType getClauseType();
+	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
 	/*
 	string getLeftChild();
 	string getRightChild();

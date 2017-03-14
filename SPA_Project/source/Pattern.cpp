@@ -15,7 +15,7 @@ Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
 	if (rightChild.isSynonym()) {
 		synList.push_back(rightChild);
 	}
-	if (factor.getParaType == STRINGVARIABLE) {
+	if (factor.getParaType() == STRINGVARIABLE) {
 		prefix = getPrefix(factor.getParaName());
 	}
 }
@@ -38,10 +38,10 @@ void Pattern::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTabl
 		setStmtsFromVars(pkb, pattResultTable, getVars(pkb));
 		break;
 	case 1:
-		if (intResultTable->hasSynonym(leftChild)) {
+		if (intResultTable->isSynInTable(leftChild)) {
 			setVarsFromStmts(pkb, pattResultTable, intResultTable->getSynValue(leftChild));
 		}
-		else if (intResultTable->hasSynonym(rightChild)) {
+		else if (intResultTable->isSynInTable(rightChild)) {
 			setStmtsFromVars(pkb, pattResultTable, intResultTable->getSynValue(rightChild));
 		}
 		break;
@@ -68,8 +68,7 @@ void Pattern::setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered
 		int varInStmt = getVarWithStmt(pkb, stmtId);
 		switch (rightChild.getParaType()) {
 		case STRINGVARIABLE:
-			int varId = pkb->getVarIdByName(rightChild.getParaName());
-			if (varInStmt != varId) {
+			if (varInStmt != pkb->getVarIdByName(rightChild.getParaName())) {
 				setResultTupleToTable(pkb, pattResultTable, stmtId, varInStmt);
 			}
 			break;
@@ -95,13 +94,13 @@ unordered_set<int> Pattern::getStmtsWithVar(PKB* pkb, int varId) {
 	unordered_set<int> stmtWithVar;
 	switch (leftChild.getParaType()) {
 	case ASSIGN:
-		stmtWithVar = pkb->getStmtInAssignWithVar(varId);
+		//stmtWithVar = pkb->getStmtInAssignWithVar(varId);
 		break;
 	case WHILE:
-		stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
+		//stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
 		break;
 	case IF:
-		stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
+		//stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
 		break;
 	}
 	return stmtWithVar;
@@ -111,7 +110,7 @@ int Pattern::getVarWithStmt(PKB* pkb, int stmtId) {
 	int varInStmt;
 	switch (leftChild.getParaType()) {
 	case ASSIGN:
-		varInStmt = pkb->getVarAtLeftOfAssignStmt(stmtId);
+		//varInStmt = pkb->getVarAtLeftOfAssignStmt(stmtId);
 		break;
 	case WHILE:
 		varInStmt = pkb->getCtrlVarInWhileStmt(stmtId);
@@ -126,10 +125,11 @@ int Pattern::getVarWithStmt(PKB* pkb, int stmtId) {
 unordered_set<int> Pattern::getVars(PKB* pkb) {
 	unordered_set<int> vars;
 	switch (rightChild.getParaType()) {
-	case STRINGVARIABLE:
-		int varId = pkb->getVarIdByName(rightChild.getParaName());
-		if (varId != NOT_FOUND) {
-			vars = { varId };
+	case STRINGVARIABLE: {
+			int varId = pkb->getVarIdByName(rightChild.getParaName());
+			if (varId != NOT_FOUND) {
+				vars = { varId };
+			}
 		}
 		break;
 	case ANYTHING:
@@ -176,10 +176,10 @@ void Pattern::matchTuplePattern(PKB* pkb, ResultTable* intResultTable, ResultTab
 	for (int tupleIndex = 0; tupleIndex < (int)tupleList.size(); tupleIndex++) {
 		switch (leftChild.getParaType()) {
 		case ASSIGN:
-			if (pkb->getVarInAssignStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]
-				&& hasPattern(pkb, tupleList[tupleIndex][stmtSynIndex])) {
-				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
-			}
+			//if (pkb->getVarInAssignStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]
+				//&& hasPattern(pkb, tupleList[tupleIndex][stmtSynIndex])) {
+				//pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
+			//}
 		case WHILE:
 			if (pkb->getCtrlVarInWhileStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]) {
 				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });

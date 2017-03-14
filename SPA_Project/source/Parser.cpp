@@ -42,7 +42,6 @@ Parser::Parser(PKB *pkbSource, string source) {
 
 void Parser::parse() {
 	createProg();
-	setProcAndStmtCallRel();
 }
 
 void Parser::createProg() {
@@ -272,7 +271,7 @@ int Parser::createConst(int constValue) {
 void Parser::ensureAllCalledProcExisted() {
 	unordered_set<int> procs = pkb->getAllProcId();
 	for (auto procId : procs) {
-		if (procInSource.find(procId) != procInSource.end()) {
+		if (procInSource.find(procId) == procInSource.end()) {
 			throw ERROR_MESSAGE;
 		}
 	}

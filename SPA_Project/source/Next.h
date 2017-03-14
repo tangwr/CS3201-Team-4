@@ -31,11 +31,11 @@ private:
 public:
 	Next(Parameter lc, Parameter rc);
 	ResultTable evaluate(PKB*);
-	ResultTable evaluate(PKB*, ResultTable*);
+	ResultTable evaluate(PKB*, ResultTable);
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
-
+	ClauseType getClauseType();
 };
 #endif

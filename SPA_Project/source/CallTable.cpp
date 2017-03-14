@@ -94,9 +94,11 @@ unordered_set<int> CallTable::getAllCallId() {
     return resultSet;
 }
 
-bool CallTable::isStmtInTable(int stmtId)
-{
-	return false;
+bool CallTable::isStmtInTable(int stmtId) {
+	if (stmtCallProcList.find(stmtId) == stmtCallProcList.end()) {
+		return false;
+	}
+	return true;
 }
 
 int CallTable::getSize() {

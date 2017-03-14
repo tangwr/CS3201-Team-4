@@ -103,23 +103,23 @@ int PKBStub::getVarIdByName(string varName) {
 	return -1;
 }
 
-vector<int> PKBStub::getAllAssignStmt() {
+unordered_set<int> PKBStub::getAllAssignStmt() {
 	return assignStmts;
 }
 
-vector<int> PKBStub::getAllWhileStmt() {
+unordered_set<int> PKBStub::getAllWhileStmt() {
 	return whileStmts;
 }
 
-vector<int> PKBStub::getAllIfStmt() {
+unordered_set<int> PKBStub::getAllIfStmt() {
 	return ifStmts;
 }
 
-vector<int> PKBStub::getStmtModifyVar(int varId) {
+unordered_set<int> PKBStub::getStmtModifyVar(int varId) {
 	return modifyStmts;
 }
 
-vector<int> PKBStub::getVarModifiedInStmt(int stmtId) {
+unordered_set<int> PKBStub::getVarModifiedInStmt(int stmtId) {
 	return modifyTable[stmtId];
 }
 

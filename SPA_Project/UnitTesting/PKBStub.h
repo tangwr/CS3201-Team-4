@@ -7,19 +7,19 @@ public:
 	PKBStub();
 
 	int getVarIdByName(string varName);
-	vector<int> getAllAssignStmt();
-	vector<int> getAllWhileStmt();
-	vector<int> getAllIfStmt();
-	vector<int> getStmtModifyVar(int varId);
-	vector<int> getVarModifiedInStmt(int stmtId);
+	unordered_set<int> getAllAssignStmt();
+	unordered_set<int> getAllWhileStmt();
+	unordered_set<int> getAllIfStmt();
+	unordered_set<int> getStmtModifyVar(int varId);
+	unordered_set<int> getVarModifiedInStmt(int stmtId);
 	string getExpInAssignStmt(int assignStmtId);
 
 private:
 	unordered_map<int, string> assignTable;
-	vector<vector<int>> modifyTable;
-	vector<int> modifyStmts;
-	vector<int> ifStmts;
-	vector<int> whileStmts;
-	vector<int> assignStmts;
+	vector<unordered_set<int>> modifyTable;
+	unordered_set<int> modifyStmts;
+	unordered_set<int> ifStmts;
+	unordered_set<int> whileStmts;
+	unordered_set<int> assignStmts;
 	vector<string> varTable;
 };

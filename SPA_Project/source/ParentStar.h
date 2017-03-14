@@ -55,7 +55,7 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable evaluate(PKB*);
-	ResultTable evaluate(PKB*, ResultTable*);
+	ResultTable evaluate(PKB*, ResultTable);
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	/*
@@ -67,7 +67,7 @@ public:
 	Type getLeftChildType();
 	Type getRightChildType();
 	bool hasRel(PKB *pkb);
-	ClauseType getClauseType();
 	*/
+	ClauseType getClauseType();
 };
 #endif

@@ -15,7 +15,7 @@ Parent::Parent(Parameter lc, Parameter rc) {
 ResultTable Parent::evaluate(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getParentNumNum(pkb);
+			//return getParentNumNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
 			return getParentNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
@@ -32,13 +32,13 @@ ResultTable Parent::evaluate(PKB* pkb) {
 	return result;
 }
 
-ResultTable Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
-	unordered_set<int> left = resultTable->getSynValue(leftChild);
-	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (resultTable->getSynCount() == 0) {
+ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
+	unordered_set<int> left = resultTable.getSynValue(leftChild);
+	unordered_set<int> right = resultTable.getSynValue(rightChild);
+	if (resultTable.getSynCount() == 0) {
 		return evaluate(pkb);
 	}
-	else if (resultTable->getSynCount() == 1) {
+	else if (resultTable.getSynCount() == 1) {
 		if (left.size() != 0) {
 			return getParentSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
@@ -46,7 +46,7 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getParentNumSyn(pkb, right, stoi(leftChild.getParaName()));
 		}
 	}
-	else if (resultTable->getSynCount() == 2) {
+	else if (resultTable.getSynCount() == 2) {
 		if (left.size() == 0) {
 			return getParentSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
 		}
@@ -54,7 +54,7 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getParentSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
 		}
 		else {
-			return getParentSynSyn(pkb, resultTable);
+			return getParentSynSyn(pkb, &resultTable);
 		}
 	}
 	return result;
@@ -154,7 +154,7 @@ unordered_set<int> Parent::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getNumOfStmt();
 		unordered_set<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i + 1;
+			//stmtList[i] = i + 1;
 		}
 		return stmtList;
 	}
@@ -181,7 +181,7 @@ bool Parent::isSynonym(Parameter parameter) {
 }
 
 bool Parent::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool Parent::isValidStmtNo(int stmtId, PKB* pkb) {
@@ -616,7 +616,8 @@ return leftChildType;
 Type Parent::getRightChildType() {
 return rightChildType;
 }
-ClauseType Parent::getClauseType() {
-return PARENT;
-}
 */
+ClauseType Parent::getClauseType() {
+	return PARENT;
+}
+

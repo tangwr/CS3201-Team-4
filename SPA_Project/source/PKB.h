@@ -73,7 +73,7 @@ public:
 	//variable table
 	int insertVar(string varName);
 
-	vector<int> getAllVarId();
+	unordered_set<int> getAllVarId();
 	string getVarNameById(int varId);//was get var name
 		//string getVarNameById(int varId);
 	int getVarIdByName(string varName);// was get VarId
@@ -83,7 +83,7 @@ public:
 	//const table
 	int insertConst(int value);
 
-	vector<int> getAllConstId();
+	unordered_set<int> getAllConstId();
 	int getNumOfConst();//was get Const Table Size
 		//int getNumOfConst();
 	int getConstValueById(int constId);

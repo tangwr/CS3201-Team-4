@@ -24,15 +24,13 @@ class QueryEvaluator {
 public:
 	QueryEvaluator();
 	void setPKB(PKB* pkbInput);
-	QueryEvaluator(PKB*);
-	Result evaluate(QueryTree);
+	QueryEvaluator(PKB* pkbSource);
+	ResultTable evaluate(QueryTree qt);
+	ResultTable evaluateWithOptimization(QueryTree qt);
 
 private:
 	PKB* pkb;
-
-	bool evaluateUnlimitList(vector<Clause*>);
-	vector<int> evaluateLimitList(vector<Clause*>, Type, string);
-	vector<int> QueryEvaluator::getAllSelectResults(Type);
+	ResultTable evaluateGroup(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
 };
 
 

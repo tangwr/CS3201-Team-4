@@ -13,7 +13,7 @@ Follow::Follow(Parameter lc, Parameter rc) {
 ResultTable Follow::evaluate(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getFollowNumNum(pkb);
+			//return getFollowNumNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
 			return getFollowNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
@@ -30,13 +30,13 @@ ResultTable Follow::evaluate(PKB* pkb) {
 	return result;
 }
 
-ResultTable Follow::evaluate(PKB* pkb, ResultTable* resultTable) {
-	unordered_set<int> left = resultTable->getSynValue(leftChild);
-	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (resultTable->getSynCount() == 0) {
+ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
+	unordered_set<int> left = resultTable.getSynValue(leftChild);
+	unordered_set<int> right = resultTable.getSynValue(rightChild);
+	if (resultTable.getSynCount() == 0) {
 		return evaluate(pkb);
 	}
-	else if (resultTable->getSynCount() == 1) {
+	else if (resultTable.getSynCount() == 1) {
 		if (left.size() != 0) {
 			return getFollowSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
@@ -44,7 +44,7 @@ ResultTable Follow::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getFollowNumSyn(pkb, right, stoi(leftChild.getParaName()));
 		}
 	}
-	else if (resultTable->getSynCount() == 2) {
+	else if (resultTable.getSynCount() == 2) {
 		if (left.size() == 0) {
 			return getFollowSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
 		}
@@ -52,7 +52,7 @@ ResultTable Follow::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getFollowSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
 		}
 		else {
-			return getFollowSynSyn(pkb, resultTable);
+			return getFollowSynSyn(pkb, &resultTable);
 		}
 	}
 	return result;
@@ -159,7 +159,7 @@ unordered_set<int> Follow::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getNumOfStmt();
 		unordered_set<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i + 1;
+			//stmtList[i] = i + 1;
 		}
 		return stmtList;
 	}
@@ -316,11 +316,11 @@ bool Follow::isSynonym(Parameter parameter) {
 }
 
 bool Follow::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool Follow::isRightChild(Parameter parameter) {
-	return (parameter.getParaName().compare(rightChild.getParaName()) == 0 && parameter.getParaType == rightChild.getParaType());
+	return (parameter.getParaName().compare(rightChild.getParaName()) == 0 && parameter.getParaType() == rightChild.getParaType());
 }
 
 bool Follow::isValidStmtNo(int stmtId, PKB* pkb) {
@@ -598,3 +598,7 @@ Type Follow::getRightChildType() {
 return rightChildType;
 }
 */
+
+ClauseType Follow::getClauseType() {
+	return FOLLOW;
+}

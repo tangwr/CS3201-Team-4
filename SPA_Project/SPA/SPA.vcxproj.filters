@@ -108,9 +108,6 @@
     <ClCompile Include="..\source\QueryPostProcessor.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\Result.cpp">
-      <Filter>Resource Files\Source Files\PQL</Filter>
-    </ClCompile>
     <ClCompile Include="..\source\VectorSetOperation.cpp">
       <Filter>Resource Files\Source Files\Utility</Filter>
     </ClCompile>
@@ -180,6 +177,9 @@
     <ClCompile Include="..\source\UnorderedSetOperation.cpp">
       <Filter>Resource Files\Source Files\Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\ResultTable.cpp">
+      <Filter>Resource Files\Source Files\PQL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -234,9 +234,6 @@
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
     <ClInclude Include="..\source\QueryPostProcessor.h">
-      <Filter>Header Files\PQL</Filter>
-    </ClInclude>
-    <ClInclude Include="..\source\Result.h">
       <Filter>Header Files\PQL</Filter>
     </ClInclude>
     <ClInclude Include="..\source\Type.h">
@@ -313,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="..\source\UnorderedSetOperation.h">
       <Filter>Header Files\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\ResultTable.h">
+      <Filter>Header Files\PQL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

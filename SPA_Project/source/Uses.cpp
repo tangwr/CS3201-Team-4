@@ -43,13 +43,13 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	switch (leftChild.getParaType()) {
 	case PROG_LINE:
 	case STMT:
-		leftList = pkb->getAllStmtId();
+		//leftList = pkb->getAllStmtId();
 		break;
 	case ASSIGN:
-		leftList = pkb->getAllAssignStmt();
+		//leftList = pkb->getAllAssignStmt();
 		break;
 	case WHILE:
-		leftList = pkb->getAllWhileStmt();
+		//leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
 		int stmtNo = stoi(leftChild.getParaName());
@@ -61,23 +61,23 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 	switch (rightChild.getParaType()) {
 
 	case VARIABLE:
-		varIdList = pkb->getAllVarId();
+		//varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
-			stmtList = pkb->getStmtUseVar(varId);
+			//stmtList = pkb->getStmtUseVar(varId);
 			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList); 
 		}
 		break;
 
 	case ANYTHING:
-		varIdList = pkb->getAllVarId();
+		//varIdList = pkb->getAllVarId();
 		for (int varId : varIdList) {
-			stmtList = pkb->getStmtUseVar(varId);
+			//stmtList = pkb->getStmtUseVar(varId);
 			rightList = VectorSetOperation<int>::setUnion(rightList, stmtList);
 		}
 		break;
 	case STRINGVARIABLE:
 		int varId = pkb->getVarIdByName(rightChild.getParaName());
-		rightList = pkb->getStmtUseVar(varId);
+		//rightList = pkb->getStmtUseVar(varId);
 		
 		break;
 	}
@@ -87,7 +87,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		vector<int> temp;
 		
 		for (int stmtId : leftList) {
-			parentList = pkb->getStmtParentStarStmt(stmtId);
+			//parentList = pkb->getStmtParentStarStmt(stmtId);
 			temp = VectorSetOperation<int>::setUnion(temp, parentList);
 		}
 		leftList = VectorSetOperation<int>::setUnion(leftList, temp);
@@ -113,7 +113,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
-			parentList = pkb->getStmtParentStarStmt(stmtId);
+			//parentList = pkb->getStmtParentStarStmt(stmtId);
 			temp = VectorSetOperation<int>::setUnion(temp, parentList);
 		}
 		rightList = VectorSetOperation<int>::setUnion(rightList, temp);
@@ -124,7 +124,7 @@ vector<int> Uses::getWithRelToLeft(PKB *pkb) {
 		vector<int> parentList;
 		vector<int> temp;
 		for (int stmtId : rightList) {
-			parentList = pkb->getStmtParentStarStmt(stmtId);
+			//parentList = pkb->getStmtParentStarStmt(stmtId);
 			temp = VectorSetOperation<int>::setUnion(temp, parentList);
 		}
 		rightList = VectorSetOperation<int>::setUnion(rightList, temp);
@@ -144,20 +144,20 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 
 	switch (rightChild.getParaType()) {
 	case VARIABLE:
-		rightList = pkb->getAllVarId();
+		//rightList = pkb->getAllVarId();
 		break;
 	}
 
 	switch (leftChild.getParaType()) {
 	case PROG_LINE:
 	case STMT:
-		leftList = pkb->getAllStmtId();
+		//leftList = pkb->getAllStmtId();
 		break;
 	case ASSIGN:
-		leftList = pkb->getAllAssignStmt();
+		//leftList = pkb->getAllAssignStmt();
 		break;
 	case WHILE:
-		leftList = pkb->getAllWhileStmt();
+		//leftList = pkb->getAllWhileStmt();
 		break;
 	case INTEGER:
 		int stmtId = stoi(leftChild.getParaName());
@@ -170,7 +170,7 @@ vector<int> Uses::getWithRelToRight(PKB *pkb) {
 
 	//Convert stmtId to varId
 	for (int stmtId : leftList) {
-		varIdList = pkb->getVarUsedByStmt(stmtId);
+		//varIdList = pkb->getVarUsedByStmt(stmtId);
 		tempList = VectorSetOperation<int>::setUnion(tempList, varIdList);
 	}
 	leftList = tempList; //all converted to varId
@@ -203,4 +203,12 @@ Parameter Uses::getRightChild() {
 }
 vector<Parameter> Uses::getSynList() {
 	return synList;
+}
+
+ClauseType Uses::getClauseType() {
+	return USES;
+}
+
+ResultTable Uses::evaluate(PKB* pkb, ResultTable intResultTable) {
+	return ResultTable();
 }

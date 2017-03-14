@@ -18,6 +18,7 @@ void Controller::processSource(string source) {
 	
 	try {
 		parser.parse();
+		//pkb->printAllTables();
 		designExtractor.extractStarRelations();
 	} catch (string msg) {
 		cerr << msg << endl;

@@ -10,7 +10,7 @@ FollowStar::FollowStar(Parameter lc, Parameter rc) {
 ResultTable FollowStar::evaluate(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getFollowStarNumNum(pkb);
+			//return getFollowStarNumNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
 			return getFollowStarNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
@@ -27,13 +27,13 @@ ResultTable FollowStar::evaluate(PKB* pkb) {
 	return result;
 }
 
-ResultTable FollowStar::evaluate(PKB* pkb, ResultTable* resultTable) {
-	unordered_set<int> left = resultTable->getSynValue(leftChild);
-	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (resultTable->getSynCount() == 0) {
+ResultTable FollowStar::evaluate(PKB* pkb, ResultTable resultTable) {
+	unordered_set<int> left = resultTable.getSynValue(leftChild);
+	unordered_set<int> right = resultTable.getSynValue(rightChild);
+	if (resultTable.getSynCount() == 0) {
 		return evaluate(pkb);
 	}
-	else if (resultTable->getSynCount() == 1) {
+	else if (resultTable.getSynCount() == 1) {
 		if (left.size() != 0) {
 			return getFollowStarSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
@@ -41,7 +41,7 @@ ResultTable FollowStar::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getFollowStarNumSyn(pkb, right, stoi(leftChild.getParaName()));
 		}
 	}
-	else if (resultTable->getSynCount() == 2) {
+	else if (resultTable.getSynCount() == 2) {
 		if (left.size() == 0) {
 			return getFollowStarSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
 		}
@@ -49,7 +49,7 @@ ResultTable FollowStar::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getFollowStarSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
 		}
 		else {
-			return getFollowStarSynSyn(pkb, resultTable);
+			return getFollowStarSynSyn(pkb, &resultTable);
 		}
 	}
 	return result;
@@ -148,7 +148,7 @@ ResultTable FollowStar::getFollowStarNumNum(PKB* pkb, int left, int right) {
 }
 
 bool FollowStar::isFollowStar(PKB* pkb, int left, int right) {
-	unordered_set<int> followStar = pkb->getStmtFollowedByStmt(right);
+	unordered_set<int> followStar = pkb->getStmtFollowedByStarStmt(right);
 	if (followStar.find(left) != followStar.end()) {
 		return true;
 	}
@@ -165,7 +165,7 @@ unordered_set<int> FollowStar::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getNumOfStmt();
 		unordered_set<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i + 1;
+			//stmtList[i] = i + 1;
 		}
 		return stmtList;
 	}
@@ -192,7 +192,7 @@ bool FollowStar::isSynonym(Parameter parameter) {
 }
 
 bool FollowStar::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool FollowStar::isValidStmtNo(int stmtId, PKB* pkb) {
@@ -669,7 +669,7 @@ return leftChildType;
 Type FollowStar::getRightChildType() {
 return rightChildType;
 }
-ClauseType FollowStar::getClauseType() {
-return FOLLOWSTAR;
-}
 */
+ClauseType FollowStar::getClauseType() {
+	return FOLLOWSTAR;
+}

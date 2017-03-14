@@ -98,9 +98,9 @@ vector<int> NextStar::getTypeStmt(Type type, PKB* pkb) {
 		return stmtList;
 	}
 	case WHILE:
-		return pkb->getAllWhileStmt();
-	case ASSIGN:
-		return pkb->getAllAssignStmt();
+		//return pkb->getAllWhileStmt();
+	case ASSIGN:;
+		//return pkb->getAllAssignStmt();
 	}
 	return vector<int>();
 }
@@ -179,4 +179,12 @@ Parameter NextStar::getRightChild() {
 }
 vector<Parameter> NextStar::getSynList() {
 	return synList;
+}
+
+ClauseType NextStar::getClauseType() {
+	return NEXTSTAR;
+}
+
+ResultTable NextStar::evaluate(PKB* pkb, ResultTable intResultTable) {
+	return ResultTable();
 }

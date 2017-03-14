@@ -14,7 +14,7 @@ Next::Next(Parameter lc, Parameter rc) {
 ResultTable Next::evaluate(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getNextNumNum(pkb);
+			//return getNextNumNum(pkb);
 		}
 		else if (isSynonym(rightChild)) {
 			return getNextNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
@@ -31,13 +31,13 @@ ResultTable Next::evaluate(PKB* pkb) {
 	return result;
 }
 
-ResultTable Next::evaluate(PKB* pkb, ResultTable* resultTable) {
-	unordered_set<int> left = resultTable->getSynValue(leftChild);
-	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (resultTable->getSynCount() == 0) {
+ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
+	unordered_set<int> left = resultTable.getSynValue(leftChild);
+	unordered_set<int> right = resultTable.getSynValue(rightChild);
+	if (resultTable.getSynCount() == 0) {
 		return evaluate(pkb);
 	}
-	else if (resultTable->getSynCount() == 1) {
+	else if (resultTable.getSynCount() == 1) {
 		if (left.size() != 0) {
 			return getNextSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
@@ -45,7 +45,7 @@ ResultTable Next::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getNextNumSyn(pkb, right, stoi(leftChild.getParaName()));
 		}
 	}
-	else if (resultTable->getSynCount() == 2) {
+	else if (resultTable.getSynCount() == 2) {
 		if (left.size() == 0) {
 			return getNextSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
 		}
@@ -53,7 +53,7 @@ ResultTable Next::evaluate(PKB* pkb, ResultTable* resultTable) {
 			return getNextSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
 		}
 		else {
-			return getNextSynSyn(pkb, resultTable);
+			return getNextSynSyn(pkb, &resultTable);
 		}
 	}
 	return result;
@@ -118,7 +118,7 @@ ResultTable Next::getNextSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
-	if (isLeftChild(synonyms[0])) {
+	if (leftChild.isSame(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isNext(pkb, tupleList[i][0], tupleList[i][1])) {
 				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
@@ -164,7 +164,7 @@ unordered_set<int> Next::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getNumOfStmt();
 		unordered_set<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			stmtList[i] = i + 1;
+			//stmtList[i] = i + 1;
 		}
 		return stmtList;
 	}
@@ -206,6 +206,10 @@ Parameter Next::getRightChild() {
 }
 vector<Parameter> Next::getSynList() {
 	return synList;
+}
+
+ClauseType Next::getClauseType() {
+	return NEXT;
 }
 
 /*

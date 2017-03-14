@@ -11,7 +11,7 @@ using namespace std;
 #include "QueryPostProcessor.h"
 
 #include "QueryTree.h"
-#include "Result.h"
+#include "ResultTable.h"
 
 class PQL {
 private:

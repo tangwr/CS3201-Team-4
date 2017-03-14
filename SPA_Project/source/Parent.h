@@ -20,7 +20,7 @@ private:
 	bool isValidStmtNo(int, PKB*);
 	bool isLeftChild(Parameter);
 	bool isParent(PKB*, int, int);
-	bool isStmtType(int, Parameter, PKB*);
+	//bool isStmtType(int, Parameter, PKB*);
 	unordered_set<int> getTypeStmt(Type, PKB*);
 	ResultTable getParentNumNum(PKB*, int, int);
 	ResultTable getParentNumSyn(PKB*, unordered_set<int>, int);
@@ -51,7 +51,7 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable evaluate(PKB*);
-	ResultTable evaluate(PKB*, ResultTable*);
+	ResultTable evaluate(PKB*, ResultTable);
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	/*
@@ -63,7 +63,7 @@ public:
 	string getRightChild();
 	Type getLeftChildType();
 	Type getRightChildType();
-	ClauseType getClauseType();
 	*/
+	ClauseType getClauseType();
 };
 #endif

@@ -7,6 +7,18 @@ using namespace std;
 
 ResultTable::ResultTable()
 {
+	isInitialEmpty = false;
+	isBoolean = false;
+}
+
+bool ResultTable::setInitialEmpty(bool status) {
+	isInitialEmpty = status;
+	return true;
+}
+
+bool ResultTable::isNewTable()
+{
+	return isInitialEmpty;
 }
 
 bool ResultTable::insertTuple(vector<int> tuple)
@@ -45,14 +57,32 @@ bool ResultTable::setSynList(vector<Parameter> list)
 	return true;
 }
 
-int ResultTable::getsize()
+bool ResultTable::isSynInTable(Parameter p)
 {
-	return tupleList.size();
+	if (getParamId(p) == -1)
+		return false;
+	else
+		return true;
+}
+
+int ResultTable::getTupleSize()
+{
+	return (int)tupleList.size();
 }
 
 int ResultTable::getSynCount()
 {
 	return (int)synList.size();
+}
+
+int ResultTable::getSynIndex(Parameter p)
+{
+	for (int i = 0; i < getSynCount(); i++) {
+		if (synList.at(i).getParaName().compare(p.getParaName()) == 0) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 int ResultTable::getCount(Parameter p)
@@ -82,6 +112,12 @@ vector<vector<int>> ResultTable::getTupleList()
 
 ResultTable ResultTable::join(ResultTable rt)
 {
+
+	// if self is initial empty table, return rt 
+	if (isInitialEmpty)
+		return rt;
+
+
 	// cases: 0 / 1 / 2 common synonym if rt is a result from a clause
 
 	// equi-join, can be done in nlogn + mlogm with sorting by equi-variable
@@ -169,6 +205,19 @@ ResultTable ResultTable::select(vector<Parameter> paramList)
 
 return res;
 
+}
+
+unordered_set<int> ResultTable::getSynValue(Parameter param)
+{
+	unordered_set<int> ans;
+	// if param not in table, return empty table
+	if (!isSynInTable(param))
+		return ans;
+	int idx = getSynIndex(param);
+	for (vector<int> tuple : tupleList) {
+		ans.insert(tuple.at(idx));
+	}
+	return ans;
 }
 
 void ResultTable::printTable()

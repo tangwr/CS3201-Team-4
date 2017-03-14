@@ -120,8 +120,13 @@ int PKB::insertVar(string varName) {
 	return this->variableTable.insertVar(varName);
 }
 
-vector<int> PKB::getAllVarId() {
-	return this->variableTable.getAllVarId();
+unordered_set<int> PKB::getAllVarId() {
+	vector<int> varVector = this->variableTable.getAllVarId();
+	unordered_set<int> varSet;
+	for (auto varId : varVector) {
+		varSet.insert(varId);
+	}
+	return varSet;
 }
 string PKB::getVarNameById(int varId) {
 	return this->variableTable.getVarNameById(varId);
@@ -142,8 +147,14 @@ int PKB::getNumOfConst() {
 int PKB::getConstValueById(int constId) {
 	return this->constTable.getValueById(constId);
 }
-vector<int> PKB::getAllConstId() {
-    return this->constTable.getAllConstId();
+
+unordered_set<int> PKB::getAllConstId() {
+	vector<int> constVector = this->constTable.getAllConstId();
+	unordered_set<int> constSet;
+	for (auto constId : constVector) {
+		constSet.insert(constId);
+	}
+	return constSet;
 }
 
 

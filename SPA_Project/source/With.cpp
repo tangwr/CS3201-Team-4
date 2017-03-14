@@ -36,7 +36,7 @@ void With::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* 
 unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
 	unordered_set<int> rightResultList;
 	if (rightChild.isSynonym()) {
-		if (intResultTable->hasSynonym(rightChild)) {
+		if (intResultTable->isSynInTable(rightChild)) {
 			rightResultList = intResultTable->getSynValue(rightChild);
 		} else {
 			rightResultList = getSynResultList(pkb, rightChild);
@@ -60,7 +60,7 @@ unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTabl
 unordered_set<int> With::getLeftResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
 	unordered_set<int> leftResultList;
 	if (leftChild.isSynonym()) {
-		if (intResultTable->hasSynonym(leftChild)) {
+		if (intResultTable->isSynInTable(leftChild)) {
 			leftResultList = intResultTable->getSynValue(leftChild);
 		}
 		else {

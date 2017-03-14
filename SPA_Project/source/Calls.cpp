@@ -17,16 +17,15 @@ Calls::Calls(Parameter lc, Parameter rc){
 }
 
 bool Calls::hasRel(PKB *pkbSource) {
-	
+	return true;
 }
 
 vector<int> Calls::getWithRelToLeft(PKB *pkb) {
-	
-
+	return vector<int>();
 }
 
 vector<int> Calls::getWithRelToRight(PKB *pkb) {
-	
+	return vector<int>();
 }
 
 Parameter Calls::getLeftChild() {
@@ -40,12 +39,10 @@ vector<Parameter> Calls::getSynList() {
 	return synList;
 }
 
+ClauseType Calls::getClauseType() {
+	return CALLS;
+}
 
-
-
-
-
-
-
-
-
+ResultTable Calls::evaluate(PKB* pkb, ResultTable intResultTable) {
+	return ResultTable();
+}

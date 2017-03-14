@@ -36,6 +36,7 @@ public:
 	ResultTable execute(PKB*);
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
-
+	ClauseType getClauseType();
+	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
 };
 #endif

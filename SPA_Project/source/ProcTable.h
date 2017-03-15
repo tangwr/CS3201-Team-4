@@ -25,6 +25,7 @@ public:
 	int getSize();
 	string getProcName(int idx);
 	int getProcIndex(string procName);
+    int getProcContainStmt(int stmtId);
     bool setProcToStmtRel(int procId, int stmtId);
     unordered_set<int> getProcStmts(int procId);
     unordered_set<int> getAllProcId();

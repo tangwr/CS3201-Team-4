@@ -77,12 +77,22 @@ unordered_set<int> PKB::getAllStmtId() {//currently only returning while and ass
 
     unordered_set<int> whileStmtIdSet = this->getAllWhileStmt();
     unordered_set<int> assignStmtIdSet = this->getAllAssignStmt();
+    unordered_set<int> ifStmtIdSet = this->getAllIfId();
+    unordered_set<int> callStmtIdSet = this->getAllCallId();
 
     for (int element : whileStmtIdSet) {
         combinedSet.insert(element);
     }
 
     for (int element : assignStmtIdSet) {
+        combinedSet.insert(element);
+    }
+
+    for (int element : callStmtIdSet) {
+        combinedSet.insert(element);
+    }
+
+    for (int element : ifStmtIdSet) {
         combinedSet.insert(element);
     }
 	//std::sort(whileStmtId.begin(), whileStmtId.end());
@@ -105,6 +115,10 @@ int PKB::getProcIdByName(string procName) {
 }
 bool PKB::isProcInTable(string procName) {
     return this->procTable.checkProcExistByName(procName);
+}
+
+int PKB::getProcContainingStmt(int stmtId) {
+    return this->procTable.getProcContainStmt(stmtId);
 }
 
 unordered_set<int> PKB::getStmtInProc(int procId) {
@@ -134,7 +148,9 @@ string PKB::getVarNameById(int varId) {
 int PKB::getVarIdByName(string varName) {
 	return this->variableTable.getVarIndex(varName);
 }
-
+bool PKB::isVarInTable(string varName) {
+    return this->variableTable.checkVarExistByName(varName);
+}
 
 //const table
 int PKB::insertConst(int value) {
@@ -149,12 +165,21 @@ int PKB::getConstValueById(int constId) {
 }
 
 unordered_set<int> PKB::getAllConstId() {
-	vector<int> constVector = this->constTable.getAllConstId();
-	unordered_set<int> constSet;
-	for (auto constId : constVector) {
-		constSet.insert(constId);
+	vector<int> constIdVector = this->constTable.getAllConstId();
+	unordered_set<int> constIdSet;
+	for (auto constId : constIdVector) {
+		constIdSet.insert(constId);
 	}
-	return constSet;
+	return constIdSet;
+}
+
+unordered_set<int> PKB::getAllConst() {
+    vector<int> constValVector = this->constTable.getAllConst();
+    unordered_set<int> constValSet;
+    for (int constVal : constValVector) {
+        constValSet.insert(constVal);
+    }
+    return constValSet;
 }
 
 

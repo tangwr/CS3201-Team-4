@@ -64,6 +64,17 @@ int ProcTable::getProcIndex(string procName)
 		return -1;
 }
 
+//given statment, return procedure that contains it, -1 if statement does not exist
+int ProcTable::getProcContainStmt(int stmtId) {
+    unordered_map<int, int>::iterator it = this->stmtContainedInProcMap.find(stmtId);
+    if (it != this->stmtContainedInProcMap.end()) {
+        return it->second;
+    }
+    else {
+        return -1;
+    }
+}
+
 /*
 Sets the relation ship that a proc contains a certain statement.
 Also sets statement contained by the proc.

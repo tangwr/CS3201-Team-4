@@ -10,7 +10,7 @@ Parameter::Parameter(string name, Type type) {
 	paraName = name;
 	paraType = type;
 
-	if (paraType != CONSTANT && paraType != BOOLEAN && paraType != ANYTHING
+	if (paraType != BOOLEAN && paraType != ANYTHING
 		&& paraType != STRINGVARIABLE && paraType != INTEGER) {
 		isSyn = true;
 	}

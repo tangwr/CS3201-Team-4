@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
+
 #include "PKBStub.h"
 #include "Pattern.h"
+#include "ResultTable.h"
+#include "Parameter.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,100 +14,542 @@ namespace UnitTesting
 	{
 	public:
 		
-		TEST_METHOD(UnitTest_AssignPattern_With_Variable_Synonym)
+		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_VariableSynonym)
 		{
-			/*
-			PKBStub *pkbStub = new PKBStub();
-			Pattern *patternObj;
-			vector<int> expectedAns, results;
+			PKBStub pkbStub;
 
-			patternObj = new Pattern("a", ASSIGN, "v", VARIABLE, "z + x", STRINGVARIABLE, true);
-			results = patternObj->getWithRelToLeft(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 8, 9, 21, 24 };
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
 
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
+			stmt = Parameter("w", WHILE);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
 
-			results = patternObj->getWithRelToRight(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 0, 1, 3 };
+			Pattern patternObj(stmt, var, factor, false);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-			delete patternObj;
+			Assert::AreEqual(2, queryResult.getSynCount());
 
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
 
-			patternObj = new Pattern("a", ASSIGN, "v", VARIABLE, "z + x", STRINGVARIABLE, false);
-			results = patternObj->getWithRelToLeft(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 8, 24 };
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
 
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
+			expectedResult = { { 4, 2 },{ 14, 2 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
 
-			results = patternObj->getWithRelToRight(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 0, 3 };
-
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-			delete patternObj;
-
-			patternObj = new Pattern("a", ASSIGN, "v", VARIABLE, "_", ANYTHING, false);
-			results = patternObj->getWithRelToLeft(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 1, 2, 3, 5, 7, 8, 9, 11, 15, 17, 18, 19, 20, 21, 23, 24 };
-
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-
-			results = patternObj->getWithRelToRight(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 0, 1, 2, 3 };
-
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-			delete patternObj;
-
-			delete pkbStub;
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
 		}
 
-		TEST_METHOD(UnitTest_AssignPattern_With_Variable_Name)
+		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_IDENT)
 		{
-			PKBStub *pkbStub = new PKBStub();
-			Pattern *patternObj;
-			vector<int> expectedAns, results;
+			PKBStub pkbStub;
 
-			patternObj = new Pattern("a", ASSIGN, "i", STRINGVARIABLE, "i", STRINGVARIABLE, true);
-			results = patternObj->getWithRelToLeft(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 11, 17 };
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
 
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-			delete patternObj;
+			stmt = Parameter("w", WHILE);
+			var = Parameter("i", STRINGVARIABLE);
+			factor = Parameter("_", ANYTHING);
 
+			Pattern patternObj(stmt, var, factor, false);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
 
-			patternObj = new Pattern("a", ASSIGN, "i", STRINGVARIABLE, "i", STRINGVARIABLE, false);
-			results = patternObj->getWithRelToLeft(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = {};
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
 
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-			delete patternObj;
+			expectedResult = { { 4 },{ 14 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
 
-			patternObj = new Pattern("a", ASSIGN, "i", STRINGVARIABLE, "_", ANYTHING, false);
-			results = patternObj->getWithRelToLeft(pkbStub);
-			sort(results.begin(), results.end());
-			expectedAns = { 11, 17 };
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
 
-			Assert::AreEqual(expectedAns.size(), results.size());
-			Assert::IsTrue(expectedAns == results);
-			delete patternObj;
+		TEST_METHOD(UnitTest_Pattern_IfSynonym_VariableSynonym)
+		{
+			PKBStub pkbStub;
 
-			delete pkbStub;*/
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("i", IF);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 6, 0 },{ 13, 0 },{ 22, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_IDENT)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("i", IF);
+			var = Parameter("x", STRINGVARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+
+			expectedResult = { { 6 },{ 13 },{ 22 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_SubExpression)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("v", VARIABLE); 
+			factor = Parameter("z+x", STRINGVARIABLE);
+
+			Pattern patternObj(stmt, var, factor, true);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { {8, 3},{9, 1},{21, 1},{24, 0} };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_FullExpression)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("z+x", STRINGVARIABLE);
+
+			Pattern patternObj(stmt, var, factor, false);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 8, 3 },{ 24, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_NoExpression)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 1, 0 },{ 2, 1 },{ 3, 2 },{ 5, 0 },{ 7, 1 },{ 8, 3 },{ 9, 1 },
+								{ 11, 2 },{ 15, 0 },{ 17, 2 },{ 18, 0 },{ 19, 1 },{ 20, 1 },
+								{ 21, 1 },{ 23, 1 },{ 24, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_AnyVariable_And_SubExpression)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("_", ANYTHING);
+			factor = Parameter("x + 1", STRINGVARIABLE);
+
+			Pattern patternObj(stmt, var, factor, true);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+
+			expectedResult = { { 7 },{ 18 },{ 23 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_IDENT_And_SubExpression)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("x", ANYTHING);
+			factor = Parameter("2", STRINGVARIABLE);
+
+			Pattern patternObj(stmt, var, factor, true);
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+
+			expectedResult = { { 1 }, { 15 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_StmtIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ stmt });
+			intResult.insertTuple({ 1 });
+			intResult.insertTuple({ 15 });
+			intResult.insertTuple({ 24 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 1, 0 },{ 15, 0 },{ 24, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_StmtIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("w", WHILE);
+			var = Parameter("i", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ stmt });
+			intResult.insertTuple({ 1 });
+			intResult.insertTuple({ 6 });
+			intResult.insertTuple({ 14 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 14, 2 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_StmtIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("i", IF);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ stmt });
+			intResult.insertTuple({ 1 });
+			intResult.insertTuple({ 6 });
+			intResult.insertTuple({ 13 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 6, 0 },{ 13, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VarIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ var });
+			intResult.insertTuple({ 0 });
+			intResult.insertTuple({ 3 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 1, 0 },{ 5, 0 },{ 8, 3 },{ 15, 0 },{ 18, 0 },{ 24, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("a", ASSIGN);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ stmt, var });
+			intResult.insertTuple({ 1, 0 });
+			intResult.insertTuple({ 3, 1 });
+			intResult.insertTuple({ 3, 2 });
+			intResult.insertTuple({ 8, 3 });
+			intResult.insertTuple({ 18, 3 });
+			intResult.insertTuple({ 23, 1 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 1, 0 },{ 3, 2 },{ 8, 3 },{ 23, 1 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("w", WHILE);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ stmt, var });
+			intResult.insertTuple({ 1, 0 });
+			intResult.insertTuple({ 3, 1 });
+			intResult.insertTuple({ 3, 2 });
+			intResult.insertTuple({ 4, 2 });
+			intResult.insertTuple({ 14, 2 });
+			intResult.insertTuple({ 23, 1 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 4, 2 }, { 14, 2 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
+		{
+			PKBStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt, var, factor;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt = Parameter("w", WHILE);
+			var = Parameter("v", VARIABLE);
+			factor = Parameter("_", ANYTHING);
+
+			Pattern patternObj(stmt, var, factor, false);
+			intResult.setSynList({ stmt, var });
+			intResult.insertTuple({ 1, 0 });
+			intResult.insertTuple({ 3, 1 });
+			intResult.insertTuple({ 6, 0 });
+			intResult.insertTuple({ 22, 0 });
+			intResult.insertTuple({ 22, 2 });
+			intResult.insertTuple({ 23, 1 });
+			queryResult = patternObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.isSynInTable(stmt));
+			Assert::IsTrue(queryResult.isSynInTable(var));
+
+			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
+			Assert::AreEqual(1, queryResult.getSynIndex(var));
+
+			expectedResult = { { 6, 0 },{ 22, 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
 		}
 	};
 }

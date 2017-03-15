@@ -1345,7 +1345,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	Pattern *p = new Pattern(leftChild, rightChild, factor);
+	Pattern *p = new Pattern(leftChild, rightChild, factor, true);
 	qt->insertResult(p);
 	string andStr = tokenizer->peekToken();
 	if (andStr.compare(TYPE_AND) == EQUAL) {

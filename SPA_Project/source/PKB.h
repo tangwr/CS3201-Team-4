@@ -63,27 +63,27 @@ public:
 
     bool setProcToStmtRel(int procId, int stmtId);
 
-    int getProcIdByName(string procName);
+    virtual int getProcIdByName(string procName);
     bool isProcInTable(string procName);
     
     unordered_set<int> getStmtInProc(int procId);
-    unordered_set<int> getAllProcId();
+    virtual unordered_set<int> getAllProcId();
 
 
 	//variable table
 	int insertVar(string varName);
 
-	unordered_set<int> getAllVarId();
-	string getVarNameById(int varId);//was get var name
+	virtual unordered_set<int> getAllVarId();
+	virtual string getVarNameById(int varId);//was get var name
 		//string getVarNameById(int varId);
-	int getVarIdByName(string varName);// was get VarId
+	virtual int getVarIdByName(string varName);// was get VarId
 		//int getVarIdByName(string varName);
 
 
 	//const table
 	int insertConst(int value);
 
-	unordered_set<int> getAllConstId();
+	virtual unordered_set<int> getAllConstId();
 	int getNumOfConst();//was get Const Table Size
 		//int getNumOfConst();
 	int getConstValueById(int constId);
@@ -141,7 +141,7 @@ public:
     unordered_set<int> getVarModifiedInProc(int procId);//was get Proc Modify
 		//vector<int> getVarModifiedInProc(int procId);
 
-    unordered_set<int> getAllModifyStmt();//was get All Modifies Stmt
+    virtual unordered_set<int> getAllModifyStmt();//was get All Modifies Stmt
 		//vector<int> getAllModifyStmt();
     bool isStmtInModifyTable(int stmtId);//was is Stmt In Modifies Table
 		//bool isStmtInModifyTable(int stmtId);
@@ -176,7 +176,7 @@ public:
     unordered_set<int> getProcUseConst(int constId);//was get Proc Uses Const
 		//vector<int> getProcUseConst(int constId);
 
-    unordered_set<int> getAllUseStmt();//was get All Use Stmt
+    virtual unordered_set<int> getAllUseStmt();//was get All Use Stmt
 		//vector<int> getAllUseStmt();
 
     bool isStmtInUseTable(int stmtId);// was is Stmt In Uses Table
@@ -194,27 +194,27 @@ public:
 	virtual string getExpInAssignStmt(int stmtId);//was get Assign Exp
 		//string getExpInAssignStmt(int stmtId);
 
-	bool isStmtInAssignTable(int stmtId);
+	virtual bool isStmtInAssignTable(int stmtId);
 
 
 	//While table
 	bool setVarToWhileStmt(int stmtId, int varId);//check var exist//was set While Ctrl Var
 		//bool setVarToWhileStmt(int stmtId, int varId);
 
-	int getCtrlVarInWhileStmt(int stmtId);//was get While Ctrl Var
+	virtual int getCtrlVarInWhileStmt(int stmtId);//was get While Ctrl Var
 		//int getCtrlVarInWhileStmt(int stmtId);
 	virtual unordered_set<int> getAllWhileStmt();
 
-	bool isStmtInWhileTable(int stmtId);
+	virtual bool isStmtInWhileTable(int stmtId);
 
 
 	//if table
 	bool setVarToIfStmt(int stmtId, int varId);//was set If Ctrl Var
 		//bool setVarToIfStmt(int stmtId, int varId);
-	int getCtrlVarInIfStmt(int stmtId);//was get If Ctrl Var
+	virtual int getCtrlVarInIfStmt(int stmtId);//was get If Ctrl Var
 		//int getCtrlVarInIfStmt(int stmtId);
-	bool isStmtInIfTable(int stmtId);
-    unordered_set<int> getAllIfId();
+	virtual bool isStmtInIfTable(int stmtId);
+    virtual unordered_set<int> getAllIfId();
 
 
 	//call table
@@ -225,8 +225,8 @@ public:
     bool isStmtInCalltable(int stmtId);
     int getProcCalledByStmt(int callStmtId);
     unordered_set<int> getProcCalledByProc(int callerProcId);
-    unordered_set<int> getAllCallId();
-    unordered_set<int> getStmtCallProc(int calledProcId);
+    virtual unordered_set<int> getAllCallId();
+    //unordered_set<int> getStmtCallProc(int calledProcId);
     unordered_set<int> getProcCalledByStarProc(int callerProcId);
 
     //next table
@@ -241,5 +241,10 @@ public:
 
     vector<int> getStmtLstContainedInProc(int procId);
     vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
-    unordered_set<int> getAllStmtLst();
+    virtual unordered_set<int> getAllStmtLst();
+
+	virtual unordered_set<int> getStmtInAssignWithVar(int varId);
+	virtual int getVarAtLeftOfAssignStmt(int assignStmtId);
+	virtual unordered_set<int> getStmtInWhileWithCtrlVar(int varId);
+	virtual unordered_set<int> getStmtInIfWithCtrlVar(int varId);
 };

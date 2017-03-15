@@ -4,10 +4,11 @@
 
 const int NOT_FOUND = -1;
 
-Pattern::Pattern(Parameter lc, Parameter rc, Parameter f) {
+Pattern::Pattern(Parameter lc, Parameter rc, Parameter f, bool isSubExp) {
 	leftChild = lc;
 	rightChild = rc;
 	factor = f;
+	hasUnderScore = isSubExp;
 
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
@@ -75,7 +76,9 @@ void Pattern::setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered
 		case VARIABLE:
 			/* falls through */
 		case ANYTHING:
-			setResultTupleToTable(pkb, pattResultTable, stmtId, varInStmt);
+			if (varInStmt != NOT_FOUND) {
+				setResultTupleToTable(pkb, pattResultTable, stmtId, varInStmt);
+			}
 			break;
 		}
 	}
@@ -94,13 +97,13 @@ unordered_set<int> Pattern::getStmtsWithVar(PKB* pkb, int varId) {
 	unordered_set<int> stmtWithVar;
 	switch (leftChild.getParaType()) {
 	case ASSIGN:
-		//stmtWithVar = pkb->getStmtInAssignWithVar(varId);
+		stmtWithVar = pkb->getStmtInAssignWithVar(varId);
 		break;
 	case WHILE:
-		//stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
+		stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
 		break;
 	case IF:
-		//stmtWithVar = pkb->getStmtInWhileWithCtrlVar(varId);
+		stmtWithVar = pkb->getStmtInIfWithCtrlVar(varId);
 		break;
 	}
 	return stmtWithVar;
@@ -110,7 +113,7 @@ int Pattern::getVarWithStmt(PKB* pkb, int stmtId) {
 	int varInStmt;
 	switch (leftChild.getParaType()) {
 	case ASSIGN:
-		//varInStmt = pkb->getVarAtLeftOfAssignStmt(stmtId);
+		varInStmt = pkb->getVarAtLeftOfAssignStmt(stmtId);
 		break;
 	case WHILE:
 		varInStmt = pkb->getCtrlVarInWhileStmt(stmtId);
@@ -176,10 +179,10 @@ void Pattern::matchTuplePattern(PKB* pkb, ResultTable* intResultTable, ResultTab
 	for (int tupleIndex = 0; tupleIndex < (int)tupleList.size(); tupleIndex++) {
 		switch (leftChild.getParaType()) {
 		case ASSIGN:
-			//if (pkb->getVarInAssignStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]
-				//&& hasPattern(pkb, tupleList[tupleIndex][stmtSynIndex])) {
-				//pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
-			//}
+			if (pkb->getVarAtLeftOfAssignStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]
+				&& hasPattern(pkb, tupleList[tupleIndex][stmtSynIndex])) {
+				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });
+			}
 		case WHILE:
 			if (pkb->getCtrlVarInWhileStmt(tupleList[tupleIndex][stmtSynIndex]) == tupleList[tupleIndex][varSynIndex]) {
 				pattResultTable->insertTuple({ tupleList[tupleIndex][stmtSynIndex], tupleList[tupleIndex][varSynIndex] });

@@ -30,44 +30,18 @@ private:
 	ResultTable getParentStarSynNum(PKB*, unordered_set<int>, int);
 	ResultTable getParentStarSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
 	ResultTable getParentStarSynSyn(PKB*, ResultTable*);
+	ResultTable evaluateWithoutRestrictions(PKB*);
+	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
 	vector<Parameter> synList;
 
-	/*
-	string leftChild;
-	string rightChild;
-	Type leftChildType;
-	Type rightChildType;
-	PKB *pkb;
-	bool isRel;
-	vector<int> result, tempResult, left, right;
-	bool isValidStmtNo(int, PKB*);
-	vector<int> getAllChildren(vector<int>, PKB*);
-	vector<int> getAllParents(vector<int>, PKB*);
-	vector<int> filterType(vector<int>, Type, PKB*);
-	bool isStmtType(int, Type, PKB*);
-	vector<int> getTypeStmt(Type, PKB*);
-	bool isNumber(Type);
-	bool isSynonym(Type);
-	*/
 public:
 
 	ParentStar(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	ResultTable evaluate(PKB*);
 	ResultTable evaluate(PKB*, ResultTable);
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
-	/*
-	ParentStar(string, Type, string, Type);
-	vector<int> getWithRelToLeft(PKB *pkb);
-	vector<int> getWithRelToRight(PKB *pkb);
-	string getLeftChild();
-	string getRightChild();
-	Type getLeftChildType();
-	Type getRightChildType();
-	bool hasRel(PKB *pkb);
-	*/
 	ClauseType getClauseType();
 };
 #endif

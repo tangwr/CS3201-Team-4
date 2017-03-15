@@ -11,10 +11,10 @@ Next::Next(Parameter lc, Parameter rc) {
 }
 
 
-ResultTable Next::evaluate(PKB* pkb) {
+ResultTable Next::evaluateWithoutRestrictions(PKB* pkb) {
 	if (isNumber(leftChild)) {
 		if (isNumber(rightChild)) {
-			//return getNextNumNum(pkb);
+			return getNextNumNum(pkb, stoi(leftChild.getParaName()), stoi(rightChild.getParaName()));
 		}
 		else if (isSynonym(rightChild)) {
 			return getNextNumSyn(pkb, getTypeStmt(rightChild.getParaType(), pkb), stoi(leftChild.getParaName()));
@@ -31,30 +31,41 @@ ResultTable Next::evaluate(PKB* pkb) {
 	return result;
 }
 
+ResultTable Next::evaluateWithoutOneRestriction(PKB* pkb, ResultTable* resultTable) {
+	unordered_set<int> left = resultTable->getSynValue(leftChild);
+	unordered_set<int> right = resultTable->getSynValue(rightChild);
+	if (isNumber(leftChild)) {
+		if (isSynonym(rightChild)) {
+			return getNextNumSyn(pkb, right, stoi(leftChild.getParaName()));
+		}
+	}
+	else if (isSynonym(leftChild)) {
+		if (isNumber(rightChild)) {
+			return getNextSynNum(pkb, left, stoi(rightChild.getParaName()));
+		}
+		else if (isSynonym(rightChild)) {
+			if (left.size() == 0) {
+				return getNextSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
+			}
+			else if (right.size() == 0) {
+				return getNextSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
+			}
+		}
+	}
+	return result;
+}
+
 ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
 	unordered_set<int> left = resultTable.getSynValue(leftChild);
 	unordered_set<int> right = resultTable.getSynValue(rightChild);
 	if (resultTable.getSynCount() == 0) {
-		return evaluate(pkb);
+		return evaluateWithoutRestrictions(pkb);
 	}
 	else if (resultTable.getSynCount() == 1) {
-		if (left.size() != 0) {
-			return getNextSynNum(pkb, left, stoi(rightChild.getParaName()));
-		}
-		else if (right.size() != 0) {
-			return getNextNumSyn(pkb, right, stoi(leftChild.getParaName()));
-		}
+		return evaluateWithoutOneRestriction(pkb, &resultTable);
 	}
 	else if (resultTable.getSynCount() == 2) {
-		if (left.size() == 0) {
-			return getNextSynSyn(pkb, getTypeStmt(leftChild.getParaType(), pkb), right);
-		}
-		else if (right.size() == 0) {
-			return getNextSynSyn(pkb, left, getTypeStmt(rightChild.getParaType(), pkb));
-		}
-		else {
-			return getNextSynSyn(pkb, &resultTable);
-		}
+		return getNextSynSyn(pkb, &resultTable);
 	}
 	return result;
 }
@@ -89,6 +100,9 @@ ResultTable Next::getNextNumSyn(PKB* pkb, unordered_set<int> right, int left) {
 
 ResultTable Next::getNextSynSyn(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
+	if (isLeftChild(rightChild)) {
+		return result;
+	}
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> next = pkb->getNextStmt(leftIterator);
@@ -116,6 +130,9 @@ ResultTable Next::getNextSynSyn(PKB* pkb, unordered_set<int> left, unordered_set
 
 ResultTable Next::getNextSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
+	if (isLeftChild(rightChild)) {
+		return result;
+	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
 	if (leftChild.isSame(synonyms[0])) {
@@ -164,7 +181,7 @@ unordered_set<int> Next::getTypeStmt(Type type, PKB* pkb) {
 		int numOfStmt = pkb->getNumOfStmt();
 		unordered_set<int> stmtList(numOfStmt);
 		for (int i = 0; i < numOfStmt; i++) {
-			//stmtList[i] = i + 1;
+			stmtList.insert(i + 1);
 		}
 		return stmtList;
 	}
@@ -178,6 +195,10 @@ unordered_set<int> Next::getTypeStmt(Type type, PKB* pkb) {
 		return pkb->getAllCallId();
 	}
 	return unordered_set<int>();
+}
+
+bool Next::isLeftChild(Parameter parameter) {
+	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool Next::isNumber(Parameter parameter) {

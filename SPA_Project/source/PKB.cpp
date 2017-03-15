@@ -478,11 +478,14 @@ unordered_set<int> PKB::getStmtInAssignWithVar(int varId) {
 }
 
 unordered_set<int> PKB::getStmtInWhileWithCtrlVar(int varId) {
+    return this->whileTable.getStmtWithCtrlVar(varId);
+    /*
 	unordered_map<int, unordered_set<int>> whileStmtUseVar = { { 2,{ 4, 14 } } };
 	if (whileStmtUseVar.find(varId) == whileStmtUseVar.end()) {
 		return unordered_set<int>();
 	}
 	return whileStmtUseVar.at(varId);
+    */
 }
 
 unordered_set<int> PKB::getStmtInIfWithCtrlVar(int varId) {

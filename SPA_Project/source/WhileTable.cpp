@@ -2,6 +2,20 @@
 
 using namespace std;
 
+bool WhileTable::setStmtToCtrlVar(int varId, int stmtId) {
+    unordered_map<int, unordered_set<int>>::iterator it = this->ctrlVarList.find(varId);
+    unordered_set<int> stmtSet;
+    if (it != this->ctrlVarList.end()) {
+        stmtSet = it->second;
+        if (stmtSet.find(stmtId) != stmtSet.end()) {
+            return false;
+        }
+        this->ctrlVarList.erase(it);
+    }
+    stmtSet.insert(stmtId);
+    this->ctrlVarList.insert(make_pair(varId, stmtSet));
+    return true;
+}
 
 WhileTable::WhileTable() {
 	this->size = 0;
@@ -33,7 +47,8 @@ bool WhileTable::setVarToWhileStmt(int stmtId, int varId) {
 	else {
 		this->whileList.insert({ stmtId, varId });
 		this->size++;
-		return true;
+		//return true;
+        return setStmtToCtrlVar(varId, stmtId);
 	}
 }
 
@@ -45,6 +60,17 @@ int WhileTable::getCtrlVarInWhileStmt(int stmtId) {
 	else {
 		return -1;
 	}
+}
+
+unordered_set<int> WhileTable::getStmtWithCtrlVar(int varId) {
+    unordered_map<int, unordered_set<int>>::iterator it = this->ctrlVarList.find(varId);
+    //unordered_set<int> stmtSet = unordered_set<int>();
+    if (it != this->ctrlVarList.end()) {
+        return it->second;
+    }
+    else {
+        return unordered_set<int>();
+    }
 }
 
 int WhileTable::getSize() {

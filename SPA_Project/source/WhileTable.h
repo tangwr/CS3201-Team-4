@@ -14,7 +14,9 @@ class WhileTable {
 private:
 
 	unordered_map<int, int> whileList;//stmtId, controlVarId
+    unordered_map<int, unordered_set<int>> ctrlVarList; //control var to list of stmtId
 	int size;
+    bool setStmtToCtrlVar(int varId, int stmtId);
 
 public:
 	WhileTable();
@@ -22,6 +24,7 @@ public:
 	void printContents();
 	bool setVarToWhileStmt(int stmtId, int varId);
 	int getCtrlVarInWhileStmt(int stmtId);
+    unordered_set<int> getStmtWithCtrlVar(int varId);
     unordered_set<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
 };

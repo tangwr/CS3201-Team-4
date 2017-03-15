@@ -81,9 +81,7 @@ const vector<string> KEYS = { "Pattern", "and", "such", "that", "call", "prog_li
 "Parent*", "Follows", "Follows*","Next","Next*", "with" };
 const string IDENT = "([a-zA-Z][a-zA-Z0-9#]*)";
 
-QueryParser::QueryParser() {
-	
-}
+QueryParser::QueryParser() {}
 
 QueryTree QueryParser::parse(string query) {
 	tokenizer = new Tokenizer(query);
@@ -106,7 +104,7 @@ QueryTree QueryParser::parse(string query) {
 
 void QueryParser::getDeclaration(QueryTree *qt) {
 	cout << "the token is: " << tokenizer->peekToken();
-	while (tokenizer->peekToken().compare(TYPE_SELECT) != EQUAL){
+	while (tokenizer->peekToken().compare(TYPE_SELECT) != EQUAL) {
 		getDeclare(qt);
 	}
 }
@@ -159,7 +157,7 @@ void QueryParser::getDeclare(QueryTree *qt) {
 		varMap[synName] = Parameter(synName, synType);
 		nextToken = tokenizer->getToken();
 	} while (nextToken.compare(SYMBOL_COMMA) == EQUAL);
-	
+
 	match(nextToken, SYMBOL_SEMICOLON);
 }
 
@@ -209,6 +207,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 		else {
 			throwError(ERROR_SELECT);
 		}
+		tokenizer->getToken();
 	}
 }
 
@@ -311,7 +310,7 @@ void QueryParser::getModifies(QueryTree* qt) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
 		Type lcType = leftChild.getParaType();
-		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STMTLST) {
+		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STMTLST || lcType == STRINGVARIABLE) {
 			throwError(ERROR_LEFT_CHILD);
 		}
 		if (!isUsedExists(key)) {
@@ -391,7 +390,7 @@ void QueryParser::getUses(QueryTree* qt) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
 		Type lcType = leftChild.getParaType();
-		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STMTLST) {
+		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STMTLST || lcType == STRINGVARIABLE) {
 			throwError(ERROR_LEFT_CHILD);
 		}
 		if (!isUsedExists(key)) {
@@ -693,7 +692,7 @@ void QueryParser::getParent(QueryTree* qt) {
 void QueryParser::getParentStar(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
-	
+
 	string token = tokenizer->getToken();
 	cout << "\n the bracket is : " << token;
 	match(token, SYMBOL_OPEN_BRACKET);
@@ -908,7 +907,7 @@ void QueryParser::getFollowsStar(QueryTree* qt) {
 void QueryParser::getNext(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
-	
+
 	string token = tokenizer->getToken();
 	cout << "\n the bracket is : " << token;
 	match(token, SYMBOL_OPEN_BRACKET);
@@ -1049,7 +1048,7 @@ void QueryParser::getNextStar(QueryTree* qt) {
 void QueryParser::getAffects(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
-	
+
 	string token = tokenizer->getToken();
 	cout << "\n the bracket is : " << token;
 	match(token, SYMBOL_OPEN_BRACKET);
@@ -1114,7 +1113,7 @@ void QueryParser::getAffects(QueryTree* qt) {
 void QueryParser::getAffectsStar(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
-	
+
 	string token = tokenizer->getToken();
 	cout << "\n the bracket is : " << token;
 	match(token, SYMBOL_OPEN_BRACKET);
@@ -1180,6 +1179,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 	Parameter leftChild;
 	Parameter rightChild;
 	Parameter factor;
+	bool hasUnderScore = false;
 
 	string lc = tokenizer->getToken();
 	cout << "\n pattern' lc is : " << lc;
@@ -1196,7 +1196,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 		usedMap[key] = leftChild;
 	}
 
-    string openBracket = tokenizer->getToken();
+	string openBracket = tokenizer->getToken();
 	match(openBracket, SYMBOL_OPEN_BRACKET);
 	string rc = tokenizer->getToken();
 	if (lcType == ASSIGN || lcType == WHILE) {
@@ -1239,10 +1239,10 @@ void QueryParser::getPattern(QueryTree *qt) {
 			if (fact.compare(SYMBOL_UNDERSCORE) == EQUAL && close.compare(SYMBOL_PATTERN_CLOSE) == EQUAL) {
 				factor.setParaName(fact);
 				factor.setParaType(ANYTHING);
-			 }
-			 else {
-				 throwError(ERROR_FACTOR);
-			 }
+			}
+			else {
+				throwError(ERROR_FACTOR);
+			}
 		}
 		else {
 			if (fact.compare(SYMBOL_UNDERSCORE) == EQUAL && close.compare(SYMBOL_PATTERN_CLOSE) == EQUAL) {
@@ -1268,6 +1268,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 				}
 				factor.setParaName(exp);
 				factor.setParaType(STRINGVARIABLE);
+				hasUnderScore = true;
 			}
 			else if (fact.compare(SYMBOL_QUOTE) == EQUAL) {// pattern's expression 
 				cout << "\n the symbol quote is : " << tokenizer->peekToken();
@@ -1345,7 +1346,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	Pattern *p = new Pattern(leftChild, rightChild, factor, true);
+	Pattern *p = new Pattern(leftChild, rightChild, factor, hasUnderScore);
 	qt->insertResult(p);
 	string andStr = tokenizer->peekToken();
 	if (andStr.compare(TYPE_AND) == EQUAL) {
@@ -1545,13 +1546,13 @@ void QueryParser::getWith(QueryTree *qt) {
 		w->insertSynList(rightChild);
 	}
 	qt->insertResult(w);
-	
+
 	string andStr = tokenizer->peekToken();
 	if (andStr.compare(TYPE_AND) == EQUAL) {
 		tokenizer->getToken();
 		getWith(qt);
 	}
-	
+
 }
 bool QueryParser::isVarNameExists(string varName) {
 	auto iter = varMap.find(varName);

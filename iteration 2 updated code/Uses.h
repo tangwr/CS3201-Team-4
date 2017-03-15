@@ -49,22 +49,24 @@ private:
 public:
 
 	Uses(Parameter lc, Parameter rc);
-
-	bool hasRel(PKB *pkb);
-	vector<int> getWithRelToLeft(PKB *pkb);
-	vector<int> getWithRelToRight(PKB *pkb);
-
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	vector<Parameter> getSynList();
-
-	void insertSynList(Parameter p);
-
-	//ResultTable evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList);
-
 	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
+	void insertSynList(Parameter p);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
 
 	//testing
 	void setPKB(PKB* pkbInput);
+
+	//bool hasRel(PKB *pkb);
+	//vector<int> getWithRelToLeft(PKB *pkb);
+	//vector<int> getWithRelToRight(PKB *pkb);
+
+	//ResultTable evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList);
+
+	
+
+	
 };
 #endif

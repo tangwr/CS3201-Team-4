@@ -529,20 +529,6 @@ unordered_set<int> Modifies::mergeSet(unordered_set<int> s1, unordered_set<int> 
 }
 
 //Public 
-bool Modifies::hasRel(PKB *pkbSource) {
-	return false;
-}
-
-vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
-	vector<int> v;
-	return v;
-}
-
-vector<int> Modifies::getWithRelToRight(PKB *pkb) {
-	vector<int> v;
-	return v;
-}
-
 Parameter Modifies::getLeftChild() {
 	return leftChild;
 }
@@ -551,12 +537,16 @@ Parameter Modifies::getRightChild() {
 	return rightChild;
 }
 
+void Modifies::insertSynList(Parameter p) {
+	synList.push_back(p);
+}
+
 vector<Parameter> Modifies::getSynList() {
 	return synList;
 }
 
-void Modifies::insertSynList(Parameter p) {
-	synList.push_back(p);
+ClauseType Modifies::getClauseType() {
+	return MODIFIES;
 }
 
 //Testing
@@ -564,7 +554,21 @@ void Modifies::setPKB(PKB* pkbInput) {
 	this->pkb = pkbInput;
 }
 
+/*
+bool Modifies::hasRel(PKB *pkbSource) {
+return false;
+}
 
+vector<int> Modifies::getWithRelToLeft(PKB *pkb) {
+vector<int> v;
+return v;
+}
+
+vector<int> Modifies::getWithRelToRight(PKB *pkb) {
+vector<int> v;
+return v;
+}
+*/
 
 /*
 vector<int> Modifies::getModifyStmtListOfVar() {

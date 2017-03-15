@@ -350,24 +350,6 @@ unordered_set<int> CallsStar::mergeSet(unordered_set<int> s1, unordered_set<int>
 }
 
 //Pulbic
-
-
-
-bool CallsStar::hasRel(PKB *pkbSource) {
-	return false;
-}
-
-vector<int> CallsStar::getWithRelToLeft(PKB *pkb) {
-	vector<int> v;
-	return v;
-
-}
-
-vector<int> CallsStar::getWithRelToRight(PKB *pkb) {
-	vector<int> v;
-	return v;
-}
-
 Parameter CallsStar::getLeftChild() {
 	return leftChild;
 }
@@ -376,15 +358,35 @@ Parameter CallsStar::getRightChild() {
 	return rightChild;
 }
 
-vector<Parameter> CallsStar::getSynList() {
-	return synList;
-}
-
 
 void CallsStar::insertSynList(Parameter p) {
 	synList.push_back(p);
 }
 
+vector<Parameter> CallsStar::getSynList() {
+	return synList;
+}
+
+ClauseType CallsStar::getClauseType() {
+	return CALLSSTAR;
+}
+
+/*
+bool CallsStar::hasRel(PKB *pkbSource) {
+return false;
+}
+
+vector<int> CallsStar::getWithRelToLeft(PKB *pkb) {
+vector<int> v;
+return v;
+
+}
+
+vector<int> CallsStar::getWithRelToRight(PKB *pkb) {
+vector<int> v;
+return v;
+}
+*/
 
 /*
 vector<int> CallsStar::getCallLeftProcList() {

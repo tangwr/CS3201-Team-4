@@ -528,19 +528,6 @@ unordered_set<int> Uses::mergeSet(unordered_set<int> s1, unordered_set<int> s2) 
 }
 
 //Public 
-bool Uses::hasRel(PKB *pkbSource) {
-	return false;
-}
-
-vector<int> Uses::getWithRelToLeft(PKB *pkb) {
-	vector<int> v;
-	return v;
-}
-
-vector<int> Uses::getWithRelToRight(PKB *pkb) {
-	vector<int> v;
-	return v;
-}
 
 Parameter Uses::getLeftChild() {
 	return leftChild;
@@ -550,18 +537,39 @@ Parameter Uses::getRightChild() {
 	return rightChild;
 }
 
+void Uses::insertSynList(Parameter p) {
+	synList.push_back(p);
+}
+
 vector<Parameter> Uses::getSynList() {
 	return synList;
 }
 
-void Uses::insertSynList(Parameter p) {
-	synList.push_back(p);
+ClauseType Uses::getClauseType() {
+	return USES;
 }
 
 //Testing
 void Uses::setPKB(PKB* pkbInput) {
 	this->pkb = pkbInput;
 }
+
+/*
+bool Uses::hasRel(PKB *pkbSource) {
+return false;
+}
+
+vector<int> Uses::getWithRelToLeft(PKB *pkb) {
+vector<int> v;
+return v;
+}
+
+vector<int> Uses::getWithRelToRight(PKB *pkb) {
+vector<int> v;
+return v;
+}
+*/
+
 
 
 //takes in para vector<int> stmtList

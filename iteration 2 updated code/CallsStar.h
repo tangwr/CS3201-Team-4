@@ -46,18 +46,22 @@ private:
 public:
 
 	CallsStar(Parameter lc, Parameter rc);
-	bool hasRel(PKB *pkb);
-	vector<int> getWithRelToLeft(PKB *pkb);
-	vector<int> getWithRelToRight(PKB *pkb);
-
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	vector<Parameter> getSynList();
-
+	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
 	void insertSynList(Parameter p);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+
+
+	//bool hasRel(PKB *pkb);
+	//vector<int> getWithRelToLeft(PKB *pkb);
+	//vector<int> getWithRelToRight(PKB *pkb);
+
+	
 
 	//ResultTable evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList);
-	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
+	
 };
 
 #endif

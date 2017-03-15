@@ -444,22 +444,6 @@ unordered_set<int> Calls::mergeSet(unordered_set<int> s1, unordered_set<int> s2)
 }
 
 //Pulbic
-
-bool Calls::hasRel(PKB *pkbSource) {
-	return false;
-}
-
-vector<int> Calls::getWithRelToLeft(PKB *pkb) {
-	vector<int> v;
-	return v;
-
-}
-
-vector<int> Calls::getWithRelToRight(PKB *pkb) {
-	vector<int> v;
-	return v;
-}
-
 Parameter Calls::getLeftChild() {
 	return leftChild;
 }
@@ -468,15 +452,34 @@ Parameter Calls::getRightChild() {
 	return rightChild;
 }
 
-vector<Parameter> Calls::getSynList() {
-	return synList;
-}
-
 void Calls::insertSynList(Parameter p) {
 	synList.push_back(p);
 }
 
+vector<Parameter> Calls::getSynList() {
+	return synList;
+}
 
+ClauseType Calls::getClauseType() {
+	return CALLS;
+}
+
+/*
+bool Calls::hasRel(PKB *pkbSource) {
+return false;
+}
+
+vector<int> Calls::getWithRelToLeft(PKB *pkb) {
+vector<int> v;
+return v;
+
+}
+
+vector<int> Calls::getWithRelToRight(PKB *pkb) {
+vector<int> v;
+return v;
+}
+*/
 /*
 vector<int> Calls::getCallLeftProcList() {
 Type lcType = leftChild.getParaType();

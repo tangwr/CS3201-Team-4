@@ -15,9 +15,10 @@ public:
 
 private:
 	PKB *pkb;
-
-	list<string> formatBoolResult(ResultTable result);
-	list<string> formatVarResult(ResultTable result);
-	list<string> formatConstResult(ResultTable result);
-	list<string> formatStmtResult(ResultTable result);
+	string processSingleResult(vector<int> vectorInt, vector<Parameter> select);
+	string processResultType(int value, Type valueType);
+	string formatBoolResult(bool result);
+	string formatVarResult(int result);
+	string formatConstResult(int result);
+	string formatStmtResult(int value);
 };

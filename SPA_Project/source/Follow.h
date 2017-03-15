@@ -22,41 +22,15 @@ private:
 	bool isRightChild(Parameter);
 	bool isValidStmtNo(int, PKB*);
 	bool isFollows(PKB*, int, int);
-//	bool isStmtType(int, Parameter, PKB*);
 	unordered_set<int> getTypeStmt(Type, PKB*);
 	ResultTable getFollowNumNum(PKB*, int, int);
-//	ResultTable getFollowNumSyn(PKB*);
 	ResultTable getFollowNumSyn(PKB*, unordered_set<int>, int);
-//	ResultTable getFollowSynNum(PKB*);
 	ResultTable getFollowSynNum(PKB*, unordered_set<int>, int);
-	//ResultTable getFollowSynSyn(PKB*);
 	ResultTable getFollowSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
 	ResultTable getFollowSynSyn(PKB*, ResultTable*);
+	ResultTable evaluateWithoutRestrictions(PKB*);
+	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
 	vector<Parameter> synList;
-	/*
-	string leftChild;
-	string rightChild;
-	Type leftChildType;
-	Type rightChildType;
-	PKB *pkb;
-	bool isRel;
-	vector<int> result, tempResult, left, right;
-	bool isValidStmtNo(int, PKB*);
-	vector<int> getAllFollows(vector<int>, PKB*);
-	vector<int> getAllFollowedBy(vector<int>, PKB*);
-	vector<int> filterType(vector<int>, Type, PKB*);
-	bool isStmtType(int, Type, PKB*);
-	vector<int> getTypeStmt(Type, PKB*);
-	vector<int> getWithRelToRightNumSyn(PKB*);
-	vector<int> getWithRelToRightSynSyn(PKB*);
-	vector<int> getWithRelToLeftSynNum(PKB*);
-	vector<int> getWithRelToLeftSynSyn(PKB*);
-	bool hasRelSynNum(PKB*);
-	bool hasRelSynSyn(PKB*);
-	bool hasRelNumNum(PKB*, int);
-	bool hasRelNumSyn(PKB*, int);
-	bool isNumber(Type);
-	bool isSynonym(Type);*/
 
 public:
 	Follow(Parameter lc, Parameter rc);
@@ -64,19 +38,7 @@ public:
 	Parameter getRightChild();
 	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
-	ResultTable evaluate(PKB*);
 	ResultTable evaluate(PKB*, ResultTable);
-	/*
-
-	Follow(string, Type, string, Type);
-	vector<int> getWithRelToLeft(PKB *pkb);
-	vector<int> getWithRelToRight(PKB *pkb);
-	string getLeftChild();
-	string getRightChild();
-	Type getLeftChildType();
-	Type getRightChildType();
-	bool hasRel(PKB *pkb);
-	*/
 	ClauseType getClauseType();
 };
 #endif

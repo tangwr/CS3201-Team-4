@@ -212,3 +212,6 @@ Parameter ParentStar::getRightChild() {
 vector<Parameter> ParentStar::getSynList() {
 	return synList;
 }
+ClauseType ParentStar::getClauseType() {
+	return PARENTSTAR;
+}

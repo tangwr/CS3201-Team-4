@@ -195,6 +195,8 @@ public:
 		//string getExpInAssignStmt(int stmtId);
 
 	virtual bool isStmtInAssignTable(int stmtId);
+    virtual bool setVarAtLeftOfAssignStmt(int assignStmtId, int varId);
+    virtual int getVarAtLeftOfAssignStmt(int assignStmtId);
 
 
 	//While table
@@ -204,6 +206,7 @@ public:
 	virtual int getCtrlVarInWhileStmt(int stmtId);//was get While Ctrl Var
 		//int getCtrlVarInWhileStmt(int stmtId);
 	virtual unordered_set<int> getAllWhileStmt();
+    virtual unordered_set<int> getStmtInWhileWithCtrlVar(int varId);
 
 	virtual bool isStmtInWhileTable(int stmtId);
 
@@ -243,8 +246,10 @@ public:
     vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
     virtual unordered_set<int> getAllStmtLst();
 
+
+    //to be implemented
 	virtual unordered_set<int> getStmtInAssignWithVar(int varId);
-	virtual int getVarAtLeftOfAssignStmt(int assignStmtId);
-	virtual unordered_set<int> getStmtInWhileWithCtrlVar(int varId);
+	
+	
 	virtual unordered_set<int> getStmtInIfWithCtrlVar(int varId);
 };

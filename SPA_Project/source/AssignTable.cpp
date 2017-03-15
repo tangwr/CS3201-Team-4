@@ -36,6 +36,27 @@ bool AssignTable::setExpToAssignStmt(int stmtId, string exp) {
 	}
 }
 
+bool AssignTable::setVarToAssignStmt(int stmtId, int varId) {
+    if (this->variableAssignList.find(stmtId) != this->variableAssignList.end()) {
+        return false;
+    }
+    else {
+        this->variableAssignList.insert({ stmtId, varId });
+        return true;
+    }
+}
+
+bool AssignTable::setVarExpToAssignStmt(int varId, string exp, int stmtId) {
+    bool isSuccessful = this->setVarToAssignStmt(stmtId, varId);
+    if (!isSuccessful) {
+        isSuccessful = false;
+    }
+    else {
+        isSuccessful = this->setExpToAssignStmt(stmtId, exp);
+    }
+    return isSuccessful;
+}
+
 string AssignTable::getExpInAssignStmt(int stmtId) {
 	auto it = this->assignList.find(stmtId);
 	if (it != assignList.end()) {
@@ -44,6 +65,16 @@ string AssignTable::getExpInAssignStmt(int stmtId) {
 	else {
 		return "";
 	}
+}
+
+int AssignTable::getAssignedVarInAssignStmt(int stmtId) {
+    unordered_map<int, int>::iterator it = this->variableAssignList.find(stmtId);
+    if (it != this->variableAssignList.end()) {
+        return it->second;
+    }
+    else {
+        return -1;
+    }
 }
 
 int AssignTable::getSize() {

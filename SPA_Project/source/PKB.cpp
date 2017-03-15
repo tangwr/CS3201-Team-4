@@ -352,6 +352,14 @@ bool PKB::isStmtInAssignTable(int stmtId) {
 	return this->assignTable.isStmtInTable(stmtId);
 }
 
+bool PKB::setVarAtLeftOfAssignStmt(int assignStmtId, int varId) {
+    return this->assignTable.setVarToAssignStmt(assignStmtId, varId);
+}
+
+int PKB::getVarAtLeftOfAssignStmt(int assignStmtId) {
+    return this->assignTable.getAssignedVarInAssignStmt(assignStmtId);
+}
+
 
 //while table
 bool PKB::setVarToWhileStmt(int stmtId, int varId) {
@@ -467,10 +475,6 @@ unordered_set<int> PKB::getAllStmtLst() {
 unordered_set<int> PKB::getStmtInAssignWithVar(int varId) {
 	unordered_map<int, unordered_set<int>> assignStmtModVar = { { 0,{ 1, 5, 15, 18, 24 } },{ 1,{ 2, 7, 9, 19, 20, 21, 23 } },{ 2,{ 3, 11, 17 } },{ 3,{ 8 } } };
 	return assignStmtModVar.at(varId);
-}
-
-int PKB::getVarAtLeftOfAssignStmt(int assignStmtId) {
-	return -1;
 }
 
 unordered_set<int> PKB::getStmtInWhileWithCtrlVar(int varId) {

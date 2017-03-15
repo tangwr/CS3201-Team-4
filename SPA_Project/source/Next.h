@@ -18,6 +18,7 @@ private:
 	vector<Parameter> synList;
 	bool isNumber(Parameter);
 	bool isSynonym(Parameter);
+	bool isLeftChild(Parameter);
 	bool isNext(PKB*, int, int);
 	bool isValidStmtNo(int, PKB*);
 	unordered_set<int> getTypeStmt(Type, PKB*);
@@ -26,11 +27,11 @@ private:
 	ResultTable getNextSynNum(PKB*, unordered_set<int>, int);
 	ResultTable getNextSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
 	ResultTable getNextSynSyn(PKB*, ResultTable*);
-
+	ResultTable evaluateWithoutRestrictions(PKB*);
+	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
 
 public:
 	Next(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB*);
 	ResultTable evaluate(PKB*, ResultTable);
 	Parameter getLeftChild();
 	Parameter getRightChild();

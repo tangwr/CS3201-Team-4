@@ -16,7 +16,7 @@ using namespace std;
 class PQL {
 private:
 	PKB *pkb;
-	QueryParser preProcessor;
+	QueryParser *preProcessor;
 	QueryEvaluator *evaluator;
 	QueryPostProcessor *postProcessor;
 

@@ -40,7 +40,7 @@ ResultTable NextStar::evaluateWithoutOneRestriction(PKB* pkb, ResultTable* resul
 	}
 	else if (isSynonym(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getNextStarSynNum(pkb, getTypeStmt(leftChild.getParaType(), pkb), stoi(rightChild.getParaName()));
+			return getNextStarSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
 		else if (isSynonym(rightChild)) {
 			if (left.size() == 0) {
@@ -74,7 +74,7 @@ ResultTable NextStar::getNextStarSynNum(PKB* pkb, unordered_set<int> left, int r
 		unordered_set<int> allPrevStar;
 		getAllPrevStar(right, &allPrevStar, pkb);
 		for (auto& it : allPrevStar) {
-			result.insertTuple(vector<int>(it, right));
+			result.insertTuple(vector<int>(1,it));
 		}
 	}
 	return result;
@@ -87,7 +87,7 @@ ResultTable NextStar::getNextStarNumSyn(PKB* pkb, unordered_set<int> right, int 
 		unordered_set<int> allNextStar;
 		getAllNextStar(leftArgument, &allNextStar, pkb);
 		for (auto& it : allNextStar) {
-			result.insertTuple(vector<int>(left, it));
+			result.insertTuple(vector<int>(1, it));
 		}
 	}
 	return result;
@@ -103,7 +103,8 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, unordered_set<int> left, unord
 			unordered_set<int> allNextStar;
 			getAllNextStar(leftIterator, &allNextStar, pkb);
 			for (auto& it : allNextStar) {
-				result.insertTuple(vector<int>(leftIterator, it));
+				vector<int> tuple = { leftIterator, it };
+				result.insertTuple(tuple);
 			}
 		}
 	}
@@ -112,7 +113,8 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, unordered_set<int> left, unord
 			unordered_set<int> allPrevStar;
 			getAllPrevStar(rightIterator, &allPrevStar, pkb);
 			for (auto& it : allPrevStar) {
-				result.insertTuple(vector<int>(it, rightIterator));
+				vector<int> tuple = { it, rightIterator };
+				result.insertTuple(tuple);
 			}
 		}
 	}
@@ -126,14 +128,16 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isNextStar(pkb, tupleList[i][0], tupleList[i][1])) {
-				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
+				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isNextStar(pkb, tupleList[i][1], tupleList[i][0])) {
-				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
+				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+				result.insertTuple(tuple);
 			}
 		}
 	}

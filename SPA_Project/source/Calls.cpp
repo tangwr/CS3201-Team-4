@@ -11,7 +11,7 @@ Calls::Calls(Parameter lc, Parameter rc){
 //ResultTable Calls::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
 ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 	ResultTable resultTable;
-
+	/*
 	Parameter param1, param2;
 	vector<Parameter> synList;
 	vector<int> tuple, firstSynList, secondSynList;
@@ -98,7 +98,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 			resultTable.insertTuple(tuple);
 		}
 	}
-
+	*/
 	return resultTable;
 }
 

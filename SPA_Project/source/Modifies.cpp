@@ -12,7 +12,7 @@ Modifies::Modifies(Parameter lc, Parameter rc) {
 //ResultTable Modifies::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
 ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	ResultTable resultTable;
-
+	/*
 	Parameter param1, param2;
 	vector<Parameter> synList;
 	vector<int> tuple, firstSynList, secondSynList;
@@ -94,7 +94,7 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 			tuple.clear();
 		}
 	}
-
+	*/
 	return resultTable;
 }
 

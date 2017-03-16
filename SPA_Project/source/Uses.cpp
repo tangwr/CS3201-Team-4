@@ -12,7 +12,7 @@ Uses::Uses(Parameter lc, Parameter rc) {
 ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 
 	ResultTable resultTable;
-
+	/*
 	Parameter param1, param2;
 	vector<Parameter> synList;
 	vector<int> tuple, firstSynList, secondSynList;
@@ -92,7 +92,7 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 			tuple.clear();
 		}
 	}
-
+	*/
 	return resultTable;
 }
 

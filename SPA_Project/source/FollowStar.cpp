@@ -72,7 +72,7 @@ ResultTable FollowStar::getFollowStarSynNum(PKB* pkb, unordered_set<int> left, i
 		unordered_set<int> followStar = pkb->getStmtFollowedByStarStmt(right);
 		for (auto& it : followStar) {
 			if (left.find(it) != left.end()) {
-				result.insertTuple(vector<int>(it));
+				result.insertTuple(vector<int>(1, it));
 			}
 		}
 	}
@@ -85,7 +85,7 @@ ResultTable FollowStar::getFollowStarNumSyn(PKB* pkb, unordered_set<int> right, 
 		unordered_set<int> followedByStar = pkb->getStmtFollowStarStmt(left);
 		for (auto& it : followedByStar) {
 			if (right.find(it) != right.end()) {
-				result.insertTuple(vector<int>(it));
+				result.insertTuple(vector<int>(1, it));
 			}
 		}
 	}
@@ -102,7 +102,8 @@ ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, unordered_set<int> left, u
 			unordered_set<int> followedByStar = pkb->getStmtFollowStarStmt(leftIterator);
 			for (auto& it : followedByStar) {
 				if (right.find(it) != right.end()) {
-					result.insertTuple(vector<int>(leftIterator, it));
+					vector<int> tuple = { leftIterator, it };
+					result.insertTuple(tuple);
 				}
 			}
 		}
@@ -112,7 +113,8 @@ ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, unordered_set<int> left, u
 			unordered_set<int> followStar = pkb->getStmtFollowedByStarStmt(rightIterator);
 			for (auto& it : followStar) {
 				if (left.find(it) != left.end()) {
-					result.insertTuple(vector<int>(it, rightIterator));
+					vector<int> tuple = { it, rightIterator };
+					result.insertTuple(tuple);
 				}
 			}
 		}
@@ -131,14 +133,16 @@ ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isFollowStar(pkb, tupleList[i][0], tupleList[i][1])) {
-				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
+				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isFollowStar(pkb, tupleList[i][1], tupleList[i][0])) {
-				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
+				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+				result.insertTuple(tuple);
 			}
 		}
 	}

@@ -167,6 +167,10 @@ int PKB::getConstValueById(int constId) {
 	return this->constTable.getValueById(constId);
 }
 
+bool PKB::isConstInTable(int constValue) {
+    return this->constTable.checkConstExist(constValue);
+}
+
 unordered_set<int> PKB::getAllConstId() {
 	vector<int> constIdVector = this->constTable.getAllConstId();
 	unordered_set<int> constIdSet;
@@ -465,7 +469,7 @@ int PKB::getProcCalledByStmt(int callStmtId) {
     return this->callTable.getProcCalledByStmt(callStmtId);
 }
 
-int PKB::getStmtCallProc(int procId) {
+unordered_set<int> PKB::getStmtCallProc(int procId) {
     return this->callTable.getCallerStmtCallProc(procId);
 }
 

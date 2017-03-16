@@ -88,6 +88,7 @@ public:
     virtual unordered_set<int> getAllConst();
     virtual int getNumOfConst();//was get Const Table Size
     virtual int getConstValueById(int constId);
+    virtual bool isConstInTable(int constValue);
 
 
 	//Parent table
@@ -184,7 +185,7 @@ public:
     virtual bool insertProcCallStarProcRel(int callerProcId, int calledStarProcId);
     virtual bool isStmtInCalltable(int stmtId);
     virtual int getProcCalledByStmt(int callStmtId);
-    virtual int getStmtCallProc(int procId);
+    virtual unordered_set<int> getStmtCallProc(int procId);
     virtual unordered_set<int> getProcCalledByProc(int callerProcId);
     virtual unordered_set<int> getAllCallId();
     virtual unordered_set<int> getProcCalledByStarProc(int callerProcId);

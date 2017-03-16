@@ -114,6 +114,13 @@ void AssignTable::printContents() {
     for (auto entry : assignList) {
         cout << entry.first << " : " << entry.second << endl;
     }
+    cout << endl;
+
+    cout << "StmtId : variable assigned on left" << endl;
+    for (auto entry : variableAssignList) {
+        cout << entry.first << " : " << entry.second << endl;
+    }
+    cout << endl;
 
     cout << "---END PRINT ASSIGN TABLE---" << endl;
 

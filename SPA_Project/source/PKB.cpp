@@ -385,6 +385,12 @@ int PKB::getVarAtLeftOfAssignStmt(int assignStmtId) {
     return this->assignTable.getAssignedVarInAssignStmt(assignStmtId);
 }
 
+unordered_set<int> PKB::getStmtInAssignWithVar(int varId) {
+    return this->assignTable.getStmtWithCtrlVar(varId);
+    //unordered_map<int, unordered_set<int>> assignStmtModVar = { { 0,{ 1, 5, 15, 18, 24 } },{ 1,{ 2, 7, 9, 19, 20, 21, 23 } },{ 2,{ 3, 11, 17 } },{ 3,{ 8 } } };
+    //return assignStmtModVar.at(varId);
+}
+
 
 //while table
 bool PKB::setVarToWhileStmt(int stmtId, int varId) {
@@ -418,6 +424,11 @@ int PKB::getCtrlVarInIfStmt(int stmtId) {
 	return this->ifTable.getCtrlVarInIfStmt(stmtId);
 }
 
+unordered_set<int> PKB::getStmtInIfWithCtrlVar(int varId) {
+    return this->ifTable.getStmtWithCtrlVar(varId);
+    //return unordered_set<int>();
+}
+
 bool PKB::isStmtInIfTable(int stmtId) {
 	return this->ifTable.isStmtInTable(stmtId);
 }
@@ -449,6 +460,10 @@ bool PKB::isStmtInCalltable(int stmtId) {
 
 int PKB::getProcCalledByStmt(int callStmtId) {
     return this->callTable.getProcCalledByStmt(callStmtId);
+}
+
+int PKB::getStmtCallProc(int procId) {
+    return this->callTable.getCallerStmtCallProc(procId);
 }
 
 unordered_set<int> PKB::getProcCalledByProc(int callerProcId) {
@@ -497,10 +512,6 @@ unordered_set<int> PKB::getAllStmtLst() {
     return this->stmtLstTable.getAllStmtLst();
 }
 
-unordered_set<int> PKB::getStmtInAssignWithVar(int varId) {
-	unordered_map<int, unordered_set<int>> assignStmtModVar = { { 0,{ 1, 5, 15, 18, 24 } },{ 1,{ 2, 7, 9, 19, 20, 21, 23 } },{ 2,{ 3, 11, 17 } },{ 3,{ 8 } } };
-	return assignStmtModVar.at(varId);
-}
 
 unordered_set<int> PKB::getStmtInWhileWithCtrlVar(int varId) {
     return this->whileTable.getStmtWithCtrlVar(varId);
@@ -513,6 +524,3 @@ unordered_set<int> PKB::getStmtInWhileWithCtrlVar(int varId) {
     */
 }
 
-unordered_set<int> PKB::getStmtInIfWithCtrlVar(int varId) {
-	return unordered_set<int>();
-}

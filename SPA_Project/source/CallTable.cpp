@@ -13,6 +13,7 @@ bool CallTable::setStmtCallProcRel(int stmtId, int procId) {
 	}
 	else {
 		this->stmtCallProcList.insert({stmtId, procId});
+        this->procCalledByStmtList.insert({ procId, stmtId });
 		this->size++;
 		return true;
 	}
@@ -61,6 +62,16 @@ int CallTable::getProcCalledByStmt(int stmtId) {
 	else {
 		return -1;
 	}
+}
+
+int CallTable::getCallerStmtCallProc(int procId) {
+    unordered_map<int, int>::iterator it = this->procCalledByStmtList.find(procId);
+    if (it != this->procCalledByStmtList.end()) {
+        return it->second;
+    }
+    else {
+        return -1;
+    }
 }
 
 unordered_set<int> CallTable::getProcCalledByProc(int callerProcId) {

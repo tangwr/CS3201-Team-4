@@ -2,6 +2,20 @@
 
 using namespace std;
 
+bool IfTable::setCtrlVarUsedByStmt(int ctrlVarId, int stmtId) {
+    unordered_map<int, unordered_set<int>>::iterator it = ctrlVarStmtList.find(ctrlVarId);
+    unordered_set<int> ifStmtSet;
+    if (it != this->ctrlVarStmtList.end()) {
+        ifStmtSet = it->second;
+        if (ifStmtSet.find(stmtId) != ifStmtSet.end()) {
+            return false;
+        }
+        this->ctrlVarStmtList.erase(it);
+    }
+    ifStmtSet.insert(stmtId);
+    this->ctrlVarStmtList.insert(make_pair(ctrlVarId, ifStmtSet));
+    return true;
+}
 
 IfTable::IfTable() {
 	this->size = 0;
@@ -15,7 +29,8 @@ bool IfTable::setVarToIfStmt(int stmtId, int varId) {
 	else {
 		this->ifList.insert({ stmtId, varId });
 		this->size++;
-		return true;
+		//return true;
+        return this->setCtrlVarUsedByStmt(varId, stmtId);
 	}
 }
 
@@ -27,6 +42,10 @@ int IfTable::getCtrlVarInIfStmt(int stmtId) {
 	else {
 		return -1;
 	}
+}
+
+unordered_set<int> IfTable::getStmtWithCtrlVar(int ctrlVarId) {
+
 }
 
 unordered_set<int> IfTable::getAllIfId() {

@@ -2,6 +2,21 @@
 
 using namespace std;
 
+bool AssignTable::setAssignStmtToVar(int assignStmtId, int varId) {
+    unordered_map<int, unordered_set<int>>::iterator it = varAssignedByStmtList.find(varId);
+    unordered_set<int> assignStmtSet;
+    if (it != this->varAssignedByStmtList.end()) {
+        assignStmtSet = it->second;
+        if (assignStmtSet.find(assignStmtId) != assignStmtSet.end()) {
+            return false;
+        }
+        varAssignedByStmtList.erase(it);
+    }
+    assignStmtSet.insert(assignStmtId);
+    varAssignedByStmtList.insert(make_pair(varId, assignStmtSet));
+    return true;
+}
+
 AssignTable::AssignTable() {
 	size = 0;
 }
@@ -42,7 +57,8 @@ bool AssignTable::setVarToAssignStmt(int stmtId, int varId) {
     }
     else {
         this->variableAssignList.insert({ stmtId, varId });
-        return true;
+        //return true;
+        return this->setAssignStmtToVar(stmtId, varId);
     }
 }
 
@@ -75,6 +91,15 @@ int AssignTable::getAssignedVarInAssignStmt(int stmtId) {
     else {
         return -1;
     }
+}
+
+unordered_set<int> AssignTable::getStmtWithCtrlVar(int varId) {
+    unordered_map<int, unordered_set<int>>::iterator it = this->varAssignedByStmtList.find(varId);
+    unordered_set<int> assignStmtSet;
+    if (it != this->varAssignedByStmtList.end()) {
+        assignStmtSet = it->second;
+    }
+    return assignStmtSet;
 }
 
 int AssignTable::getSize() {

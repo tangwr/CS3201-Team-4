@@ -15,8 +15,8 @@ class CallsStar : public Clause {
 private:
 	Parameter leftChild;
 	Parameter rightChild;
-	PKB *pkb;
-	bool isRel;
+	//PKB *pkb;
+	//bool isRel;
 	vector<Parameter> synList;
 
 	Type paramType1, paramType2;
@@ -24,24 +24,24 @@ private:
 	vector<int> valueList1, valueList2;
 	unordered_set<int> valueSet1, valueSet2;
 
-	bool isValidParameter(Parameter param);
+	bool isValidParameter(PKB *pkb, Parameter param);
 	bool isSynonym(Type synType);
 	bool hasRelation(PKB *pkb);
-	vector<int> evaluateRelation(PKB *pkb, Type synType, string synName);
-
+	//vector<int> evaluateRelation(PKB *pkb, Type synType, string synName);
+	unordered_set<int> evaluateRelation(PKB *pkb, Type synType, string synName);
 	//vector<int> getCallLeftProcList();
 	//vector<int> getCallRightProcList();
-	vector<int> getCallProcList(Type paraType, string paraName);
+	//vector<int> getCallProcList(Type paraType, string paraName);
 
-	unordered_set<int> getCallProcSet(Type paraType, string paraName);
+	unordered_set<int> getCallProcSet(PKB *pkb, Type paraType, string paraName);
 
-	vector<int> convertSetToVector(unordered_set<int> unorderedSet);
-	unordered_set<int> convertVectorToSet(vector<int> vectorList);
+	//vector<int> convertSetToVector(unordered_set<int> unorderedSet);
+	//unordered_set<int> convertVectorToSet(vector<int> vectorList);
 
 	unordered_set<int> mergeSet(unordered_set<int> s1, unordered_set<int> s2);
 
 	//vector<int> getRestrictedList(Type synType, string synName);
-	unordered_set<int> getRestrictedSet(Type synType, string synName);
+	unordered_set<int> getRestrictedSet(PKB *pkb, Type synType, string synName);
 
 public:
 

@@ -12,10 +12,11 @@ CallsStar::CallsStar(Parameter lc, Parameter rc) {
 
 ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
 	ResultTable resultTable;
-	/*
+	
 	Parameter param1, param2;
 	vector<Parameter> synList;
-	vector<int> tuple, firstSynList, secondSynList;
+	vector<int> tuple;
+	unordered_set<int> firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
 
 
@@ -30,7 +31,7 @@ ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
 	isLeftSyn = isSynonym(lcType);
 	isRightSyn = isSynonym(rcType);
 
-	if (isValidParameter(leftChild) == false || isValidParameter(rightChild) == false) {
+	if (isValidParameter(pkb, leftChild) == false || isValidParameter(pkb, rightChild) == false) {
 		resultTable.setBoolean(false);
 		return resultTable;
 	}
@@ -99,11 +100,11 @@ ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
 			resultTable.insertTuple(tuple);
 		}
 	}
-	*/
+	
 	return resultTable;
 }
 
-bool CallsStar::isValidParameter(Parameter param) {
+bool CallsStar::isValidParameter(PKB *pkb, Parameter param) {
 	bool isValidParam = false;
 	bool isProcString = false;
 	int varId;
@@ -147,7 +148,7 @@ bool CallsStar::hasRelation(PKB *pkb) {
 	bool boolRel = false;
 	Type lcType = leftChild.getParaType();
 	string lcName = leftChild.getParaName();
-	vector<int> results = evaluateRelation(pkb, lcType, lcName);
+	unordered_set<int> results = evaluateRelation(pkb, lcType, lcName);
 
 	if (results.empty()) {
 		boolRel = false;
@@ -159,7 +160,8 @@ bool CallsStar::hasRelation(PKB *pkb) {
 	return boolRel;
 }
 
-vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) {
+//vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) {
+unordered_set<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) {
 	vector<int> procList, callProcList, resultList, callList, stmtList;
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
@@ -171,46 +173,46 @@ vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) 
 
 	switch (synType) {
 	case PROCEDURE:
-		procSet = getRestrictedSet(synType, synName);
+		procSet = getRestrictedSet(pkb, synType, synName);
 		
-		//for (int procId : procSet) {
-			//callSet = pkb->getProcCalledByStarProc(procId); // call star
-		//	mergeCallSet = mergeSet(mergeCallSet, callSet);
-		//}
+		for (int procId : procSet) {
+			callSet = pkb->getProcCalledByStarProc(procId); // call star
+			mergeCallSet = mergeSet(mergeCallSet, callSet);
+		}
 		
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(synName);
 		procSet.insert(procId);
 		
-		//stmtSet = pkb->getStmtInProc(procId);
-		//for (int stmtId : stmtSet) {
-		//	callProcId = pkb->getProcCalledByStmt(stmtId);
-		//	if (callProcId != -1) {
-		//		mergeCallSet.insert(callProcId);
-		//	}
-		//}
+		stmtSet = pkb->getStmtInProc(procId);
+		for (int stmtId : stmtSet) {
+			callProcId = pkb->getProcCalledByStmt(stmtId);
+			if (callProcId != -1) {
+				mergeCallSet.insert(callProcId);
+			}
+		}
 		
 		break;
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
 		
-		//for (int procId : procSet) {
-		//	callSet = pkb->getProcCalledByProc(procId);
-		//	mergeCallSet = mergeSet(mergeCallSet, callSet);
-		//}
+		for (int procId : procSet) {
+			callSet = pkb->getProcCalledByProc(procId);
+			mergeCallSet = mergeSet(mergeCallSet, callSet);
+		}
 		
 		break;
 	}
 
 	if (synName == lcName) {
 		callerProcSet = procSet;
-		calledByProcSet = getCallProcSet(rcType, rcName);
+		calledByProcSet = getCallProcSet(pkb, rcType, rcName);
 		//callProcList = getCallRightProcList();
 		//callProcList = getCallProcList(rcType, rcName);
 	}
 	if (synName == rcName) {
-		callerProcSet = getCallProcSet(lcType, lcName);
+		callerProcSet = getCallProcSet(pkb, lcType, lcName);
 		calledByProcSet = procSet;
 		//callProcList = getCallLeftProcList();
 		//callProcList = getCallProcList(lcType, lcName);
@@ -234,8 +236,9 @@ vector<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string synName) 
 			}
 		}
 	}
-	resultList = convertSetToVector(resultSet);
-	return resultList;
+	//resultList = convertSetToVector(resultSet);
+	//return resultList;
+	return resultSet;
 }
 /*
 vector<int> CallsStar::getCallProcList(Type paraType, string paraName) {
@@ -281,7 +284,7 @@ vector<int> CallsStar::getCallProcList(Type paraType, string paraName) {
 
 }
 */
-unordered_set<int> CallsStar::getCallProcSet(Type paraType, string paraName) {
+unordered_set<int> CallsStar::getCallProcSet(PKB *pkb, Type paraType, string paraName) {
 	vector<int> resultList;
 	//vector<int>  procList, callList, stmtList;
 	unordered_set<int> callSet, procSet, stmtSet, mergeCallSet;
@@ -289,7 +292,7 @@ unordered_set<int> CallsStar::getCallProcSet(Type paraType, string paraName) {
 
 	switch (paraType) {
 	case PROCEDURE:
-		procSet = getRestrictedSet(paraType, paraName);
+		procSet = getRestrictedSet(pkb, paraType, paraName);
 		break;
 	case STRINGVARIABLE:
 		procId = pkb->getProcIdByName(paraName);
@@ -304,7 +307,7 @@ unordered_set<int> CallsStar::getCallProcSet(Type paraType, string paraName) {
 }
 
 //vector<int> CallsStar::getRestrictedList(Type synType, string synName) {
-unordered_set<int> CallsStar::getRestrictedSet(Type synType, string synName) {
+unordered_set<int> CallsStar::getRestrictedSet(PKB *pkb, Type synType, string synName) {
 	unordered_set<int> stmtSet, procSet, restrictedSet;
 
 	switch (synType) {
@@ -327,7 +330,7 @@ unordered_set<int> CallsStar::getRestrictedSet(Type synType, string synName) {
 
 	return restrictedSet;
 }
-
+/*
 vector<int> CallsStar::convertSetToVector(unordered_set<int> unorderedSet) {
 	vector<int> vectorList;
 	copy(unorderedSet.begin(), unorderedSet.end(), back_inserter(vectorList));
@@ -343,7 +346,7 @@ unordered_set<int> CallsStar::convertVectorToSet(vector<int> vectorList) {
 	}
 	return set;
 }
-
+*/
 unordered_set<int> CallsStar::mergeSet(unordered_set<int> s1, unordered_set<int> s2) {
 	s1.insert(s2.begin(), s2.end());
 

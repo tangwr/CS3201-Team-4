@@ -12,10 +12,11 @@ Modifies::Modifies(Parameter lc, Parameter rc) {
 //ResultTable Modifies::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
 ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	ResultTable resultTable;
-	/*
+	
 	Parameter param1, param2;
 	vector<Parameter> synList;
-	vector<int> tuple, firstSynList, secondSynList;
+	vector<int> tuple;
+	unordered_set<int> firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
 
 	Type lcType = leftChild.getParaType();
@@ -27,7 +28,7 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	isLeftSyn = isSynonym(lcType);
 	isRightSyn = isSynonym(rcType);
 	
-	if (isValidParameter(leftChild) == false || isValidParameter(rightChild) == false) {
+	if (isValidParameter(pkb, leftChild) == false || isValidParameter(pkb, rightChild) == false) {
 		resultTable.setBoolean(false);
 		return resultTable;
 	}
@@ -94,11 +95,11 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 			tuple.clear();
 		}
 	}
-	*/
+	
 	return resultTable;
 }
 
-bool Modifies::isValidParameter(Parameter param) {
+bool Modifies::isValidParameter(PKB *pkb, Parameter param) {
 	bool isValidParam = false;
 	bool isProcString = false;
 	int varId;
@@ -161,7 +162,7 @@ bool Modifies::isSynonym(Type synType) {
 bool Modifies::hasRelation(PKB *pkb) {
 	bool boolRel = false;
 	Type lcType = leftChild.getParaType();
-	vector<int> results = evaluateRelation(pkb, lcType);
+	unordered_set<int> results = evaluateRelation(pkb, lcType);
 
 	if (results.empty()) {
 		boolRel = false;
@@ -173,11 +174,11 @@ bool Modifies::hasRelation(PKB *pkb) {
 	return boolRel;
 }
 
-vector<int> Modifies::evaluateRelation(PKB *pkb, Type synType) {
-
+//vector<int> Modifies::evaluateRelation(PKB *pkb, Type synType) {
+unordered_set<int> Modifies::evaluateRelation(PKB *pkb, Type synType) {
 	unordered_set<int> stmtSet, varSet, procSet;
-	vector<int> resultList;// , stmtList, varList, procList;
-	vector<int> modifyStmtList, modifyVarList, modifyProcList;
+	unordered_set<int> resultList;// , stmtList, varList, procList;
+	unordered_set<int> modifyStmtList, modifyVarList, modifyProcList;
 	int stmtId, procId, varId;
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
@@ -185,58 +186,58 @@ vector<int> Modifies::evaluateRelation(PKB *pkb, Type synType) {
 	switch (synType) {
 	case PROG_LINE:
 	case STMT:
-		stmtSet = getRestrictedSet(synType);
-		modifyStmtList = getModifyStmtListOfVar(stmtSet);
+		stmtSet = getRestrictedSet(pkb, synType);
+		modifyStmtList = getModifyStmtListOfVar(pkb, stmtSet);
 		resultList = modifyStmtList;
 		break;
 	case ASSIGN:
-		stmtSet = getRestrictedSet(synType);
-		modifyStmtList = getModifyStmtListOfVar(stmtSet);
+		stmtSet = getRestrictedSet(pkb, synType);
+		modifyStmtList = getModifyStmtListOfVar(pkb, stmtSet);
 		resultList = modifyStmtList;
 		break;
 	case WHILE:
-		stmtSet = getRestrictedSet(synType);
-		modifyStmtList = getModifyStmtListOfVar(stmtSet);
+		stmtSet = getRestrictedSet(pkb, synType);
+		modifyStmtList = getModifyStmtListOfVar(pkb, stmtSet);
 		resultList = modifyStmtList;
 		break;
 	case IF:
-		stmtSet = getRestrictedSet(synType);
-		modifyStmtList = getModifyStmtListOfVar(stmtSet);
+		stmtSet = getRestrictedSet(pkb, synType);
+		modifyStmtList = getModifyStmtListOfVar(pkb, stmtSet);
 		resultList = modifyStmtList;
 		break;
 	case CALL:
-		stmtSet = getRestrictedSet(synType);
-		modifyStmtList = getModifyStmtListOfVar(stmtSet);
+		stmtSet = getRestrictedSet(pkb, synType);
+		modifyStmtList = getModifyStmtListOfVar(pkb, stmtSet);
 		resultList = modifyStmtList;
 		break;
 	case PROCEDURE:
-		procSet = getRestrictedSet(synType);
-		modifyProcList = getModifyProcListOfVar(procSet);
+		procSet = getRestrictedSet(pkb, synType);
+		modifyProcList = getModifyProcListOfVar(pkb, procSet);
 		resultList = modifyProcList;
 		break;
 	case VARIABLE:
-		varSet = getRestrictedSet(synType);
-		modifyVarList = getModifyVarListOfStmt(varSet);
+		varSet = getRestrictedSet(pkb, synType);
+		modifyVarList = getModifyVarListOfStmt(pkb, varSet);
 		resultList = modifyVarList;
 		break;
 	case INTEGER:
 		stmtId = stoi(lcName);
 		stmtSet.insert(stmtId);
-		modifyStmtList = getModifyStmtListOfVar(stmtSet);
+		modifyStmtList = getModifyStmtListOfVar(pkb, stmtSet);
 		resultList = modifyStmtList;
 		break;
 	case STRINGVARIABLE:
 		if (pkb->isProcInTable(lcName) == true) {
 			procId = pkb->getProcIdByName(lcName);
 			procSet.insert(procId);
-			modifyProcList = getModifyProcListOfVar(procSet);
+			modifyProcList = getModifyProcListOfVar(pkb, procSet);
 			resultList = modifyProcList;
 			break;
 		}
 		varId = pkb->getVarIdByName(rcName);
 		if (varId != -1) {
 			varSet.insert(varId);
-			modifyVarList = getModifyVarListOfStmt(varSet);
+			modifyVarList = getModifyVarListOfStmt(pkb, varSet);
 			resultList = modifyVarList;
 			break;
 		}
@@ -247,25 +248,26 @@ vector<int> Modifies::evaluateRelation(PKB *pkb, Type synType) {
 }
 
 
-vector<int> Modifies::getModifyStmtListOfVar(unordered_set<int> stmtListSet) {
+//vector<int> Modifies::getModifyStmtListOfVar(PKB *pkb, unordered_set<int> stmtListSet) {
+unordered_set<int> Modifies::getModifyStmtListOfVar(PKB *pkb, unordered_set<int> stmtListSet) {
 
 	int varId;
 	vector<int> resultStmtList, varIdList;
-	unordered_set<int> stmtSet, mergeStmtSet, varSet;
+	unordered_set<int> stmtSet, mergeStmtSet, varSet, resultStmtSet;
 
 	string rcName = rightChild.getParaName();
 	Type rcType = rightChild.getParaType();
 
 	switch (rcType) {
 	case VARIABLE:
-		varSet = getRestrictedSet(rcType);
+		varSet = getRestrictedSet(pkb, rcType);
 		for (int var : varSet) {
 			stmtSet = pkb->getStmtModifyVar(var);
 			mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 		}
 		break;
 	case ANYTHING:
-		//stmtSet = pkb->getAllModifyStmt();
+		stmtSet = pkb->getAllModifyStmt();
 		mergeStmtSet = stmtSet;
 		break;
 	case STRINGVARIABLE:
@@ -278,25 +280,27 @@ vector<int> Modifies::getModifyStmtListOfVar(unordered_set<int> stmtListSet) {
 	for (int stmtId : stmtListSet) {
 		auto it = mergeStmtSet.find(stmtId);
 		if (it != mergeStmtSet.end()) {
-			resultStmtList.push_back(stmtId);
+			resultStmtSet.insert(stmtId);
+			//resultStmtList.push_back(stmtId);
 		}
 	}
 
-	return resultStmtList;
+	//return resultStmtList;
+	return resultStmtSet;
 }
 
-vector<int> Modifies::getModifyProcListOfVar(unordered_set<int> procListSet) {
-
+//vector<int> Modifies::getModifyProcListOfVar(PKB *pkb, unordered_set<int> procListSet) {
+unordered_set<int> Modifies::getModifyProcListOfVar(PKB *pkb, unordered_set<int> procListSet) {
 	int procId, varId;
 	vector<int> resultProcList;// , varIdList;
-	unordered_set<int> procSet, mergeProcSet, varSet;
+	unordered_set<int> procSet, mergeProcSet, varSet, resultProcSet;
 
 	string rcName = rightChild.getParaName();
 	Type rcType = rightChild.getParaType();
 
 	switch (rcType) {
 	case VARIABLE:
-		varSet = getRestrictedSet(rcType);
+		varSet = getRestrictedSet(pkb, rcType);
 		for (int var : varSet) {
 			//varId = pkb->getVarIdByName(rcName);
 			procSet = pkb->getProcModifyVar(var);
@@ -321,14 +325,17 @@ vector<int> Modifies::getModifyProcListOfVar(unordered_set<int> procListSet) {
 	for (int procId : procListSet) {
 		auto it = mergeProcSet.find(procId);
 		if (it != mergeProcSet.end()) {
-			resultProcList.push_back(procId);
+			resultProcSet.insert(procId);
+			//resultProcList.push_back(procId);
 		}
 	}
 
-	return resultProcList;
+	//return resultProcList;
+	return resultProcSet;
 }
 
-vector<int> Modifies::getModifyVarListOfStmt(unordered_set<int> varListSet) {
+//vector<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int> varListSet) {
+unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int> varListSet) {
 	int stmtId, procId;
 	vector<int> resultVarList;
 	unordered_set<int> stmtSet, varSet, mergeStmtSet, mergeVarSet;
@@ -340,19 +347,19 @@ vector<int> Modifies::getModifyVarListOfStmt(unordered_set<int> varListSet) {
 	switch (lcType) {
 	case PROG_LINE:
 	case STMT:
-		stmtListSet = getRestrictedSet(lcType);
+		stmtListSet = getRestrictedSet(pkb, lcType);
 		break;
 	case ASSIGN:
-		stmtListSet = getRestrictedSet(lcType);
+		stmtListSet = getRestrictedSet(pkb, lcType);
 		break;
 	case WHILE:
-		stmtListSet = getRestrictedSet(lcType);
+		stmtListSet = getRestrictedSet(pkb, lcType);
 		break;
 	case IF:
-		stmtListSet = getRestrictedSet(lcType);
+		stmtListSet = getRestrictedSet(pkb, lcType);
 		break;
 	case CALL:
-		stmtListSet = getRestrictedSet(lcType);
+		stmtListSet = getRestrictedSet(pkb, lcType);
 		break;
 	case INTEGER:
 		stmtId = stoi(lcName);
@@ -401,11 +408,12 @@ vector<int> Modifies::getModifyVarListOfStmt(unordered_set<int> varListSet) {
 			}
 		}
 	}
-	resultVarList = convertSetToVector(mergeVarSet);
-	return resultVarList;
+	//resultVarList = convertSetToVector(mergeVarSet);
+	//return resultVarList;
+	return mergeVarSet;
 }
 
-unordered_set<int> Modifies::getRestrictedSet(Type synType) {
+unordered_set<int> Modifies::getRestrictedSet(PKB *pkb, Type synType) {
 	vector<int> varList;
 	unordered_set<int> stmtSet, procSet, callSet, restrictedSet;
 
@@ -505,7 +513,7 @@ unordered_set<int> Modifies::getRestrictedSet(Type synType) {
 
 	return restrictedSet;
 }
-
+/*
 vector<int> Modifies::convertSetToVector(unordered_set<int> unorderedSet) {
 	vector<int> vectorList;
 	copy(unorderedSet.begin(), unorderedSet.end(), back_inserter(vectorList));
@@ -521,7 +529,7 @@ unordered_set<int> Modifies::convertVectorToSet(vector<int> vectorList) {
 	}
 	return set;
 }
-
+*/
 unordered_set<int> Modifies::mergeSet(unordered_set<int> s1, unordered_set<int> s2) {
 	s1.insert(s2.begin(), s2.end());
 
@@ -550,9 +558,11 @@ ClauseType Modifies::getClauseType() {
 }
 
 //Testing
+/*
 void Modifies::setPKB(PKB* pkbInput) {
 	this->pkb = pkbInput;
 }
+*/
 
 /*
 bool Modifies::hasRel(PKB *pkbSource) {

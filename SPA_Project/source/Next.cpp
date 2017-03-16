@@ -76,7 +76,7 @@ ResultTable Next::getNextSynNum(PKB* pkb, unordered_set<int> left, int right) {
 		unordered_set<int> prev = pkb->getPreviousStmt(right);
 		for (auto& it : prev) {
 			if (left.find(it) != left.end()) {
-				result.insertTuple(vector<int>(it));
+				result.insertTuple(vector<int>(1, it));
 
 			}
 		}
@@ -90,7 +90,7 @@ ResultTable Next::getNextNumSyn(PKB* pkb, unordered_set<int> right, int left) {
 		unordered_set<int> next = pkb->getNextStmt(left);
 		for (auto& it : next) {
 			if (right.find(it) != right.end()) {
-				result.insertTuple(vector<int>(it));
+				result.insertTuple(vector<int>(1, it));
 
 			}
 		}
@@ -108,7 +108,8 @@ ResultTable Next::getNextSynSyn(PKB* pkb, unordered_set<int> left, unordered_set
 			unordered_set<int> next = pkb->getNextStmt(leftIterator);
 			for (auto& it : next) {
 				if (right.find(it) != right.end()) {
-					result.insertTuple(vector<int>(leftIterator, it));
+					vector<int> tuple = { leftIterator, it };
+					result.insertTuple(tuple);
 
 				}
 			}
@@ -119,7 +120,8 @@ ResultTable Next::getNextSynSyn(PKB* pkb, unordered_set<int> left, unordered_set
 			unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
-					result.insertTuple(vector<int>(it, rightIterator));
+					vector<int> tuple = { it, rightIterator };
+					result.insertTuple(tuple);
 
 				}
 			}
@@ -138,14 +140,16 @@ ResultTable Next::getNextSynSyn(PKB* pkb, ResultTable* resultTable) {
 	if (leftChild.isSame(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isNext(pkb, tupleList[i][0], tupleList[i][1])) {
-				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
+				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isNext(pkb, tupleList[i][1], tupleList[i][0])) {
-				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
+				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+				result.insertTuple(tuple);
 			}
 		}
 	}

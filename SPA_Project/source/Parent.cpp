@@ -76,7 +76,7 @@ ResultTable Parent::getParentSynNum(PKB* pkb, unordered_set<int> left, int right
 	if (isValidStmtNo(right, pkb)) {
 		int parent = pkb->getStmtParentStmt(right);
 		if (left.find(parent) != left.end()) {
-			result.insertTuple(vector<int>(parent));
+			result.insertTuple(vector<int>(1, parent));
 		}
 	}
 	return result;
@@ -88,7 +88,7 @@ ResultTable Parent::getParentNumSyn(PKB* pkb, unordered_set<int> right, int left
 		unordered_set<int> children = pkb->getStmtChildrenStmt(left);
 		for (auto& childIterator : children) {
 			if (right.find(childIterator) != right.end()) {
-				result.insertTuple(vector<int>(childIterator));
+				result.insertTuple(vector<int>(1, childIterator));
 
 			}
 		}
@@ -104,7 +104,8 @@ ResultTable Parent::getParentSynSyn(PKB* pkb, unordered_set<int> left, unordered
 	for (auto& rightIterator : right) {
 		int parent = pkb->getStmtParentStmt(rightIterator);
 		if (left.find(parent) != left.end()) {
-			result.insertTuple(vector<int>(parent, rightIterator));
+			vector<int> tuple = { parent, rightIterator };
+			result.insertTuple(tuple);
 		}
 	}
 	return result;
@@ -120,14 +121,16 @@ ResultTable Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isParent(pkb, tupleList[i][0], tupleList[i][1])) {
-				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
+				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isParent(pkb, tupleList[i][1], tupleList[i][0])) {
-				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
+				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+				result.insertTuple(tuple);
 			}
 		}
 	}

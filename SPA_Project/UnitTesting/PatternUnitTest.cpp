@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "PKBStub.h"
+#include "PKBPatternStub.h"
 #include "Pattern.h"
 #include "ResultTable.h"
 #include "Parameter.h"
@@ -16,7 +16,7 @@ namespace UnitTesting
 		
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_VariableSynonym)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -48,7 +48,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_IDENT)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -76,7 +76,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_VariableSynonym)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -108,7 +108,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_IDENT)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -136,7 +136,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_SubExpression)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -168,7 +168,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_FullExpression)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -200,7 +200,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_NoExpression)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -234,7 +234,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_AnyVariable_And_SubExpression)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -264,14 +264,14 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_IDENT_And_SubExpression)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
 			vector<vector<int>> expectedResult, tupleResult;
 
 			stmt = Parameter("a", ASSIGN);
-			var = Parameter("x", ANYTHING);
+			var = Parameter("x", STRINGVARIABLE);
 			factor = Parameter("2", STRINGVARIABLE);
 
 			Pattern patternObj(stmt, var, factor, true);
@@ -294,7 +294,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_StmtIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -330,7 +330,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_StmtIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -366,14 +366,14 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_StmtIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
 			vector<vector<int>> expectedResult, tupleResult;
 
 			stmt = Parameter("i", IF);
-			var = Parameter("v", VARIABLE);
+			var = Parameter("x", STRINGVARIABLE);
 			factor = Parameter("_", ANYTHING);
 
 			Pattern patternObj(stmt, var, factor, false);
@@ -383,15 +383,11 @@ namespace UnitTesting
 			intResult.insertTuple({ 13 });
 			queryResult = patternObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
-
+			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(stmt));
-			Assert::IsTrue(queryResult.isSynInTable(var));
-
 			Assert::AreEqual(0, queryResult.getSynIndex(stmt));
-			Assert::AreEqual(1, queryResult.getSynIndex(var));
 
-			expectedResult = { { 6, 0 },{ 13, 0 } };
+			expectedResult = { { 6 },{ 13 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -402,7 +398,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VarIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -437,7 +433,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -476,7 +472,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -515,7 +511,7 @@ namespace UnitTesting
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
 		{
-			PKBStub pkbStub;
+			PKBPatternStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;

@@ -158,14 +158,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="PKBStub.h" />
+    <ClInclude Include="PKBPatternStub.h" />
+    <ClInclude Include="PKBWithStub.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PatternUnitTest.cpp" />
-    <ClCompile Include="PKBStub.cpp" />
+    <ClCompile Include="PKBPatternStub.cpp" />
     <ClCompile Include="PKBTableUnitTest.cpp" />
+    <ClCompile Include="PKBWithStub.cpp" />
     <ClCompile Include="QueryParserUnitTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -173,6 +175,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="WithUnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

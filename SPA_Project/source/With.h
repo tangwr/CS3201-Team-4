@@ -24,8 +24,11 @@ private:
 
 	unordered_set<int> getRightResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
 	unordered_set<int> getLeftResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
+	unordered_set<int> assignResult(PKB* pkb, unordered_set<int> callStmts, unordered_set<int> procs);
 	unordered_set<int> getSynResultList(PKB* pkb, Parameter parameter);
-	int getStringId(PKB* pkb);
+	int getIdOfString(PKB* pkb);
+	string getStringOfId(PKB* pkb, int id);
+	unordered_set<int> getCallStmtWithCalledProcId(PKB* pkb, unordered_set<int> callStmts, unordered_set<int> procs);
 
 public:
 	With(Parameter lc, Parameter rc);

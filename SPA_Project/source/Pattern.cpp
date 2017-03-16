@@ -69,7 +69,7 @@ void Pattern::setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered
 		int varInStmt = getVarWithStmt(pkb, stmtId);
 		switch (rightChild.getParaType()) {
 		case STRINGVARIABLE:
-			if (varInStmt != pkb->getVarIdByName(rightChild.getParaName())) {
+			if (varInStmt == pkb->getVarIdByName(rightChild.getParaName())) {
 				setResultTupleToTable(pkb, pattResultTable, stmtId, varInStmt);
 			}
 			break;

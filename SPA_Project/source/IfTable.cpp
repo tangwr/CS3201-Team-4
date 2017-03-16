@@ -45,7 +45,7 @@ int IfTable::getCtrlVarInIfStmt(int stmtId) {
 }
 
 unordered_set<int> IfTable::getStmtWithCtrlVar(int ctrlVarId) {
-
+	return unordered_set<int>();
 }
 
 unordered_set<int> IfTable::getAllIfId() {

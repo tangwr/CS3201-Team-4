@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\PKBStub">
+      <UniqueIdentifier>{b6e97f56-8ccf-4a60-bf40-e21b79c8df0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PKBStub">
+      <UniqueIdentifier>{12e7eab2-172b-4437-912b-905aa8bc22b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -21,8 +27,11 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PKBStub.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="PKBPatternStub.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBWithStub.h">
+      <Filter>Header Files\PKBStub</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -38,8 +47,14 @@
     <ClCompile Include="PatternUnitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PKBStub.cpp">
+    <ClCompile Include="WithUnitTest.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBPatternStub.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBWithStub.cpp">
+      <Filter>Source Files\PKBStub</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -113,6 +113,9 @@ bool PKB::setProcToStmtRel(int procId, int stmtId) {
 int PKB::getProcIdByName(string procName) {
     return this->procTable.getProcIndex(procName);
 }
+string PKB::getProcNameById(int procId) {
+    return this->procTable.getProcName(procId);
+}
 bool PKB::isProcInTable(string procName) {
     return this->procTable.checkProcExistByName(procName);
 }

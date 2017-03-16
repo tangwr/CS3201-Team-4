@@ -63,7 +63,7 @@ public:
     virtual bool setProcToStmtRel(int procId, int stmtId);
 
     virtual int getProcIdByName(string procName);
-    virtual int getProcNameById(int procId);//not implemented yet
+    virtual string getProcNameById(int procId);//throws InvalidReferenceException if no such procId
 
     virtual bool isProcInTable(string procName);
     

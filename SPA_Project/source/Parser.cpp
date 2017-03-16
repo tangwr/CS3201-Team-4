@@ -208,6 +208,7 @@ vector<int> Parser::createAssign(int procId, int assignStmtId) {
 	int varId = createVar(varName);
 	
 	pkb->setStmtModifyVarRel(assignStmtId, varId);
+	pkb->setVarAtLeftOfAssignStmt(assignStmtId, varId);
 
 	match(STRING_EQUAL);
 

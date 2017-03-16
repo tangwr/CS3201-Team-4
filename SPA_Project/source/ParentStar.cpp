@@ -72,7 +72,7 @@ ResultTable ParentStar::getParentStarSynNum(PKB* pkb, unordered_set<int> left, i
 		unordered_set<int> parentStar = pkb->getStmtParentStarStmt(right);
 		for (auto& it : parentStar) {
 			if (left.find(it) != left.end()) {
-				result.insertTuple(vector<int>(it));
+				result.insertTuple(vector<int>(1, it));
 			}
 		}
 	}
@@ -85,7 +85,7 @@ ResultTable ParentStar::getParentStarNumSyn(PKB* pkb, unordered_set<int> right, 
 		unordered_set<int> childrenStar = pkb->getStmtChildrenStarStmt(left);
 		for (auto& it : childrenStar) {
 			if (right.find(it) != right.end()) {
-				result.insertTuple(vector<int>(it));
+				result.insertTuple(vector<int>(1, it));
 			}
 		}
 	}
@@ -101,7 +101,8 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, unordered_set<int> left, u
 		unordered_set<int> parentStar = pkb->getStmtParentStarStmt(rightIterator);
 		for (auto& it : parentStar) {
 			if (left.find(it) != left.end()) {
-				result.insertTuple(vector<int>(it, rightIterator));
+				vector<int> tuple = { it, rightIterator };
+				result.insertTuple(tuple);
 			}
 		}
 	}
@@ -120,14 +121,16 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isParentStar(pkb, tupleList[i][0], tupleList[i][1])) {
-				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
+				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isParentStar(pkb, tupleList[i][1], tupleList[i][0])) {
-				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
+				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+				result.insertTuple(tuple);
 			}
 		}
 	}

@@ -40,7 +40,7 @@ ResultTable Follow::evaluateWithoutOneRestriction(PKB* pkb, ResultTable* resultT
 	}
 	else if (isSynonym(leftChild)) {
 		if (isNumber(rightChild)) {
-			return getFollowSynNum(pkb, getTypeStmt(leftChild.getParaType(), pkb), stoi(rightChild.getParaName()));
+			return getFollowSynNum(pkb, left, stoi(rightChild.getParaName()));
 		}
 		else if (isSynonym(rightChild)) {
 			if (left.size() == 0) {
@@ -73,7 +73,7 @@ ResultTable Follow::getFollowSynNum(PKB* pkb, unordered_set<int> left, int right
 	if (isValidStmtNo(right, pkb)) {
 		int follows = pkb->getStmtFollowedByStmt(right);
 		if (left.find(follows) != left.end()) {
-			result.insertTuple(vector<int>(follows));
+			result.insertTuple(vector<int>(1,follows));
 		}
 	}
 	return result;
@@ -84,7 +84,7 @@ ResultTable Follow::getFollowNumSyn(PKB* pkb, unordered_set<int> right, int left
 	if (isValidStmtNo(left, pkb)) {
 		int followedBy = pkb->getStmtFollowStmt(left);
 		if (right.find(followedBy) != right.end()) {
-			result.insertTuple(vector<int>(followedBy));
+			result.insertTuple(vector<int>(1, followedBy));
 		}
 	}
 	return result;
@@ -99,7 +99,8 @@ ResultTable Follow::getFollowSynSyn(PKB* pkb, unordered_set<int> left, unordered
 		for (auto& leftIterator : left) {
 			int followedBy = pkb->getStmtFollowStmt(leftIterator);
 			if (right.find(followedBy) != right.end()) {
-				result.insertTuple(vector<int>(leftIterator, followedBy));
+				vector<int> tuple = { leftIterator, followedBy };
+				result.insertTuple(tuple);
 			}
 		}
 	}
@@ -107,7 +108,8 @@ ResultTable Follow::getFollowSynSyn(PKB* pkb, unordered_set<int> left, unordered
 		for (auto& rightIterator : right) {
 			int follows = pkb->getStmtFollowedByStmt(rightIterator);
 			if (left.find(follows) != left.end()) {
-				result.insertTuple(vector<int>(follows, rightIterator));
+				vector<int> tuple = { follows, rightIterator };
+				result.insertTuple(tuple);
 			}
 		}
 	}
@@ -124,14 +126,16 @@ ResultTable Follow::getFollowSynSyn(PKB* pkb, ResultTable* resultTable) {
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isFollows(pkb, tupleList[i][0], tupleList[i][1])) {
-				result.insertTuple(vector<int>(tupleList[i][0], tupleList[i][1]));
+				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
 			if (isFollows(pkb, tupleList[i][1], tupleList[i][0])) {
-				result.insertTuple(vector<int>(tupleList[i][1], tupleList[i][0]));
+				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+				result.insertTuple(tuple);
 			}
 		}
 	}

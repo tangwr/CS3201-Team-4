@@ -33,6 +33,12 @@
     <ClInclude Include="PKBWithStub.h">
       <Filter>Header Files\PKBStub</Filter>
     </ClInclude>
+    <ClInclude Include="PKBStubFollow.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubFollowStar.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -55,6 +61,18 @@
     </ClCompile>
     <ClCompile Include="PKBWithStub.cpp">
       <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubFollow.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubFollowStar.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestFollow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestFollowStar.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

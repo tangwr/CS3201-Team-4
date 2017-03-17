@@ -96,12 +96,13 @@ bool ProcTable::setProcToStmtRel(int procId, int stmtId) {
     unordered_set<int> stmtSet;//stmtSet should be empty
     if (it != procContainsStmtMap.end()) {
         stmtSet = it->second;
-        if (stmtSet.find(stmtId) == stmtSet.end()) {
-            //not there
-            stmtSet.insert(stmtId);
+        if (stmtSet.find(stmtId) != stmtSet.end()) {
+            //already exists
+            return false;
         }
         procContainsStmtMap.erase(it);
     }
+    stmtSet.insert(stmtId);
     procContainsStmtMap.insert(make_pair(procId, stmtSet));
     return true;
 }

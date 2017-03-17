@@ -167,6 +167,10 @@ int PKB::getConstValueById(int constId) {
 	return this->constTable.getValueById(constId);
 }
 
+int PKB::getConstIdByValue(int constValue) {
+    return this->constTable.getConstIndex(constValue);
+}
+
 bool PKB::isConstInTable(int constValue) {
     return this->constTable.checkConstExist(constValue);
 }

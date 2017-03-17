@@ -8,7 +8,7 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace UnitTesting
+namespace UnitTest_Pattern_Object
 {
 	TEST_CLASS(PatternObjectTest)
 	{

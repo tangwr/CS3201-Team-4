@@ -8,11 +8,18 @@ public:
 
 	unordered_set<int> getAllVarId();
 	int getVarIdByName(string varName);
+	string getVarNameById(int varId);
+	bool isVarInTable(string varName);
 
 	unordered_set<int> getAllProcId();
 	int getProcIdByName(string procName);
+	string getProcNameById(int procId);
+	bool isProcInTable(string procName);
 
 	unordered_set<int> getAllConstId();
+	int getConstIdByValue(int constValue);
+	int getConstValueById(int constId);
+	bool isConstInTable(int constValue);
 
 	unordered_set<int> getAllStmtId();
 	unordered_set<int> getAllAssignStmt();
@@ -20,7 +27,8 @@ public:
 	unordered_set<int> getAllIfId();
 
 	unordered_set<int> getAllCallId();
-	int getProcCalledByStmt(int callstmtId);
+	int getProcCalledByStmt(int callStmtId);
+	unordered_set<int> getStmtCallProc(int procId);
 
 private:
 	vector<string> varTable;

@@ -104,12 +104,12 @@ unordered_set<int> With::assignResult(PKB* pkb, unordered_set<int> leftResult, u
 
 	case CONSTANT:
 		for (auto value : rightResult) {
-			//if (pkb->isConstInTable(id)) {
-				//int constId = pkb->getConstIdByValue(value);
-				//if (leftResult.find(constId) != leftResult.end()) {
-					//resultList.insert(constId);
-				//}
-			//}
+			if (pkb->isConstInTable(value)) {
+				int constId = pkb->getConstIdByValue(value);
+				if (leftResult.find(constId) != leftResult.end()) {
+					resultList.insert(constId);
+				}
+			}
 		}
 		break;
 	case CALL:
@@ -117,12 +117,12 @@ unordered_set<int> With::assignResult(PKB* pkb, unordered_set<int> leftResult, u
 			string idString = getStringOfId(pkb, id);
 			if (pkb->isProcInTable(idString)) {
 				int procId = pkb->getProcIdByName(idString);
-				//unordered_set<int> callStmts = pkb->getStmtCallProc(procId);
-				//for (auto callStmtId : callStmts) {
-					//if (leftResult.find(callStmtId) != leftResult.end()) {
-						//resultList.insert(id);
-					//}
-				//}
+				unordered_set<int> callStmts = pkb->getStmtCallProc(procId);
+				for (auto callStmtId : callStmts) {
+					if (leftResult.find(callStmtId) != leftResult.end()) {
+						resultList.insert(callStmtId);
+					}
+				}
 			}
 		}
 		break;
@@ -177,7 +177,7 @@ string With::getStringOfId(PKB* pkb, int id) {
 	case CALL:
 		/* falls through */
 	case PROCEDURE:
-		//return pkb->getProcNameById(id);
+		return pkb->getProcNameById(id);
 	case VARIABLE:
 		return pkb->getVarNameById(id);
 	default:
@@ -216,16 +216,6 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 	case CONSTANT:
 		resultList = pkb->getAllConstId();
 		break;
-	}
-	return resultList;
-}
-
-unordered_set<int> With::getCallStmtWithCalledProcId(PKB* pkb, unordered_set<int> callStmts, unordered_set<int> procs) {
-	unordered_set<int> resultList;
-	for (auto callStmtId : callStmts) {
-		if (procs.find(pkb->getProcCalledByStmt(callStmtId)) != procs.end()) {
-			resultList.insert(callStmtId);
-		}
 	}
 	return resultList;
 }

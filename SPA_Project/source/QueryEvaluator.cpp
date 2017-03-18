@@ -22,6 +22,8 @@ QueryEvaluator::QueryEvaluator() {
 }
 QueryEvaluator::QueryEvaluator(PKB* pkbSource){
 	pkb = pkbSource;
+	resTable = ResultTable();
+	resTable.setInitialEmpty(true);
 }
 
 void QueryEvaluator::setPKB(PKB* pkbInput) {
@@ -29,18 +31,17 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 }
 
 ResultTable QueryEvaluator::evaluate(QueryTree qt) {
-	ResultTable res;
-	res.setInitialEmpty(true);
 	for (int i = 0; i < qt.getClauseSize(); i++) {
 		Clause* c = qt.getClause(i);
+		printClause(c);
 		vector<Parameter> cSynList = c->getSynList();
 		vector<Parameter> restrictedSynList;
 		for (Parameter p : cSynList)
-			if (res.isSynInTable(p)) {
+			if (resTable.isSynInTable(p)) {
 				restrictedSynList.push_back(p);
 			}
 
-		ResultTable queryResult = c->evaluate(pkb, res.select(restrictedSynList));
+		ResultTable queryResult = c->evaluate(pkb, resTable.select(restrictedSynList));
 		if ((int)cSynList.size() == 0) {
 			if (queryResult.getBoolean() == false && (queryResult.getSynCount() == 0)) {
 				ResultTable emptyTable;
@@ -49,12 +50,16 @@ ResultTable QueryEvaluator::evaluate(QueryTree qt) {
 			}
 		}
 		else {
-			res = res.join(queryResult);
-		}
-			
-				
+			joinResultTable(queryResult);
+		}		
 	}
-	return res.select(qt.getSelectParameter());
+
+	// add selected but unused param to table
+	for (Parameter p : qt.getSelectParameter()) {
+		if (!resTable.isSynInTable(p))
+			joinResultTable(getAllValueForSyn(p));
+	}
+	return resTable.select(qt.getSelectParameter());
 }
 
 ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
@@ -321,4 +326,75 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 
 
 	return ResultTable();
+}
+
+ResultTable QueryEvaluator::getAllValueForSyn(Parameter param)
+{
+	ResultTable res;
+	res.setSynList({ param });
+	if (param.getParaType() == CALL) {
+		for (int k : pkb->getAllCallId())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == WHILE) {
+		for (int k : pkb->getAllWhileStmt())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == IF) {
+		for (int k : pkb->getAllIfId())
+			res.insertTuple({ k });
+	}
+
+	if ((param.getParaType() == STMT) || (param.getParaType() == PROG_LINE)) {
+		for (int k : pkb->getAllStmtId())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == STMTLST) {
+		for (int k : pkb->getAllStmtLst())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == ASSIGN) {
+		for (int k : pkb->getAllAssignStmt())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == PROCEDURE) {
+		for (int k : pkb->getAllProcId())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == VARIABLE) {
+		for (int k : pkb->getAllVarId())
+			res.insertTuple({ k });
+	}
+
+	if (param.getParaType() == CONSTANT) {
+		for (int k : pkb->getAllConstId())
+			res.insertTuple({ k });
+	}
+
+	return res;
+}
+
+void QueryEvaluator::joinResultTable(ResultTable rt)
+{
+	cout << "current Table" << endl;
+	resTable.printTable();
+	cout << "joining Table" << endl;
+	rt.printTable();
+	resTable = resTable.join(rt);
+	cout << "after joining, the table is " << endl;
+	resTable.printTable();
+}
+
+void QueryEvaluator::printClause(Clause* c)
+{
+	string str;
+	str += c->getClauseType();
+	str = str + "(" + c->getLeftChild().getParaName() + ", " + c->getRightChild().getParaName() + ")";
+	cout << "Clause is " << str << endl;
 }

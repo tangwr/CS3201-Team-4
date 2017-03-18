@@ -340,6 +340,7 @@ unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int>
 	vector<int> resultVarList;
 	unordered_set<int> stmtSet, varSet, mergeStmtSet, mergeVarSet;
 	unordered_set<int> stmtListSet, varIdListSet, procIdListSet;
+	unordered_set<int> stmtInProcSet;
 
 	string lcName = leftChild.getParaName();
 	Type lcType = leftChild.getParaType();
@@ -370,19 +371,35 @@ unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int>
 		if (lcType == paramType1) {
 			procIdListSet = valueSet1;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtModifiedInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				//stmtSet = pkb->getStmtModifiedInProc(procId); //pkb->getModifyStmtInProc(procId);
+				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				stmtInProcSet = pkb->getStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
 			}
-			stmtListSet = mergeStmtSet;
+			for (int stmtId : mergeStmtSet) {
+				if (pkb->isStmtInModifyTable(stmtId)) {
+					stmtSet.insert(stmtId);
+				}
+			}
+			//stmtListSet = mergeStmtSet;
+			stmtListSet = stmtSet;
 			break;
 		}
 		if (lcType == paramType2) {
 			procIdListSet = valueSet2;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtModifiedInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				//stmtSet = pkb->getStmtModifiedInProc(procId); //pkb->getModifyStmtInProc(procId);
+				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				stmtInProcSet = pkb->getStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
 			}
-			stmtListSet = mergeStmtSet;
+			for (int stmtId : mergeStmtSet) {
+				if (pkb->isStmtInModifyTable(stmtId)) {
+					stmtSet.insert(stmtId);
+				}
+			}
+			//stmtListSet = mergeStmtSet;
+			stmtListSet = stmtSet;
 			break;
 		}
 		
@@ -392,7 +409,14 @@ unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int>
 		break;
 	case STRINGVARIABLE: //'string' procs
 		procId = pkb->getProcIdByName(lcName);
-		//stmtSet = pkb->getStmtModifiedInProc(procId);
+		stmtInProcSet = pkb->getStmtInProc(procId);
+		for (int stmtId : stmtInProcSet) {
+			if (pkb->isStmtInModifyTable(stmtId)) {
+				stmtSet.insert(stmtId);
+			}
+		}
+		//stmtSet = pkb->getStmtModifiedInProc(procId); //pkb->getModifyStmtInProc(procId);
+		
 		stmtListSet = stmtSet;
 		//stmtList = convertSetToVector(stmtSet);
 		break;

@@ -336,6 +336,7 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 	vector<int> resultVarList;
 	unordered_set<int> stmtSet, varSet, mergeStmtSet, mergeVarSet;
 	unordered_set<int> stmtListSet, varIdListSet, procIdListSet;
+	unordered_set<int> stmtInProcSet;
 
 	string lcName = leftChild.getParaName();
 	Type lcType = leftChild.getParaType();
@@ -366,19 +367,35 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		if (lcType == paramType1) {
 			procIdListSet = valueSet1;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtUsedInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				//stmtSet = pkb->getStmtUsedInProc(procId); //pkb->getUseStmtInProc(procId);
+				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				stmtInProcSet = pkb->getStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
 			}
-			stmtListSet = mergeStmtSet;
+			for (int stmtId : mergeStmtSet) {
+				if (pkb->isStmtInUseTable(stmtId)) {
+					stmtSet.insert(stmtId);
+				}
+			}
+			//stmtListSet = mergeStmtSet;
+			stmtListSet = stmtSet;
 			break;
 		}
 		if (lcType == paramType2) {
 			procIdListSet = valueSet2;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtUsedInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				//stmtSet = pkb->getStmtUsedInProc(procId); //pkb->getUseStmtInProc(procId);
+				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
+				stmtInProcSet = pkb->getStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
 			}
-			stmtListSet = mergeStmtSet;
+			for (int stmtId : mergeStmtSet) {
+				if (pkb->isStmtInUseTable(stmtId)) {
+					stmtSet.insert(stmtId);
+				}
+			}
+			//stmtListSet = mergeStmtSet;
+			stmtListSet = stmtSet;
 			break;
 		}
 		
@@ -388,7 +405,13 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		break;
 	case STRINGVARIABLE: //'string' procs
 		procId = pkb->getProcIdByName(lcName);
-		//stmtSet = pkb->getStmtUsedInProc(procId);
+		stmtInProcSet = pkb->getStmtInProc(procId);
+		for (int stmtId : stmtInProcSet) {
+			if (pkb->isStmtInUseTable(stmtId)) {
+				stmtSet.insert(stmtId);
+			}
+		}
+		//stmtSet = pkb->getStmtUsedInProc(procId); //pkb->getUseStmtInProc(procId);
 		stmtListSet = stmtSet;
 		//stmtList = convertSetToVector(stmtSet);
 		break;

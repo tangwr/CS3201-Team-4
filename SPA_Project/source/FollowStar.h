@@ -21,7 +21,6 @@ private:
 	bool isValidStmtNo(int, PKB*);
 	bool isFollowStar(PKB*, int, int);
 	bool isLeftChild(Parameter);
-	bool isStmtType(int, Parameter, PKB*);
 	ResultTable getAllFollowsStar(vector<int>, PKB*);
 	ResultTable getAllFollowedByStar(vector<int>, PKB*);
 
@@ -43,7 +42,6 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable evaluate(PKB*, ResultTable);
-	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 };

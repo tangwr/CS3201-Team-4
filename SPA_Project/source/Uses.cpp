@@ -6,6 +6,12 @@ Uses::Uses(Parameter lc, Parameter rc) {
     leftChild = lc;
 	rightChild = rc;
 
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 	
 }
 //ResultTable Uses::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
@@ -14,7 +20,7 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 	ResultTable resultTable;
 	
 	Parameter param1, param2;
-	vector<Parameter> synList;
+	//vector<Parameter> synList;
 	vector<int> tuple;
 	unordered_set<int> firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
@@ -59,18 +65,18 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 		resultTable.setBoolean(boolRel);
 	}
 	if (isLeftSyn == true && isRightSyn == false) {
-		synList.push_back(leftChild);
+		//synList.push_back(leftChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, lcType);
 	}
 	if (isLeftSyn == false && isRightSyn == true) {
-		synList.push_back(rightChild);
+		//synList.push_back(rightChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, rcType);
 	}
 	if (isLeftSyn == true && isRightSyn == true) {
-		synList.push_back(leftChild);
-		synList.push_back(rightChild);
+		//synList.push_back(leftChild);
+		//synList.push_back(rightChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, lcType);
 		secondSynList = evaluateRelation(pkb, rcType);
@@ -336,7 +342,6 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 	vector<int> resultVarList;
 	unordered_set<int> stmtSet, varSet, mergeStmtSet, mergeVarSet;
 	unordered_set<int> stmtListSet, varIdListSet, procIdListSet;
-	unordered_set<int> stmtInProcSet;
 
 	string lcName = leftChild.getParaName();
 	Type lcType = leftChild.getParaType();
@@ -367,35 +372,21 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		if (lcType == paramType1) {
 			procIdListSet = valueSet1;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtUsedInProc(procId); //pkb->getUseStmtInProc(procId);
-				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
-				stmtInProcSet = pkb->getStmtInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
+				//stmtSet = pkb->getStmtUsedInProc(procId);
+				stmtSet = pkb->getUseStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
-			for (int stmtId : mergeStmtSet) {
-				if (pkb->isStmtInUseTable(stmtId)) {
-					stmtSet.insert(stmtId);
-				}
-			}
-			//stmtListSet = mergeStmtSet;
-			stmtListSet = stmtSet;
+			stmtListSet = mergeStmtSet;
 			break;
 		}
 		if (lcType == paramType2) {
 			procIdListSet = valueSet2;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtUsedInProc(procId); //pkb->getUseStmtInProc(procId);
-				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
-				stmtInProcSet = pkb->getStmtInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
+				//stmtSet = pkb->getStmtUsedInProc(procId);
+				stmtSet = pkb->getUseStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
-			for (int stmtId : mergeStmtSet) {
-				if (pkb->isStmtInUseTable(stmtId)) {
-					stmtSet.insert(stmtId);
-				}
-			}
-			//stmtListSet = mergeStmtSet;
-			stmtListSet = stmtSet;
+			stmtListSet = mergeStmtSet;
 			break;
 		}
 		
@@ -405,13 +396,8 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		break;
 	case STRINGVARIABLE: //'string' procs
 		procId = pkb->getProcIdByName(lcName);
-		stmtInProcSet = pkb->getStmtInProc(procId);
-		for (int stmtId : stmtInProcSet) {
-			if (pkb->isStmtInUseTable(stmtId)) {
-				stmtSet.insert(stmtId);
-			}
-		}
-		//stmtSet = pkb->getStmtUsedInProc(procId); //pkb->getUseStmtInProc(procId);
+		//stmtSet = pkb->getStmtUsedInProc(procId);
+		stmtSet = pkb->getUseStmtInProc(procId);
 		stmtListSet = stmtSet;
 		//stmtList = convertSetToVector(stmtSet);
 		break;

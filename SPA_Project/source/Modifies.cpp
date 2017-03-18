@@ -7,6 +7,12 @@ Modifies::Modifies(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
 
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 }
 
 //ResultTable Modifies::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
@@ -14,7 +20,7 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	ResultTable resultTable;
 	
 	Parameter param1, param2;
-	vector<Parameter> synList;
+	//vector<Parameter> synList;
 	vector<int> tuple;
 	unordered_set<int> firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
@@ -61,18 +67,22 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 		resultTable.setBoolean(boolRel);
 	}
 	if (isLeftSyn == true && isRightSyn == false) {
-		synList.push_back(leftChild);
+		//synList.push_back(leftChild);
+		//insertSynList(leftChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, lcType);
 	}
 	if (isLeftSyn == false && isRightSyn == true) {
-		synList.push_back(rightChild);
+		//synList.push_back(rightChild);
+		//insertSynList(rightChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, rcType);
 	}
 	if (isLeftSyn == true && isRightSyn == true) {
-		synList.push_back(leftChild);
-		synList.push_back(rightChild);
+		//synList.push_back(leftChild);
+		//synList.push_back(rightChild);
+		//insertSynList(leftChild);
+		//insertSynList(rightChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, lcType);
 		secondSynList = evaluateRelation(pkb, rcType);
@@ -340,7 +350,6 @@ unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int>
 	vector<int> resultVarList;
 	unordered_set<int> stmtSet, varSet, mergeStmtSet, mergeVarSet;
 	unordered_set<int> stmtListSet, varIdListSet, procIdListSet;
-	unordered_set<int> stmtInProcSet;
 
 	string lcName = leftChild.getParaName();
 	Type lcType = leftChild.getParaType();
@@ -371,35 +380,21 @@ unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int>
 		if (lcType == paramType1) {
 			procIdListSet = valueSet1;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtModifiedInProc(procId); //pkb->getModifyStmtInProc(procId);
-				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
-				stmtInProcSet = pkb->getStmtInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
+				//stmtSet = pkb->getStmtModifiedInProc(procId);
+				stmtSet = pkb->getModifyStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
-			for (int stmtId : mergeStmtSet) {
-				if (pkb->isStmtInModifyTable(stmtId)) {
-					stmtSet.insert(stmtId);
-				}
-			}
-			//stmtListSet = mergeStmtSet;
-			stmtListSet = stmtSet;
+			stmtListSet = mergeStmtSet;
 			break;
 		}
 		if (lcType == paramType2) {
 			procIdListSet = valueSet2;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtModifiedInProc(procId); //pkb->getModifyStmtInProc(procId);
-				//mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
-				stmtInProcSet = pkb->getStmtInProc(procId);
-				mergeStmtSet = mergeSet(mergeStmtSet, stmtInProcSet);
+				//stmtSet = pkb->getStmtModifiedInProc(procId);
+				stmtSet = pkb->getModifyStmtInProc(procId);
+				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
-			for (int stmtId : mergeStmtSet) {
-				if (pkb->isStmtInModifyTable(stmtId)) {
-					stmtSet.insert(stmtId);
-				}
-			}
-			//stmtListSet = mergeStmtSet;
-			stmtListSet = stmtSet;
+			stmtListSet = mergeStmtSet;
 			break;
 		}
 		
@@ -409,14 +404,9 @@ unordered_set<int> Modifies::getModifyVarListOfStmt(PKB *pkb, unordered_set<int>
 		break;
 	case STRINGVARIABLE: //'string' procs
 		procId = pkb->getProcIdByName(lcName);
-		stmtInProcSet = pkb->getStmtInProc(procId);
-		for (int stmtId : stmtInProcSet) {
-			if (pkb->isStmtInModifyTable(stmtId)) {
-				stmtSet.insert(stmtId);
-			}
-		}
-		//stmtSet = pkb->getStmtModifiedInProc(procId); //pkb->getModifyStmtInProc(procId);
-		
+		//stmtSet = pkb->getStmtModifiedInProc(procId);
+		stmtSet = pkb->getModifyStmtInProc(procId);
+		//pkb->printAllTables();
 		stmtListSet = stmtSet;
 		//stmtList = convertSetToVector(stmtSet);
 		break;

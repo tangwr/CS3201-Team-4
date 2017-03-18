@@ -42,6 +42,12 @@
     <ClInclude Include="PKBStubParent.h">
       <Filter>Header Files\PKBStub</Filter>
     </ClInclude>
+    <ClInclude Include="PKBStubNext.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubNextStar.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -81,6 +87,18 @@
       <Filter>Source Files\PKBStub</Filter>
     </ClCompile>
     <ClCompile Include="UnitTestParent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubNext.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestNext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubNextStar.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestNextStar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

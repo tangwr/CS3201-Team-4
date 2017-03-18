@@ -220,10 +220,6 @@ bool FollowStar::isValidStmtNo(int stmtId, PKB* pkb) {
 	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
 }
 
-void FollowStar::insertSynList(Parameter p) {
-	synList.push_back(p);
-}
-
 Parameter FollowStar::getLeftChild() {
 	return leftChild;
 }

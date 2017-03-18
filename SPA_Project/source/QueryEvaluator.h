@@ -30,7 +30,11 @@ public:
 
 private:
 	PKB* pkb;
+	ResultTable resTable;
 	ResultTable evaluateGroup(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
+	ResultTable getAllValueForSyn(Parameter param);
+	void joinResultTable(ResultTable rt);
+	void printClause(Clause* c);
 };
 
 

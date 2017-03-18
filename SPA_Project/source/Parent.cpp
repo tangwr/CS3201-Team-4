@@ -9,6 +9,12 @@
 Parent::Parent(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 }
 
 
@@ -200,10 +206,6 @@ bool Parent::isLeftChild(Parameter parameter) {
 
 bool Parent::isValidStmtNo(int stmtId, PKB* pkb) {
 	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
-}
-
-void Parent::insertSynList(Parameter p) {
-	synList.push_back(p);
 }
 
 Parameter Parent::getLeftChild() {

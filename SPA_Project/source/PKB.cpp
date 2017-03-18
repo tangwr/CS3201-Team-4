@@ -477,6 +477,10 @@ unordered_set<int> PKB::getStmtCallProc(int procId) {
     return this->callTable.getCallerStmtCallProc(procId);
 }
 
+unordered_set<int> PKB::getProcCallProc(int calledProcId) {
+    return this->callTable.getCallerProcCallProc(calledProcId);
+}
+
 unordered_set<int> PKB::getProcCalledByProc(int callerProcId) {
     return this->callTable.getProcCalledByProc(callerProcId);
 }

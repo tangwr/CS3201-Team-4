@@ -187,6 +187,7 @@ public:
     virtual bool isStmtInCalltable(int stmtId);
     virtual int getProcCalledByStmt(int callStmtId);
     virtual unordered_set<int> getStmtCallProc(int procId);
+    virtual unordered_set<int> getProcCallProc(int calledProcId);
     virtual unordered_set<int> getProcCalledByProc(int callerProcId);
     virtual unordered_set<int> getAllCallId();
     virtual unordered_set<int> getProcCalledByStarProc(int callerProcId);

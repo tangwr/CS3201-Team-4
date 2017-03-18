@@ -36,7 +36,6 @@ public:
 	Follow(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	ResultTable evaluate(PKB*, ResultTable);
 	ClauseType getClauseType();

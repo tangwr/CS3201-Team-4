@@ -5,6 +5,12 @@
 FollowStar::FollowStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 }
 
 ResultTable FollowStar::evaluateWithoutRestrictions(PKB* pkb) {

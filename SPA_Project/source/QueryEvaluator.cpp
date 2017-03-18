@@ -33,7 +33,7 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 ResultTable QueryEvaluator::evaluate(QueryTree qt) {
 	for (int i = 0; i < qt.getClauseSize(); i++) {
 		Clause* c = qt.getClause(i);
-		printClause(c);
+		//printClause(c);
 		vector<Parameter> cSynList = c->getSynList();
 		vector<Parameter> restrictedSynList;
 		for (Parameter p : cSynList)

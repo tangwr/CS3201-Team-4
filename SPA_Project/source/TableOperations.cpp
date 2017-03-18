@@ -13,7 +13,7 @@ void TableOperations::printTableVector(vector<int> vList) {
 }
 bool TableOperations::isEqualUnorderedSet(unordered_set<int> uSet1, unordered_set<int> uSet2) {
     //check size
-    if (((int)uSet1.size) != ((int)uSet2.size)) {
+    if (((int)uSet1.size()) != ((int)uSet2.size())) {
         return false;
     }
     // check one contains the other

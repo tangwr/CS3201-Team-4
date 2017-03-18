@@ -91,10 +91,12 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	if (firstSynList.empty() == false && secondSynList.empty() == false) {
 		for (int firstSyn : firstSynList) {
 			for (int secondSyn : secondSynList) {
-				tuple.push_back(firstSyn);
-				tuple.push_back(secondSyn);
-				resultTable.insertTuple(tuple);
-				tuple.clear();
+				if (pkb->hasModifyRel(firstSyn, secondSyn)) {
+					tuple.push_back(firstSyn);
+					tuple.push_back(secondSyn);
+					resultTable.insertTuple(tuple);
+					tuple.clear();
+				}
 			}
 		}
 	}

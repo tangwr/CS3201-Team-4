@@ -31,19 +31,36 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 }
 
 ResultTable QueryEvaluator::evaluate(QueryTree qt) {
+
+	// clear result table
+	resTable = ResultTable();
+	resTable.setInitialEmpty(true);
+	cout << "START EVALUATION" << endl;
+	cout << "number of clause = " << qt.getClauseSize() << endl;
 	for (int i = 0; i < qt.getClauseSize(); i++) {
 		Clause* c = qt.getClause(i);
-		//printClause(c);
+		printClause(c);
 		vector<Parameter> cSynList = c->getSynList();
 		vector<Parameter> restrictedSynList;
 		for (Parameter p : cSynList)
 			if (resTable.isSynInTable(p)) {
 				restrictedSynList.push_back(p);
 			}
-
+		cout << "clause has # synym = " << (int)(cSynList.size()) << endl;
 		ResultTable queryResult = c->evaluate(pkb, resTable.select(restrictedSynList));
 		if ((int)cSynList.size() == 0) {
-			if (queryResult.getBoolean() == false && (queryResult.getSynCount() == 0)) {
+			cout << "found empty return table" << endl;
+			cout << "rt.getboolean = " << queryResult.getBoolean() << endl;
+			queryResult.printTable();
+
+			// false boolean clause with no synonym
+			if ((queryResult.getBoolean() == false) && (queryResult.getSynCount() == 0)) {
+				ResultTable emptyTable;
+				emptyTable.setSynList(qt.getSelectParameter());
+				return emptyTable;
+			}
+			// empty result clause with 1/2 synonym 
+			if (queryResult.getSynCount() > 0) {
 				ResultTable emptyTable;
 				emptyTable.setSynList(qt.getSelectParameter());
 				return emptyTable;
@@ -55,11 +72,18 @@ ResultTable QueryEvaluator::evaluate(QueryTree qt) {
 	}
 
 	// add selected but unused param to table
+
 	for (Parameter p : qt.getSelectParameter()) {
-		if (!resTable.isSynInTable(p))
+		if (!resTable.isSynInTable(p)) {
+			cout << "found selected but unused synonym: " + p.getParaName() << endl;
 			joinResultTable(getAllValueForSyn(p));
+		}
 	}
-	return resTable.select(qt.getSelectParameter());
+
+	ResultTable finalTable = resTable.select(qt.getSelectParameter());
+	cout << "FINAL TABLE" << endl;
+	finalTable.printTable();
+	return finalTable;
 }
 
 ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
@@ -389,6 +413,7 @@ void QueryEvaluator::joinResultTable(ResultTable rt)
 	resTable = resTable.join(rt);
 	cout << "after joining, the table is " << endl;
 	resTable.printTable();
+	cout << endl;
 }
 
 void QueryEvaluator::printClause(Clause* c)

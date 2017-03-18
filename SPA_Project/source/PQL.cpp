@@ -38,5 +38,5 @@ list<string> PQL::evaluateQuery(string querySource) {
 
 	ResultTable result = evaluator->evaluate(queryTree);
 	list<string> resultList = postProcessor->processResult(result);
-	return list<string>();
+	return resultList;
 }

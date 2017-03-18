@@ -143,7 +143,7 @@ unordered_set<int> ParentsTable::getStmtParentStarStmt(int stmtId)
 
 bool ParentsTable::hasParentRel()
 {
-	return parentsMap.empty();
+	return !parentsMap.empty();
 }
 
 void ParentsTable::printContents()

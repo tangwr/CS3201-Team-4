@@ -45,7 +45,12 @@ int IfTable::getCtrlVarInIfStmt(int stmtId) {
 }
 
 unordered_set<int> IfTable::getStmtWithCtrlVar(int ctrlVarId) {
-	return unordered_set<int>();
+    unordered_map<int, unordered_set<int>>::iterator it = this->ctrlVarStmtList.find(ctrlVarId);
+    unordered_set<int> stmtsWithCtrlVar;
+    if (it != this->ctrlVarStmtList.end()) {
+        stmtsWithCtrlVar = it->second;
+    }
+    return stmtsWithCtrlVar;
 }
 
 unordered_set<int> IfTable::getAllIfId() {

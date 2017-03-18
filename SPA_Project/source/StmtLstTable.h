@@ -15,7 +15,7 @@ private:
 
 
 public:
-    //[action][target][table/relation][key][rel]
+    
     StmtLstTable();
 
     bool setProcStmtLstContainsStmtRel(int procId, int stmtId);

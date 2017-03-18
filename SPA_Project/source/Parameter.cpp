@@ -46,6 +46,29 @@ void Parameter::setParaName(string name) {
 
 void Parameter::setParaType(Type type) {
 	paraType = type;
+
+
+	if (paraType != BOOLEAN && paraType != ANYTHING
+		&& paraType != STRINGVARIABLE && paraType != INTEGER) {
+		isSyn = true;
+	}
+	else {
+		isSyn = false;
+	}
+
+	if (paraType == INTEGER) {
+		isInt = true;
+	}
+	else {
+		isInt = false;
+	}
+	if (paraType == STRINGVARIABLE) {
+		isStr = true;
+	}
+	else {
+		isStr = false;
+	}
+
 }
 
 bool Parameter::isSynonym() {

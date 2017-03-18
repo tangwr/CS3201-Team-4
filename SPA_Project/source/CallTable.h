@@ -15,9 +15,11 @@ private:
     unordered_map<int, unordered_set<int>> procCalledByStmtList;//procId, callerstmtId
     unordered_map<int, unordered_set<int>> procCallProcList;//procId, calledprocId
     unordered_map<int, unordered_set<int>> procCallStarProcList;//procId, calledStarProcId
+    unordered_map<int, unordered_set<int>> procCallerProcList;//procId, callerProcId
 	int size;//check if need another size
     void printUnorderedSet(unordered_set<int> uSet);
     bool setProcCalledByStmt(int procId, int callerStmtId);
+    bool setProcCalledByProc(int procId, int callerProcId);
 
 public:
 	CallTable();
@@ -28,6 +30,7 @@ public:
     bool insertProcCallStarProcRel(int callerProcId, int calledProcId);
 	int getProcCalledByStmt(int stmtId);
     unordered_set<int> getCallerStmtCallProc(int procId);
+    unordered_set<int> getCallerProcCallProc(int calledProcId);
     unordered_set<int> getProcCalledByProc(int callerProcId);
     unordered_set<int> getProcCalledByStarProc(int callerProcId);
     unordered_set<int> getAllCallId();

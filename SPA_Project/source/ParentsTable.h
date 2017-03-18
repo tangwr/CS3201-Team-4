@@ -23,7 +23,7 @@ private:
 public:
 	ParentsTable();
 	bool setStmtParentStmtRel(int father, int child);
-	bool ParentsTable::insertStmtParentStmtRel(int father, int child);
+	bool insertStmtParentStmtRel(int father, int child);
     unordered_set<int> getStmtChildrenStmt(int stmtNo);  // direct children
 	int getParent(int stmtNo);
 	//vector<int> getChildrenList(int stmtNo);

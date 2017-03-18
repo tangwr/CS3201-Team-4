@@ -45,7 +45,7 @@ bool PKB::isValidConst(int constId) {
 }
 
 int PKB::getNumOfStmt() {
-	return this->whileTable.getSize() + this->assignTable.getSize();
+	return this->whileTable.getSize() + this->assignTable.getSize() + this->ifTable.getSize() + this->callTable.getSize();
 }
 
 //multi-table
@@ -475,6 +475,10 @@ int PKB::getProcCalledByStmt(int callStmtId) {
 
 unordered_set<int> PKB::getStmtCallProc(int procId) {
     return this->callTable.getCallerStmtCallProc(procId);
+}
+
+unordered_set<int> PKB::getProcCallProc(int calledProcId) {
+    return this->callTable.getCallerProcCallProc(calledProcId);
 }
 
 unordered_set<int> PKB::getProcCalledByProc(int callerProcId) {

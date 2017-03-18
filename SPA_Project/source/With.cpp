@@ -9,6 +9,13 @@ const int NOT_FOUND = -1;
 With::With(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
+
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 }
 
 ResultTable With::evaluate(PKB* pkb, ResultTable intResultTable) {

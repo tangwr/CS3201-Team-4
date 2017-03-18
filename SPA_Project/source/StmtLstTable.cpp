@@ -80,13 +80,12 @@ unordered_set<int> StmtLstTable::getAllStmtLst() {
         }
     }
 
-    /*
+    
     for (pair<int, vector<int>> entry : containerStmtToStmtLstMap) {
         for (int element : entry.second) {
             resultSet.insert(element);
         }
     }
-    */
 
     return resultSet;
 }

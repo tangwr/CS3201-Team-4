@@ -1369,7 +1369,7 @@ void QueryParser::getWith(QueryTree *qt) {
 				throwError(ERROR_LEFT_CHILD);
 			}
 			tokenizer->getToken();
-			leftType = VARIABLE;
+			leftType = STRINGVARIABLE;
 		}
 		else if (lcType == VARIABLE) {
 			match(dot, SYMBOL_FULL_STOP);
@@ -1379,7 +1379,7 @@ void QueryParser::getWith(QueryTree *qt) {
 				throwError(ERROR_LEFT_CHILD);
 			}
 			tokenizer->getToken();
-			leftType = VARIABLE;
+			leftType = STRINGVARIABLE;
 		}
 		else if (lcType == CONSTANT) {
 			match(dot, SYMBOL_FULL_STOP);
@@ -1458,7 +1458,7 @@ void QueryParser::getWith(QueryTree *qt) {
 				throwError(ERROR_LEFT_CHILD);
 			}
 			tokenizer->getToken();
-			rightType = VARIABLE;
+			rightType = STRINGVARIABLE;
 		}
 		else if (rcType == VARIABLE) {
 			match(dot, SYMBOL_FULL_STOP);
@@ -1468,7 +1468,7 @@ void QueryParser::getWith(QueryTree *qt) {
 				throwError(ERROR_LEFT_CHILD);
 			}
 			tokenizer->getToken();
-			rightType = VARIABLE;
+			rightType = STRINGVARIABLE;
 		}
 		else if (rcType == CONSTANT) {
 			match(dot, SYMBOL_FULL_STOP);

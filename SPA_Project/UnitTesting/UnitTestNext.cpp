@@ -236,7 +236,7 @@ namespace UnitTesting
 		Next nextClause(stmt1, stmt2);
 		queryResult = nextClause.evaluate(&pkbStub, intResult);
 
-		expectedResult = { { 1 } };
+	//	expectedResult = { { 1 } };
 		sort(expectedResult.begin(), expectedResult.end());
 		tupleResult = queryResult.getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
@@ -244,9 +244,9 @@ namespace UnitTesting
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult.getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsTrue(queryResult.getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Num_Underscore)
@@ -264,7 +264,7 @@ namespace UnitTesting
 		Next nextClause(stmt1, stmt2);
 		queryResult = nextClause.evaluate(&pkbStub, intResult);
 
-		expectedResult = { { 7 }, {8} };
+		//expectedResult = { { 7 }, {8} };
 		sort(expectedResult.begin(), expectedResult.end());
 		tupleResult = queryResult.getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
@@ -272,9 +272,9 @@ namespace UnitTesting
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult.getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsTrue(queryResult.getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Num_While)

@@ -16,6 +16,21 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	ResultTable result;
+	bool isSynonym(Parameter);
+	bool isLeftChild(Parameter);
+	bool isValidStmtNo(int, PKB*);
+	bool isFollowStar(PKB*, unordered_set<int>, unordered_set<int>);
+	unordered_set<int> getTypeStmt(Parameter, PKB*);
+	ResultTable getFollowStarSynSyn(PKB*, ResultTable*);
+	vector<Parameter> synList;
+	void setSynList();
+	void insertTuple(int, int);
+	ResultTable getFollowStar(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isBooleanClause();
+	/*
+	Parameter leftChild;
+	Parameter rightChild;
+	ResultTable result;
 	bool isNumber(Parameter);
 	bool isSynonym(Parameter);
 	bool isValidStmtNo(int, PKB*);
@@ -35,7 +50,7 @@ private:
 	ResultTable evaluateWithoutRestrictions(PKB*);
 	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
 	vector<Parameter> synList;
-
+	*/
 public:
 
 	FollowStar(Parameter lc, Parameter rc);

@@ -216,7 +216,7 @@ namespace UnitTesting
 			Follow followClause(stmt1, stmt2);
 			queryResult = followClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 1 } };
+			//expectedResult = { { 1 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -224,9 +224,9 @@ namespace UnitTesting
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult.getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsTrue(queryResult.getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Follow_Num_Underscore)
@@ -244,7 +244,7 @@ namespace UnitTesting
 			Follow followClause(stmt1, stmt2);
 			queryResult = followClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 3 } };
+			//expectedResult = { { 3 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -252,9 +252,9 @@ namespace UnitTesting
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult.getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsTrue(queryResult.getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Follow_Num_While)
@@ -624,6 +624,183 @@ namespace UnitTesting
 			Assert::IsTrue(expectedResult == tupleResult);
 
 			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_Follow_Underscore_Underscore)
+		{
+			PKBStubFollow pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("2", ANYTHING);
+			stmt2 = Parameter("c1", ANYTHING);
+
+
+			Follow followClause(stmt1, stmt2);
+			queryResult = followClause.evaluate(&pkbStub, intResult);
+
+			//expectedResult = { { 3 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(0, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_Follow_Underscore_Stmt)
+		{
+			PKBStubFollow pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("2", ANYTHING);
+			stmt2 = Parameter("c1", STMT);
+
+
+			Follow followClause(stmt1, stmt2);
+			queryResult = followClause.evaluate(&pkbStub, intResult);
+
+			expectedResult = { { 2 }, {3}, {4}, {12}, {6}, {9}, {10}, {11}, {16}, {17}, {18}, {19}, {21} };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_Follow_Stmt_Underscore)
+		{
+			PKBStubFollow pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("2", STMT);
+			stmt2 = Parameter("c1", ANYTHING);
+
+
+			Follow followClause(stmt1, stmt2);
+			queryResult = followClause.evaluate(&pkbStub, intResult);
+
+			expectedResult = { {1 },  { 2 },{ 3 },{ 4 },{ 5 },{ 6 },{ 9 },{ 10 },
+							{ 13 },{ 16 },{ 14 },{ 18 },{ 15 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
+
+		TEST_METHOD(UnitTest_Follow_Restricted_Underscore_Stmt)
+		{
+			PKBStubFollow pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("s1", ANYTHING);
+			stmt2 = Parameter("s2", STMT);
+
+			intResult.setSynList(vector<Parameter>(1, Parameter("s2", STMT)));
+			intResult.insertTuple({ 14 });
+
+			Follow followClause(stmt1, stmt2);
+			queryResult = followClause.evaluate(&pkbStub, intResult);
+
+			//expectedResult = { { 14 } };
+
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_Follow_Restricted_Underscore_Stmt2)
+		{
+			PKBStubFollow pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("s1", ANYTHING);
+			stmt2 = Parameter("s2", STMT);
+
+			intResult.setSynList(vector<Parameter>(1, Parameter("s2", STMT)));
+			intResult.insertTuple({ 6 });
+
+			Follow followClause(stmt1, stmt2);
+			queryResult = followClause.evaluate(&pkbStub, intResult);
+
+			expectedResult = { { 6 } };
+
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_Follow_Restricted_Stmt_Underscore)
+		{
+			PKBStubFollow pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("s2", STMT);
+			stmt2 = Parameter("s1", ANYTHING);
+
+			intResult.setSynList(vector<Parameter>(1, Parameter("s2", STMT)));
+			intResult.insertTuple({ 6 });
+			intResult.insertTuple({ 12 });
+
+			Follow followClause(stmt1, stmt2);
+			queryResult = followClause.evaluate(&pkbStub, intResult);
+
+			expectedResult = { { 6 } };
+
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
 

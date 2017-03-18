@@ -12,6 +12,22 @@ using namespace std;
 
 class Parent : public Clause {
 private:
+
+	Parameter leftChild;
+	Parameter rightChild;
+	ResultTable result;
+	bool isSynonym(Parameter);
+	bool isLeftChild(Parameter);
+	bool isValidStmtNo(int, PKB*);
+	bool isParent(PKB*, unordered_set<int>, unordered_set<int>);
+	unordered_set<int> getTypeStmt(Parameter, PKB*);
+	ResultTable getParentSynSyn(PKB*, ResultTable*);
+	vector<Parameter> synList;
+	void setSynList();
+	void insertTuple(int, int);
+	ResultTable getParent(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isBooleanClause();
+	/*
 	Parameter leftChild;
 	Parameter rightChild;
 	ResultTable result;
@@ -30,7 +46,7 @@ private:
 	ResultTable evaluateWithoutRestrictions(PKB*);
 	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
 	vector<Parameter> synList;
-
+	*/
 public:
 	Parent(Parameter, Parameter);
 	Parameter getLeftChild();

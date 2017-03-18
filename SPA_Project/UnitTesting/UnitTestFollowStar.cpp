@@ -216,7 +216,7 @@ namespace UnitTesting
 		FollowStar followStarClause(stmt1, stmt2);
 		queryResult = followStarClause.evaluate(&pkbStub, intResult);
 
-		expectedResult = { { 14 }, {18} };
+		//expectedResult = { { 14 }, {18} };
 		sort(expectedResult.begin(), expectedResult.end());
 		tupleResult = queryResult.getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
@@ -224,9 +224,9 @@ namespace UnitTesting
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult.getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsTrue(queryResult.getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_If_Num)
@@ -272,7 +272,7 @@ namespace UnitTesting
 		FollowStar followStarClause(stmt1, stmt2);
 		queryResult = followStarClause.evaluate(&pkbStub, intResult);
 
-		expectedResult = { { 3 }, {4}, {12} };
+		//expectedResult = { { 3 }, {4}, {12} };
 		sort(expectedResult.begin(), expectedResult.end());
 		tupleResult = queryResult.getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
@@ -280,9 +280,9 @@ namespace UnitTesting
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult.getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsTrue(queryResult.getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Num_While)
@@ -339,6 +339,34 @@ namespace UnitTesting
 		Assert::AreEqual(1, queryResult.getSynCount());
 
 		Assert::IsFalse(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_FollowStar_Underscore_Underscore)
+		{
+			PKBStubFollowStar pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("s1", ANYTHING);
+			stmt2 = Parameter("s2", ANYTHING);
+
+
+			FollowStar followStarClause(stmt1, stmt2);
+			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+
+			//expectedResult = { { 4 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(0, queryResult.getSynCount());
+
+			Assert::IsTrue(queryResult.getBoolean());
 		}
 	
 		TEST_METHOD(UnitTest_FollowStar_Stmt_Stmt)

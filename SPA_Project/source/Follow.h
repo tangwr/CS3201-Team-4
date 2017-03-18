@@ -16,21 +16,29 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	ResultTable result;
-	bool isNumber(Parameter);
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
-	bool isRightChild(Parameter);
 	bool isValidStmtNo(int, PKB*);
+	bool isFollows(PKB*, unordered_set<int>, unordered_set<int>);
+	unordered_set<int> getTypeStmt(Parameter, PKB*);
+	ResultTable getFollowSynSyn(PKB*, ResultTable*);
+	vector<Parameter> synList;
+	void setSynList();
+	void insertTuple(int, int);
+	ResultTable getFollow(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isBooleanClause();
+	/*
+	bool isNumber(Parameter);
+	bool isRightChild(Parameter);
 	bool isFollows(PKB*, int, int);
-	unordered_set<int> getTypeStmt(Type, PKB*);
 	ResultTable getFollowNumNum(PKB*, int, int);
 	ResultTable getFollowNumSyn(PKB*, unordered_set<int>, int);
 	ResultTable getFollowSynNum(PKB*, unordered_set<int>, int);
 	ResultTable getFollowSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
-	ResultTable getFollowSynSyn(PKB*, ResultTable*);
 	ResultTable evaluateWithoutRestrictions(PKB*);
 	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
-	vector<Parameter> synList;
+	*/
+	//bool isBothInt();
 
 public:
 	Follow(Parameter lc, Parameter rc);

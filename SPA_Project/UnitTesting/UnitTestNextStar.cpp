@@ -81,7 +81,7 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
+
 		TEST_METHOD(UnitTest_NextStar_Assign_Num)
 		{
 			PKBStubNextStar pkbStub;
@@ -96,12 +96,11 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			//expectedResult = { {15}, { 17 } };
+			expectedResult = { {15}, { 17 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
-			Assert::AreEqual(2, (int)tupleResult.size());
 			//Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
@@ -109,7 +108,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Assign_Num2)
 		{
@@ -126,7 +124,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			//	expectedResult = { { 1 } };
+			expectedResult = { {1}, {2}, {3}, { 5 }, {7}, {8}, {9}, {11} };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -138,7 +136,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Call_Num)
 		{
@@ -167,7 +164,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Call_Num2)
 		{
@@ -179,7 +175,6 @@ namespace UnitTesting
 
 			stmt1 = Parameter("c1", CALL);
 			stmt2 = Parameter("2", INTEGER);
-
 
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
@@ -196,7 +191,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_ProgLine_Num)
 		{
@@ -225,7 +219,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Underscore_Num)
 		{
@@ -241,7 +234,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 1 } };
+		//	expectedResult = { { 1 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -249,11 +242,10 @@ namespace UnitTesting
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult.getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsTrue(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Num_Underscore)
 		{
@@ -270,7 +262,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 7 },{ 8 } };
+			//expectedResult = { { 7 },{ 8 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -278,11 +270,10 @@ namespace UnitTesting
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult.getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsTrue(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Num_While)
 		{
@@ -299,7 +290,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			//expectedResult = { { 3 } };
+			expectedResult = { { 4 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -311,7 +302,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Num_While2)
 		{
@@ -321,14 +311,14 @@ namespace UnitTesting
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
-			stmt1 = Parameter("13", INTEGER);
+			stmt1 = Parameter("8", INTEGER);
 			stmt2 = Parameter("c1", WHILE);
 
 
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 14 } };
+			expectedResult = { { 4 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -341,7 +331,6 @@ namespace UnitTesting
 			Assert::IsFalse(queryResult.getBoolean());
 		}
 		/*
-
 		TEST_METHOD(UnitTest_NextStar_Stmt_Stmt)
 		{
 			PKBStubNextStar pkbStub;
@@ -357,7 +346,8 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			//expectedResult = { { 4 } };
+			expectedResult = { { 4,4 }, {5,5}, {6,6}, {7,7}, {8,8}, {9,9}, {10,10}, {11,11}, {14,14}, {15,15},
+			{16,16}, {17,17} };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());

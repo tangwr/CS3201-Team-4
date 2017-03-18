@@ -32,7 +32,8 @@ bool CallTable::setProcCallProcRel(int callerProcId, int calledProcId) {
     }
     procSet.insert(calledProcId);
     procCallProcList.insert(make_pair(callerProcId, procSet));
-    return true;
+    //return true;
+    return insertProcCallStarProcRel(callerProcId, calledProcId);
 }
 
 bool CallTable::insertProcCallStarProcRel(int callerProcId, int calledStarProcId) {

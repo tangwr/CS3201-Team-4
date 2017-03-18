@@ -8,6 +8,12 @@ using namespace std;
 Follow::Follow(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 }
 
 ResultTable Follow::evaluateWithoutRestrictions(PKB* pkb) {
@@ -216,10 +222,6 @@ Parameter Follow::getLeftChild() {
 }
 Parameter Follow::getRightChild() {
 	return rightChild;
-}
-
-void Follow::insertSynList(Parameter p) {
-	synList.push_back(p);
 }
 
 vector<Parameter> Follow::getSynList() {

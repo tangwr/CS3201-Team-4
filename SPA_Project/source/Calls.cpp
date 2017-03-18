@@ -135,6 +135,7 @@ bool Calls::isValidParameter(PKB *pkb, Parameter param) {
 
 	switch (paramType) {
 	case PROCEDURE:
+	case ANYTHING:
 		isValidParam = true;
 		break;
 	case STRINGVARIABLE: //'string' procs & var

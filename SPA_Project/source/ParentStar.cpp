@@ -5,6 +5,12 @@
 ParentStar::ParentStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
+	if (leftChild.isSynonym()) {
+		synList.push_back(leftChild);
+	}
+	if (rightChild.isSynonym()) {
+		synList.push_back(rightChild);
+	}
 }
 
 ResultTable ParentStar::evaluateWithoutRestrictions(PKB* pkb) {
@@ -200,10 +206,6 @@ bool ParentStar::isLeftChild(Parameter parameter) {
 
 bool ParentStar::isValidStmtNo(int stmtId, PKB* pkb) {
 	return ((stmtId > 0) && (stmtId <= pkb->getNumOfStmt()));
-}
-
-void ParentStar::insertSynList(Parameter p) {
-	synList.push_back(p);
 }
 
 Parameter ParentStar::getLeftChild() {

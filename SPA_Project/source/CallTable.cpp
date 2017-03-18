@@ -160,7 +160,7 @@ bool CallTable::setProcCalledByProc(int procId, int callerProcId) {
         this->procCallerProcList.erase(it);
     }
     callerProcSet.insert(callerProcId);
-    this->procCallStarProcList.insert(make_pair(procId, callerProcSet));
+    this->procCallerProcList.insert(make_pair(procId, callerProcSet));
     return true;
 }
 

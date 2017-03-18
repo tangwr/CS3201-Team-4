@@ -40,7 +40,6 @@ public:
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	ResultTable evaluate(PKB*, ResultTable);
-	void insertSynList(Parameter);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 };

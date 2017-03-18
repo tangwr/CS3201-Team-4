@@ -45,7 +45,7 @@ bool PKB::isValidConst(int constId) {
 }
 
 int PKB::getNumOfStmt() {
-	return this->whileTable.getSize() + this->assignTable.getSize();
+	return this->whileTable.getSize() + this->assignTable.getSize() + this->ifTable.getSize() + this->callTable.getSize();
 }
 
 //multi-table

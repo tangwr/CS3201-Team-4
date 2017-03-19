@@ -14,13 +14,13 @@ Uses::Uses(Parameter lc, Parameter rc) {
 	}
 	
 }
-//ResultTable Uses::evaluate(PKB *pkb, vector<Parameter> paramList, vector<vector<int>> valueList) {
+
 ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 
 	ResultTable resultTable;
 	
 	Parameter param1, param2;
-	//vector<Parameter> synList;
+	
 	vector<int> tuple;
 	unordered_set<int> firstSynList, secondSynList;
 	bool isLeftSyn, isRightSyn, boolRel;
@@ -28,7 +28,6 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 	Type rcType = rightChild.getParaType();
 
 	vector<Parameter> paramList = intResultTable.getSynList(); // restricted paramlist
-	//vector<vector<int>> valueList = intResultTable.getTupleList(); // valueList
 
 	isLeftSyn = isSynonym(lcType);
 	isRightSyn = isSynonym(rcType);
@@ -37,46 +36,36 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 		resultTable.setBoolean(false);
 		return resultTable;
 	}
-	//Change  valueList <<s>,<s>> || <<s,v>,<s,v>>
+	
 	if (paramList.size() == 1) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
-		//valueList1 = intResultTable.getSynValue(param1);
-		//valueSet1 = convertVectorToSet(valueList1);
 		valueSet1 = intResultTable.getSynValue(param1);
 	}
 
 	if (paramList.size() == 2) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
-		//valueList1 = intResultTable.getSynValue(param1);
-		//valueSet1 = convertVectorToSet(valueList1);
 		valueSet1 = intResultTable.getSynValue(param1);
 
 		param2 = paramList.at(1);
 		paramType2 = param2.getParaType();
-		//valueList2 = intResultTable.getSynValue(param2);
-		//valueSet2 = convertVectorToSet(valueList2);
 		valueSet2 = intResultTable.getSynValue(param2);
 	}
-	//end change
+	
 	if (isLeftSyn == false && isRightSyn == false) {
 		boolRel = hasRelation(pkb);
 		resultTable.setBoolean(boolRel);
 	}
 	if (isLeftSyn == true && isRightSyn == false) {
-		//synList.push_back(leftChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, lcType);
 	}
 	if (isLeftSyn == false && isRightSyn == true) {
-		//synList.push_back(rightChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, rcType);
 	}
 	if (isLeftSyn == true && isRightSyn == true) {
-		//synList.push_back(leftChild);
-		//synList.push_back(rightChild);
 		resultTable.setSynList(synList);
 		firstSynList = evaluateRelation(pkb, lcType);
 		secondSynList = evaluateRelation(pkb, rcType);
@@ -180,15 +169,16 @@ bool Uses::hasRelation(PKB *pkb) {
 	return boolRel;
 }
 
-//vector<int> Uses::evaluateRelation(PKB *pkb, Type synType) {
 unordered_set<int> Uses::evaluateRelation(PKB *pkb, Type synType) {
 
 	unordered_set<int> stmtSet, varSet, procSet;
-	unordered_set<int> resultList;// , stmtList, varList, procList;
+	unordered_set<int> resultList;
 	unordered_set<int> useStmtList, useVarList, useProcList;
 	int stmtId, procId, varId;
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
+	Type lcType = leftChild.getParaType();
+	Type rcType = rightChild.getParaType();
 
 	switch (synType) {
 	case PROG_LINE:
@@ -255,7 +245,6 @@ unordered_set<int> Uses::evaluateRelation(PKB *pkb, Type synType) {
 }
 
 
-//vector<int> Uses::getUseStmtListOfVar(PKB *pkb, unordered_set<int> stmtListSet) {
 unordered_set<int> Uses::getUseStmtListOfVar(PKB *pkb, unordered_set<int> stmtListSet) {
 	int varId;
 	unordered_set<int> resultStmtList, varIdList;
@@ -286,7 +275,6 @@ unordered_set<int> Uses::getUseStmtListOfVar(PKB *pkb, unordered_set<int> stmtLi
 	for (int stmtId : stmtListSet) {
 		auto it = mergeStmtSet.find(stmtId);
 		if (it != mergeStmtSet.end()) {
-			//resultStmtList.push_back(stmtId);
 			resultStmtList.insert(stmtId);
 		}
 	}
@@ -294,11 +282,10 @@ unordered_set<int> Uses::getUseStmtListOfVar(PKB *pkb, unordered_set<int> stmtLi
 	return resultStmtList;
 }
 
-//vector<int> Uses::getUseProcListOfVar(PKB *pkb, unordered_set<int> procListSet) {
 unordered_set<int> Uses::getUseProcListOfVar(PKB *pkb, unordered_set<int> procListSet) {
 
 	int procId, varId;
-	unordered_set<int> resultProcList;// , varIdList;
+	unordered_set<int> resultProcList;
 	unordered_set<int> procSet, mergeProcSet, varSet;
 
 	string rcName = rightChild.getParaName();
@@ -313,7 +300,6 @@ unordered_set<int> Uses::getUseProcListOfVar(PKB *pkb, unordered_set<int> procLi
 		}
 		break;
 	case ANYTHING:
-		//varIdList = pkb->getAllVarId();
 		varSet = pkb->getAllVarId();
 		for (int var : varSet) {
 			procSet = pkb->getProcUseVar(var);
@@ -330,7 +316,6 @@ unordered_set<int> Uses::getUseProcListOfVar(PKB *pkb, unordered_set<int> procLi
 	for (int procId : procListSet) {
 		auto it = mergeProcSet.find(procId);
 		if (it != mergeProcSet.end()) {
-			//resultProcList.push_back(procId);
 			resultProcList.insert(procId);
 		}
 	}
@@ -338,7 +323,6 @@ unordered_set<int> Uses::getUseProcListOfVar(PKB *pkb, unordered_set<int> procLi
 	return resultProcList;
 }
 
-//vector<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varListSet) {
 unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varListSet) {
 	int stmtId, procId;
 	vector<int> resultVarList;
@@ -374,7 +358,6 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		if (lcType == paramType1) {
 			procIdListSet = valueSet1;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtUsedInProc(procId);
 				stmtSet = pkb->getUseStmtInProc(procId);
 				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
@@ -384,7 +367,6 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		if (lcType == paramType2) {
 			procIdListSet = valueSet2;
 			for (int proc : procIdListSet) {
-				//stmtSet = pkb->getStmtUsedInProc(procId);
 				stmtSet = pkb->getUseStmtInProc(procId);
 				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
@@ -394,14 +376,11 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		
 		stmtSet = pkb->getAllStmtId();
 		stmtListSet = stmtSet;
-		//stmtList = convertSetToVector(stmtSet);
 		break;
 	case STRINGVARIABLE: //'string' procs
 		procId = pkb->getProcIdByName(lcName);
-		//stmtSet = pkb->getStmtUsedInProc(procId);
 		stmtSet = pkb->getUseStmtInProc(procId);
 		stmtListSet = stmtSet;
-		//stmtList = convertSetToVector(stmtSet);
 		break;
 	}
 
@@ -411,18 +390,13 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 			auto it = varSet.find(varId);
 			if (it != varSet.end()) {
 				mergeVarSet.insert(varId);
-				//resultVarList.push_back(varId);
 			}
 		}
-		//varIdList = VectorSetOperation<int>::setUnion(varIdList, convertSetToVector(varSet));
 	}
-	//resultVarList = convertSetToVector(mergeVarSet);
-	//return resultVarList;
 	return mergeVarSet;
 }
 
-//Return unordered_set
-//vector<int> Uses::getRestrictedList(Type synType) {
+
 unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 	vector<int> varList;
 	unordered_set<int> stmtSet, procSet, callSet, restrictedSet;
@@ -440,7 +414,6 @@ unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 		}
 		stmtSet = pkb->getAllStmtId();
 		restrictedSet = stmtSet;
-		//restrictedList = convertSetToVector(stmtSet);
 		break;
 	case ASSIGN:
 		if (synType == paramType1) {
@@ -453,7 +426,6 @@ unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 		}
 		stmtSet = pkb->getAllAssignStmt();
 		restrictedSet = stmtSet;
-		//restrictedList = convertSetToVector(stmtSet);
 		break;
 	case WHILE:
 		if (synType == paramType1) {
@@ -466,7 +438,6 @@ unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 		}
 		stmtSet = pkb->getAllWhileStmt();
 		restrictedSet = stmtSet;
-		//restrictedList = convertSetToVector(stmtSet);
 		break;
 	case IF:
 		if (synType == paramType1) {
@@ -479,7 +450,6 @@ unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 		}
 		stmtSet = pkb->getAllIfId();
 		restrictedSet = stmtSet;
-		//restrictedList = convertSetToVector(stmtSet);
 		break;
 	case PROCEDURE:
 		if (synType == paramType1) {
@@ -492,7 +462,6 @@ unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 		}
 		procSet = pkb->getAllProcId();
 		restrictedSet = procSet;
-		//restrictedList = convertSetToVector(procSet);
 		break;
 	case CALL:
 		if (synType == paramType1) {
@@ -515,30 +484,12 @@ unordered_set<int> Uses::getRestrictedSet(PKB *pkb, Type synType) {
 			restrictedSet = valueSet2;
 			break;
 		}
-		//varList = pkb->getAllVarId();
-		//restrictedSet = convertVectorToSet(varList);
 		restrictedSet = pkb->getAllVarId();
 	}
 
 	return restrictedSet;
 }
-/*
-vector<int> Uses::convertSetToVector(unordered_set<int> unorderedSet) {
-	vector<int> vectorList;
-	copy(unorderedSet.begin(), unorderedSet.end(), back_inserter(vectorList));
 
-	return vectorList;
-}
-
-unordered_set<int> Uses::convertVectorToSet(vector<int> vectorList) {
-	unordered_set<int> set;
-	
-	for (int v : vectorList) {
-		set.insert(v);
-	}
-	return set;
-}
-*/
 unordered_set<int> Uses::mergeSet(unordered_set<int> s1, unordered_set<int> s2) {
 	s1.insert(s2.begin(), s2.end());
 
@@ -567,155 +518,3 @@ ClauseType Uses::getClauseType() {
 	return USES;
 }
 
-//Testing
-/*
-void Uses::setPKB(PKB* pkbInput) {
-	this->pkb = pkbInput;
-}
-*/
-/*
-bool Uses::hasRel(PKB *pkbSource) {
-return false;
-}
-
-vector<int> Uses::getWithRelToLeft(PKB *pkb) {
-vector<int> v;
-return v;
-}
-
-vector<int> Uses::getWithRelToRight(PKB *pkb) {
-vector<int> v;
-return v;
-}
-*/
-
-
-
-//takes in para vector<int> stmtList
-/*
-vector<int> Uses::getUseStmtListOfVar() {
-
-int varId;
-vector<int> stmtList, varIdList;
-unordered_set<int> stmtSet;
-
-string rcName = rightChild.getParaName();
-Type rcType = rightChild.getParaType();
-
-switch (rcType) {
-case VARIABLE:
-varIdList = getRestrictedList(rcType);
-for (int var : varIdList) {
-//varId = pkb->getVarIdByName(rcName);
-stmtSet = pkb->getStmtUseVar(var);
-stmtList = VectorSetOperation<int>::setUnion(convertSetToVector(stmtSet), stmtList);
-}
-break;
-case ANYTHING:
-stmtSet = pkb->getAllUseStmt();
-stmtList = convertSetToVector(stmtSet);
-break;
-case STRINGVARIABLE:
-varId = pkb->getVarIdByName(rcName);
-stmtSet = pkb->getStmtUseVar(varId);
-stmtList = convertSetToVector(stmtSet);
-break;
-}
-
-return stmtList;
-}
-
-vector<int> Uses::getUseProcListOfVar() {
-
-int procId, varId;
-vector<int> procList, varIdList;
-unordered_set<int> procSet;
-
-string rcName = rightChild.getParaName();
-Type rcType = rightChild.getParaType();
-
-switch (rcType) {
-case VARIABLE:
-varIdList = getRestrictedList(rcType);
-for (int var : varIdList) {
-//varId = pkb->getVarIdByName(rcName);
-procSet = pkb->getProcUseVar(var);
-procList = VectorSetOperation<int>::setUnion(convertSetToVector(procSet), procList);
-}
-break;
-case ANYTHING:
-varIdList = pkb->getAllVarId();
-for (int var : varIdList) {
-procSet = pkb->getProcUseVar(var);
-procList = VectorSetOperation<int>::setUnion(convertSetToVector(procSet), procList);
-}
-break;
-case STRINGVARIABLE:
-varId = pkb->getVarIdByName(rcName);
-procSet = pkb->getProcUseVar(varId);
-procList = convertSetToVector(procSet);
-break;
-}
-
-return procList;
-}
-
-vector<int> Uses::getUseVarListOfStmt() {
-int varId, stmtId, procId;
-vector<int> stmtList, varIdList, procIdList;
-unordered_set<int> stmtSet, varSet;
-
-string lcName = leftChild.getParaName();
-Type lcType = leftChild.getParaType();
-
-switch (lcType) {
-case STMT:
-stmtList = getRestrictedList(lcType);
-break;
-case ASSIGN:
-stmtList = getRestrictedList(lcType);
-break;
-case WHILE:
-stmtList = getRestrictedList(lcType);
-break;
-case IF:
-stmtList = getRestrictedList(lcType);
-break;
-case INTEGER:
-stmtId = stoi(lcName);
-stmtList.push_back(stmtId);
-break;
-case PROCEDURE:
-if (lcType == paramType1) {
-procIdList = valueList1;
-for (int proc : procIdList) {
-//stmtSet = pkb->getStmtUsedInProc(procId);
-stmtList = VectorSetOperation<int>::setUnion(convertSetToVector(stmtSet), stmtList);
-}
-break;
-}
-if (lcType == paramType2) {
-procIdList = valueList2;
-for (int proc : procIdList) {
-//stmtSet = pkb->getStmtUsedInProc(procId);
-stmtList = VectorSetOperation<int>::setUnion(convertSetToVector(stmtSet), stmtList);
-}
-break;
-}
-stmtSet = pkb->getAllStmtId();
-stmtList = convertSetToVector(stmtSet);
-break;
-case STRINGVARIABLE: //'string' procs
-procId = pkb->getProcIdByName(lcName);
-//stmtSet = pkb->getStmtUsedInProc(procId);
-stmtList = convertSetToVector(stmtSet);
-break;
-}
-
-for (int stmtId : stmtList) {
-varSet = pkb->getVarUsedByStmt(stmtId);
-varIdList = VectorSetOperation<int>::setUnion(varIdList, convertSetToVector(varSet));
-}
-return varIdList;
-}
-*/

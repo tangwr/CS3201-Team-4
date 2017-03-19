@@ -75,13 +75,14 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 		if (lcType == PROCEDURE) {
 			for (int procId : firstSynList) {
 				procStmtSet = pkb->getModifyStmtInProc(procId);
-				for (int stmtId : procStmtSet) {
-					for (int secondSyn : secondSynList) {
+				for (int secondSyn : secondSynList) {
+					for (int stmtId : procStmtSet) {
 						if (pkb->hasModifyRel(stmtId, secondSyn)) {
 							tuple.push_back(procId);
 							tuple.push_back(secondSyn);
 							resultTable.insertTuple(tuple);
 							tuple.clear();
+							break;
 						}
 					}
 				}
@@ -374,7 +375,7 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		
 		if (lcType == paramType1) {
 			procIdListSet = valueSet1;
-			for (int proc : procIdListSet) {
+			for (int procId : procIdListSet) {
 				stmtSet = pkb->getUseStmtInProc(procId);
 				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}
@@ -383,7 +384,7 @@ unordered_set<int> Uses::getUseVarListOfStmt(PKB *pkb, unordered_set<int> varLis
 		}
 		if (lcType == paramType2) {
 			procIdListSet = valueSet2;
-			for (int proc : procIdListSet) {
+			for (int procId : procIdListSet) {
 				stmtSet = pkb->getUseStmtInProc(procId);
 				mergeStmtSet = mergeSet(mergeStmtSet, stmtSet);
 			}

@@ -1428,7 +1428,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		Type lcType = leftChild.getParaType();
 		string dot = tokenizer->peekToken();
 
-		if (lcType == STMT || lcType == ASSIGN || lcType == WHILE || lcType == IF || lcType == PROG_LINE || lcType == CALL) {
+		if (lcType == STMT || lcType == ASSIGN || lcType == WHILE || lcType == IF || lcType == PROG_LINE) {
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				if (lcType == PROG_LINE) {
 					throwError(ERROR_LEFT_CHILD);
@@ -1448,7 +1448,29 @@ void QueryParser::getWith(QueryTree *qt) {
 			}
 			leftType = INTEGER;
 		}
-		else if (lcType == PROCEDURE || lcType == CALL) {
+		else if (lcType == CALL) {
+			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
+				tokenizer->getToken();
+				string lcValue = tokenizer->peekToken();
+				if (lcValue.compare(TYPE_STMT) == EQUAL) {
+					tokenizer->getToken();
+					string stmtNo = tokenizer->peekToken();
+					match(stmtNo, SYMBOL_STMT_NO);
+					leftType = INTEGER;
+				}
+				else if (lcValue.compare(TYPE_PROC_NAME) == EQUAL) {
+					leftType = STRINGVARIABLE;
+				}
+				else {
+					throwError(ERROR_LEFT_CHILD);
+				}
+				tokenizer->getToken();
+			}
+			else {
+				throwError(ERROR_STRING);
+			}
+		}
+		else if (lcType == PROCEDURE) {
 			match(dot, SYMBOL_FULL_STOP);
 			tokenizer->getToken();
 			string lcValue = tokenizer->peekToken();
@@ -1517,7 +1539,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		Type rcType = rightChild.getParaType();
 		string dot = tokenizer->peekToken();
 
-		if (rcType == STMT || rcType == ASSIGN || rcType == WHILE || rcType == IF || rcType == PROG_LINE || rcType == CALL) {
+		if (rcType == STMT || rcType == ASSIGN || rcType == WHILE || rcType == IF || rcType == PROG_LINE) {
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				if (rcType == PROG_LINE) {
 					throwError(ERROR_RIGHT_CHILD);
@@ -1538,7 +1560,29 @@ void QueryParser::getWith(QueryTree *qt) {
 			}
 			rightType = INTEGER;
 		}
-		else if (rcType == PROCEDURE || rcType == CALL) {
+		else if (rcType == CALL) {
+			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
+				tokenizer->getToken();
+				string rcValue = tokenizer->peekToken();
+				if (rcValue.compare(TYPE_STMT) == EQUAL) {
+					tokenizer->getToken();
+					string stmtNo = tokenizer->peekToken();
+					match(stmtNo, SYMBOL_STMT_NO);
+					rightType = INTEGER;
+				}
+				else if (rcValue.compare(TYPE_PROC_NAME) == EQUAL) {
+					rightType = STRINGVARIABLE;
+				}
+				else {
+					throwError(ERROR_LEFT_CHILD);
+				}
+				tokenizer->getToken();
+			}
+			else {
+				throwError(ERROR_STRING);
+			}
+		}
+		else if (rcType == PROCEDURE) {
 			match(dot, SYMBOL_FULL_STOP);
 			tokenizer->getToken();
 			string rcValue = tokenizer->peekToken();

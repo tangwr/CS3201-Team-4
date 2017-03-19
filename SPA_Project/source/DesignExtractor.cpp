@@ -32,6 +32,7 @@ void DesignExtractor::extractStarRelations() {
     for (auto procId: procs) {
     	if (!isProcValidated.at(procId)) {
 			recursiveTablePopulation(procId, &isProcInPath, &isProcValidated);
+            isProcInPath.at(procId) = false;
     	}
         cout << "end iter" << endl;
     }

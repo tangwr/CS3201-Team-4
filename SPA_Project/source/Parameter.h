@@ -13,17 +13,19 @@ private:
 	bool isSyn;
 	bool isInt;
 	bool isStr;
-
+	bool hasAttributeValue;
 public:
 	Parameter();
 	Parameter(string, Type);
 	string getParaName();
 	Type getParaType();
 	void setParaName(string);
+	void setAttributeValue(bool);
 	void setParaType(Type);
 	bool isSynonym();
 	bool isSame(Parameter);
 	bool isInteger();
 	bool isString();
+	bool getAttributeValue();
 };
 #endif

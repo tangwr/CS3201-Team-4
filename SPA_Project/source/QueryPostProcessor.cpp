@@ -54,6 +54,10 @@ string  QueryPostProcessor::processResultType(int value, Type valueType) {
 		return formatConstResult(value);
 		break;
 
+	case PROCEDURE:
+		return formatProcedureResult(value);
+		break;
+
 	default:
 		return formatStmtResult(value);
 		break;
@@ -81,4 +85,8 @@ string QueryPostProcessor::formatConstResult(int result) {
 
 string QueryPostProcessor::formatStmtResult(int result) {
 	return to_string(result);
+}
+
+string QueryPostProcessor::formatProcedureResult(int result) {
+	return pkb->getProcNameById(result);
 }

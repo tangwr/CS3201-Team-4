@@ -74,10 +74,10 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 	if (firstSynList.empty() == false && secondSynList.empty() == false) {
 		if (lcType == PROCEDURE) {
 			for (int procId : firstSynList) {
-				procStmtSet = pkb->getModifyStmtInProc(procId);
+				procStmtSet = pkb->getUseStmtInProc(procId);
 				for (int secondSyn : secondSynList) {
 					for (int stmtId : procStmtSet) {
-						if (pkb->hasModifyRel(stmtId, secondSyn)) {
+						if (pkb->checkStmtVarUseRelExist(stmtId, secondSyn)) {
 							tuple.push_back(procId);
 							tuple.push_back(secondSyn);
 							resultTable.insertTuple(tuple);

@@ -21,4 +21,5 @@ private:
 	string formatVarResult(int result);
 	string formatConstResult(int result);
 	string formatStmtResult(int value);
+	string formatProcedureResult(int value);
 };

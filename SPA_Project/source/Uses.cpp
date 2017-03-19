@@ -224,7 +224,7 @@ unordered_set<int> Uses::evaluateRelation(PKB *pkb, Type synType) {
 		resultList = useStmtList;
 		break;
 	case STRINGVARIABLE:
-		if (pkb->isProcInTable(lcName) == true) {
+		if (pkb->isProcInTable(lcName) == true && synType == lcType) {
 			procId = pkb->getProcIdByName(lcName);
 			procSet.insert(procId);
 			useProcList = getUseProcListOfVar(pkb, procSet);
@@ -232,7 +232,7 @@ unordered_set<int> Uses::evaluateRelation(PKB *pkb, Type synType) {
 			break;
 		}
 		varId = pkb->getVarIdByName(rcName);
-		if (varId != -1) {
+		if (varId != -1 && synType == rcType) {
 			varSet.insert(varId);
 			useVarList = getUseVarListOfStmt(pkb, varSet);
 			resultList = useVarList;

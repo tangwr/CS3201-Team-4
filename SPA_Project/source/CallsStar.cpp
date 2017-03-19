@@ -183,7 +183,7 @@ unordered_set<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string sy
 		break;
 	}
 
-	if (synName == lcName) {
+	if (synName == lcName && synType == lcType) {
 		callerProcSet = procSet;
 		calledByProcSet = getCallProcSet(pkb, rcType, rcName);
 		for (int callerProcId : callerProcSet) {
@@ -197,7 +197,7 @@ unordered_set<int> CallsStar::evaluateRelation(PKB *pkb, Type synType, string sy
 			}
 		}
 	}
-	if (synName == rcName) {
+	if (synName == rcName && synType == rcType) {
 		callerProcSet = getCallProcSet(pkb, lcType, lcName);
 		calledByProcSet = procSet;
 		for (int callerProcId : callerProcSet) {

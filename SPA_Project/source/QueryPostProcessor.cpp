@@ -35,7 +35,8 @@ string QueryPostProcessor::processSingleResult(vector<int> vectorInt, vector<Par
 	for (int i = 0; i < vectorInt.size(); i++) {
 		int value = vectorInt.at(i);
 		Type vauleType = select.at(i).getParaType();
-		string res = processResultType(value, vauleType);
+		bool attribute = select.at(i).getAttributeValue();
+		string res = processResultType(value, vauleType, attribute);
 		result += res + SYMBOL_SPACE;
 	}
 
@@ -43,7 +44,7 @@ string QueryPostProcessor::processSingleResult(vector<int> vectorInt, vector<Par
 	return result;
 }
 
-string  QueryPostProcessor::processResultType(int value, Type valueType) {
+string  QueryPostProcessor::processResultType(int value, Type valueType, bool attribute) {
 	switch (valueType) {
 
 	case VARIABLE:
@@ -58,6 +59,9 @@ string  QueryPostProcessor::processResultType(int value, Type valueType) {
 		return formatProcedureResult(value);
 		break;
 
+	case CALL:
+		return formatCallResult(value, attribute);
+		break;
 	default:
 		return formatStmtResult(value);
 		break;
@@ -89,4 +93,14 @@ string QueryPostProcessor::formatStmtResult(int result) {
 
 string QueryPostProcessor::formatProcedureResult(int result) {
 	return pkb->getProcNameById(result);
+}
+
+string QueryPostProcessor::formatCallResult(int result, bool attribute) {
+	if (attribute) {
+		int id = pkb->getProcCalledByStmt(result);
+		return pkb->getProcNameById(id);
+	}
+	else {
+		return to_string(result);
+	}
 }

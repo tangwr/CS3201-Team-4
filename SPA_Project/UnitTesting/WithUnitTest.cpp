@@ -228,11 +228,13 @@ namespace UnitTest_With_Object
 			With withObj(left, right);
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
-			expectedResult = { { 1 },{ 2 },{ 3 },{ 5 } };
+			expectedResult = { { 1, 1 },{ 2, 2 },{ 3, 3 },{ 5, 5 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -255,11 +257,13 @@ namespace UnitTest_With_Object
 			With withObj(left, right);
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
-			expectedResult = { { 4 },{ 14 } };
+			expectedResult = { { 4, 4 },{ 14, 14 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -282,11 +286,13 @@ namespace UnitTest_With_Object
 			With withObj(left, right);
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
-			expectedResult = { { 6 },{ 13 },{ 22 } };
+			expectedResult = { { 6, 6 },{ 13, 13 },{ 22, 22 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -309,9 +315,11 @@ namespace UnitTest_With_Object
 			With withObj(left, right);
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
 			expectedResult = {};
 			sort(expectedResult.begin(), expectedResult.end());
@@ -339,11 +347,13 @@ namespace UnitTest_With_Object
 			intResult.insertTuple({ 16 });
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
-			expectedResult = { { 2 } };
+			expectedResult = { { 2, 10 },{ 2, 16 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -369,11 +379,13 @@ namespace UnitTest_With_Object
 			intResult.insertTuple({ 16 });
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
-			expectedResult = { { 10 },{ 16 } };
+			expectedResult = { { 10, 2 },{ 16, 2 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -403,11 +415,13 @@ namespace UnitTest_With_Object
 			intResult.insertTuple({ { 2, 5 } });
 			queryResult = withObj.evaluate(&pkbStub, intResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
-			expectedResult = { { 2 } };
+			expectedResult = { { 2, 2 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());

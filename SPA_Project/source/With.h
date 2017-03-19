@@ -24,8 +24,9 @@ private:
 
 	unordered_set<int> getRightResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
 	unordered_set<int> getLeftResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
-	unordered_set<int> assignResult(PKB* pkb, unordered_set<int> callStmts, unordered_set<int> procs);
+	void assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<int> callStmts, unordered_set<int> procs);
 	unordered_set<int> getSynResultList(PKB* pkb, Parameter parameter);
+	void setResultTupleToTable(ResultTable* pattResultTable, int left, int right);
 	int getIdOfString(PKB* pkb);
 	string getStringOfId(PKB* pkb, int id);
 

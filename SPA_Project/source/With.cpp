@@ -27,17 +27,13 @@ ResultTable With::evaluate(PKB* pkb, ResultTable intResultTable) {
 }
 
 void With::setSynToTable(ResultTable* withResultTable) {
-	withResultTable->setSynList({ leftChild });
+	withResultTable->setSynList(synList);
 }
 
 void With::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
 	unordered_set<int> rightResultList = getRightResultList(pkb, intResultTable, withResultTable);
 	unordered_set<int> leftResultList = getLeftResultList(pkb, intResultTable, withResultTable);
-	unordered_set<int> resultList = assignResult(pkb, leftResultList, rightResultList);
-
-	for (auto element : resultList) {
-		withResultTable->insertTuple({ element });
-	}
+	assignResult(pkb, withResultTable, leftResultList, rightResultList);
 }
 
 unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
@@ -49,13 +45,7 @@ unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTabl
 			rightResultList = getSynResultList(pkb, rightChild);
 		}
 
-		if (rightChild.getParaType() == CALL) {
-			unordered_set<int> calledProcs;
-			for (auto calledProcId : rightResultList) {
-				calledProcs.insert(pkb->getProcCalledByStmt(calledProcId));
-			}
-			rightResultList = calledProcs;
-		} else if (rightChild.getParaType() == CONSTANT) {
+		if (rightChild.getParaType() == CONSTANT) {
 			unordered_set<int> constValues;
 			for (auto constId : rightResultList) {
 				constValues.insert(pkb->getConstValueById(constId));
@@ -94,7 +84,7 @@ unordered_set<int> With::getLeftResultList(PKB* pkb, ResultTable* intResultTable
 	return leftResultList;
 }
 
-unordered_set<int> With::assignResult(PKB* pkb, unordered_set<int> leftResult, unordered_set<int> rightResult) {
+void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<int> leftResult, unordered_set<int> rightResult) {
 	unordered_set<int> resultList;
 	switch (leftChild.getParaType()) {
 	case PROG_LINE:
@@ -107,6 +97,9 @@ unordered_set<int> With::assignResult(PKB* pkb, unordered_set<int> leftResult, u
 		/* falls through */
 	case IF:
 		resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
+		for (auto stmtId : resultList) {
+			setResultTupleToTable(withResultTable, stmtId, stmtId);
+		}
 		break;
 
 	case CONSTANT:
@@ -114,20 +107,25 @@ unordered_set<int> With::assignResult(PKB* pkb, unordered_set<int> leftResult, u
 			if (pkb->isConstInTable(value)) {
 				int constId = pkb->getConstIdByValue(value);
 				if (leftResult.find(constId) != leftResult.end()) {
-					resultList.insert(constId);
+					setResultTupleToTable(withResultTable, constId, constId);
 				}
 			}
 		}
 		break;
 	case CALL:
 		for (auto id : rightResult) {
-			string idString = getStringOfId(pkb, id);
+			int rightId = id;
+			if (rightChild.getParaType() == CALL) {
+				rightId = pkb->getProcCalledByStmt(id);
+			}
+
+			string idString = getStringOfId(pkb, rightId);
 			if (pkb->isProcInTable(idString)) {
 				int procId = pkb->getProcIdByName(idString);
 				unordered_set<int> callStmts = pkb->getStmtCallProc(procId);
 				for (auto callStmtId : callStmts) {
 					if (leftResult.find(callStmtId) != leftResult.end()) {
-						resultList.insert(callStmtId);
+						setResultTupleToTable(withResultTable, callStmtId, id);
 					}
 				}
 			}
@@ -135,28 +133,37 @@ unordered_set<int> With::assignResult(PKB* pkb, unordered_set<int> leftResult, u
 		break;
 	case PROCEDURE:
 		for (auto id : rightResult) {
-			string idString = getStringOfId(pkb, id);
+			int rightId = id;
+			if (rightChild.getParaType() == CALL) {
+				rightId = pkb->getProcCalledByStmt(id);
+			}
+
+			string idString = getStringOfId(pkb, rightId);
 			if (pkb->isProcInTable(idString)) {
 				int procId = pkb->getProcIdByName(idString);
 				if (leftResult.find(procId) != leftResult.end()) {
-					resultList.insert(procId);
+					setResultTupleToTable(withResultTable, procId, id);
 				}
 			}
 		}
 		break;
 	case VARIABLE:
 		for (auto id : rightResult) {
+			int rightId = id;
+			if (rightChild.getParaType() == CALL) {
+				rightId = pkb->getProcCalledByStmt(id);
+			}
+
 			string idString = getStringOfId(pkb, id);
 			if (pkb->isVarInTable(idString)) {
 				int varId = pkb->getVarIdByName(idString);
 				if (leftResult.find(varId) != leftResult.end()) {
-					resultList.insert(varId);
+					setResultTupleToTable(withResultTable, varId, id);
 				}
 			}
 		}
 		break;
 	}
-	return resultList;
 }
 
 int With::getIdOfString(PKB* pkb) {
@@ -225,6 +232,15 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 		break;
 	}
 	return resultList;
+}
+
+void With::setResultTupleToTable(ResultTable* pattResultTable, int left, int right) {
+		if (rightChild.isSynonym()) {
+			pattResultTable->insertTuple({ left, right });
+		}
+		else {
+			pattResultTable->insertTuple({ left });
+		}
 }
 
 void With::setBooleanToTable(ResultTable* withResultTable) {

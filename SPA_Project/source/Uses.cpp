@@ -175,7 +175,7 @@ bool Uses::hasRelation(PKB *pkb) {
 	bool boolRel = false;
 	Type lcType = leftChild.getParaType();
 	Type rcType = rightChild.getParaType();
-	unordered_set<int> results = evaluateRelation(pkb, rcType);
+	unordered_set<int> results = evaluateRelation(pkb, lcType);
 
 	if (results.empty()) {
 		boolRel = false;

@@ -4,6 +4,7 @@
 using namespace std;
 
 Parameter::Parameter() {
+	hasAttributeValue = false;
 }
 
 Parameter::Parameter(string name, Type type) {
@@ -91,4 +92,12 @@ bool Parameter::isSame(Parameter paraObj) {
 		return false;
 	}
 	return true;
+}
+
+void Parameter::setAttributeValue(bool value) {
+	hasAttributeValue = value;
+}
+
+bool Parameter::getAttributeValue() {
+	return hasAttributeValue;
 }

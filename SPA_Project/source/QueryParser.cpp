@@ -193,10 +193,21 @@ void QueryParser::getSelect(QueryTree *qt) {
 				string correctType = tokenizer->peekToken();
 				Type synType = varMap[selectName].getParaType();
 				if (synType == CALL || synType == PROCEDURE) {
-					match(correctType, TYPE_PROC_NAME);
-					if (synType == CALL) {
-						selectSyn.setAttributeValue(TRUE);
+					if (correctType.compare(TYPE_PROC_NAME) == EQUAL) {
+						if (synType == CALL) {
+							selectSyn.setAttributeValue(TRUE);
+						}
 					}
+					else if (correctType.compare(TYPE_STMT) == EQUAL) {
+						tokenizer->getToken();
+						string stmtNo = tokenizer->peekToken();
+						match(stmtNo, SYMBOL_STMT_NO);
+					}
+					else {
+						throwError(ERROR_STRING);
+					}
+					
+					
 				}
 				else if (synType == STMT || synType == WHILE || synType == ASSIGN || synType == IF) {
 					match(correctType, TYPE_STMT);
@@ -239,11 +250,27 @@ void QueryParser::getSelect(QueryTree *qt) {
 				string correctType = tokenizer->peekToken();
 				Type synType = varMap[token].getParaType();
 				if (synType == CALL || synType == PROCEDURE) {
+					if (correctType.compare(TYPE_PROC_NAME) == EQUAL) {
+						if (synType == CALL) {
+							selectSyn.setAttributeValue(TRUE);
+						}
+					}
+					else if (correctType.compare(TYPE_STMT) == EQUAL) {
+						tokenizer->getToken();
+						string stmtNo = tokenizer->peekToken();
+						match(stmtNo, SYMBOL_STMT_NO);
+					}
+					else {
+						throwError(ERROR_STRING);
+					}
+					tokenizer->getToken();
+				   /*
 					match(correctType, TYPE_PROC_NAME);
 					tokenizer->getToken();
 					if (synType == CALL) {
 						selectSyn.setAttributeValue(TRUE);
 					}
+					*/
 				}
 				else if (synType == STMT || synType == WHILE || synType == ASSIGN || synType == IF) {
 					match(correctType, TYPE_STMT);
@@ -255,8 +282,6 @@ void QueryParser::getSelect(QueryTree *qt) {
 				else if (synType == CONSTANT) {
 					match(correctType, TYPE_VALUE);
 					tokenizer->getToken();
-					string dd = tokenizer->peekToken();
-					string da = "";
 				}
 				else if (synType == VARIABLE) {
 					match(correctType, TYPE_VARNAME);
@@ -266,6 +291,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 					throwError(ERROR_STRING);
 				}
 			}
+			qt->insertSelect(selectSyn);
 		}
 		else if (token.compare(TYPE_BOOLEAN) == 0) {
 			qt->insertSelect(Parameter(TYPE_BOOLEAN, BOOLEAN));
@@ -275,7 +301,6 @@ void QueryParser::getSelect(QueryTree *qt) {
 			throwError(ERROR_SELECT);
 			tokenizer->getToken();
 		}
-		qt->insertSelect(selectSyn);
 	}
 }
 

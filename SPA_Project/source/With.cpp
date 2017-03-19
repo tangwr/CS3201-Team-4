@@ -107,28 +107,38 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 			if (pkb->isConstInTable(value)) {
 				int constId = pkb->getConstIdByValue(value);
 				if (leftResult.find(constId) != leftResult.end()) {
-					setResultTupleToTable(withResultTable, constId, constId);
+					setResultTupleToTable(withResultTable, constId, value);
 				}
 			}
 		}
 		break;
 	case CALL:
-		for (auto id : rightResult) {
-			int rightId = id;
-			if (rightChild.getParaType() == CALL) {
-				rightId = pkb->getProcCalledByStmt(id);
-			}
+		if (rightChild.getParaType() == STRINGVARIABLE || rightChild.getParaType() == PROCEDURE
+			|| rightChild.getParaType() == VARIABLE 
+			|| (rightChild.getParaType() == CALL && rightChild.getAttributeValue())) {
+			for (auto id : rightResult) {
+				int rightId = id;
+				if (rightChild.getParaType() == CALL) {
+					rightId = pkb->getProcCalledByStmt(id);
+				}
 
-			string idString = getStringOfId(pkb, rightId);
-			if (pkb->isProcInTable(idString)) {
-				int procId = pkb->getProcIdByName(idString);
-				unordered_set<int> callStmts = pkb->getStmtCallProc(procId);
-				for (auto callStmtId : callStmts) {
-					if (leftResult.find(callStmtId) != leftResult.end()) {
-						setResultTupleToTable(withResultTable, callStmtId, id);
+				string idString = getStringOfId(pkb, rightId);
+				if (pkb->isProcInTable(idString)) {
+					int procId = pkb->getProcIdByName(idString);
+					unordered_set<int> callStmts = pkb->getStmtCallProc(procId);
+					for (auto callStmtId : callStmts) {
+						if (leftResult.find(callStmtId) != leftResult.end()) {
+							setResultTupleToTable(withResultTable, callStmtId, id);
+						}
 					}
 				}
 			}
+		} else {
+			resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
+			for (auto stmtId : resultList) {
+				setResultTupleToTable(withResultTable, stmtId, stmtId);
+			}
+			break;
 		}
 		break;
 	case PROCEDURE:

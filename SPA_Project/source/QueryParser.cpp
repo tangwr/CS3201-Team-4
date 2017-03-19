@@ -1428,7 +1428,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		Type lcType = leftChild.getParaType();
 		string dot = tokenizer->peekToken();
 
-		if (lcType == STMT || lcType == ASSIGN || lcType == WHILE || lcType == IF || lcType == PROG_LINE) {
+		if (lcType == STMT || lcType == ASSIGN || lcType == WHILE || lcType == IF || lcType == PROG_LINE || lcType == CALL) {
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				if (lcType == PROG_LINE) {
 					throwError(ERROR_LEFT_CHILD);
@@ -1517,7 +1517,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		Type rcType = rightChild.getParaType();
 		string dot = tokenizer->peekToken();
 
-		if (rcType == STMT || rcType == ASSIGN || rcType == WHILE || rcType == IF || rcType == PROG_LINE) {
+		if (rcType == STMT || rcType == ASSIGN || rcType == WHILE || rcType == IF || rcType == PROG_LINE || rcType == CALL) {
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				if (rcType == PROG_LINE) {
 					throwError(ERROR_RIGHT_CHILD);

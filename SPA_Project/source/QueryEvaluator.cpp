@@ -80,8 +80,11 @@ ResultTable QueryEvaluator::evaluate(QueryTree qt) {
 		}
 	}
 	ResultTable finalTable;
-	if ((int)qt.getSelectParameter().size() == 0) {
-		finalTable.setBoolean(true);
+	if ((int)qt.getSelectParameter().size() == 1 && qt.getSelectParameter().at(0).getParaType() == BOOLEAN) {
+		if (resTable.getTupleSize() > 0) 
+			finalTable.setBoolean(true);
+		else 
+			finalTable.setBoolean(false);
 	}
 	else {
 		 finalTable = resTable.select(qt.getSelectParameter());

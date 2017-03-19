@@ -203,6 +203,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 						tokenizer->getToken();
 						string stmtNo = tokenizer->peekToken();
 						match(stmtNo, SYMBOL_STMT_NO);
+						selectSyn.setAttributeValue(FALSE);
 					}
 					else {
 						throwError(ERROR_STRING);
@@ -260,6 +261,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 						tokenizer->getToken();
 						string stmtNo = tokenizer->peekToken();
 						match(stmtNo, SYMBOL_STMT_NO);
+						selectSyn.setAttributeValue(FALSE);
 					}
 					else {
 						throwError(ERROR_STRING);
@@ -1527,6 +1529,7 @@ void QueryParser::getWith(QueryTree *qt) {
 				string stmtNo = tokenizer->peekToken();
 				match(stmtNo, SYMBOL_STMT_NO);
 				tokenizer->getToken();
+				rightType = INTEGER;
 			}
 			else {
 				if (rcType != PROG_LINE) {

@@ -48,8 +48,7 @@ ResultTable QueryEvaluator::evaluate(QueryTree qt) {
 			}
 		cout << "clause has # synym = " << (int)(cSynList.size()) << endl;
 		ResultTable queryResult = c->evaluate(pkb, resTable.select(restrictedSynList));
-		if ((int)cSynList.size() == 0) {
-			cout << "found empty return table" << endl;
+		if ((int)queryResult.getTupleSize() == 0) {
 			cout << "rt.getboolean = " << queryResult.getBoolean() << endl;
 			queryResult.printTable();
 
@@ -81,10 +80,13 @@ ResultTable QueryEvaluator::evaluate(QueryTree qt) {
 	}
 	ResultTable finalTable;
 	if ((int)qt.getSelectParameter().size() == 1 && qt.getSelectParameter().at(0).getParaType() == BOOLEAN) {
-		if (resTable.getTupleSize() > 0) 
+		if (resTable.getTupleSize() > 0)
 			finalTable.setBoolean(true);
-		else 
-			finalTable.setBoolean(false);
+		else
+			if (resTable.getBoolean() == true)
+				finalTable.setBoolean(true);
+			else
+				finalTable.setBoolean(false);
 	}
 	else {
 		 finalTable = resTable.select(qt.getSelectParameter());

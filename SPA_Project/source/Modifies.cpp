@@ -20,7 +20,7 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	
 	Parameter param1, param2;
 	vector<int> tuple;
-	unordered_set<int> firstSynList, secondSynList;
+	unordered_set<int> firstSynList, secondSynList, procStmtSet;
 	bool isLeftSyn, isRightSyn, boolRel;
 
 	Type lcType = leftChild.getParaType();
@@ -72,13 +72,30 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	}
 	
 	if (firstSynList.empty() == false && secondSynList.empty() == false) {
-		for (int firstSyn : firstSynList) {
-			for (int secondSyn : secondSynList) {
-				if (pkb->hasModifyRel(firstSyn, secondSyn)) {
-					tuple.push_back(firstSyn);
-					tuple.push_back(secondSyn);
-					resultTable.insertTuple(tuple);
-					tuple.clear();
+		if (lcType == PROCEDURE) {
+			for (int procId : firstSynList) {
+				procStmtSet = pkb->getModifyStmtInProc(procId);
+				for (int stmtId : procStmtSet) {
+					for (int secondSyn : secondSynList) {
+						if (pkb->hasModifyRel(stmtId, secondSyn)) {
+							tuple.push_back(procId);
+							tuple.push_back(secondSyn);
+							resultTable.insertTuple(tuple);
+							tuple.clear();
+						}
+					}
+				}
+			}
+		}
+		else {
+			for (int firstSyn : firstSynList) {
+				for (int secondSyn : secondSynList) {
+					if (pkb->hasModifyRel(firstSyn, secondSyn)) {
+						tuple.push_back(firstSyn);
+						tuple.push_back(secondSyn);
+						resultTable.insertTuple(tuple);
+						tuple.clear();
+					}
 				}
 			}
 		}
@@ -294,7 +311,7 @@ unordered_set<int> Modifies::getModifyProcListOfVar(PKB *pkb, unordered_set<int>
 		varSet = getRestrictedSet(pkb, rcType);
 		for (int var : varSet) {
 			procSet = pkb->getProcModifyVar(var);
-			mergeProcSet = procSet;
+			mergeProcSet = mergeSet(mergeProcSet, procSet);
 		}
 		break;
 	case ANYTHING:

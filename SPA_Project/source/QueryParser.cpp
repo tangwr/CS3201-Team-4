@@ -76,6 +76,7 @@ const string ERROR_FACTOR = "The Pattern's factor is invalid";
 const string ERROR_CHILD_TYPE = "The left child's type is not equal to right child's type for With";
 const int EQUAL = 0;
 const bool TRUE = true;
+const bool FALSE = false;
 const vector<string> TYPES = { "variable", "constant", "stmt", "assign", "while","prog_line", "procedure", "stmtLst", "if", "call" };
 const vector<string> KEYS = { "Pattern", "and", "such", "that", "call", "prog_line", "Select", "constant", "stmt", "stmtLst", "assign", "while",
 "if", "procedure", "Calls", "Calls*", "Modifies", "Uses", "Affects", "Affects*", "Parent",
@@ -231,9 +232,9 @@ void QueryParser::getSelect(QueryTree *qt) {
 				finalToken = tokenizer->getToken();
 			}
 			else {
+				selectSyn.setAttributeValue(FALSE);
 				finalToken = nextToken;
 			}
-
 			qt->insertSelect(selectSyn);
 		} while (finalToken.compare(SYMBOL_COMMA) == EQUAL);
 
@@ -264,13 +265,6 @@ void QueryParser::getSelect(QueryTree *qt) {
 						throwError(ERROR_STRING);
 					}
 					tokenizer->getToken();
-				   /*
-					match(correctType, TYPE_PROC_NAME);
-					tokenizer->getToken();
-					if (synType == CALL) {
-						selectSyn.setAttributeValue(TRUE);
-					}
-					*/
 				}
 				else if (synType == STMT || synType == WHILE || synType == ASSIGN || synType == IF) {
 					match(correctType, TYPE_STMT);
@@ -290,6 +284,10 @@ void QueryParser::getSelect(QueryTree *qt) {
 				else {
 					throwError(ERROR_STRING);
 				}
+			}
+			else
+			{
+				selectSyn.setAttributeValue(FALSE);
 			}
 			qt->insertSelect(selectSyn);
 		}

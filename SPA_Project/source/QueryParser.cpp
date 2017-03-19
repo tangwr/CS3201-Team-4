@@ -75,6 +75,7 @@ const string ERROR_RIGHT_CHILD = "The clause's right child is invalid";
 const string ERROR_FACTOR = "The Pattern's factor is invalid";
 const string ERROR_CHILD_TYPE = "The left child's type is not equal to right child's type for With";
 const int EQUAL = 0;
+const bool TRUE = true;
 const vector<string> TYPES = { "variable", "constant", "stmt", "assign", "while","prog_line", "procedure", "stmtLst", "if", "call" };
 const vector<string> KEYS = { "Pattern", "and", "such", "that", "call", "prog_line", "Select", "constant", "stmt", "stmtLst", "assign", "while",
 "if", "procedure", "Calls", "Calls*", "Modifies", "Uses", "Affects", "Affects*", "Parent",
@@ -183,33 +184,34 @@ void QueryParser::getSelect(QueryTree *qt) {
 		tokenizer->getToken();
 		string nextToken;
 		string finalToken;
+		Parameter selectSyn;
 		do {
 			string selectName = getSelectSyn();
-			qt->insertSelect(varMap[selectName]);
-			nextToken = tokenizer->getToken();		
+			selectSyn = varMap[selectName];
+			nextToken = tokenizer->getToken();
 			if (nextToken.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				string correctType = tokenizer->peekToken();
 				Type synType = varMap[selectName].getParaType();
 				if (synType == CALL || synType == PROCEDURE) {
 					match(correctType, TYPE_PROC_NAME);
-					//tokenizer->getToken();
+					if (synType == CALL) {
+						selectSyn.setAttributeValue(TRUE);
+					}
 				}
 				else if (synType == STMT || synType == WHILE || synType == ASSIGN || synType == IF) {
 					match(correctType, TYPE_STMT);
 					tokenizer->getToken();
 					string stmtNo = tokenizer->peekToken();
 					match(stmtNo, SYMBOL_STMT_NO);
-					//tokenizer->getToken();
+					
 				}
 				else if (synType == CONSTANT) {
 					match(correctType, TYPE_VALUE);
-					//tokenizer->getToken();
 					string dd = tokenizer->peekToken();
 					string da = "";
 				}
 				else if (synType == VARIABLE) {
 					match(correctType, TYPE_VARNAME);
-					//tokenizer->getToken();
 				}
 				else {
 					throwError(ERROR_STRING);
@@ -221,13 +223,15 @@ void QueryParser::getSelect(QueryTree *qt) {
 				finalToken = nextToken;
 			}
 
+			qt->insertSelect(selectSyn);
 		} while (finalToken.compare(SYMBOL_COMMA) == EQUAL);
 
 		match(finalToken, SYMBOL_TUPLE_CLOSE_BRACKET);
 	}
 	else {
+		Parameter selectSyn;
 		if (isVarNameExists(token)) {
-			qt->insertSelect(varMap[token]);
+			selectSyn = varMap[token];
 			tokenizer->getToken();
 			string dot = tokenizer->peekToken();
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
@@ -237,6 +241,9 @@ void QueryParser::getSelect(QueryTree *qt) {
 				if (synType == CALL || synType == PROCEDURE) {
 					match(correctType, TYPE_PROC_NAME);
 					tokenizer->getToken();
+					if (synType == CALL) {
+						selectSyn.setAttributeValue(TRUE);
+					}
 				}
 				else if (synType == STMT || synType == WHILE || synType == ASSIGN || synType == IF) {
 					match(correctType, TYPE_STMT);
@@ -252,7 +259,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 					string da = "";
 				}
 				else if (synType == VARIABLE) {
-					match(correctType, TYPE_VARNAME); 
+					match(correctType, TYPE_VARNAME);
 					tokenizer->getToken();
 				}
 				else {
@@ -268,7 +275,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 			throwError(ERROR_SELECT);
 			tokenizer->getToken();
 		}
-
+		qt->insertSelect(selectSyn);
 	}
 }
 
@@ -358,7 +365,7 @@ void QueryParser::getModifies(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
 	if (isVarNameExists(lc)) {
@@ -377,7 +384,7 @@ void QueryParser::getModifies(QueryTree* qt) {
 		leftChild.setParaType(INTEGER);
 	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
-		
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		leftChild.setParaName(proceName);
@@ -390,7 +397,7 @@ void QueryParser::getModifies(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -414,7 +421,7 @@ void QueryParser::getModifies(QueryTree* qt) {
 		rightChild.setParaType(ANYTHING);
 	}
 	else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-	
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		rightChild.setParaName(proceName);
@@ -440,7 +447,7 @@ void QueryParser::getUses(QueryTree* qt) {
 
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -457,7 +464,7 @@ void QueryParser::getUses(QueryTree* qt) {
 		leftChild.setParaType(INTEGER);
 	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
-	
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		leftChild.setParaName(proceName);
@@ -470,7 +477,7 @@ void QueryParser::getUses(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -494,7 +501,7 @@ void QueryParser::getUses(QueryTree* qt) {
 		rightChild.setParaType(ANYTHING);
 	}
 	else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-	
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		rightChild.setParaName(proceName);
@@ -507,7 +514,7 @@ void QueryParser::getUses(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Uses *u = new Uses(leftChild, rightChild);
@@ -518,7 +525,7 @@ void QueryParser::getCalls(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
 
@@ -537,7 +544,7 @@ void QueryParser::getCalls(QueryTree* qt) {
 		leftChild.setParaType(INTEGER);
 	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
-	
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		leftChild.setParaName(proceName);
@@ -554,7 +561,7 @@ void QueryParser::getCalls(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -577,7 +584,7 @@ void QueryParser::getCalls(QueryTree* qt) {
 		rightChild.setParaType(ANYTHING);
 	}
 	else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-		
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		rightChild.setParaName(proceName);
@@ -590,7 +597,7 @@ void QueryParser::getCalls(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Calls *c = new Calls(leftChild, rightChild);
@@ -601,7 +608,7 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
 
@@ -620,7 +627,7 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 		leftChild.setParaType(INTEGER);
 	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
-		
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		leftChild.setParaName(proceName);
@@ -637,7 +644,7 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -660,7 +667,7 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 		rightChild.setParaType(ANYTHING);
 	}
 	else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-		
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		rightChild.setParaName(proceName);
@@ -684,10 +691,10 @@ void QueryParser::getParent(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -738,7 +745,7 @@ void QueryParser::getParent(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Parent *p = new Parent(leftChild, rightChild);
@@ -752,7 +759,7 @@ void QueryParser::getParentStar(QueryTree* qt) {
 
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -776,7 +783,7 @@ void QueryParser::getParentStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -803,7 +810,7 @@ void QueryParser::getParentStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	ParentStar *ps = new ParentStar(leftChild, rightChild);
@@ -817,7 +824,7 @@ void QueryParser::getFollows(QueryTree* qt) {
 
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -842,7 +849,7 @@ void QueryParser::getFollows(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -869,7 +876,7 @@ void QueryParser::getFollows(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Follow *f = new Follow(leftChild, rightChild);
@@ -881,10 +888,10 @@ void QueryParser::getFollowsStar(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -909,7 +916,7 @@ void QueryParser::getFollowsStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -936,7 +943,7 @@ void QueryParser::getFollowsStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	FollowStar *fs = new FollowStar(leftChild, rightChild);
@@ -948,10 +955,10 @@ void QueryParser::getNext(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -975,7 +982,7 @@ void QueryParser::getNext(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -1002,7 +1009,7 @@ void QueryParser::getNext(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	Next *n = new Next(leftChild, rightChild);
@@ -1013,10 +1020,10 @@ void QueryParser::getNextStar(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -1040,7 +1047,7 @@ void QueryParser::getNextStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -1067,7 +1074,7 @@ void QueryParser::getNextStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	NextStar *ns = new NextStar(leftChild, rightChild);
@@ -1079,10 +1086,10 @@ void QueryParser::getAffects(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
-	
+
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		string key = leftChild.getParaName();
@@ -1106,7 +1113,7 @@ void QueryParser::getAffects(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -1133,7 +1140,7 @@ void QueryParser::getAffects(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	//Affects *a = new Affects(leftChild, rightChild);
@@ -1144,7 +1151,7 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 	Parameter rightChild;
 
 	string token = tokenizer->getToken();
-	
+
 	match(token, SYMBOL_OPEN_BRACKET);
 	string lc = tokenizer->getToken();
 
@@ -1171,7 +1178,7 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_LEFT_CHILD);
 	}
-	
+
 	string comma = tokenizer->getToken();
 	match(comma, SYMBOL_COMMA);
 	string rc = tokenizer->getToken();
@@ -1198,7 +1205,7 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 	else {
 		throwError(ERROR_RIGHT_CHILD);
 	}
-	
+
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	//AffectsStar *as = new AffectsStar(leftChild, rightChild);
@@ -1211,7 +1218,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 	bool hasUnderScore = false;
 
 	string lc = tokenizer->getToken();
-	
+
 	if (!isVarNameExists(lc)) {
 		throwError(ERROR_LEFT_CHILD);
 	}
@@ -1245,7 +1252,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 			rightChild.setParaType(ANYTHING);
 		}
 		else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-			
+
 			string var = tokenizer->getToken();
 			match(var, IDENT);
 			rightChild.setParaName(var);
@@ -1258,7 +1265,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 		else {
 			throwError(ERROR_RIGHT_CHILD);
 		}
-		
+
 		string comma = tokenizer->getToken();
 		match(comma, SYMBOL_COMMA);
 		string fact = tokenizer->getToken();
@@ -1279,7 +1286,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 				factor.setParaType(ANYTHING);
 			}
 			else if (fact.compare(SYMBOL_UNDERSCORE) == EQUAL && close.compare(SYMBOL_PATTERN_CLOSE) != EQUAL) {
-				
+
 				string firstQuote = tokenizer->getToken();
 				match(firstQuote, SYMBOL_QUOTE);
 				string exp = "";
@@ -1300,7 +1307,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 				hasUnderScore = true;
 			}
 			else if (fact.compare(SYMBOL_QUOTE) == EQUAL) {// pattern's expression 
-				
+
 				string exp = "";
 				while (tokenizer->hasNextToken() && tokenizer->peekToken().compare(SYMBOL_QUOTE) != EQUAL) {
 					exp += tokenizer->getToken();
@@ -1310,7 +1317,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 				}
 				factor.setParaName(exp);
 				factor.setParaType(STRINGVARIABLE);
-				
+
 				tokenizer->getToken();
 			}
 			else {
@@ -1335,7 +1342,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 			rightChild.setParaType(ANYTHING);
 		}
 		else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-			
+
 			string var = tokenizer->getToken();
 			match(var, IDENT);
 			rightChild.setParaName(var);
@@ -1349,7 +1356,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 			throwError(ERROR_RIGHT_CHILD);
 		}
 
-		
+
 		string comma = tokenizer->getToken();
 		match(comma, SYMBOL_COMMA);
 		string fact = tokenizer->getToken();
@@ -1361,7 +1368,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 		else {
 			throwError(ERROR_FACTOR);
 		}
-		
+
 		string comma2 = tokenizer->getToken();
 		match(comma2, SYMBOL_COMMA);
 		string fact2 = tokenizer->getToken();
@@ -1389,13 +1396,13 @@ void QueryParser::getWith(QueryTree *qt) {
 	Type leftType;
 	Type rightType;
 	string lc = tokenizer->getToken();
-	
+
 
 	if (isVarNameExists(lc)) {
 		leftChild = varMap[lc];
 		Type lcType = leftChild.getParaType();
 		string dot = tokenizer->peekToken();
-	
+
 		if (lcType == STMT || lcType == ASSIGN || lcType == WHILE || lcType == IF || lcType == PROG_LINE) {
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				if (lcType == PROG_LINE) {
@@ -1460,7 +1467,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		leftType = INTEGER;
 	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
-		
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		leftChild.setParaName(proceName);
@@ -1475,7 +1482,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		throwError(ERROR_LEFT_CHILD);
 	}
 
-	
+
 	string equalSign = tokenizer->getToken();
 	match(equalSign, SYMBOL_EQUALS);
 	string rc = tokenizer->getToken();
@@ -1484,7 +1491,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		rightChild = varMap[rc];
 		Type rcType = rightChild.getParaType();
 		string dot = tokenizer->peekToken();
-		
+
 		if (rcType == STMT || rcType == ASSIGN || rcType == WHILE || rcType == IF || rcType == PROG_LINE) {
 			if (dot.compare(SYMBOL_FULL_STOP) == EQUAL) {
 				if (rcType == PROG_LINE) {
@@ -1549,7 +1556,7 @@ void QueryParser::getWith(QueryTree *qt) {
 		rightType = INTEGER;
 	}
 	else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-		
+
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		rightChild.setParaName(proceName);
@@ -1607,7 +1614,7 @@ bool QueryParser::isPositiveInteger(string str) {
 	return (*p == 0);
 }
 void QueryParser::match(string token, string matchRe) {
-	
+
 	if (!tokenizer->match(token, matchRe)) {
 		throwError(ERROR_STRING);
 	}

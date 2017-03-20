@@ -12,6 +12,7 @@ private:
 	bool isBoolean;
 	bool isInitialEmpty;
 	int getParamId(Parameter p);
+	string convertTupleToString(vector<int> tuple);
 public:
 	ResultTable();
 	bool setInitialEmpty(bool status);
@@ -29,6 +30,8 @@ public:
 	vector<vector<int>> getTupleList();
 	ResultTable join(ResultTable rt);
 	ResultTable select(vector<Parameter> paramList);
+	ResultTable hashSelect(vector<Parameter> paramList);
 	unordered_set<int> getSynValue(Parameter param);
 	void printTable();
+	
 };

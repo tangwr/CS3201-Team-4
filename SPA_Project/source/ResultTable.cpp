@@ -117,7 +117,6 @@ ResultTable ResultTable::join(ResultTable rt)
 	if (isInitialEmpty)
 		return rt;
 
-
 	// cases: 0 / 1 / 2 common synonym if rt is a result from a clause
 
 	// equi-join, can be done in nlogn + mlogm with sorting by equi-variable
@@ -163,7 +162,7 @@ ResultTable ResultTable::join(ResultTable rt)
 							shouldInsert = false;
 					if (shouldInsert == true)
 						resTuple.push_back(tuple2.at(i));
-				}			
+				}
 				res.insertTuple(resTuple);
 			}
 		}
@@ -173,6 +172,9 @@ ResultTable ResultTable::join(ResultTable rt)
 
 ResultTable ResultTable::select(vector<Parameter> paramList)
 {
+	return hashSelect(paramList);
+
+	// original select, slow O(N2)
 	unordered_map<int, int> idMap;   // key: id in paramLst
 	for (int i = 0; i < (int)paramList.size(); i++) {
 		bool isExist = false;
@@ -207,6 +209,40 @@ return res;
 
 }
 
+ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
+{
+	unordered_map<int, int> idMap;   // key: id in paramLst
+	for (int i = 0; i < (int)paramList.size(); i++) {
+		bool isExist = false;
+		for (int j = 0; j<(int)synList.size(); j++)
+			if (paramList.at(i).getParaName().compare(synList.at(j).getParaName()) == 0) {
+				isExist = true;
+				idMap.insert(make_pair(i, j));
+			}
+		if (isExist == false)
+			return ResultTable();  // select element not in table, return empty
+	}
+
+	ResultTable res;
+
+	for (auto t : idMap)
+		cout << t.first << "  " << t.second << endl;
+
+	res.setSynList(paramList);
+	unordered_set<string> tupleHashSet;
+	for (vector<int> tuple : tupleList) {
+		vector<int> insTuple;
+		for (int i = 0; i < (int)paramList.size(); i++)
+			insTuple.push_back(tuple.at(idMap[i]));
+
+		if (tupleHashSet.find(convertTupleToString(insTuple)) == tupleHashSet.end()) {
+			res.insertTuple(insTuple);
+			tupleHashSet.insert(convertTupleToString(insTuple));
+		}
+	}
+	return res;
+}
+
 unordered_set<int> ResultTable::getSynValue(Parameter param)
 {
 	unordered_set<int> ans;
@@ -231,6 +267,21 @@ void ResultTable::printTable()
 			cout << i << "  ";
 		cout << endl;
 	}
+}
+
+string ResultTable::convertTupleToString(vector<int> tuple)
+{
+	//<1,2,3> -> "@1%@2%@3%"
+	// <> -> ""
+	string hashString;
+	hashString += "\"";
+	for (int i = 0; i < (int)tuple.size(); i++) {
+		hashString += "@";
+		hashString += to_string(tuple.at(i));
+		hashString += "%";
+	}
+	hashString += "\"";
+	return hashString;
 }
 
 

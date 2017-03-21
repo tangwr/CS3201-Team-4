@@ -2,6 +2,7 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -113,6 +114,8 @@ vector<vector<int>> ResultTable::getTupleList()
 ResultTable ResultTable::join(ResultTable rt)
 {
 
+	return hashJoin(rt);
+
 	// if self is initial empty table, return rt 
 	if (isInitialEmpty)
 		return rt;
@@ -167,6 +170,109 @@ ResultTable ResultTable::join(ResultTable rt)
 			}
 		}
 
+	return res;
+}
+
+
+ResultTable ResultTable::hashJoin(ResultTable rt)
+{
+
+	// if self is initial empty table, return rt 
+	if (isInitialEmpty)
+		return rt;
+	if (rt.isInitialEmpty)
+		return *this;
+
+	// create joined table 
+	ResultTable res = ResultTable();
+	vector<Parameter> resSynList = synList;
+
+	int commonSyn = 0;
+	vector<Parameter> commonSynList;
+	//unordered_set<pair<int, int>> idMap;  // first, id of syn in first 
+	unordered_map<int, int> idMap;
+	unordered_set<int> commonSynIdSet2ndTable;  // id of 2nd table syn, that is common syn with table 1
+	unordered_map<int, int> commonSym2ndTo1stMap;
+	for (Parameter it : rt.getSynList()) {
+		bool isExist = false;
+		for (Parameter p : synList) {
+			if (p.getParaName().compare(it.getParaName()) == 0) {
+				commonSyn++;
+				commonSynList.push_back(it);
+				idMap.insert(make_pair(getParamId(p), rt.getParamId(it)));
+				commonSym2ndTo1stMap.insert(make_pair(rt.getParamId(it), getParamId(p)));
+				isExist = true;
+			}
+		}
+		if (isExist == false) {
+			// not a common synonmym, push to Synlist
+			resSynList.push_back(it);
+		}
+		else {
+			// is a common syn, add to 2nd table idx set
+			commonSynIdSet2ndTable.insert(rt.getParamId(it));
+		}
+	}
+	res.setSynList(resSynList);
+
+	// create hash table for table rt
+	unordered_map<string, vector<vector<int>>> hashMap2ndTable;
+	for (vector<int> tuple : rt.getTupleList()) {
+		vector<int> keyVector, valueVector;
+		for (int idx = 0; idx < rt.getSynCount(); idx++) {
+			if (commonSynIdSet2ndTable.find(idx) == commonSynIdSet2ndTable.end()) {
+				// not a common synonym, push the index to valueVetor
+				valueVector.push_back(tuple.at(idx));
+			}
+			else {
+				// is a common synonym, push to keyVector
+				keyVector.push_back(tuple.at(idx));
+			}
+		}
+
+		// insert the tuple to hashTable
+		string hashString = convertTupleToString(keyVector);
+		vector<vector<int>> tmpVector;
+		auto it = hashMap2ndTable.find(hashString);
+		if (it == hashMap2ndTable.end()) {
+			tmpVector.push_back(valueVector);
+			hashMap2ndTable.insert(make_pair(hashString, tmpVector));
+		}
+		else {
+			tmpVector = hashMap2ndTable[hashString];
+			tmpVector.push_back(valueVector);
+			it->second = tmpVector;
+		}
+	}
+
+	// loop through tuples from self table, for each tuple, get the keyvector, 
+	// compare with the hashmap, if match, create new tuple for each mapped 2nd tuple
+
+	for (vector<int> tuple1 : tupleList) {
+		vector<int> tmpVector;
+		
+		// update keyvector for each synonym
+		for (int i = 0; i < rt.getSynCount(); i++) {
+			auto it = commonSym2ndTo1stMap.find(i);
+			if (it != commonSym2ndTo1stMap.end()) {
+				tmpVector.push_back(tuple1.at(it->second));
+			}
+		}
+		string hashString = convertTupleToString(tmpVector);
+
+		// check whether the hashtable contain the string 
+		auto it = hashMap2ndTable.find(hashString);
+		if (it != hashMap2ndTable.end()) {
+			// if match, 
+			vector<vector<int>> mappedTupleList = it->second;
+			for (vector<int> appendingTuple : mappedTupleList) {
+				vector<int> newTuple = tuple1; 
+				newTuple.insert(newTuple.end(), appendingTuple.begin(), appendingTuple.end());
+				res.insertTuple(newTuple);
+			}	
+
+		}
+	}
 	return res;
 }
 

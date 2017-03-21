@@ -3,12 +3,14 @@
 #include "Parameter.h"
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
 
 class ResultTable {
 
 private: 
 	vector<Parameter> synList;
 	vector<vector<int>> tupleList;
+	unordered_map<string, int> synNameMap;
 	bool isBoolean;
 	bool isInitialEmpty;
 	int getParamId(Parameter p);

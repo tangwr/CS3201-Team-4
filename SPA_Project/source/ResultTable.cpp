@@ -41,20 +41,20 @@ bool ResultTable::setBoolean(bool b)
 
 int ResultTable::getParamId(Parameter p)
 {
-	int idx = 0;
-	if (synList.size() == 0)
+	auto it = synNameMap.find(p.getParaName());
+	if (it != synNameMap.end())
+		return it->second;
+	else
 		return -1;
-	for (Parameter tmp : synList) {
-		if (tmp.getParaName().compare(p.getParaName()) == 0)
-			return idx;
-		idx++;
-	}
-	return -1;
 }
 
 bool ResultTable::setSynList(vector<Parameter> list)
 {
+	synNameMap.clear();
 	synList = list;
+	for (int i = 0; i < (int)list.size(); i++) {
+		synNameMap.insert(make_pair(list.at(i).getParaName(), i));
+	}
 	return true;
 }
 
@@ -78,12 +78,7 @@ int ResultTable::getSynCount()
 
 int ResultTable::getSynIndex(Parameter p)
 {
-	for (int i = 0; i < getSynCount(); i++) {
-		if (synList.at(i).getParaName().compare(p.getParaName()) == 0) {
-			return i;
-		}
-	}
-	return -1;
+	return getParamId(p);
 }
 
 int ResultTable::getCount(Parameter p)
@@ -360,7 +355,7 @@ unordered_set<int> ResultTable::getSynValue(Parameter param)
 	// if param not in table, return empty table
 	if (!isSynInTable(param))
 		return ans;
-	int idx = getSynIndex(param);
+	int idx = getParamId(param);
 	for (vector<int> tuple : tupleList) {
 		ans.insert(tuple.at(idx));
 	}
@@ -394,5 +389,3 @@ string ResultTable::convertTupleToString(vector<int> tuple)
 	hashString += "\"";
 	return hashString;
 }
-
-

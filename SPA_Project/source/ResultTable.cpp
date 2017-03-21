@@ -113,9 +113,11 @@ vector<vector<int>> ResultTable::getTupleList()
 
 ResultTable ResultTable::join(ResultTable rt)
 {
-
 	return hashJoin(rt);
+}
 
+ResultTable ResultTable::nestedJoin(ResultTable rt)
+{
 	// if self is initial empty table, return rt 
 	if (isInitialEmpty)
 		return rt;
@@ -132,7 +134,7 @@ ResultTable ResultTable::join(ResultTable rt)
 	int commonSyn = 0;
 	vector<Parameter> commonSynList;
 	vector<pair<int, int>> idMap;  // first, id of syn in first 
-	for (Parameter it : rt.getSynList()){
+	for (Parameter it : rt.getSynList()) {
 		bool isExist = false;
 		for (Parameter p : synList) {
 			if (p.getParaName().compare(it.getParaName()) == 0) {
@@ -171,8 +173,8 @@ ResultTable ResultTable::join(ResultTable rt)
 		}
 
 	return res;
-}
 
+}
 
 ResultTable ResultTable::hashJoin(ResultTable rt)
 {
@@ -279,12 +281,15 @@ ResultTable ResultTable::hashJoin(ResultTable rt)
 ResultTable ResultTable::select(vector<Parameter> paramList)
 {
 	return hashSelect(paramList);
+}
 
+ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
+{
 	// original select, slow O(N2)
 	unordered_map<int, int> idMap;   // key: id in paramLst
 	for (int i = 0; i < (int)paramList.size(); i++) {
 		bool isExist = false;
-		for (int j=0; j<(int)synList.size(); j++)
+		for (int j = 0; j<(int)synList.size(); j++)
 			if (paramList.at(i).getParaName().compare(synList.at(j).getParaName()) == 0) {
 				isExist = true;
 				idMap.insert(make_pair(i, j));
@@ -311,7 +316,7 @@ ResultTable ResultTable::select(vector<Parameter> paramList)
 			res.insertTuple(insTuple);
 	}
 
-return res;
+	return res;
 
 }
 

@@ -13,7 +13,9 @@ private:
 	bool isInitialEmpty;
 	int getParamId(Parameter p);
 	string convertTupleToString(vector<int> tuple);
+	ResultTable nestedSelect(vector<Parameter> paramList);
 	ResultTable hashSelect(vector<Parameter> paramList);
+	ResultTable nestedJoin(ResultTable rt);
 	ResultTable hashJoin(ResultTable rt);
 public:
 	ResultTable();
@@ -30,7 +32,7 @@ public:
 	bool getBoolean();
 	vector<Parameter> getSynList();
 	vector<vector<int>> getTupleList();
-	ResultTable join(ResultTable rt);	
+	ResultTable join(ResultTable rt);
 	ResultTable select(vector<Parameter> paramList);
 	unordered_set<int> getSynValue(Parameter param);
 	void printTable();

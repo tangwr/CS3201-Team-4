@@ -185,19 +185,14 @@ ResultTable ResultTable::hashJoin(ResultTable rt)
 	vector<Parameter> resSynList = synList;
 
 	int commonSyn = 0;
-	vector<Parameter> commonSynList;
-	//unordered_set<pair<int, int>> idMap;  // first, id of syn in first 
-	unordered_map<int, int> idMap;
 	unordered_set<int> commonSynIdSet2ndTable;  // id of 2nd table syn, that is common syn with table 1
-	unordered_map<int, int> commonSym2ndTo1stMap;
+	unordered_map<int, int> commonSyn2ndTo1stMap;
 	for (Parameter it : rt.getSynList()) {
 		bool isExist = false;
 		for (Parameter p : synList) {
 			if (p.getParaName().compare(it.getParaName()) == 0) {
 				commonSyn++;
-				commonSynList.push_back(it);
-				idMap.insert(make_pair(getParamId(p), rt.getParamId(it)));
-				commonSym2ndTo1stMap.insert(make_pair(rt.getParamId(it), getParamId(p)));
+				commonSyn2ndTo1stMap.insert(make_pair(rt.getParamId(it), getParamId(p)));
 				isExist = true;
 			}
 		}
@@ -214,6 +209,7 @@ ResultTable ResultTable::hashJoin(ResultTable rt)
 
 	// create hash table for table rt
 	unordered_map<string, vector<vector<int>>> hashMap2ndTable;
+	
 	for (vector<int> tuple : rt.getTupleList()) {
 		vector<int> keyVector, valueVector;
 		for (int idx = 0; idx < rt.getSynCount(); idx++) {
@@ -250,8 +246,8 @@ ResultTable ResultTable::hashJoin(ResultTable rt)
 		
 		// update keyvector for each synonym
 		for (int i = 0; i < rt.getSynCount(); i++) {
-			auto it = commonSym2ndTo1stMap.find(i);
-			if (it != commonSym2ndTo1stMap.end()) {
+			auto it = commonSyn2ndTo1stMap.find(i);
+			if (it != commonSyn2ndTo1stMap.end()) {
 				tmpVector.push_back(tuple1.at(it->second));
 			}
 		}

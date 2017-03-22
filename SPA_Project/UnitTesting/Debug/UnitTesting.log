@@ -1,0 +1,354 @@
+﻿  stdafx.cpp
+  WithUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestUses.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(69): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(234): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(317): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(400): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(490): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(913): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(951): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestuses.cpp(989): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestParent.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestNextStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestNext.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestModifies.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(41): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(81): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(251): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(334): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(417): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(507): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(930): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(968): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\unittestmodifies.cpp(1006): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestFollowStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestFollow.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestCallsStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UnitTestCalls.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  QueryParserUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBWithStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\pkbwithstub.cpp(57): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\pkbwithstub.cpp(90): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\pkbwithstub.cpp(123): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(14): warning C4661: 'std::unordered_set<int,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Ty>> UnorderedSetOperation<int>::setIntersection(std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Ty>,std::allocator<_Ty>>,std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Ty>,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int,
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(10): note: see declaration of 'UnorderedSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(14): warning C4661: 'std::unordered_set<int,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Ty>> UnorderedSetOperation<int>::setUnion(std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Ty>,std::allocator<_Ty>>,std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Ty>,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int,
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(11): note: see declaration of 'UnorderedSetOperation<int>::setUnion'
+  PKBTableUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubUses.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubParent.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubNextStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubNext.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubModifies.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubFollowStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubFollow.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  Generating Code...
+  Compiling...
+  PKBStubCallsStar.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBStubCalls.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PKBPatternStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\pkbpatternstub.cpp(65): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PatternUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  Generating Code...
+     Creating library C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.lib and object C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.exp
+  UnitTesting.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.dll
+  UnitTesting.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.pdb (Full PDB)

@@ -291,9 +291,6 @@ ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
 
 	ResultTable res;
 
-	for (auto t : idMap)
-		cout << t.first << "  " << t.second << endl;
-
 	res.setSynList(paramList);
 	for (vector<int> tuple : tupleList) {
 		vector<int> insTuple;
@@ -327,8 +324,6 @@ ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
 
 	ResultTable res;
 
-	for (auto t : idMap)
-		cout << t.first << "  " << t.second << endl;
 
 	res.setSynList(paramList);
 	unordered_set<string> tupleHashSet;

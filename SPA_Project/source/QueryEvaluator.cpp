@@ -31,6 +31,12 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 }
 
 ResultTable QueryEvaluator::evaluate(QueryTree qt) {
+	return evaluateWithOptimization(qt);
+}
+
+
+
+ResultTable QueryEvaluator::evaluateWithoutOptimization(QueryTree qt) {
 
 	// clear result table
 	resTable = ResultTable();
@@ -126,6 +132,8 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 	for (int i = 0; i < qt.getClauseSize(); i++) {
 		Clause* c = qt.getClause(i);
 		if ((int)c->getSynList().size() == 0) {
+			cout << "Clause with 0 synonym found " << endl;
+			printClause(c);
 			ResultTable resTable = c->evaluate(pkb, ResultTable());
 			if (resTable.getSynList().size() == 0 && resTable.getBoolean() == false) {
 				// the 0-syn clause is not true
@@ -147,6 +155,8 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 
 			// if only one synonym, evaluate
 			if ((int)c->getSynList().size() == 1) {
+				cout << "one synonym clause found " << endl;
+				printClause(c);
 				ResultTable resTable = c->evaluate(pkb, ResultTable());
 				if ((int)resTable.getTupleList().size() == 0) {
 					// if no result is selected, return no output
@@ -195,8 +205,17 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 	// sort synGroup by number of syn.
 	sort(synGroup.begin(), synGroup.end(), gComparator);
 
+	for (unordered_set<int> g : synGroup) {
+		cout << " GROUP: ";
+		for (int k : g)
+			cout << synList.at(k).getParaName() << " ";
+		cout << endl;
+	}
+
+
 	// start from group with small number of synonym. evaluate
 	// create result Table for each group
+
 	vector<ResultTable> resTableList;
 	for (int i = 0; i < (int)synGroup.size(); i++) {
 		/*
@@ -205,10 +224,11 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 		unordered_set<int> group = synGroup.at(i);
 
 		// ---  output group synonym --- //
+		cout << "evaluating Group " << i << endl;
 		cout << "Group " << i << " contains synonym ";
-		for (int k : group) {
-			cout << k << " ";
-		}
+		for (int k : group)
+			cout << synList.at(k).getParaName() << " ";
+		cout << endl;
 		cout << endl;
 
 
@@ -236,6 +256,29 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 
 	}
 
+
+	ResultTable finalTable;
+	finalTable.setInitialEmpty(true);
+
+	//if select BOOLEAN
+	if ((int)qt.getSelectParameter().size() == 1 && qt.getSelectParameter().at(0).getParaType() == BOOLEAN) {
+		cout << "Boolean is selected" << endl;
+		bool isAnyTableEmpty = false;
+		for (ResultTable rt : resTableList) {
+			if (rt.getTupleSize() == 0 && rt.getBoolean() == false)
+				isAnyTableEmpty = true;
+			cout << isAnyTableEmpty << endl;
+		}
+
+		if (isAnyTableEmpty == false)
+			finalTable.setBoolean(true);
+		else
+			finalTable.setBoolean(false);
+		return finalTable;
+	}
+
+
+	// if not select BOOLEAN, proceed
 	// for each group, select sub resultTable containing what is selected
 	for (int i = 0; i < (int)synGroup.size(); i++) {
 		// get select syn list
@@ -247,20 +290,40 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 					gSelectList.push_back(param);
 			}
 		}
-		resTableList.at(i) = resTableList.at(i).select(gSelectList);
+		if ((int)gSelectList.size() > 0) {
+			resTableList.at(i) = resTableList.at(i).select(gSelectList);
+		}
+		else {
+			resTableList.at(i) = ResultTable();
+			resTableList.at(i).setInitialEmpty(true);
+		}
+		cout << " SUBTABLE FOR GROUP " << i << "IS " << endl;
+		resTableList.at(i).printTable();
 	}
 
 	// merge all sub table, return final result
-	ResultTable finalTable;
-	finalTable.setInitialEmpty(true);
 	for (int i = 0; i < (int)synGroup.size(); i++) {
-		finalTable.join(resTableList.at(i));
+		finalTable = finalTable.join(resTableList.at(i));
 	}
+
+	// merge selected but unused synonym
+	for (Parameter p : qt.getSelectParameter()) {
+		if (finalTable.isSynInTable(p) == false)
+			cout << "find select but not in clause synonym " << p.getParaName() << endl;
+			finalTable = finalTable.join(getAllValueForSyn(p));
+	}
+
+	
+
+	cout << "FINAL TABLE FOR THE QUERY" << endl;
+	finalTable.printTable();
 
 	return finalTable.select(qt.getSelectParameter());
 
 
 }
+
+
 
 ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 	vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult)
@@ -274,7 +337,7 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 	then merge clauses for lower degree syn. (TIE: pick arbitrage)
 
 	for each synonym
-	put all affect(*) and next(*) with 2 synonym at ver last
+	put all affect(*) and next(*) with 2 synonym at very last
 	put with at very first, then parent
 	then arbitrage order
 	*/
@@ -313,6 +376,13 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 		}
 	}
 
+	for (int k = 0; k < (int)usedSynList.size(); k++) {
+		cout << "synonym " << usedSynList.at(k).getParaName() << " has degree of " << gSynDegree.at(k) << endl;
+		cout << "clauses of this synonym are " << endl;
+		for (int c : clauseListForSyn.at(k))
+			printClause(clauseList.at(c));
+	}
+
 	// loop through all param, from high degree to low degree
 	// if any clause contain the current syn, but is affect/next with 2 syn.
 	// push to deprior list
@@ -321,7 +391,7 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 		// get the syn with highest occurance
 		int maxOccurance = -1; int maxIdx = -1;
 		for (int k = 0; k < (int)usedSynList.size(); k++) {
-			if (gSynDegree.at(k) > maxOccurance) {
+			if (gSynDegree.at(k) > maxOccurance && isSynVisited.at(k) ==false) {
 				maxOccurance = gSynDegree.at(k);
 				maxIdx = k;
 			}
@@ -331,37 +401,49 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 		// if some does, merge it.
 
 		isSynVisited.at(maxIdx) = true; // set synonym visited
-		cout << "current processing synonym is " << maxIdx << endl;
+		cout << "current processing synonym is " << usedSynList.at(maxIdx).getParaName() << endl;
 		cout << "its degree is " << gSynDegree.at(maxIdx) << endl;
 		cout << "---Clause with only one synonym---" << endl;
 		for (int k = 0; k < (int)clause1SynList.size(); k++) {
 			Clause* c = clause1SynList.at(k);
-			printClause(c);
-			int synIdx = gSynMap[c->getSynList().at(0).getParaName()];
-			if (synIdx == maxIdx)
+
+			string paraName = c->getSynList().at(0).getParaName();
+			if (paraName.compare(usedSynList.at(maxIdx).getParaName()) == 0) {
+				printClause(c);
 				gResultTable = gResultTable.join(clause1SynResult.at(k));
+				cout << "After join table is " << endl;
+				gResultTable.printTable();
+			}
 		}
 		// then loop through all clause that contain the synonym
 		cout << "---Clause with two synonym---" << endl;
 		for (int k = 0; k < (int)clauseListForSyn.at(maxIdx).size(); k++) {
+			cout << "CLAUSE LIST SIZE = " << (int)clauseListForSyn.at(maxIdx).size() << endl;
 			int clauseIdx = clauseListForSyn.at(maxIdx).at(k);
 			Clause* c = clauseList.at(clauseIdx);
 			printClause(c);
 			if ((int)c->getSynList().size() == 1) {
 				//if only contain this syn, already calcualted, marked as visited
 				isClauseVisited.at(clauseIdx) = true;
+				cout << "this clause (1_syn) is already calculated, so skipped " << endl;
 			}
+			if ((int)c->getSynList().size() == 2 && isClauseVisited.at(clauseIdx) == true) {
+				cout << "this clause (2_syn) is already calculated, so skipped " << endl;
+			}
+
 			// if c contain one synonym skip, consider only two synonym
-			if ((int)c->getSynList().size() == 2 || isClauseVisited.at(clauseIdx) == false) {
+			if ((int)c->getSynList().size() == 2 && isClauseVisited.at(clauseIdx) == false) {
 				// set clause as visited 
 				isClauseVisited.at(clauseIdx) = true;
-
 				// if affect / next, put into deprior list
-				if (c->getClauseType() == AFFECTS || c->getClauseType() == NEXT)
+				if (c->getClauseType() == AFFECTS || c->getClauseType() == NEXT) {
 					gDeprioritizedClauseList.push_back(c);
+					cout << "put into deprioritized list" << endl;
+				}
 				else {
 					// else, process and merge 
 					// MAYBE PRIORTIZE PARENT > FOLLOWS > MODIFIES > USES (not impmemented yet)
+					cout << "evaluting clause " << endl;
 					vector<Parameter> cSynList = c->getSynList();
 					vector<Parameter> restrictedSynList;
 					for (Parameter p : cSynList)
@@ -371,7 +453,8 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 
 					ResultTable queryResult = c->evaluate(pkb, gResultTable.select(restrictedSynList));
 					gResultTable = gResultTable.join(queryResult);
-
+					cout << "After join table is " << endl;
+					gResultTable.printTable();
 					/*
 					IMPROVEMENT: FOR EACH NEW SYNONYM ADDED, CHECK WHETHER CLAUSE CONTAINS
 					THAT SYNONYM ONLY, IF YES, EVALUATE AND MERGE.

@@ -26,7 +26,6 @@ public:
 	void setPKB(PKB* pkbInput);
 	QueryEvaluator(PKB* pkbSource);
 	ResultTable evaluate(QueryTree qt);
-	ResultTable evaluateWithOptimization(QueryTree qt);
 
 private:
 	PKB* pkb;
@@ -35,6 +34,8 @@ private:
 	ResultTable getAllValueForSyn(Parameter param);
 	void joinResultTable(ResultTable rt);
 	void printClause(Clause* c);
+	ResultTable evaluateWithOptimization(QueryTree qt);
+	ResultTable evaluateWithoutOptimization(QueryTree qt);
 };
 
 

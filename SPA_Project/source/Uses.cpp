@@ -139,7 +139,7 @@ bool Uses::isValidParameter(PKB *pkb, Parameter param) {
 		}
 		break;
 	case INTEGER:
-		isValidParam = pkb->isStmtInModifyTable(stoi(paramName));
+		isValidParam = pkb->isStmtInUseTable(stoi(paramName));
 		break;
 	}
 

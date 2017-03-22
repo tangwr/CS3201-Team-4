@@ -186,6 +186,7 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 		cout << "first index is " << idx << endl;
 		group.insert(idx);
 		queue<int> q;
+		spareIdx.erase(idx);
 		q.push(idx);
 		while (!q.empty()) {
 			int currentIdx = q.front();
@@ -196,6 +197,7 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 				if (spareIdx.find(adjIdx) != spareIdx.end()) {
 					spareIdx.erase(adjIdx);
 					group.insert(adjIdx);
+					cout << "push to queue : " << adjIdx << endl;
 					q.push(adjIdx);
 				}
 			}

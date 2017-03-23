@@ -6,6 +6,7 @@
 #include <utility>
 #include <unordered_map>
 #include <unordered_set>
+#include "TableOperations.h"
 
 using namespace std;
 
@@ -16,15 +17,13 @@ private:
     unordered_map<int, unordered_set<int>> procCallProcList;//procId, calledprocId
     unordered_map<int, unordered_set<int>> procCallStarProcList;//procId, calledStarProcId
     unordered_map<int, unordered_set<int>> procCallerProcList;//procId, callerProcId
-	int size;//check if need another size
-    void printUnorderedSet(unordered_set<int> uSet);
+    unordered_set<int> callStmtSet;
+    int size;//check if need another size
     bool setProcCalledByStmt(int procId, int callerStmtId);
     bool setProcCalledByProc(int procId, int callerProcId);
 
 public:
 	CallTable();
-	int getSize();
-	void printContents();
 	bool setStmtCallProcRel(int stmtId, int procId);
     bool setProcCallProcRel(int callerProcId, int calledProcId);
     bool insertProcCallStarProcRel(int callerProcId, int calledProcId);
@@ -35,4 +34,6 @@ public:
     unordered_set<int> getProcCalledByStarProc(int callerProcId);
     unordered_set<int> getAllCallId();
 	bool isStmtInTable(int stmtId);
+    int getSize();
+    void printContents();
 };

@@ -15,16 +15,17 @@ private:
 
 	unordered_map<int, int> whileList;//stmtId, controlVarId
     unordered_map<int, unordered_set<int>> ctrlVarList; //control var to list of stmtId
-	int size;
+    unordered_set<int> whileStmtSet;
+    int size;
     bool setStmtToCtrlVar(int varId, int stmtId);
 
 public:
 	WhileTable();
-	int getSize();
-	void printContents();
 	bool setVarToWhileStmt(int stmtId, int varId);
 	int getCtrlVarInWhileStmt(int stmtId);
     unordered_set<int> getStmtWithCtrlVar(int varId);
     unordered_set<int> getAllStmtId();
 	bool isStmtInTable(int stmtId);
+    int getSize();
+    void printContents();
 };

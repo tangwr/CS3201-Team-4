@@ -21,24 +21,7 @@ AssignTable::AssignTable() {
 	size = 0;
 }
 
-//returns a vector<int> of all assign statement Id
-unordered_set<int> AssignTable::getAllStmtId() {
-    unordered_set<int> allAssignStmtSet;
-    for (auto assignEntry : this->assignList) {
-        allAssignStmtSet.insert(assignEntry.first);
-    }
-    return allAssignStmtSet;
-}
 
-bool AssignTable::isStmtInTable(int stmtId)
-{
-    for (auto stmtEntry : this->assignList) {
-        if (stmtEntry.first == stmtId) {
-            return true;
-        }
-    }
-    return false;
-}
 
 bool AssignTable::setExpToAssignStmt(int stmtId, string exp) {
 	if (this->assignList.find(stmtId) != this->assignList.end()) {
@@ -46,6 +29,7 @@ bool AssignTable::setExpToAssignStmt(int stmtId, string exp) {
 	}
 	else {
 		this->assignList.insert({ stmtId, exp });
+        this->assignStmtSet.insert(stmtId);
 		this->size++;
 		return true;
 	}
@@ -102,6 +86,28 @@ unordered_set<int> AssignTable::getStmtWithCtrlVar(int varId) {
     return assignStmtSet;
 }
 
+//returns a vector<int> of all assign statement Id
+unordered_set<int> AssignTable::getAllStmtId() {
+    return this->assignStmtSet;
+    /*
+    unordered_set<int> allAssignStmtSet;
+    for (auto assignEntry : this->assignList) {
+        allAssignStmtSet.insert(assignEntry.first);
+    }
+    return allAssignStmtSet;
+    */
+}
+
+bool AssignTable::isStmtInTable(int stmtId)
+{
+    for (auto stmtEntry : this->assignList) {
+        if (stmtEntry.first == stmtId) {
+            return true;
+        }
+    }
+    return false;
+}
+
 int AssignTable::getSize() {
 	return this->size;
 }
@@ -124,13 +130,4 @@ void AssignTable::printContents() {
 
     cout << "---END PRINT ASSIGN TABLE---" << endl;
 
-    /*
-	cout << "Assign Table" << endl;
-	cout << "====================" << endl;
-
-	for (auto& it : this->assignList)
-		cout << it.first << ": " << it.second << endl;
-
-	cout << "====================" << endl;
-    */
 }

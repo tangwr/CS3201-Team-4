@@ -28,6 +28,7 @@ bool IfTable::setVarToIfStmt(int stmtId, int varId) {
 	}
 	else {
 		this->ifList.insert({ stmtId, varId });
+        this->ifStmtSet.insert(stmtId);
 		this->size++;
 		//return true;
         return this->setCtrlVarUsedByStmt(varId, stmtId);
@@ -54,11 +55,14 @@ unordered_set<int> IfTable::getStmtWithCtrlVar(int ctrlVarId) {
 }
 
 unordered_set<int> IfTable::getAllIfId() {
+    return this->ifStmtSet;
+    /*
     unordered_set<int> resultSet;
     for (auto entry : ifList) {
         resultSet.insert(entry.first);
     }
     return resultSet;
+    */
 }
 
 bool IfTable::isStmtInTable(int stmtId)

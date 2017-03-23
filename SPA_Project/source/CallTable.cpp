@@ -2,6 +2,35 @@
 
 using namespace std;
 
+bool CallTable::setProcCalledByStmt(int procId, int callerStmtId) {
+    unordered_map<int, unordered_set<int>>::iterator it = this->procCalledByStmtList.find(procId);
+    unordered_set<int> callerStmtSet;
+    if (it != this->procCalledByStmtList.end()) {
+        callerStmtSet = it->second;
+        if (callerStmtSet.find(callerStmtId) != callerStmtSet.end()) {
+            return false;
+        }
+        this->procCalledByStmtList.erase(it);
+    }
+    callerStmtSet.insert(callerStmtId);
+    this->procCalledByStmtList.insert(make_pair(procId, callerStmtSet));
+    return true;
+}
+
+bool CallTable::setProcCalledByProc(int procId, int callerProcId) {
+    unordered_map<int, unordered_set<int>>::iterator it = this->procCallerProcList.find(procId);
+    unordered_set<int> callerProcSet;
+    if (it != this->procCallerProcList.end()) {
+        callerProcSet = it->second;
+        if (callerProcSet.find(callerProcId) != callerProcSet.end()) {
+            return false;
+        }
+        this->procCallerProcList.erase(it);
+    }
+    callerProcSet.insert(callerProcId);
+    this->procCallerProcList.insert(make_pair(procId, callerProcSet));
+    return true;
+}
 
 CallTable::CallTable() {
 	this->size = 0;
@@ -13,6 +42,7 @@ bool CallTable::setStmtCallProcRel(int stmtId, int procId) {
 	}
 	else {
 		this->stmtCallProcList.insert({stmtId, procId});
+        this->callStmtSet.insert(stmtId);
 		this->size++;
 		return this->setProcCalledByStmt(procId, stmtId);;
 	}
@@ -110,11 +140,14 @@ unordered_set<int> CallTable::getProcCalledByStarProc(int callerProcId) {
 
 
 unordered_set<int> CallTable::getAllCallId() {
+    return this->callStmtSet;
+    /*
     unordered_set<int> resultSet;
     for (auto entry : stmtCallProcList) {
         resultSet.insert(entry.first);
     }
     return resultSet;
+    */
 }
 
 bool CallTable::isStmtInTable(int stmtId) {
@@ -126,42 +159,6 @@ bool CallTable::isStmtInTable(int stmtId) {
 
 int CallTable::getSize() {
 	return this->size;
-}
-
-void CallTable::printUnorderedSet(unordered_set<int> uSet) {
-    for (int element : uSet) {
-        cout << element << ' ';
-    }
-}
-
-bool CallTable::setProcCalledByStmt(int procId, int callerStmtId) {
-    unordered_map<int, unordered_set<int>>::iterator it = this->procCalledByStmtList.find(procId);
-    unordered_set<int> callerStmtSet;
-    if (it != this->procCalledByStmtList.end()) {
-        callerStmtSet = it->second;
-        if (callerStmtSet.find(callerStmtId) != callerStmtSet.end()) {
-            return false;
-        }
-        this->procCalledByStmtList.erase(it);
-    }
-    callerStmtSet.insert(callerStmtId);
-    this->procCalledByStmtList.insert(make_pair(procId, callerStmtSet));
-    return true;
-}
-
-bool CallTable::setProcCalledByProc(int procId, int callerProcId) {
-    unordered_map<int, unordered_set<int>>::iterator it = this->procCallerProcList.find(procId);
-    unordered_set<int> callerProcSet;
-    if (it != this->procCallerProcList.end()) {
-        callerProcSet = it->second;
-        if (callerProcSet.find(callerProcId) != callerProcSet.end()) {
-            return false;
-        }
-        this->procCallerProcList.erase(it);
-    }
-    callerProcSet.insert(callerProcId);
-    this->procCallerProcList.insert(make_pair(procId, callerProcSet));
-    return true;
 }
 
 void CallTable::printContents() {
@@ -177,19 +174,12 @@ void CallTable::printContents() {
     cout << "Caller ProcId : Called ProcId" << endl;
     for (auto entry : procCallProcList) {
         cout << entry.first << " : ";
-        printUnorderedSet(entry.second);
+        //printUnorderedSet(entry.second);
+        TableOperations::printUnorderedSet(entry.second);
         cout << endl;
     }
     cout << endl;
 
     cout << "---END PRINT CALL TABLE---" << endl;
-    /*
-	cout << "Call Table" << endl;
-	cout << "====================" << endl;
 
-	for (auto& it : this->stmtCallProcList)
-		cout << it.first << ": " << it.second << endl;
-
-	cout << "====================" << endl;
-    */
 }

@@ -17,8 +17,6 @@ private:
 	bool insertProcModifiedByRel(int procId, int varId);
 	void printVector(vector<int> vec);
     void printUnorderedSet(unordered_set<int> uSet);
-	//unordered_map<int, vector<int>> modifiesStmtMap, modifiedByStmtMap;
-	//unordered_map<int, vector<int>> modifiesProcMap, modifiedByProcMap;
     unordered_map<int, unordered_set<int>> modifiesStmtMap, modifiedByStmtMap;
     unordered_map<int, unordered_set<int>> modifiesProcMap, modifiedByProcMap;
 
@@ -34,7 +32,6 @@ public:
     unordered_set<int> getVarModifiedInProc(int procId);
 	bool checkStmtExist(int stmtId);
 	bool checkStmtVarRelExist(int stmtId, int varId);
-	//vector<int> getAllStmt();
     unordered_set<int> getAllStmt();
 	void printContents();
 

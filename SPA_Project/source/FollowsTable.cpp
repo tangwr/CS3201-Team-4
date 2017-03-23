@@ -7,8 +7,8 @@
 
 using namespace std;
 
-FollowsTable::FollowsTable(void)
-{
+FollowsTable::FollowsTable(void) {
+
 }
 
 
@@ -114,6 +114,11 @@ unordered_set<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
     return resultSet;
 }
 
+bool FollowsTable::hasFollowRel()
+{
+    return followeeMap.empty();
+}
+
 void FollowsTable::printContents()
 {
 	cout << "---PRINT FOLLOWSTABLE---" << endl;
@@ -121,17 +126,13 @@ void FollowsTable::printContents()
     cout << "StmtId : Direct Follower StmtId" << endl;
 	for (pair<int, int> it : followeeMap) {
         cout << it.first << " : " << it.second << endl;
-		//cout << "StmtId: " << it.second;
-		//cout << " Directly Follows StmtId " << it.first << endl;
 	}
     cout << endl;
 
     cout << "StmtId : List of follower stmtId" << endl;
 	for (pair<int, unordered_set<int>> it : followeeListMap) {
         cout << it.first << " : ";
-		//cout << "StmtId: " << it.first;
-		//cout << " followed by*: ";
-		printUnorderedSet(it.second);
+		TableOperations::printUnorderedSet(it.second);
 		cout << endl;
 	}
     cout << endl;
@@ -139,30 +140,10 @@ void FollowsTable::printContents()
     cout << "StmtId : List of followee stmtId" << endl;
 	for (pair<int, unordered_set<int>> it : followerListMap) {
         cout << it.first << " : ";
-		//cout << "StmtId: " << it.first;
-		//cout << " Follows* : ";
-		printUnorderedSet(it.second);
+		TableOperations::printUnorderedSet(it.second);
 		cout << endl;
 	}
     cout << endl;
 
 	cout << "---END PRINT FOLLOWSTABLE---" << endl;
-}
-
-bool FollowsTable::hasFollowRel()
-{
-	return followeeMap.empty();
-}
-
-void FollowsTable::printUnorderedSet(unordered_set<int> uSet) {
-    for (int element : uSet) {
-        cout << element << ' ';
-    }
-}
-
-void FollowsTable::printVector(vector<int> vec)
-{
-	for (int t : vec) {
-		cout << t << ' ';
-	}
 }

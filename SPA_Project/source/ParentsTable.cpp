@@ -39,6 +39,7 @@ bool ParentsTable::setStmtParentStmtRel(int father, int child)
 
 	return true;
 }
+
 bool ParentsTable::insertStmtParentStmtRel(int father, int child)
 {
 	if (father == child)
@@ -96,30 +97,6 @@ int ParentsTable::getParent(int stmtId)
 	return -1;
 }
 
-/*
-vector<int> ParentsTable::getChildrenList(int stmtNo)
-{
-	vector<int> list;
-	int idx = getStmtChildrenStmt(stmtNo);
-	while (idx != -1) {
-		list.push_back(idx);
-		idx = getStmtChildrenStmt(idx);
-	}
-	return list;
-}
-
-vector<int> ParentsTable::getParentList(int stmtNo)
-{
-	vector<int> list;
-	int idx = getParent(stmtNo);
-	while (idx != -1) {
-		list.push_back(idx);
-		idx = getParent(idx);
-	}
-	return list;
-}
-*/
-
 unordered_set<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
@@ -153,17 +130,13 @@ void ParentsTable::printContents()
     cout << "Direct parent : Direct child" << endl;
 	for (pair<int, int> it : parentsMap) {
         cout << it.second << " : " << it.first << endl;
-		//cout << "StmtId: " << it.second;
-		//cout << " is father of Stmt Id " << it.first <<endl;
 	}
     cout << endl;
 
     cout << "child : parent* " << endl;
 	for (pair<int, unordered_set<int>> it : parentListMap) {
         cout << it.first << " : ";
-		//cout << "StmtId: " << it.first;
-		//cout << " has parents StmtId ";
-		printUnorderedSet(it.second);
+		TableOperations::printUnorderedSet(it.second);
 		cout << endl;
 	}
     cout << endl;
@@ -171,24 +144,9 @@ void ParentsTable::printContents()
     cout << "parent stmtId : child *" << endl;
 	for (pair<int, unordered_set<int>> it : childListMap) {
         cout << it.first << " : ";
-		//cout << "ProcId: " << it.first;
-		//cout << " has children StmtId ";
-		printUnorderedSet(it.second);
+		TableOperations::printUnorderedSet(it.second);
 		cout << endl;
 	}
 
 	cout << "---END PRINT PARENTSTABLE---" << endl;
-}
-
-void ParentsTable::printUnorderedSet(unordered_set<int> uSet) {
-    for (int element : uSet) {
-        cout << element << ' ';
-    }
-}
-
-void ParentsTable::printVector(vector<int> vec)
-{
-	for (int t : vec) {
-		cout << t << ' ';
-	}
 }

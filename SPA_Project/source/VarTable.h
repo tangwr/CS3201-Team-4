@@ -15,13 +15,13 @@ private:
 	int vtsize; // number of variables in the program
 
 public:
-	VarTable(void);
+	VarTable();
 	int insertVar(string varName);
 	int getSize();
 	string getVarNameById(int varId);
 	int getVarIndex(string varName);
 	bool checkVarExistByName(string varName);
-	void printContents();
 	bool checkVarExistById(int varId);
     vector<int> getAllVarId();
+    void printContents();
 };

@@ -6,26 +6,8 @@
 
 using namespace std;
 
-//vector<string> varList;   // varId -> varName
-//unordered_map<string, int> varMap;    // varName -> varId
-
-
 VarTable::VarTable(void) {
 	vtsize = 0;
-	//varMap.clear();
-	//varList.clear();
-
-}
-
-/*
-    returns a vector<int> of all varId
-*/
-vector<int> VarTable::getAllVarId() {
-    vector<int> allVarIdList;
-    for (auto varEntry : varMap) {
-        allVarIdList.push_back(varEntry.second);
-    }
-    return allVarIdList;
 }
 
 
@@ -82,6 +64,16 @@ int VarTable::getVarIndex(string varName)
 		return -1;
 }
 
+bool VarTable::checkVarExistByName(string varName)
+{
+    unordered_map<string, int>::iterator it = varMap.find(varName);
+
+    if (it != varMap.end())
+        return true;
+    else
+        return false;
+}
+
 bool VarTable::checkVarExistById(int varId)
 {
 	if (varId < vtsize)
@@ -90,16 +82,17 @@ bool VarTable::checkVarExistById(int varId)
 		return false;
 }
 
-bool VarTable::checkVarExistByName(string varName)
-{
-	unordered_map<string, int>::iterator it = varMap.find(varName);
 
-	if (it != varMap.end())
-		return true;
-	else
-		return false;
+/*
+returns a vector<int> of all varId
+*/
+vector<int> VarTable::getAllVarId() {
+    vector<int> allVarIdList;
+    for (auto varEntry : varMap) {
+        allVarIdList.push_back(varEntry.second);
+    }
+    return allVarIdList;
 }
-
 
 void VarTable::printContents()
 {

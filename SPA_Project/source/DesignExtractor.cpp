@@ -19,25 +19,6 @@ void DesignExtractor::extractProcModifiesUsesStar() {
     }
 }
 
-void DesignExtractor::extractStarRelations() {
-    //unordered_set<int> procs = pkb->getAllProcs();
-    unordered_set<int> procs = pkb->getAllProcId();
-    unordered_map<int, bool> isProcInPath;
-    unordered_map<int, bool> isProcValidated;
-    for (auto procId: procs) {
-    	isProcInPath.insert({procId, false});
-    	isProcValidated.insert({procId, false});
-    }
-
-    for (auto procId: procs) {
-    	if (!isProcValidated.at(procId)) {
-			recursiveTablePopulation(procId, &isProcInPath, &isProcValidated);
-            isProcInPath.at(procId) = false;
-    	}
-        cout << "end iter" << endl;
-    }
-}
-
 
 void DesignExtractor::recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated) {
     cout << "procID : "<< procId << endl;
@@ -176,4 +157,23 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 			}
 		}
 	}
+}
+
+void DesignExtractor::extractStarRelations() {
+    //unordered_set<int> procs = pkb->getAllProcs();
+    unordered_set<int> procs = pkb->getAllProcId();
+    unordered_map<int, bool> isProcInPath;
+    unordered_map<int, bool> isProcValidated;
+    for (auto procId : procs) {
+        isProcInPath.insert({ procId, false });
+        isProcValidated.insert({ procId, false });
+    }
+
+    for (auto procId : procs) {
+        if (!isProcValidated.at(procId)) {
+            recursiveTablePopulation(procId, &isProcInPath, &isProcValidated);
+            isProcInPath.at(procId) = false;
+        }
+        cout << "end iter" << endl;
+    }
 }

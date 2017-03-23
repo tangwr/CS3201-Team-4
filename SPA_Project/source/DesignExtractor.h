@@ -13,14 +13,13 @@
 using namespace std;
 
 class DesignExtractor {
-public:
-	DesignExtractor(PKB *pkbSource);
-	void extractStarRelations();
-
 private:
 	PKB *pkb;
     void extractProcModifiesUsesStar();
     void recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated);
-	//void extractStarRelations();
     void populateProcRel(int procId, int containerStmtId);
+
+public:
+    DesignExtractor(PKB *pkbSource);
+    void extractStarRelations();
 };

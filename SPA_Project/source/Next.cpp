@@ -125,9 +125,9 @@ void Next::setSynList() {
 		v.push_back(leftChild);
 	}
 	if (isSynonym(rightChild)) {
-		//	if (!isLeftChild(rightChild)) {
-		v.push_back(rightChild);
-		//	}
+		if (!isLeftChild(rightChild)) {
+			v.push_back(rightChild);
+		}
 	}
 	result.setSynList(v);
 }

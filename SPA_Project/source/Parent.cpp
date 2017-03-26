@@ -41,23 +41,23 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
 }
 
 bool Parent::isParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-/*	if (left.size() < right.size()) {
-		for (auto& leftIterator : left) {
-			unordered_set<int> children= pkb->getStmtChildrenStmt(leftIterator);
-			for (auto& it : children) {
-				if (right.find(it) != right.end()) {
-					return true;
+	/*	if (left.size() < right.size()) {
+			for (auto& leftIterator : left) {
+				unordered_set<int> children= pkb->getStmtChildrenStmt(leftIterator);
+				for (auto& it : children) {
+					if (right.find(it) != right.end()) {
+						return true;
+					}
 				}
 			}
 		}
-	}
-	else {*/
-		for (auto& rightIterator : right) {
-			int parent = pkb->getStmtParentStmt(rightIterator);
-			if (left.find(parent) != left.end()) {
-				return true;
-			}
+		else {*/
+	for (auto& rightIterator : right) {
+		int parent = pkb->getStmtParentStmt(rightIterator);
+		if (left.find(parent) != left.end()) {
+			return true;
 		}
+	}
 	//}
 	return false;
 }
@@ -120,9 +120,9 @@ void Parent::setSynList() {
 		v.push_back(leftChild);
 	}
 	if (isSynonym(rightChild)) {
-		//	if (!isLeftChild(rightChild)) {
-		v.push_back(rightChild);
-		//	}
+		if (!isLeftChild(rightChild)) {
+			v.push_back(rightChild);
+		}
 	}
 	result.setSynList(v);
 }

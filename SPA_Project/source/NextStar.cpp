@@ -48,7 +48,7 @@ ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
 bool NextStar::isNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			unordered_set<int> nextStar; 
+			unordered_set<int> nextStar;
 			getAllNextStar(leftIterator, &nextStar, pkb);
 			for (auto& it : nextStar) {
 				if (right.find(it) != right.end()) {
@@ -138,14 +138,14 @@ ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
 	for (auto& it : stmts) {
 		//cout << "IT1: " << it << endl;
 		if (pkb->isStmtInWhileTable(it)) {
-			//cout << "IT2: " << it << endl;
+			cout << "IT2: " << it << endl;
 			insertTuple(it, it);
 		}
 		else {
 			unordered_set<int> parentStar = pkb->getStmtParentStarStmt(it);
 			for (auto& parent : parentStar) {
 				if (pkb->isStmtInWhileTable(parent)) {
-					//cout << "IT3: " << it << endl;
+					cout << "IT3: " << it << endl;
 					insertTuple(it, it);
 					break;
 				}
@@ -199,9 +199,9 @@ void NextStar::setSynList() {
 		v.push_back(leftChild);
 	}
 	if (isSynonym(rightChild)) {
-			if (!isLeftChild(rightChild)) {
-		v.push_back(rightChild);
-			}
+		if (!isLeftChild(rightChild)) {
+			v.push_back(rightChild);
+		}
 	}
 	result.setSynList(v);
 }

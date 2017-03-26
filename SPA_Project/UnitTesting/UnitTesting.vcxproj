@@ -158,17 +158,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PKBPatternStub.h" />
+    <ClInclude Include="PKBStubCalls.h" />
+    <ClInclude Include="PKBStubCallsStar.h" />
+    <ClInclude Include="PKBStubFollow.h" />
+    <ClInclude Include="PKBStubFollowStar.h" />
+    <ClInclude Include="PKBStubModifies.h" />
+    <ClInclude Include="PKBStubNext.h" />
+    <ClInclude Include="PKBStubNextStar.h" />
+    <ClInclude Include="PKBStubParent.h" />
+    <ClInclude Include="PKBStubUses.h" />
+    <ClInclude Include="PKBWithStub.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PatternUnitTest.cpp" />
+    <ClCompile Include="PKBPatternStub.cpp" />
+    <ClCompile Include="PKBStubCalls.cpp" />
+    <ClCompile Include="PKBStubCallsStar.cpp" />
+    <ClCompile Include="PKBStubFollow.cpp" />
+    <ClCompile Include="PKBStubFollowStar.cpp" />
+    <ClCompile Include="PKBStubModifies.cpp" />
+    <ClCompile Include="PKBStubNext.cpp" />
+    <ClCompile Include="PKBStubNextStar.cpp" />
+    <ClCompile Include="PKBStubParent.cpp" />
+    <ClCompile Include="PKBStubUses.cpp" />
+    <ClCompile Include="PKBTableUnitTest.cpp" />
+    <ClCompile Include="PKBWithStub.cpp" />
+    <ClCompile Include="QueryParserUnitTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TestAST.cpp" />
+    <ClCompile Include="UnitTestCalls.cpp" />
+    <ClCompile Include="UnitTestCallsStar.cpp" />
+    <ClCompile Include="UnitTestFollow.cpp" />
+    <ClCompile Include="UnitTestFollowStar.cpp" />
+    <ClCompile Include="UnitTestModifies.cpp" />
+    <ClCompile Include="UnitTestNext.cpp" />
+    <ClCompile Include="UnitTestNextStar.cpp" />
+    <ClCompile Include="UnitTestParent.cpp" />
+    <ClCompile Include="UnitTestUses.cpp" />
+    <ClCompile Include="WithUnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

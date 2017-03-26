@@ -1,5 +1,17 @@
 ﻿  stdafx.cpp
   TestFrontEnd.cpp
-     Creating library C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\IntegrationTesting.lib and object C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\IntegrationTesting.exp
-  IntegrationTesting.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\IntegrationTesting.dll
-  IntegrationTesting.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\SPA_Project\Debug\IntegrationTesting.pdb (Full PDB)
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setIntersection(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Ty>> VectorSetOperation<int>::setUnion(std::vector<_Ty,std::allocator<_Ty>>,std::vector<_Ty,std::allocator<_Ty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Ty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+     Creating library C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.lib and object C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.exp
+  IntegrationTesting.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.dll
+  IntegrationTesting.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.pdb (Full PDB)

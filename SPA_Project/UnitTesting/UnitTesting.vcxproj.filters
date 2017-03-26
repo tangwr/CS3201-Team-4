@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\PKBStub">
+      <UniqueIdentifier>{b6e97f56-8ccf-4a60-bf40-e21b79c8df0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PKBStub">
+      <UniqueIdentifier>{12e7eab2-172b-4437-912b-905aa8bc22b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -21,12 +27,114 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PKBPatternStub.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBWithStub.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubFollow.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubFollowStar.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubParent.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubNext.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubNextStar.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubCallsStar.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubCalls.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubUses.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
+    <ClInclude Include="PKBStubModifies.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestAST.cpp">
+    <ClCompile Include="QueryParserUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBTableUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PatternUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WithUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBPatternStub.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBWithStub.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubFollow.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubFollowStar.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestFollow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestFollowStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubParent.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestParent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubNext.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestNext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubNextStar.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestNextStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubCallsStar.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubCalls.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubUses.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubModifies.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestCallsStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestCalls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestUses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestModifies.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

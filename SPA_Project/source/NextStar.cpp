@@ -30,6 +30,9 @@ ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
 		if (left.size() != 0) {
+			if (right.size() != 0) {
+				return getNextStarSynSyn(pkb, &resultTable);
+			}
 			return getNextStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (right.size() != 0) {
@@ -133,14 +136,18 @@ ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
 		}
 	}
 	for (auto& it : stmts) {
+		//cout << "IT1: " << it << endl;
 		if (pkb->isStmtInWhileTable(it)) {
+			//cout << "IT2: " << it << endl;
 			insertTuple(it, it);
 		}
 		else {
 			unordered_set<int> parentStar = pkb->getStmtParentStarStmt(it);
 			for (auto& parent : parentStar) {
 				if (pkb->isStmtInWhileTable(parent)) {
+					//cout << "IT3: " << it << endl;
 					insertTuple(it, it);
+					break;
 				}
 			}
 		}
@@ -161,9 +168,7 @@ void NextStar::getAllNextStar(int prev, unordered_set<int>* allNextStar, unorder
 	visited->insert(prev);
 	unordered_set<int> next = pkb->getNextStmt(prev);
 	for (auto& it : next) {
-		//if (isStmtType(it, rightChild, pkb)) {
 		allNextStar->insert(it);
-		//}
 		getAllNextStar(it, allNextStar, visited, pkb);
 	}
 	return;
@@ -182,9 +187,7 @@ void NextStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, unorder
 	visited->insert(next);
 	unordered_set<int> prev = pkb->getPreviousStmt(next);
 	for (auto& it : prev) {
-		//if (isStmtType(it, leftChild, pkb)) {
 		allPrevStar->insert(it);
-		//}
 		getAllPrevStar(it, allPrevStar, visited, pkb);
 	}
 	return;
@@ -196,9 +199,9 @@ void NextStar::setSynList() {
 		v.push_back(leftChild);
 	}
 	if (isSynonym(rightChild)) {
-		//	if (!isLeftChild(rightChild)) {
+			if (!isLeftChild(rightChild)) {
 		v.push_back(rightChild);
-		//	}
+			}
 	}
 	result.setSynList(v);
 }
@@ -207,7 +210,13 @@ void NextStar::insertTuple(int left, int right) {
 	vector<int> v;
 	if (isSynonym(leftChild)) {
 		if (isSynonym(rightChild)) {
-			v = { left, right };
+			if (isLeftChild(rightChild)) {
+				cout << "inserting: " << left << endl;
+				v = { left };
+			}
+			else {
+				v = { left, right };
+			}
 		}
 		else {
 			v = { left };

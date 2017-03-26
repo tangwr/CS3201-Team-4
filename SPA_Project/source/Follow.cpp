@@ -36,7 +36,7 @@ ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
 			return getFollow(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getFollow(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild,pkb));
+			return getFollow(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
 	return result;
@@ -118,9 +118,9 @@ void Follow::setSynList() {
 		v.push_back(leftChild);
 	}
 	if (isSynonym(rightChild)) {
-	//	if (!isLeftChild(rightChild)) {
+		if (!isLeftChild(rightChild)) {
 			v.push_back(rightChild);
-	//	}
+		}
 	}
 	result.setSynList(v);
 }
@@ -129,7 +129,12 @@ void Follow::insertTuple(int left, int right) {
 	vector<int> v;
 	if (isSynonym(leftChild)) {
 		if (isSynonym(rightChild)) {
-			v = { left, right };
+			if (isLeftChild(rightChild)) {
+				v = { left };
+			}
+			else {
+				v = { left, right };
+			}
 		}
 		else {
 			v = { left };
@@ -250,7 +255,7 @@ ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
 	}
 	else if (resultTable.getSynCount() == 2) {
 		return getFollowSynSyn(pkb, &resultTable);
-		
+
 	}
 	return result;
 }

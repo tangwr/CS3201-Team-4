@@ -112,9 +112,9 @@ void ParentStar::setSynList() {
 		v.push_back(leftChild);
 	}
 	if (isSynonym(rightChild)) {
-		//	if (!isLeftChild(rightChild)) {
-		v.push_back(rightChild);
-		//	}
+		if (!isLeftChild(rightChild)) {
+			v.push_back(rightChild);
+		}
 	}
 	result.setSynList(v);
 }
@@ -123,7 +123,12 @@ void ParentStar::insertTuple(int left, int right) {
 	vector<int> v;
 	if (isSynonym(leftChild)) {
 		if (isSynonym(rightChild)) {
-			v = { left, right };
+			if (isLeftChild(rightChild)) {
+				v = { left };
+			}
+			else {
+				v = { left, right };
+			}
 		}
 		else {
 			v = { left };
@@ -301,7 +306,7 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, unordered_set<int> left, u
 			}
 		}
 	}
-	
+
 	return result;
 }
 

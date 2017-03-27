@@ -27,7 +27,11 @@ ResultTable With::evaluate(PKB* pkb, ResultTable intResultTable) {
 }
 
 void With::setSynToTable(ResultTable* withResultTable) {
-	withResultTable->setSynList(synList);
+	if (leftChild.isSame(rightChild)) {
+		withResultTable->setSynList({ leftChild });
+	} else {
+		withResultTable->setSynList({ leftChild, rightChild });
+	}
 }
 
 void With::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
@@ -43,14 +47,6 @@ unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTabl
 			rightResultList = intResultTable->getSynValue(rightChild);
 		} else {
 			rightResultList = getSynResultList(pkb, rightChild);
-		}
-
-		if (rightChild.getParaType() == CONSTANT) {
-			unordered_set<int> constValues;
-			for (auto constId : rightResultList) {
-				constValues.insert(pkb->getConstValueById(constId));
-			}
-			rightResultList = constValues;
 		}
 	}
 	else if (rightChild.isInteger()) {
@@ -96,23 +92,16 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 	case WHILE:
 		/* falls through */
 	case IF:
+		/* falls through */
+	case CONSTANT:
 		resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
-		for (auto stmtId : resultList) {
-			setResultTupleToTable(withResultTable, stmtId, stmtId);
+		for (auto value : resultList) {
+			setResultTupleToTable(withResultTable, value, value);
 		}
 		break;
 
-	case CONSTANT:
-		for (auto value : rightResult) {
-			if (pkb->isConstInTable(value)) {
-				int constId = pkb->getConstIdByValue(value);
-				if (leftResult.find(constId) != leftResult.end()) {
-					setResultTupleToTable(withResultTable, constId, value);
-				}
-			}
-		}
-		break;
 	case CALL:
+		//if (rightChild.isAttributeProc()) {
 		if (rightChild.getParaType() == STRINGVARIABLE || rightChild.getParaType() == PROCEDURE
 			|| rightChild.getParaType() == VARIABLE 
 			|| (rightChild.getParaType() == CALL && rightChild.getAttributeValue())) {
@@ -245,7 +234,7 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 }
 
 void With::setResultTupleToTable(ResultTable* pattResultTable, int left, int right) {
-		if (rightChild.isSynonym()) {
+		if (rightChild.isSynonym() && !rightChild.isSame(leftChild)) {
 			pattResultTable->insertTuple({ left, right });
 		}
 		else {

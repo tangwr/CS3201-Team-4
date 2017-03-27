@@ -116,7 +116,7 @@ unordered_set<int> FollowsTable::getStmtFollowedByStarStmt(int stmtId) {
 
 bool FollowsTable::hasFollowRel()
 {
-    return followeeMap.empty();
+    return !followeeMap.empty();
 }
 
 void FollowsTable::printContents()

@@ -63,7 +63,7 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 		int currentStmt = stmtLst;
 		while (currentStmt != -1) {
 			//still got follows
-			if (pkb->isStmtInCalltable(currentStmt)) {
+			if (pkb->isStmtInCallTable(currentStmt)) {
 				cout << "here" << endl;
 				int calledProcId = pkb->getProcCalledByStmt(currentStmt);
 

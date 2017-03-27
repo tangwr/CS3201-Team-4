@@ -461,7 +461,7 @@ bool PKB::insertProcCallStarProcRel(int callerProcId, int calledStarProcId) {
     return this->callTable.insertProcCallStarProcRel(callerProcId, calledStarProcId);
 }
 
-bool PKB::isStmtInCalltable(int stmtId) {
+bool PKB::isStmtInCallTable(int stmtId) {
     return this->callTable.isStmtInTable(stmtId);
 }
 

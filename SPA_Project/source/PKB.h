@@ -184,7 +184,7 @@ public:
     virtual bool setStmtCallProcRel(int stmtId, int procId);//was set Call proc
     virtual bool setProcCallProcRel(int callerProcId, int calledProcId);
     virtual bool insertProcCallStarProcRel(int callerProcId, int calledStarProcId);
-    virtual bool isStmtInCalltable(int stmtId);
+    virtual bool isStmtInCallTable(int stmtId);
     virtual int getProcCalledByStmt(int callStmtId);
     virtual unordered_set<int> getStmtCallProc(int procId);
     virtual unordered_set<int> getProcCallProc(int calledProcId);

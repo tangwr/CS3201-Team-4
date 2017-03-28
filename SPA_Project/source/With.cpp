@@ -227,7 +227,7 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 		resultList = pkb->getAllVarId();
 		break;
 	case CONSTANT:
-		resultList = pkb->getAllConstId();
+		resultList = pkb->getAllConst();
 		break;
 	}
 	return resultList;

@@ -47,7 +47,7 @@ int VarTable::getSize()
 */
 string VarTable::getVarNameById(int varId)
 {
-	if (varId >= vtsize) throw "InvalidReferenceException";
+	if (varId >= vtsize) throw exception("InvalidReferenceException");
 	else return varList.at(varId);
 }
 

@@ -4,7 +4,7 @@
 using namespace std;
 
 Parameter::Parameter() {
-	hasAttributeValue = false;
+	isAttributeProc = false;
 }
 
 Parameter::Parameter(string name, Type type) {
@@ -94,10 +94,10 @@ bool Parameter::isSame(Parameter paraObj) {
 	return true;
 }
 
-void Parameter::setAttributeValue(bool value) {
-	hasAttributeValue = value;
+void Parameter::setAttributeProc(bool value) {
+	isAttributeProc = value;
 }
 
-bool Parameter::getAttributeValue() {
-	return hasAttributeValue;
+bool Parameter::getAttributeProc() {
+	return isAttributeProc;
 }

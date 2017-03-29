@@ -84,7 +84,7 @@ string QueryPostProcessor::formatVarResult(int result) {
 
 string QueryPostProcessor::formatConstResult(int result) {
 
-	return to_string(pkb->getConstValueById(result));
+	return to_string(result);
 }
 
 string QueryPostProcessor::formatStmtResult(int result) {

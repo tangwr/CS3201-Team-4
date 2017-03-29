@@ -138,12 +138,7 @@ int PKB::insertVar(string varName) {
 }
 
 unordered_set<int> PKB::getAllVarId() {
-	vector<int> varVector = this->variableTable.getAllVarId();
-	unordered_set<int> varSet;
-	for (auto varId : varVector) {
-		varSet.insert(varId);
-	}
-	return varSet;
+    return this->variableTable.getAllVarId();
 }
 string PKB::getVarNameById(int varId) {
 	return this->variableTable.getVarNameById(varId);
@@ -162,7 +157,7 @@ int PKB::insertConst(int value) {
 int PKB::getNumOfConst() {
 	return this->constTable.getSize();
 }
-
+/*
 int PKB::getConstValueById(int constId) {
 	return this->constTable.getValueById(constId);
 }
@@ -170,11 +165,11 @@ int PKB::getConstValueById(int constId) {
 int PKB::getConstIdByValue(int constValue) {
     return this->constTable.getConstIndex(constValue);
 }
-
+*/
 bool PKB::isConstInTable(int constValue) {
     return this->constTable.checkConstExist(constValue);
 }
-
+/*
 unordered_set<int> PKB::getAllConstId() {
 	vector<int> constIdVector = this->constTable.getAllConstId();
 	unordered_set<int> constIdSet;
@@ -183,14 +178,15 @@ unordered_set<int> PKB::getAllConstId() {
 	}
 	return constIdSet;
 }
-
+*/
 unordered_set<int> PKB::getAllConst() {
-    vector<int> constValVector = this->constTable.getAllConst();
-    unordered_set<int> constValSet;
-    for (int constVal : constValVector) {
-        constValSet.insert(constVal);
-    }
-    return constValSet;
+    return this->constTable.getAllConst();
+    //vector<int> constValVector = this->constTable.getAllConst();
+    //unordered_set<int> constValSet;
+    //for (int constVal : constValVector) {
+    //    constValSet.insert(constVal);
+    //}
+    //return constValSet;
 }
 
 

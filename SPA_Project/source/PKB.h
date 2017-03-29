@@ -84,11 +84,11 @@ public:
 	//const table
     virtual int insertConst(int value);
 
-	virtual unordered_set<int> getAllConstId();
+	//virtual unordered_set<int> getAllConstId();
     virtual unordered_set<int> getAllConst();
     virtual int getNumOfConst();//was get Const Table Size
-    virtual int getConstValueById(int constId);
-    virtual int getConstIdByValue(int constValue);
+    //virtual int getConstValueById(int constId);
+    //virtual int getConstIdByValue(int constValue);
     virtual bool isConstInTable(int constValue);
 
 

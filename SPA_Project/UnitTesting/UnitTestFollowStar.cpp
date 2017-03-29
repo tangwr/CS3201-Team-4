@@ -392,7 +392,7 @@ namespace UnitTesting
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult.getSynCount());
 
 		Assert::IsFalse(queryResult.getBoolean());
 		}

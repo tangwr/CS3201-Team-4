@@ -69,7 +69,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 13 },{ 14 }, {15}, {16}, {17} };
+			expectedResult = { { 13 },{ 14 },{ 15 },{ 16 },{ 17 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -96,7 +96,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { {15}, { 17 } };
+			expectedResult = { { 15 },{ 17 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -124,7 +124,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { {1}, {2}, {3}, { 5 }, {7}, {8}, {9}, {11} };
+			expectedResult = { { 1 },{ 2 },{ 3 },{ 5 },{ 7 },{ 8 },{ 9 },{ 11 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -234,7 +234,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-		//	expectedResult = { { 1 } };
+			//	expectedResult = { { 1 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -330,7 +330,7 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
+
 		TEST_METHOD(UnitTest_NextStar_Stmt_Stmt)
 		{
 			PKBStubNextStar pkbStub;
@@ -346,8 +346,8 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 4,4 }, {5,5}, {6,6}, {7,7}, {8,8}, {9,9}, {10,10}, {11,11}, {14,14}, {15,15},
-			{16,16}, {17,17} };
+			expectedResult = { { 4 },{ 5 },{ 6 },{ 7 },{ 8 },{ 9 },{ 10 },{ 11 },{ 14 },{ 15 },
+			{ 16 },{ 17 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -355,43 +355,10 @@ namespace UnitTesting
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult.getSynCount());
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
-
-		TEST_METHOD(UnitTest_NextStar_Stmt_Stmt2)
-		{
-			PKBStubNextStar pkbStub;
-
-			ResultTable intResult, queryResult;
-			Parameter stmt1, stmt2;
-			vector<vector<int>> expectedResult, tupleResult;
-
-			stmt1 = Parameter("s1", STMT);
-			stmt2 = Parameter("s2", STMT);
-
-
-			NextStar nextStarClause(stmt1, stmt2);
-			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
-
-			expectedResult = { { 1,2 },{ 2,3 },{ 3,4 },{ 4,5 },{ 4,12 },{ 5,6 },{ 6,7 },{ 6,8 },{ 7,9 },{ 8,9 },{ 9,10 },{ 10,11 }
-				,{ 11, 4 },{ 13, 14 },{ 13,20 },{ 14,15 },{ 14,18 },{ 15,16 },{ 16,17 },{ 17, 14 },{ 18,19 },{ 19, 21 },{ 20, 21 },
-				{ 22, 23 },{ 22, 24 } };
-
-			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
-			sort(tupleResult.begin(), tupleResult.end());
-
-			Assert::AreEqual(expectedResult.size(), tupleResult.size());
-			Assert::IsTrue(expectedResult == tupleResult);
-
-			Assert::AreEqual(2, queryResult.getSynCount());
-
-			Assert::IsFalse(queryResult.getBoolean());
-		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Call_Stmt)
 		{
@@ -408,7 +375,8 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 10, 11 },{ 16,17 } };
+			expectedResult = { { 10, 4 },{ 10, 5 },{ 10, 6 },{ 10, 7 },{ 10, 8 },{ 10, 9 },{ 10, 10 },{ 10, 11 },{ 10, 12 },
+			{ 16,14 },{ 16,15 },{ 16,16 },{ 16,17 },{ 16,18 },{ 16,19 }, };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -421,7 +389,6 @@ namespace UnitTesting
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Stmt_Num)
 		{
@@ -438,11 +405,12 @@ namespace UnitTesting
 
 			intResult.insertTuple({ 1 });
 			intResult.insertTuple({ 13 });
+			intResult.insertTuple({ 16 });
 
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 13 } };
+			expectedResult = { { 13 },{ 16 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -454,7 +422,6 @@ namespace UnitTesting
 			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Stmt_Num2)
 		{
@@ -486,7 +453,6 @@ namespace UnitTesting
 			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Num_Stmt)
 		{
@@ -500,13 +466,15 @@ namespace UnitTesting
 			stmt2 = Parameter("s1", STMT);
 
 			intResult.setSynList(vector<Parameter>(1, Parameter("s1", STMT)));
+			intResult.insertTuple({ 2 });
 			intResult.insertTuple({ 4 });
 			intResult.insertTuple({ 5 });
+			intResult.insertTuple({ 13 });
 
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 5 } };
+			expectedResult = { { 4 },{ 5 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -518,7 +486,6 @@ namespace UnitTesting
 			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Num_Stmt2)
 		{
@@ -532,8 +499,9 @@ namespace UnitTesting
 			stmt2 = Parameter("s1", STMT);
 
 			intResult.setSynList(vector<Parameter>(1, Parameter("s1", STMT)));
-			intResult.insertTuple({ 4 });
-			intResult.insertTuple({ 12 });
+			intResult.insertTuple({ 1 });
+			intResult.insertTuple({ 2 });
+			intResult.insertTuple({ 22 });
 
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
@@ -550,7 +518,6 @@ namespace UnitTesting
 			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Stmt_Stmt)
 		{
@@ -564,13 +531,13 @@ namespace UnitTesting
 			stmt2 = Parameter("s2", STMT);
 
 			intResult.setSynList(vector<Parameter>(1, Parameter("s1", STMT)));
-			intResult.insertTuple({ 3 });
-			intResult.insertTuple({ 13 });
+			intResult.insertTuple({ 12 });
+			intResult.insertTuple({ 22 });
 
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 3,4 },{ 13, 14 },{ 13, 20 } };
+			expectedResult = { { 22,23 },{ 22, 24 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -582,7 +549,6 @@ namespace UnitTesting
 			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_While_Stmt)
 		{
@@ -601,7 +567,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 14, 15 } ,{ 14,18 } };
+			expectedResult = { { 14, 14 } ,{ 14, 15 } ,{ 14, 16 } ,{ 14, 17 } ,{ 14,18 },{ 14, 19 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -613,7 +579,6 @@ namespace UnitTesting
 			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Stmt_Stmt2)
 		{
@@ -633,7 +598,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 13,14 },{ 17,14 },{ 14,15 } };
+			expectedResult = { { 13,14 },{ 14,14 },{ 15,14 },{ 16,14 },{ 17,14 },{ 13,15 } ,{ 14,15 } ,{ 15,15 },{ 16,15 } ,{ 17,15 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -645,7 +610,6 @@ namespace UnitTesting
 			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_While_Stmt2)
 		{
@@ -676,7 +640,6 @@ namespace UnitTesting
 			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		/*
 
 		TEST_METHOD(UnitTest_NextStar_Restricted_Stmt_Stmt_Tuple)
 		{
@@ -695,6 +658,7 @@ namespace UnitTesting
 			intResult.setSynList(pList);
 
 			intResult.insertTuple({ 1,2 });
+			intResult.insertTuple({ 1,22 });
 			intResult.insertTuple({ 2, 3 });
 			intResult.insertTuple({ 4, 6 });
 			intResult.insertTuple({ 4, 8 });
@@ -706,7 +670,7 @@ namespace UnitTesting
 			NextStar nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 1,2 },{ 2,3 },{ 13,14 },{ 13,20 } };
+			expectedResult = { { 1,2 },{ 2,3 },{ 4,6 },{ 4,8 },{ 13, 14 },{ 13,15 },{ 13,20 },{ 13,21 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
@@ -718,6 +682,45 @@ namespace UnitTesting
 			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsFalse(queryResult.getBoolean());
 		}
-		*/
+
+		TEST_METHOD(UnitTest_NextStar_Restricted_Stmt_Stmt_Tuple2)
+		{
+			PKBStubNextStar pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter stmt1, stmt2;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			stmt1 = Parameter("s1", STMT);
+			stmt2 = Parameter("s2", STMT);
+
+			vector<Parameter> pList;
+			pList.push_back(Parameter("s2", STMT));
+			pList.push_back(Parameter("s1", STMT));
+			intResult.setSynList(pList);
+
+			intResult.insertTuple({ 1,22 });
+			intResult.insertTuple({ 22, 1 });
+			intResult.insertTuple({ 2, 3 });
+			intResult.insertTuple({ 3, 2 });
+			intResult.insertTuple({ 12, 4 });
+			intResult.insertTuple({ 8, 4 });
+
+			NextStar nextStarClause(stmt1, stmt2);
+			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
+
+			expectedResult = { { 2,3 },{ 4, 12 },{ 4,8 } };
+
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
 	};
 }

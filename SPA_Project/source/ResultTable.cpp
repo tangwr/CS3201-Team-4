@@ -274,6 +274,11 @@ ResultTable ResultTable::select(vector<Parameter> paramList)
 	return hashSelect(paramList);
 }
 
+void ResultTable::removeDuplicateTuple()
+{
+	tupleList = select(synList).getTupleList();
+}
+
 ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
 {
 	// original select, slow O(N2)

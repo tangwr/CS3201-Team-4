@@ -36,6 +36,7 @@ public:
 	vector<vector<int>> getTupleList();
 	ResultTable join(ResultTable rt);
 	ResultTable select(vector<Parameter> paramList);
+	void removeDuplicateTuple();
 	unordered_set<int> getSynValue(Parameter param);
 	void printTable();
 	

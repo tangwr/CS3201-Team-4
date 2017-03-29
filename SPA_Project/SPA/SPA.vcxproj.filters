@@ -180,6 +180,9 @@
     <ClCompile Include="..\source\ResultTable.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\..\Desktop\SPA_Project\source\Affects.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -313,6 +316,9 @@
     </ClInclude>
     <ClInclude Include="..\source\ResultTable.h">
       <Filter>Header Files\PQL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\Desktop\SPA_Project\source\Affects.h">
+      <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

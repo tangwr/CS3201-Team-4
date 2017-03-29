@@ -196,27 +196,27 @@ void QueryParser::getSelect(QueryTree *qt) {
 				if (synType == CALL || synType == PROCEDURE) {
 					if (correctType.compare(TYPE_PROC_NAME) == EQUAL) {
 						if (synType == CALL) {
-							selectSyn.setAttributeValue(TRUE);
+							selectSyn.setAttributeProc(TRUE);
 						}
 					}
 					else if (correctType.compare(TYPE_STMT) == EQUAL) {
 						tokenizer->getToken();
 						string stmtNo = tokenizer->peekToken();
 						match(stmtNo, SYMBOL_STMT_NO);
-						selectSyn.setAttributeValue(FALSE);
+						selectSyn.setAttributeProc(FALSE);
 					}
 					else {
 						throwError(ERROR_STRING);
 					}
-					
-					
+
+
 				}
 				else if (synType == STMT || synType == WHILE || synType == ASSIGN || synType == IF) {
 					match(correctType, TYPE_STMT);
 					tokenizer->getToken();
 					string stmtNo = tokenizer->peekToken();
 					match(stmtNo, SYMBOL_STMT_NO);
-					
+
 				}
 				else if (synType == CONSTANT) {
 					match(correctType, TYPE_VALUE);
@@ -233,7 +233,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 				finalToken = tokenizer->getToken();
 			}
 			else {
-				selectSyn.setAttributeValue(FALSE);
+				selectSyn.setAttributeProc(FALSE);
 				finalToken = nextToken;
 			}
 			qt->insertSelect(selectSyn);
@@ -254,14 +254,14 @@ void QueryParser::getSelect(QueryTree *qt) {
 				if (synType == CALL || synType == PROCEDURE) {
 					if (correctType.compare(TYPE_PROC_NAME) == EQUAL) {
 						if (synType == CALL) {
-							selectSyn.setAttributeValue(TRUE);
+							selectSyn.setAttributeProc(TRUE);
 						}
 					}
 					else if (correctType.compare(TYPE_STMT) == EQUAL) {
 						tokenizer->getToken();
 						string stmtNo = tokenizer->peekToken();
 						match(stmtNo, SYMBOL_STMT_NO);
-						selectSyn.setAttributeValue(FALSE);
+						selectSyn.setAttributeProc(FALSE);
 					}
 					else {
 						throwError(ERROR_STRING);
@@ -289,7 +289,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 			}
 			else
 			{
-				selectSyn.setAttributeValue(FALSE);
+				selectSyn.setAttributeProc(FALSE);
 			}
 			qt->insertSelect(selectSyn);
 		}
@@ -1457,9 +1457,11 @@ void QueryParser::getWith(QueryTree *qt) {
 					string stmtNo = tokenizer->peekToken();
 					match(stmtNo, SYMBOL_STMT_NO);
 					leftType = INTEGER;
+					leftChild.setAttributeProc(FALSE);
 				}
 				else if (lcValue.compare(TYPE_PROC_NAME) == EQUAL) {
 					leftType = STRINGVARIABLE;
+					leftChild.setAttributeProc(TRUE);
 				}
 				else {
 					throwError(ERROR_LEFT_CHILD);
@@ -1569,9 +1571,11 @@ void QueryParser::getWith(QueryTree *qt) {
 					string stmtNo = tokenizer->peekToken();
 					match(stmtNo, SYMBOL_STMT_NO);
 					rightType = INTEGER;
+					rightChild.setAttributeProc(FALSE);
 				}
 				else if (rcValue.compare(TYPE_PROC_NAME) == EQUAL) {
 					rightType = STRINGVARIABLE;
+					rightChild.setAttributeProc(TRUE);
 				}
 				else {
 					throwError(ERROR_LEFT_CHILD);

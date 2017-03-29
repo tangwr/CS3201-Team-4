@@ -27,11 +27,7 @@ ResultTable With::evaluate(PKB* pkb, ResultTable intResultTable) {
 }
 
 void With::setSynToTable(ResultTable* withResultTable) {
-	if (leftChild.isSame(rightChild)) {
-		withResultTable->setSynList({ leftChild });
-	} else {
-		withResultTable->setSynList({ leftChild, rightChild });
-	}
+	withResultTable->setSynList(synList);
 }
 
 void With::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
@@ -45,7 +41,8 @@ unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTabl
 	if (rightChild.isSynonym()) {
 		if (intResultTable->isSynInTable(rightChild)) {
 			rightResultList = intResultTable->getSynValue(rightChild);
-		} else {
+		}
+		else {
 			rightResultList = getSynResultList(pkb, rightChild);
 		}
 	}
@@ -101,10 +98,9 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 		break;
 
 	case CALL:
-		//if (rightChild.isAttributeProc()) {
 		if (rightChild.getParaType() == STRINGVARIABLE || rightChild.getParaType() == PROCEDURE
-			|| rightChild.getParaType() == VARIABLE 
-			|| (rightChild.getParaType() == CALL && rightChild.getAttributeValue())) {
+			|| rightChild.getParaType() == VARIABLE
+			|| (rightChild.getParaType() == CALL && rightChild.getAttributeProc())) {
 			for (auto id : rightResult) {
 				int rightId = id;
 				if (rightChild.getParaType() == CALL) {
@@ -122,7 +118,8 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
 			for (auto stmtId : resultList) {
 				setResultTupleToTable(withResultTable, stmtId, stmtId);
@@ -182,7 +179,8 @@ string With::getStringOfId(PKB* pkb, int id) {
 	Type idType;
 	if (rightChild.getParaType() == STRINGVARIABLE) {
 		idType = leftChild.getParaType();
-	} else {
+	}
+	else {
 		idType = rightChild.getParaType();
 	}
 
@@ -234,12 +232,12 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 }
 
 void With::setResultTupleToTable(ResultTable* pattResultTable, int left, int right) {
-		if (rightChild.isSynonym() && !rightChild.isSame(leftChild)) {
-			pattResultTable->insertTuple({ left, right });
-		}
-		else {
-			pattResultTable->insertTuple({ left });
-		}
+	if (rightChild.isSynonym()) {
+		pattResultTable->insertTuple({ left, right });
+	}
+	else {
+		pattResultTable->insertTuple({ left });
+	}
 }
 
 void With::setBooleanToTable(ResultTable* withResultTable) {

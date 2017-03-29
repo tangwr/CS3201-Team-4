@@ -41,16 +41,9 @@ unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTabl
 	if (rightChild.isSynonym()) {
 		if (intResultTable->isSynInTable(rightChild)) {
 			rightResultList = intResultTable->getSynValue(rightChild);
-		} else {
-			rightResultList = getSynResultList(pkb, rightChild);
 		}
-
-		if (rightChild.getParaType() == CONSTANT) {
-			unordered_set<int> constValues;
-			for (auto constId : rightResultList) {
-				constValues.insert(pkb->getConstValueById(constId));
-			}
-			rightResultList = constValues;
+		else {
+			rightResultList = getSynResultList(pkb, rightChild);
 		}
 	}
 	else if (rightChild.isInteger()) {
@@ -96,26 +89,18 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 	case WHILE:
 		/* falls through */
 	case IF:
+		/* falls through */
+	case CONSTANT:
 		resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
-		for (auto stmtId : resultList) {
-			setResultTupleToTable(withResultTable, stmtId, stmtId);
+		for (auto value : resultList) {
+			setResultTupleToTable(withResultTable, value, value);
 		}
 		break;
 
-	case CONSTANT:
-		for (auto value : rightResult) {
-			if (pkb->isConstInTable(value)) {
-				int constId = pkb->getConstIdByValue(value);
-				if (leftResult.find(constId) != leftResult.end()) {
-					setResultTupleToTable(withResultTable, constId, value);
-				}
-			}
-		}
-		break;
 	case CALL:
 		if (rightChild.getParaType() == STRINGVARIABLE || rightChild.getParaType() == PROCEDURE
-			|| rightChild.getParaType() == VARIABLE 
-			|| (rightChild.getParaType() == CALL && rightChild.getAttributeValue())) {
+			|| rightChild.getParaType() == VARIABLE
+			|| (rightChild.getParaType() == CALL && rightChild.getAttributeProc())) {
 			for (auto id : rightResult) {
 				int rightId = id;
 				if (rightChild.getParaType() == CALL) {
@@ -133,7 +118,8 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 					}
 				}
 			}
-		} else {
+		}
+		else {
 			resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
 			for (auto stmtId : resultList) {
 				setResultTupleToTable(withResultTable, stmtId, stmtId);
@@ -193,7 +179,8 @@ string With::getStringOfId(PKB* pkb, int id) {
 	Type idType;
 	if (rightChild.getParaType() == STRINGVARIABLE) {
 		idType = leftChild.getParaType();
-	} else {
+	}
+	else {
 		idType = rightChild.getParaType();
 	}
 
@@ -238,19 +225,19 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 		resultList = pkb->getAllVarId();
 		break;
 	case CONSTANT:
-		resultList = pkb->getAllConstId();
+		resultList = pkb->getAllConst();
 		break;
 	}
 	return resultList;
 }
 
 void With::setResultTupleToTable(ResultTable* pattResultTable, int left, int right) {
-		if (rightChild.isSynonym()) {
-			pattResultTable->insertTuple({ left, right });
-		}
-		else {
-			pattResultTable->insertTuple({ left });
-		}
+	if (rightChild.isSynonym()) {
+		pattResultTable->insertTuple({ left, right });
+	}
+	else {
+		pattResultTable->insertTuple({ left });
+	}
 }
 
 void With::setBooleanToTable(ResultTable* withResultTable) {

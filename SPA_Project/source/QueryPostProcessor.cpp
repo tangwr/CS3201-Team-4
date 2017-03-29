@@ -35,7 +35,7 @@ string QueryPostProcessor::processSingleResult(vector<int> vectorInt, vector<Par
 	for (int i = 0; i < vectorInt.size(); i++) {
 		int value = vectorInt.at(i);
 		Type vauleType = select.at(i).getParaType();
-		bool attribute = select.at(i).getAttributeValue();
+		bool attribute = select.at(i).getAttributeProc();
 		string res = processResultType(value, vauleType, attribute);
 		result += res + SYMBOL_SPACE;
 	}
@@ -84,7 +84,7 @@ string QueryPostProcessor::formatVarResult(int result) {
 
 string QueryPostProcessor::formatConstResult(int result) {
 
-	return to_string(pkb->getConstValueById(result));
+	return to_string(result);
 }
 
 string QueryPostProcessor::formatStmtResult(int result) {

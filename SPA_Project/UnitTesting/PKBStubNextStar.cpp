@@ -62,11 +62,9 @@ PKBStubNextStar::PKBStubNextStar() {
 	nextTable.insert({ 16, unordered_set<int>({ 17 }) });
 	nextTable.insert({ 17, unordered_set<int>({ 14 }) });
 	nextTable.insert({ 18, unordered_set<int>({ 19 }) });
-	nextTable.insert({ 19, unordered_set<int>({ 21 }) });
 	nextTable.insert({ 20, unordered_set<int>({ 21 }) });
 
-	nextTable.insert({ 22, unordered_set<int>({ 23 }) });
-	nextTable.insert({ 22, unordered_set<int>({ 24 }) });
+	nextTable.insert({ 22, unordered_set<int>({ 23,24 }) });
 
 	prevTable.insert({ 2, unordered_set<int>({ 1 }) });
 	prevTable.insert({ 3, unordered_set<int>({ 2 }) });
@@ -87,9 +85,29 @@ PKBStubNextStar::PKBStubNextStar() {
 	prevTable.insert({ 18, unordered_set<int>({ 14 }) });
 	prevTable.insert({ 19, unordered_set<int>({ 18 }) });
 	prevTable.insert({ 20, unordered_set<int>({ 13 }) });
-	prevTable.insert({ 21, unordered_set<int>({ 19 , 20 }) });
+	prevTable.insert({ 21, unordered_set<int>({ 20 }) });
 	prevTable.insert({ 23, unordered_set<int>({ 22 }) });
 	prevTable.insert({ 24, unordered_set<int>({ 22 }) });
+
+	parentStarTable.insert({ 5, unordered_set<int>({ 4 }) });
+	parentStarTable.insert({ 6, unordered_set<int>({ 4 }) });
+	parentStarTable.insert({ 7, unordered_set<int>({ 4, 6 }) });
+	parentStarTable.insert({ 8, unordered_set<int>({ 4, 6 }) });
+	parentStarTable.insert({ 9, unordered_set<int>({ 4 }) });
+	parentStarTable.insert({ 10, unordered_set<int>({ 4 }) });
+	parentStarTable.insert({ 11, unordered_set<int>({ 4 }) });
+
+	parentStarTable.insert({ 14, unordered_set<int>({ 13 }) });
+	parentStarTable.insert({ 15, unordered_set<int>({ 13, 14 }) });
+	parentStarTable.insert({ 16, unordered_set<int>({ 13, 14 }) });
+	parentStarTable.insert({ 17, unordered_set<int>({ 13, 14 }) });
+	parentStarTable.insert({ 18, unordered_set<int>({ 13 }) });
+	parentStarTable.insert({ 19, unordered_set<int>({ 13 }) });
+	parentStarTable.insert({ 20, unordered_set<int>({ 13 }) });
+	parentStarTable.insert({ 21, unordered_set<int>({ 13 }) });
+
+	parentStarTable.insert({ 23, unordered_set<int>({ 22 }) });
+	parentStarTable.insert({ 24, unordered_set<int>({ 22 }) });
 }
 
 unordered_set<int> PKBStubNextStar::getAllAssignStmt() {
@@ -125,4 +143,15 @@ unordered_set<int> PKBStubNextStar::getNextStmt(int a) {
 	if (it == nextTable.end())
 		return unordered_set<int>();
 	return it->second;
+}
+
+unordered_set<int> PKBStubNextStar::getStmtParentStarStmt(int a) {
+	auto& it = parentStarTable.find(a);
+	if (it == parentStarTable.end())
+		return unordered_set<int>();
+	return it->second;
+}
+
+bool PKBStubNextStar::isStmtInWhileTable(int a) {
+	return whileStmts.find(a) != whileStmts.end();
 }

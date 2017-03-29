@@ -26,6 +26,7 @@ int VarTable::insertVar(string varName)
 		int varId = vtsize;
 		varList.push_back(varName);
 		varMap.insert(make_pair(varName, varId));
+        varIdSet.insert(varId);
 		vtsize++;
 		return varId;   // index of the variable in the vector
 	}
@@ -46,7 +47,7 @@ int VarTable::getSize()
 */
 string VarTable::getVarNameById(int varId)
 {
-	if (varId >= vtsize) throw "InvalidReferenceException";
+	if (varId >= vtsize) throw exception("InvalidReferenceException");
 	else return varList.at(varId);
 }
 
@@ -84,14 +85,10 @@ bool VarTable::checkVarExistById(int varId)
 
 
 /*
-returns a vector<int> of all varId
+returns a unordered_set<int> of all varId
 */
-vector<int> VarTable::getAllVarId() {
-    vector<int> allVarIdList;
-    for (auto varEntry : varMap) {
-        allVarIdList.push_back(varEntry.second);
-    }
-    return allVarIdList;
+unordered_set<int> VarTable::getAllVarId() {
+    return this->varIdSet;
 }
 
 void VarTable::printContents()

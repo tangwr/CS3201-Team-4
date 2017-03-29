@@ -45,7 +45,7 @@ Return procName if procId is valid. else throw exception
 */
 string ProcTable::getProcName(int procId)
 {
-	if (procId >= ptsize) throw "InvalidReferenceException";
+	if (procId >= ptsize) throw exception("InvalidReferenceException");
 	else return procList.at(procId);
 }
 

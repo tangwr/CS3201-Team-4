@@ -25,8 +25,7 @@ bool ModifiesTable::setStmtModifyVarRel(int stmtId, int varId)
 //	}
 	tempSet.insert(varId);
 	modifiesStmtMap.insert(make_pair(stmtId, tempSet));
-	setStmtModifiedByRel(stmtId, varId);
-	return true;
+	return setStmtModifiedByRel(stmtId, varId);
 }
 
 bool ModifiesTable::setStmtModifiedByRel(int stmtId, int varId) {
@@ -60,7 +59,7 @@ bool ModifiesTable::insertStmtModifyVarRel(int stmtId, int varId)
 	}
 	tempSet.insert(varId);
 	modifiesStmtMap.insert(make_pair(stmtId, tempSet));
-	insertStmtModifiedByRel(stmtId, varId);
+	return insertStmtModifiedByRel(stmtId, varId);
 }
 
 
@@ -95,8 +94,7 @@ bool ModifiesTable::setProcModifyVarRel(int procId, int varId)
 //	}
 	tempSet.insert(varId);
 	modifiesProcMap.insert(make_pair(procId, tempSet));
-	setProcModifiedByRel(procId, varId);
-	return true;
+	return setProcModifiedByRel(procId, varId);
 }
 
 bool ModifiesTable::setProcModifiedByRel(int procId, int varId) {
@@ -129,7 +127,7 @@ bool ModifiesTable::insertProcModifyVarRel(int procId, int varId)
 	}
 	tempSet.insert(varId);
 	modifiesProcMap.insert(make_pair(procId, tempSet));
-	insertProcModifiedByRel(procId, varId);
+	return insertProcModifiedByRel(procId, varId);
 }
 
 

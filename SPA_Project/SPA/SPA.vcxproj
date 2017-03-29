@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\..\Desktop\SPA_Project\source\Affects.cpp" />
+    <ClCompile Include="..\source\AffectsStar.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\Calls.cpp" />
     <ClCompile Include="..\source\CallsStar.cpp" />
@@ -56,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\Desktop\SPA_Project\source\Affects.h" />
+    <ClInclude Include="..\source\AffectsStar.h" />
     <ClInclude Include="..\source\AssignTable.h" />
     <ClInclude Include="..\source\Calls.h" />
     <ClInclude Include="..\source\CallsStar.h" />

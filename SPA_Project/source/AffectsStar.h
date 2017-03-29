@@ -12,9 +12,9 @@
 
 using namespace std;
 
-class Affects : public Clause {
+class AffectsStar : public Clause {
 public:
-	Affects(Parameter lc, Parameter rc);
+	AffectsStar(Parameter lc, Parameter rc);
 
 	vector<Parameter> getSynList();
 	Parameter getLeftChild();
@@ -47,19 +47,19 @@ private:
 	vector<Parameter> synList;
 
 	bool hasFoundAllResult;
-	unordered_map<int, unordered_set<unordered_map<int, int>, Hasher>> whileTableStack;
+	unordered_map<int, unordered_set<unordered_map<int, unordered_set<int>>, Hasher>> whileTableStack;
 	unordered_map<int, unordered_set<unordered_map<int, unordered_set<int>>, Hasher>> contTableStack;
 
 	void setSynToTable(ResultTable* pattResultTable);
 	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable);
 	void setBooleanToTable(ResultTable* pattResultTable);
 
-	void dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable, 
-							unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);
+	void dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable,
+		unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);
 	void fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-					set<int>* affectorStmts, unordered_map<int, int>* modifiedVarToStmt, set<int>* affectedStmts);
+		set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* modifiedVarToStmt, set<int>* affectedStmts);
 	void reverseDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-					set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, set<int>* affectedStmts);
+		set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, set<int>* affectedStmts);
 
 	unordered_set<int> getValidStmts(PKB* pkb, ResultTable* intResultTable, Parameter child);
 	Type getStmtType(PKB* pkb, int initialStmt);

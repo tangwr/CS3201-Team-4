@@ -138,7 +138,11 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 			if (resTable.getSynList().size() == 0 && resTable.getBoolean() == false) {
 				// the 0-syn clause is not true
 				ResultTable emptyTable;
-				emptyTable.setSynList(qt.getSelectParameter());
+				if ((int)qt.getSelectParameter().size() == 1 && qt.getSelectParameter().at(0).getParaType() == BOOLEAN) {
+					emptyTable.setBoolean (false);
+				}
+				else
+					emptyTable.setSynList(qt.getSelectParameter());
 				return emptyTable;
 			}
 		}
@@ -160,8 +164,12 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 				ResultTable resTable = c->evaluate(pkb, ResultTable());
 				if ((int)resTable.getTupleList().size() == 0) {
 					// if no result is selected, return no output
-					ResultTable emptyTable;
-					emptyTable.setSynList(qt.getSelectParameter());
+					ResultTable emptyTable; 
+					if ((int)qt.getSelectParameter().size() == 1 && qt.getSelectParameter().at(0).getParaType() == BOOLEAN) {
+						emptyTable.setBoolean(false);
+					}
+					else
+						emptyTable.setSynList(qt.getSelectParameter());
 					return emptyTable;
 				}
 				else {
@@ -278,6 +286,8 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 			finalTable.setBoolean(false);
 		return finalTable;
 	}
+
+
 
 
 	// if not select BOOLEAN, proceed
@@ -535,7 +545,7 @@ ResultTable QueryEvaluator::getAllValueForSyn(Parameter param)
 	}
 
 	if (param.getParaType() == CONSTANT) {
-		for (int k : pkb->getAllConstId())
+		for (int k : pkb->getAllConst())
 			res.insertTuple({ k });
 	}
 

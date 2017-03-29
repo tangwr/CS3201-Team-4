@@ -240,7 +240,7 @@ Type Affects::getStmtType(PKB* pkb, int stmtId) {
 		return WHILE;
 	} else if (pkb->isStmtInIfTable(stmtId)) {
 		return IF;
-	} else if (pkb->isStmtInCalltable(stmtId)) {
+	} else if (pkb->isStmtInCallTable(stmtId)) {
 		return CALL;
 	}
 }

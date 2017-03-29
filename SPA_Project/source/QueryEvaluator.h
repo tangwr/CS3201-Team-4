@@ -15,7 +15,6 @@
 #include "Modifies.h"
 #include "Uses.h"
 #include "Pattern.h"
-#include "Result.h"
 
 using namespace std;
 

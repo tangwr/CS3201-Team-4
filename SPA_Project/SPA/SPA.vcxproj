@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Desktop\SPA_Project\source\Affects.cpp" />
+    <ClCompile Include="..\source\Affects.cpp" />
     <ClCompile Include="..\source\AffectsStar.cpp" />
     <ClCompile Include="..\source\AssignTable.cpp" />
     <ClCompile Include="..\source\Calls.cpp" />

@@ -180,10 +180,10 @@
     <ClCompile Include="..\source\ResultTable.cpp">
       <Filter>Resource Files\Source Files\PQL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\..\Desktop\SPA_Project\source\Affects.cpp">
+    <ClCompile Include="..\source\AffectsStar.cpp">
       <Filter>Resource Files\Source Files\PQL\Clause</Filter>
     </ClCompile>
-    <ClCompile Include="..\source\AffectsStar.cpp">
+    <ClCompile Include="..\source\Affects.cpp">
       <Filter>Resource Files\Source Files\PQL\Clause</Filter>
     </ClCompile>
   </ItemGroup>

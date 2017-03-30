@@ -17,6 +17,7 @@
 #include "AssignTable.h"
 #include "NextTable.h"
 #include "StmtLstTable.h"
+#include "NextBipTable.h"
 #include <algorithm>
 #include <iterator>
 
@@ -38,6 +39,7 @@ private:
 	AssignTable assignTable;
     NextTable nextTable;
     StmtLstTable stmtLstTable;
+	NextBipTable nextBipTable;
 
 	bool isValidVarId(int VarId);
 	bool isValidVar(string varName);
@@ -205,6 +207,12 @@ public:
     virtual vector<int> getStmtLstContainedInProc(int procId);
     virtual vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
     virtual unordered_set<int> getAllStmtLst();
+
+	//Next bip table
+	virtual bool setStmtNextBipStmtRel(int currentStmtId, int nextBipStmtId);
+
+	virtual unordered_set<int> getNextBipStmt(int currentStmtId);
+	virtual unordered_set<int> getPreviousBipStmt(int currentStmtId);
 
 
     //to be implemented

@@ -32,6 +32,7 @@ void PKB::printAllTables() {
 	assignTable.printContents();
     nextTable.printContents();
     stmtLstTable.printContents();
+	nextBipTable.printContents();
 }
 
 bool PKB::isValidVarId(int varId) {
@@ -535,3 +536,16 @@ unordered_set<int> PKB::getStmtInWhileWithCtrlVar(int varId) {
     */
 }
 
+
+//next Bip table
+bool PKB::setStmtNextBipStmtRel(int currentStmtId, int nextBipStmtId) {
+	return nextBipTable.setStmtNextBipStmtRel(currentStmtId, nextBipStmtId);
+}
+
+unordered_set<int> PKB::getNextBipStmt(int currentStmtId) {
+	return nextBipTable.getNextBipStmt(currentStmtId);
+}
+
+unordered_set<int> PKB::getPreviousBipStmt(int currentStmtId) {
+	return nextBipTable.getPreviousBipStmt(currentStmtId);
+}

@@ -27,6 +27,7 @@
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
+    <ClCompile Include="..\source\NextBipTable.cpp" />
     <ClCompile Include="..\source\NextStar.cpp" />
     <ClCompile Include="..\source\NextTable.cpp" />
     <ClCompile Include="..\source\Parameter.cpp" />
@@ -74,6 +75,7 @@
     <ClInclude Include="..\source\Modifies.h" />
     <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\Next.h" />
+    <ClInclude Include="..\source\NextBipTable.h" />
     <ClInclude Include="..\source\NextStar.h" />
     <ClInclude Include="..\source\NextTable.h" />
     <ClInclude Include="..\source\Parameter.h" />

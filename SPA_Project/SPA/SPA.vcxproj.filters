@@ -186,6 +186,9 @@
     <ClCompile Include="..\source\Affects.cpp">
       <Filter>Resource Files\Source Files\PQL\Clause</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\NextBipTable.cpp">
+      <Filter>Resource Files\Source Files\PKB\Tables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -325,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="..\source\AffectsStar.h">
       <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\NextBipTable.h">
+      <Filter>Header Files\PKB\Tables</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

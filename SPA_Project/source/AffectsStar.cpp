@@ -71,23 +71,23 @@ void AffectsStar::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, Res
 		return;
 	}
 	
-	unordered_map<int, set<int>> affector;
-	unordered_map<int, set<int>> affected;
+	unordered_map<int, map<int, bool>> affector;
+	unordered_map<int, map<int, bool>> affected;
 
 	for (auto affectorStmtId : validAffectorStmts) {
 		int procId = pkb->getProcContainingStmt(affectorStmtId);
 		if (affector.find(procId) == affector.end()) {
-			affector.insert({ procId, set<int>() });
+			affector.insert({ procId, map<int, bool>() });
 		}
-		affector.at(procId).insert(affectorStmtId);
+		affector.at(procId).insert({ affectorStmtId, false });
 	}
 
 	for (auto affectedStmtId : validAffectedStmts) {
 		int procId = pkb->getProcContainingStmt(affectedStmtId);
 		if (affected.find(procId) == affected.end()) {
-			affected.insert({ procId, set<int>() });
+			affected.insert({ procId, map<int, bool>() });
 		}
-		affected.at(procId).insert(affectedStmtId);
+		affected.at(procId).insert({ affectedStmtId, false });
 	}
 
 	for (auto proc : affector) {
@@ -95,24 +95,38 @@ void AffectsStar::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, Res
 		if (affected.find(procId) == affected.end()) {
 			continue;
 		}
+		
+		map<int, bool> affectorStmts = proc.second;
+		map<int, bool> affectedStmts = affected.at(procId);
 
-		set<int> affectorStmts = proc.second;
-		set<int> affectedStmts = affected.at(procId);
-
-		unordered_map<int, unordered_set<int>> modifiedVarToStmt;
-		int minStmt = *affectorStmts.begin();
-		fowardDfs(pkb, affectResultTable, minStmt, &affectorStmts, &modifiedVarToStmt, &affectedStmts);
+		for (auto stmtMap : affectorStmts) {
+			if (!stmtMap.second) {
+				fowardDfs(pkb, affectResultTable, stmtMap.first, &affectorStmts, &unordered_map<int, unordered_set<int>>(), &affectedStmts);
+				if (hasFoundAllResult) {
+					return;
+				}
+			}
+		}
 
 		/*
 		if (affectorStmts.size() <= affectedStmts.size()) {
-			unordered_map<int, unordered_set<int>> modifiedVarToStmt;
-			int minStmt = *affectorStmts.begin();
-			fowardDfs(pkb, affectResultTable, minStmt, &affectorStmts, &modifiedVarToStmt, &affectedStmts);
-		}
-		else {
-			unordered_map<int, unordered_set<int>> usedVarToStmts;
-			int maxStmt = *affectedStmts.rbegin();
-			reverseDfs(pkb, affectResultTable, maxStmt, &affectorStmts, &usedVarToStmts, &affectedStmts);
+			for (auto stmtMap : affectorStmts) {
+				if (!stmtMap.second) {
+					fowardDfs(pkb, affectResultTable, stmtMap.first, &affectorStmts, &unordered_map<int, int>(), &affectedStmts);
+					if (hasFoundAllResult) {
+						return;
+					}
+				}
+			}
+		} else {
+			for (auto stmtMapIter = affectedStmts.rbegin(); stmtMapIter != affectedStmts.rend(); ++stmtMapIter) {
+				if (!(*stmtMapIter).second) {
+					reverseDfs(pkb, affectResultTable, (*stmtMapIter).first, &affectorStmts, &unordered_map<int, unordered_set<int>>(), &affectedStmts);
+					if (hasFoundAllResult) {
+						return;
+					}
+				}
+			}
 		}
 		*/
 
@@ -123,9 +137,12 @@ void AffectsStar::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, Res
 }
 
 void AffectsStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-	set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* modifiedVarToStmt, set<int>* affectedStmts) {
+					map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* modifiedVarToStmt, map<int, bool>* affectedStmts) {
 	if (hasFoundAllResult) {
 		return;
+	}
+	if (affectedStmts->find(curStmt) != affectedStmts->end()) {
+		affectedStmts->at(curStmt) = true;
 	}
 
 	Type stmtType = getStmtType(pkb, curStmt);
@@ -137,6 +154,7 @@ void AffectsStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStm
 			modifiedVarToStmt->insert({ modifiedVarId, unordered_set<int>() });
 		}
 
+		bool isModVarUsed = false;
 		unordered_set<int> usedVars = pkb->getVarUsedByStmt(curStmt);
 		for (auto usedVarId : usedVars) {
 			if (modifiedVarToStmt->find(usedVarId) != modifiedVarToStmt->end()) {
@@ -148,14 +166,19 @@ void AffectsStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStm
 					modifiedVarToStmt->at(modifiedVarId).insert(affectorStmt);
 				}
 			}
+
+			if (modifiedVarId == usedVarId) {
+				isModVarUsed = true;
+			}
 		}
 
-		if (modifiedVarToStmt->find(modifiedVarId) != modifiedVarToStmt->end()) {
-			modifiedVarToStmt->erase(modifiedVarToStmt->find(modifiedVarId));
+		if (modifiedVarToStmt->find(modifiedVarId) == modifiedVarToStmt->end() || !isModVarUsed) {
+			modifiedVarToStmt->insert({ modifiedVarId, unordered_set<int>() });
 		}
-		modifiedVarToStmt->insert({ modifiedVarId, unordered_set<int>() });
 		modifiedVarToStmt->at(modifiedVarId).insert(curStmt);
+		
 		for (auto usedVarId : usedVars) {
+
 			if (modifiedVarToStmt->find(usedVarId) != modifiedVarToStmt->end()) {
 				unordered_set<int> modifiedStmts = modifiedVarToStmt->at(usedVarId);
 				for (auto affectorStmt : modifiedStmts) {
@@ -201,9 +224,12 @@ void AffectsStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStm
 }
 
 void AffectsStar::reverseDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-	set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, set<int>* affectedStmts) {
+							map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, map<int, bool>* affectedStmts) {
 	if (hasFoundAllResult) {
 		return;
+	}
+	if (affectedStmts->find(curStmt) != affectedStmts->end()) {
+		affectedStmts->at(curStmt) = true;
 	}
 
 	Type stmtType = getStmtType(pkb, curStmt);
@@ -297,7 +323,7 @@ Type AffectsStar::getStmtType(PKB* pkb, int stmtId) {
 	}
 }
 
-bool AffectsStar::isStmtValidResult(int affectorStmtId, set<int>* validAffectorResults, int affectedStmtId, set<int>* validAffectedResults) {
+bool AffectsStar::isStmtValidResult(int affectorStmtId, map<int, bool>* validAffectorResults, int affectedStmtId, map<int, bool>* validAffectedResults) {
 	if (validAffectorResults->find(affectorStmtId) != validAffectorResults->end()
 		&& validAffectedResults->find(affectedStmtId) != validAffectedResults->end()) {
 		if (!leftChild.isSynonym() && !rightChild.isSynonym()) {
@@ -313,21 +339,26 @@ bool AffectsStar::isStmtValidResult(int affectorStmtId, set<int>* validAffectorR
 }
 
 void AffectsStar::setResultTupleToTable(ResultTable* affectResultTable, int affectorStmtId, int affectedStmtId) {
-	if (leftChild.isSynonym()) {
-		if (rightChild.isSynonym()) {
-			affectResultTable->insertTuple({ affectorStmtId, affectedStmtId });
+	switch (affectResultTable->getSynCount()) {
+	case 0:
+		affectResultTable->setBoolean(true);
+		break;
+	case 1:
+		if (leftChild.isSynonym() && rightChild.isSynonym()) {
+			if (affectorStmtId == affectedStmtId) {
+				affectResultTable->insertTuple({ affectorStmtId });
+			}
 		}
-		else {
+		else if (leftChild.isSynonym()) {
 			affectResultTable->insertTuple({ affectorStmtId });
 		}
-	}
-	else {
-		if (rightChild.isSynonym()) {
+		else {
 			affectResultTable->insertTuple({ affectedStmtId });
 		}
-		else {
-			affectResultTable->setBoolean(true);
-		}
+		break;
+	case 2:
+		affectResultTable->insertTuple({ affectorStmtId, affectedStmtId });
+		break;
 	}
 }
 

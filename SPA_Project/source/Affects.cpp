@@ -7,7 +7,7 @@ Affects::Affects(Parameter lc, Parameter rc) {
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
 	}
-	if (rightChild.isSynonym()) {
+	if (rightChild.isSynonym() && !rightChild.isSame(leftChild)) {
 		synList.push_back(rightChild);
 	}
 
@@ -26,11 +26,7 @@ ResultTable Affects::evaluate(PKB* pkb, ResultTable intResultTable) {
 }
 
 void Affects::setSynToTable(ResultTable* affectResultTable) {
-	if (leftChild.isSynonym() && leftChild.isSame(rightChild)) {
-		affectResultTable->setSynList({ leftChild });
-	} else {
-		affectResultTable->setSynList(synList);
-	}
+	affectResultTable->setSynList(synList);
 }
 
 void Affects::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable) {
@@ -71,23 +67,23 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 		return;
 	}
 	
-	unordered_map<int, set<int>> affector;
-	unordered_map<int, set<int>> affected;
+	unordered_map<int, map<int, bool>> affector;
+	unordered_map<int, map<int, bool>> affected;
 
 	for (auto affectorStmtId : validAffectorStmts) {
 		int procId = pkb->getProcContainingStmt(affectorStmtId);
 		if (affector.find(procId) == affector.end()) {
-			affector.insert({ procId, set<int>() });
+			affector.insert({ procId, map<int, bool>() });
 		}
-		affector.at(procId).insert(affectorStmtId);
+		affector.at(procId).insert({ affectorStmtId, false });
 	}
 
 	for (auto affectedStmtId : validAffectedStmts) {
 		int procId = pkb->getProcContainingStmt(affectedStmtId);
 		if (affected.find(procId) == affected.end()) {
-			affected.insert({ procId, set<int>() });
+			affected.insert({ procId, map<int, bool>() });
 		}
-		affected.at(procId).insert(affectedStmtId);
+		affected.at(procId).insert({ affectedStmtId, false });
 	}
 
 	for (auto proc : affector) {
@@ -96,29 +92,38 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 			continue;
 		}
 		
-		set<int> affectorStmts = proc.second;
-		set<int> affectedStmts = affected.at(procId);
+		map<int, bool> affectorStmts = proc.second;
+		map<int, bool> affectedStmts = affected.at(procId);
 
 		if (affectorStmts.size() <= affectedStmts.size()) {
-			unordered_map<int, int> modifiedVarToStmt;
-			int minStmt = *affectorStmts.begin();
-			fowardDfs(pkb, affectResultTable, minStmt, &affectorStmts, &modifiedVarToStmt, &affectedStmts);
+			for (auto stmtMap : affectorStmts) {
+				if (!stmtMap.second) {
+					fowardDfs(pkb, affectResultTable, stmtMap.first, &affectorStmts, &unordered_map<int, int>(), &affectedStmts);
+					if (hasFoundAllResult) {
+						return;
+					}
+				}
+			}
 		} else {
-			unordered_map<int, unordered_set<int>> usedVarToStmts;
-			int maxStmt = *affectedStmts.rbegin();
-			reverseDfs(pkb, affectResultTable, maxStmt, &affectorStmts, &usedVarToStmts, &affectedStmts);
-		}
-
-		if (hasFoundAllResult) {
-			return;
+			for (auto stmtMapIter = affectedStmts.rbegin(); stmtMapIter != affectedStmts.rend(); ++stmtMapIter) {
+				if (!(*stmtMapIter).second) {
+					reverseDfs(pkb, affectResultTable, (*stmtMapIter).first, &affectorStmts, &unordered_map<int, unordered_set<int>>(), &affectedStmts);
+					if (hasFoundAllResult) {
+						return;
+					}
+				}
+			}
 		}
 	}
 }
 
 void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-						set<int>* affectorStmts, unordered_map<int, int>* modifiedVarToStmt, set<int>* affectedStmts) {
+						map<int, bool>* affectorStmts, unordered_map<int, int>* modifiedVarToStmt, map<int, bool>* affectedStmts) {
 	if (hasFoundAllResult) {
 		return;
+	}
+	if (affectorStmts->find(curStmt) != affectorStmts->end()) {
+		affectorStmts->at(curStmt) = true;
 	}
 
 	Type stmtType = getStmtType(pkb, curStmt);
@@ -177,9 +182,12 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
 }
 
 void Affects::reverseDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-						set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, set<int>* affectedStmts) {
+					map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, map<int, bool>* affectedStmts) {
 	if (hasFoundAllResult) {
 		return;
+	}
+	if (affectedStmts->find(curStmt) != affectedStmts->end()) {
+		affectedStmts->at(curStmt) = true;
 	}
 
 	Type stmtType = getStmtType(pkb, curStmt);
@@ -252,7 +260,7 @@ Type Affects::getStmtType(PKB* pkb, int stmtId) {
 	}
 }
 
-bool Affects::isStmtValidResult(int affectorStmtId, set<int>* validAffectorResults, int affectedStmtId, set<int>* validAffectedResults) {
+bool Affects::isStmtValidResult(int affectorStmtId, map<int, bool>* validAffectorResults, int affectedStmtId, map<int, bool>* validAffectedResults) {
 	if (validAffectorResults->find(affectorStmtId) != validAffectorResults->end()
 		&& validAffectedResults->find(affectedStmtId) != validAffectedResults->end()) {
 		if (!leftChild.isSynonym() && !rightChild.isSynonym()) {
@@ -268,18 +276,24 @@ bool Affects::isStmtValidResult(int affectorStmtId, set<int>* validAffectorResul
 }
 
 void Affects::setResultTupleToTable(ResultTable* affectResultTable, int affectorStmtId, int affectedStmtId) {
-	if (leftChild.isSynonym()) {
-		if (rightChild.isSynonym()) {
-			affectResultTable->insertTuple({ affectorStmtId, affectedStmtId });
-		} else {
+	switch (affectResultTable->getSynCount()) {
+	case 0:
+		affectResultTable->setBoolean(true);
+		break;
+	case 1:
+		if (leftChild.isSynonym() && rightChild.isSynonym()) {
+			if (affectorStmtId == affectedStmtId) {
+				affectResultTable->insertTuple({ affectorStmtId });
+			}
+		} else if (leftChild.isSynonym()) {
 			affectResultTable->insertTuple({ affectorStmtId });
-		}
-	} else {
-		if (rightChild.isSynonym()) {
-			affectResultTable->insertTuple({ affectedStmtId });
 		} else {
-			affectResultTable->setBoolean(true);
+			affectResultTable->insertTuple({ affectedStmtId });
 		}
+		break;
+	case 2:
+		affectResultTable->insertTuple({ affectorStmtId, affectedStmtId });
+		break;
 	}
 }
 

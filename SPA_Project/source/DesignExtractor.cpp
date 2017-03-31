@@ -159,6 +159,47 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 	}
 }
 
+void DesignExtractor::extractNextBipRel() {
+	//get all stmts
+	unordered_set<int> allStmtSet = pkb->getAllStmtId();
+
+	//for all stmt
+
+	for (int stmt : allStmtSet) {
+		if (pkb->isStmtInCallTable(stmt)) {
+			//if current stmt in call
+			int calledProcId = pkb->getProcCalledByStmt(stmt);
+			vector<int> procFirstStmt = pkb->getStmtLstContainedInProc();
+			for (int element : procFirstStmt) {
+				pkb->setStmtNextStmtRel(stmt, element);
+			}
+		}
+		else if (pkb->getNextStmt(stmt) == unordered_set<int>()) {
+			//no next stmt
+			int currentContainerProcId = pkb->getProcContainingStmt(stmt);
+			unordered_set<int> procCallerStmtSet = pkb->getStmtCallProc(currentContainerProcId);
+			for (int callerStmt : procCallerStmtSet) {
+				unordered_set<int> callerNextStmtSet = pkb->getNextStmt(callerStmt);
+				for (int callerNextStmt : callerNextStmtSet) {
+					pkb->setStmtNextBipStmtRel(stmt, callerNextStmt);
+				}
+			}
+		}
+		else {
+			unordered_set<int> nextStmtSet = pkb->getNextStmt(stmt);
+			for (int nextStmt : nextStmtSet) {
+				pkb->setStmtNextBipStmtRel(stmt, nextStmt);
+			}
+		}
+	}
+	//if current is a call
+		//nextbip go to that proc stmtlst first stmt
+	//else if no next
+		//check if got stmt call this proc, set this stmt nextBip to the next of the call stmts.
+	//else
+		//set same as next rel
+}
+
 void DesignExtractor::extractStarRelations() {
     //unordered_set<int> procs = pkb->getAllProcs();
     unordered_set<int> procs = pkb->getAllProcId();
@@ -176,4 +217,6 @@ void DesignExtractor::extractStarRelations() {
         }
         cout << "end iter" << endl;
     }
+	//extract next bip
+	extractNextBipRel();
 }

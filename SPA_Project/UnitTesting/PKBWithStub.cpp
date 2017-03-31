@@ -42,7 +42,8 @@ x = z + x; } }			//24
 PKBWithStub::PKBWithStub() {
 	varTable = { "x", "z", "i", "y" };
 	procTable = { "Example", "p", "q" };
-	constTable = { 2, 3, 5, 1 };
+
+	constValues = { 2, 3, 5, 1 };
 
 	callStmts = { 10, 12, 16 };
 	callTable = { { 10, 2 },{ 12, 1 },{ 16, 2 } };
@@ -118,37 +119,16 @@ bool PKBWithStub::isProcInTable(string procName) {
 	return false;
 }
 
-unordered_set<int> PKBWithStub::getAllConstId() {
-	unordered_set<int> consts;
-	for (int constId = 0; constId < constTable.size(); constId++) {
-		consts.insert(constId);
-	}
-	return consts;
+unordered_set<int> PKBWithStub::getAllConst() {
+	return constValues;
 }
 
 bool PKBWithStub::isConstInTable(int constValue) {
-	for (int index = 0; index < (int)constTable.size(); index++) {
-		if (constTable[index] == constValue) {
-			return true;
-		}
+	if (constValues.find(constValue) != constValues.end()) {
+		return true;
+	} else {
+		return false;
 	}
-	return false;
-}
-
-int PKBWithStub::getConstIdByValue(int constValue) {
-	for (int i = 0; i < (int)constTable.size(); i++) {
-		if (constTable[i] == constValue) {
-			return i;
-		}
-	}
-	return -1;
-}
-
-int PKBWithStub::getConstValueById(int constId) {
-	if (constId < 0 || constId >(int)constTable.size()) {
-		return -1;
-	}
-	return constTable[constId];
 }
 
 unordered_set<int> PKBWithStub::getAllStmtId() {

@@ -16,9 +16,7 @@ public:
 	string getProcNameById(int procId);
 	bool isProcInTable(string procName);
 
-	unordered_set<int> getAllConstId();
-	int getConstIdByValue(int constValue);
-	int getConstValueById(int constId);
+	unordered_set<int> getAllConst();
 	bool isConstInTable(int constValue);
 
 	unordered_set<int> getAllStmtId();
@@ -33,8 +31,8 @@ public:
 private:
 	vector<string> varTable;
 	vector<string> procTable;
-	vector<int> constTable;
 
+	unordered_set<int> constValues;
 	unordered_set<int> assignStmts;
 	unordered_set<int> whileStmts;
 	unordered_set<int> ifStmts;

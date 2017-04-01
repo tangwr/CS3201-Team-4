@@ -1,0 +1,35 @@
+1 - COMMENT
+while w; if ifs;
+Select w such that Parent*(48, 55) and Next*(w,ifs)
+48, 61
+5000
+2 - Comment
+if ifs; constant c; variable v;
+Select ifs such that Next*(28, ifs) and Uses(ifs,v) with ifs.stmt# = c.value
+40
+5000
+3 - Comment
+assign a; stmt s;
+Select s such that Parent*(s, a) and Next*(a, 12) and Uses(s, "bAbY")
+12, 13, 20
+5000
+4 - Comment
+call c; variable v; if ifs; assign a; while w;
+Select c such that Uses(ifs, v) and Next*(a, c) and Follows*(a, w) and Parent*(w,ifs)
+57
+5000
+5 - Comment
+call c; variable v; if ifs; assign a; while w; prog_line n;
+Select c such that Uses(ifs, v) and Next*(a, n) and Follows*(a, w) and Parent*(w,ifs)
+4, 5, 9, 24, 25, 43, 57, 66
+5000
+6 - Comment
+procedure p; assign a; if ifs; variable v;
+Select p such that Calls*(p, "F1fth") and Uses(p, v) and Next*(a, ifs) pattern a(v, _) with v.varName = "c"
+F1r5t, Sec0nd, Th1rd
+5000
+7 - Comment
+procedure p; assign a; variable v;
+Select p such that Calls*(p, "F1fth") and Uses(p, v) pattern a(v, _) with v.varName = "c" with v.varName = "dye"
+none
+5000

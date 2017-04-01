@@ -1,0 +1,175 @@
+1 - comment
+procedure p, q;
+Select p such that Calls*(p,q)
+F1r5t,Sec0nd, Th1rd, F0urth, Sixth
+5000
+2 - comment
+procedure p, q;
+Select q such that Calls*(p,q)
+Sec0nd, Th1rd, F0urth, F1fth
+5000
+3 - comment
+procedure F0urth;
+Select F0urth such that Calls*(F0urth,"F0urth")
+F1r5t, Sec0nd, Th1rd, Sixth
+5000
+4 - comment
+procedure F1r5t;
+Select F1r5t such that Calls*("F1r5t",F1r5t)
+Sec0nd, Th1rd, F0urth, F1fth
+5000
+5 - comment
+procedure Sec0nd;
+Select Sec0nd such that Calls*("Sec0nd","Sec0nd")
+none
+5000
+6 - comment
+procedure Sixth;
+Select Sixth such that Calls*("Sec0nd","F0urth")
+F1r5t, Sec0nd, Th1rd, F0urth, F1fth, Sixth
+5000
+7 - comment
+procedure p;
+Select p such that Calls*(p,"F1r5t")
+none
+5000
+8 - comment
+procedure p;
+Select p such that Calls*(p,"Sec0nd")
+F1r5t
+5000
+9 - comment
+procedure p;
+Select p such that Calls*(p,"Th1rd")
+F1r5t, Sec0nd
+5000
+10 - comment
+procedure p;
+Select p such that Calls*(p,"F0urth")
+F1r5t, Sec0nd, Th1rd, Sixth
+5000
+11 - comment
+procedure p;
+Select p such that Calls*(p,"F1fth")
+F1r5t, Sec0nd, Th1rd, F0urth, Sixth
+5000
+12 - comment
+procedure p;
+Select p such that Calls*(p,"Sixth")
+none
+5000
+13 - comment
+procedure p;
+Select p such that Calls*("F1r5t",p)
+Sec0nd, Th1rd, F0urth, F1fth
+5000
+14 - comment
+procedure p;
+Select p such that Calls*("Sec0nd",p)
+Th1rd, F0urth, F1fth
+5000
+15 - comment
+procedure p;
+Select p such that Calls*("Th1rd",p)
+F0urth,F1fth
+5000
+16 - comment
+procedure p;
+Select p such that Calls*("F0urth",p)
+F1fth
+5000
+17 - comment
+procedure p;
+Select p such that Calls*("F1fth",p)
+none
+5000
+18 - comment
+procedure p;
+Select p such that Calls*("Sixth",p)
+F0urth,F1fth
+5000
+19 - comment
+procedure p;
+Select BOOLEAN such that Calls*("F1r5t",_)
+true
+5000
+20 - comment
+procedure p;
+Select BOOLEAN such that Calls*("Sec0nd",_)
+true
+5000
+21 - comment
+procedure p;
+Select BOOLEAN such that Calls*("Th1rd",_)
+true
+5000
+22 - comment
+procedure p;
+Select BOOLEAN such that Calls*("F0urth",_)
+true
+5000
+23 - comment
+procedure p;
+Select BOOLEAN such that Calls*("F1fth",_)
+false
+5000
+24 - comment
+procedure p;
+Select BOOLEAN such that Calls*("Sixth",_)
+true
+5000
+25 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,"F1r5t")
+false
+5000
+26 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,"Sec0nd")
+true
+5000
+27 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,"Th1rd")
+true
+5000
+28 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,"F0urth")
+true
+5000
+29 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,"F1fth")
+true
+5000
+30 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,"Sixth")
+false
+5000
+31 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,_)
+true
+5000
+32 - comment
+procedure p;
+Select BOOLEAN such that Calls*(p,_)
+true
+5000
+33 - comment
+procedure p;
+Select BOOLEAN such that Calls*(_,p)
+true
+5000
+34 - comment
+procedure p;
+Select p such that Calls*(p,_)
+F1r5t, Sec0nd, Th1rd, F0urth, Sixth
+5000
+35 - comment
+procedure p;
+Select p such that Calls*(_,p)
+Sec0nd, Th1rd, F0urth, F1fth
+5000

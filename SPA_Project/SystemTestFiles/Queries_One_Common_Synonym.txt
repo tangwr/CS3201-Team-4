@@ -1,0 +1,80 @@
+1 - find an assignment which is a child of a while, and the while is a child of another while
+while w, w1; assign a;
+Select a pattern a(_, "bAd") such that Parent(w, a) and Parent(w1, w)
+17
+5000
+2 - find an assignment which is a child of a while, and the while is a child of another while
+assign a; while w, w1;
+Select a such that Parent(w, a) and Parent(w1, w) and Uses(a, "bAd")
+17
+5000
+3 - find all the procedures that indirectly call another procedures
+procedure p, p1;
+Select p such that Calls(p, p1) and Calls(p1, _)
+F1r5t, Sec0nd, Th1rd, Sixth
+5000
+4 - find all the procedures that are indirectly called by another procedures
+procedure p, p1;
+Select p such that Calls(_, p1) and Calls(p1, p)
+F0urth, Th1rd, F1fth
+5000
+5 - find all the assign stmts that decreament a variable dip and contained in the while stmt
+while w, w1;assign a; variable v123V;
+Select a pattern a("dip", "dip - 1") such that Parent*(w, a) and Next(a, w1)
+62
+5000
+6 - find all the assign stmts that double a variable alumni within a procedure F1r5t
+assign a8B; procedure p09P;
+Select a8B pattern a8B("alumni", "alumni * 2") with p09P.procName = "F1r5t" such that Modifies(p09P, "alumni")
+6
+5000
+7 - find a while that is directly or indirectly followed by another while that has a control variable b1B
+while w1, w2;
+Select w1 such that Follows*(w1, w2) pattern w2("b1B", _)
+13
+5000
+8 - find the stmt which is a directyl/indirectly parent of the assignment cotains b4X
+stmt sT2t; assign aUo9;
+Select sT2t such that Parent* (sT2t, aUo9) pattern aUo9(_, _"b4X"_)
+12, 13, 15
+5000
+9 - find stmts which uses a variable and also modifies cut
+stmt s6; variable vtY7z;
+Select s6 such that Uses(s6 , vtY7z) and Modifies(s6, "cut")
+32, 37, 38, 35, 41, 40, 33, 12, 25, 28, 4, 5
+5000
+10 - select boolean where clauses have one common synonym
+stmt s, s1; assign a8;
+Select BOOLEAN such that Follows(s, s1) and Follows*(a8, s1)
+true
+5000
+11 - find a procedure which uses a variable DEAd and directly/indirectly calls procedure F0urth
+procedure p667;
+Select p667 such that Uses(p667, "DEAd") and Calls*(p667, "F0urth")
+Th1rd, Sec0nd, F1r5t, Sixth
+5000
+12 - find a stmt which is followed by an assignment and the assignment uses a variable dam
+stmt s; assign a9;
+Select s such that Uses(a9, "dam") and Follows(s, a9)
+59, 48
+5000
+13 - find a if stmt which has a control flow to itself
+if ifs; stmt s;
+Select s with s.stmt# = ifs.stmt# such that Next*(s, s)
+49, 52, 58
+5000
+14 - find a if stmt which has a control variable that is modified in the procedure that contains the if stmt
+if iFFi; variable v; procedure p;
+Select iFFi such that Modifies(p, v) pattern iFFi(v, _, _)
+33, 35, 49, 52, 58
+5000
+15 - find a if stmt that has a control flow to another if stmt
+if i3,i4; prog_line n;
+Select n such that Next*(i3, i4) with n = i3.stmt#
+28, 33, 49, 52, 58
+5000
+16 - test select boolean
+
+Select BOOLEAN such that Follows(56, 1)
+false
+5000

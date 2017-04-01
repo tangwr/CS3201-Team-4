@@ -1,0 +1,40 @@
+1 - find all the procedures that indirectly call another procedures
+procedure p, p1, p2;
+Select <p, p1, p2> such that Calls(p, p1) and Calls(p1, p2)
+F1r5t Sec0nd Th1rd, F1r5t Sec0nd F0urth, F1r5t Th1rd F0urth, Sec0nd Th1rd F0urth, Sec0nd F0urth F1fth, Sixth F0urth F1fth, Th1rd F0urth F1fth
+5000
+2 - find all pairs of assign stmts that follow each other and contained in the same container stmt 
+assign a1, a2; stmt s;
+Select <a1, a2> such that Parent(s, a1) and Parent(s, a2) and Follows(a1, a2)
+16 17, 17 18, 21 22, 29 30, 30 31, 31 32, 36 37, 38 39, 50 51, 53 54, 59 60
+5000
+3 - find the variable that F1fth modifies and uses 
+procedure p; variable v;
+Select <p, v> such that Modifies(p, v) and Uses(p, v) with p.procName = "F1fth"
+F1fth eye
+5000
+4 - find the procedure and variable it modifies and uses
+procedure p; variable v; assign a;
+Select <p, v> such that Modifies(p, v) and Uses(p, v) and Modifies(a, v) with p.procName = "F0urth"
+F0urth dry, F0urth din, F0urth d, F0urth dye, F0urth dip, F0urth day, F0urth dam, F0urth eye
+5000
+5 - find the procedure that Th1rd directly or indirectly calls and the variable both procedure uses
+procedure p, p1; variable v5;
+Select <p, p1, v5> such that Calls*(p, p1) and Uses(p, v5) and Uses(p1, v5) with p.procName = "Th1rd"
+Th1rd F0urth eggy, Th1rd F0urth eye, Th1rd F0urth BCD, Th1rd F0urth d, Th1rd F0urth din, Th1rd F0urth dye, Th1rd F0urth DEAd, Th1rd F0urth dry, Th1rd F0urth day, Th1rd F0urth dam, Th1rd F0urth dip, Th1rd F1fth eye, Th1rd F1fth eggy, Th1rd F1fth DEAd
+5000
+6 - find the procedure that Sixth directly or indirectly calls and the variable both procedure modifies
+procedure p, p1; variable v5;
+Select <p, p1, v5> such that Calls*(p, p1) and Modifies(p, v5) and Modifies(p1, v5) with p.procName = "Sixth"
+Sixth F0urth dry, Sixth F0urth dye, Sixth F0urth d, Sixth F0urth din, Sixth F0urth day, Sixth F0urth dip, Sixth F0urth dam, Sixth F0urth due, Sixth F0urth even, Sixth F0urth eye, Sixth F1fth even, Sixth F1fth eye
+5000
+1005 - tuple
+assign a1, a2; stmt s;
+Select <a1, a2> such that Parent(s, a1) and Parent(s, a2) and Follows(a1, a2)
+16 17, 17 18, 21 22, 29 30, 30 31, 31 32, 36 37, 38 39, 50 51, 53 54, 59 60
+5000
+1002 - tuple complex query
+stmt s1, s2; while w; constant c; variable v; assign a1;
+Select <c, s2, s1> pattern w(v, _) such that Uses(s1, v) and Parent*(w, s1) and Modifies(a1, "cut") and Parent(s2, a1) pattern a1(_, _"25"_)
+1 35 15,1 35 16,1 35 49,1 35 51,1 35 58,1 35 62,10 35 15,10 35 16,10 35 49,10 35 51,10 35 58,10 35 62,11 35 15,11 35 16,11 35 49,11 35 51,11 35 58,11 35 62,18 35 15,18 35 16,18 35 49,18 35 51,18 35 58,18 35 62,2 35 15,2 35 16,2 35 49,2 35 51,2 35 58,2 35 62,23 35 15,23 35 16,23 35 49,23 35 51,23 35 58,23 35 62,25 35 15,25 35 16,25 35 49,25 35 51,25 35 58,25 35 62,26 35 15,26 35 16,26 35 49,26 35 51,26 35 58,26 35 62,29 35 15,29 35 16,29 35 49,29 35 51,29 35 58,29 35 62,3 35 15,3 35 16,3 35 49,3 35 51,3 35 58,3 35 62,40 35 15,40 35 16,40 35 49,40 35 51,40 35 58,40 35 62,44 35 15,44 35 16,44 35 49,44 35 51,44 35 58,44 35 62,5 35 15,5 35 16,5 35 49,5 35 51,5 35 58,5 35 62,567 35 15,567 35 16,567 35 49,567 35 51,567 35 58,567 35 62,6 35 15,6 35 16,6 35 49,6 35 51,6 35 58,6 35 62,8 35 15,8 35 16,8 35 49,8 35 51,8 35 58,8 35 62,90 35 15,90 35 16,90 35 49,90 35 51,90 35 58,90 35 62
+5000

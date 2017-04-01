@@ -1,0 +1,215 @@
+1 - comment
+stmt s; variable v;
+Select s such that Uses(s,v)
+2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,61,62,63,64,65,66
+5000
+2 - comment
+stmt s; variable v;
+Select v such that Uses(s,v)
+a5h,Al1eN,anorak,aorta,alumni,albedo,a1A,DEAd,BAsic,aCcA,adele,augite,b,B,b1B,bAbY,bag,b4X,bAd,BCD,bA,b4c,cue,c8,cob,cHaN,cog,c,c6,cut,car,c7,d,din,dye,day,dry,dam,dip,eye,eggy
+5000
+3 - comment
+stmt s;
+Select s such that Uses(s,_)
+2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,61,62,63,64,65,66
+5000
+4 - comment
+variable v; procedure p;
+Select p such that Uses(p,v)
+F1r5t,Sec0nd,Th1rd,F0urth,F1fth,Sixth
+5000
+5 - comment
+variable v; procedure p;
+Select v such that Uses(p,v)
+a5h,Al1eN,anorak,aorta,alumni,albedo,a1A,DEAd,BAsic,aCcA,adele,augite,b,B,b1B,bAbY,bag,b4X,bAd,BCD,bA,b4c,cue,c8,cob,cHaN,cog,c,c6,cut,car,c7,d,din,dye,day,dry,dam,dip,eye,eggy
+5000
+6 - comment
+variable v; procedure p;
+Select p such that Uses(p,_)
+F1r5t,Sec0nd,Th1rd,F0urth,F1fth,Sixth
+5000
+7 - comment
+assign a; variable v;
+Select a such that Uses(a,v)
+2,3,6,7,10,11,14,16,17,18,19,21,26,27,29,30,31,32,34,36,37,38,41,42,44,45,46,47,50,51,53,54,55,56,60,62,63,64,65
+5000
+8 - comment
+assign a; variable v;
+Select a such that Uses(a,_)
+2,3,6,7,10,11,14,16,17,18,19,21,26,27,29,30,31,32,34,36,37,38,41,42,44,45,46,47,50,51,53,54,55,56,60,62,63,64,65
+5000
+9 - comment
+assign a; variable v;
+Select v such that Uses(a,v)
+a5h,Al1eN,anorak,aorta,alumni,albedo,a1A,DEAd,BAsic,aCcA,adele,augite,b,bAbY,b4X,b1B,bAd,BCD,bA,b4c,c8,cob,cHaN,cog,c6,cut,car,c7,d,din,dye,day,dry,dam,dip,eye,eggy
+5000
+10 - comment
+call c; variable v;
+Select c such that Uses(c,v)
+4,5,9,24,25,43,57,66
+5000
+11 - comment
+call c; variable v;
+Select c such that Uses(c,_)
+4,5,9,24,25,43,57,66
+5000
+12 - comment
+call c; variable v;
+Select v such that Uses(c,v)
+B,b1B,bAbY,bag,b4X,BCD,bA,b4c,b,cue,cob,c8,cHaN,cog,c6,cut,car,c7,d,din,dye,DEAd,day,dry,dam,dip,eye,eggy,bAd,c
+5000
+13 - comment
+while w; variable v;
+Select w such that Uses(w,v)
+12,13,15,20,23,48,61
+5000
+14 - comment
+while w; variable v;
+Select w such that Uses(w,_)
+12,13,15,20,23,48,61
+5000
+15 - comment
+while w; variable v;
+Select v such that Uses(w,v)
+B,b1B,bAbY,bag,b4X,BCD,bA,b4c,b,cue,cob,c8,cHaN,cog,c6,cut,car,c7,d,din,dye,DEAd,day,dry,dam,dip,eye,eggy,bAd,c
+5000
+16 - comment
+if ifs; variable v;
+Select ifs such that Uses(ifs,v)
+28,33,35,40,49,52,58
+5000
+17 - comment
+if ifs; variable v;
+Select ifs such that Uses(ifs,_)
+28,33,35,40,49,52,58
+5000
+18 - comment
+if ifs; variable v;
+Select v such that Uses(ifs,v)
+cue,c8,cob,cHaN,cog,c,c6,cut,car,BCD,c7,d,din,dye,DEAd,day,dry,dam,dip,eye,eggy
+5000
+19 - comment
+prog_line n; variable v;
+Select n such that Uses(n,v)
+2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,61,62,63,64,65,66
+5000
+20 - comment
+prog_line n; variable v;
+Select n such that Uses(n,_)
+2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,60,61,62,63,64,65,66
+5000
+21 - comment
+prog_line n; variable v;
+Select v such that Uses(n,v)
+a5h,Al1eN,anorak,aorta,alumni,albedo,a1A,DEAd,BAsic,aCcA,adele,augite,b,B,b1B,bAbY,bag,b4X,bAd,BCD,bA,b4c,cue,c8,cob,cHaN,cog,c,c6,cut,car,c7,d,din,dye,day,dry,dam,dip,eye,eggy
+5000
+22 - comment
+stmt s;
+Select s such that Uses(s,"BAsic")
+10
+5000
+23 - comment
+procedure p;
+Select p such that Uses(p,"BAsic")
+F1r5t
+5000
+24 - comment
+while w;
+Select w such that Uses(w,"dip")
+61,48,23,12
+5000
+25 - comment
+if ifs;
+Select ifs such that Uses(ifs,"dip")
+49,58,33,28
+5000
+26 - comment
+call c;
+Select c such that Uses(c,"dip")
+25,43,24,4,5,66
+5000
+27 - comment
+prog_line n;
+Select n such that Uses(n,"dip")
+62,61,58,49,48,66,43,33,28,25,24,23,12,4,5,63
+5000
+28 - comment
+variable v;
+Select v such that Uses(2,v)
+a5h, Al1eN
+5000
+29 - comment
+variable v;
+Select v such that Uses(66,v)
+d,din,dye,DEAd,day,dry,dam,BCD,dip,eye,eggy
+5000
+30 - comment
+variable v;
+Select v such that Uses(12,v)
+B,b,b1B,bAbY,bag,b4X,bAd,BCD,bA,b4c,cue,c8,cob,cHaN,cog,c,c6,cut,car,c7,d,din,dye,DEAd,day,dry,dam,dip,eye,eggy
+5000
+31 - comment
+variable v;
+Select v such that Uses(49,v)
+d,din,dye,DEAd,day,dry,dam,BCD,dip,eye,eggy
+5000
+32 - comment
+variable v;
+Select v such that Uses("Sixth",v)
+d,din,dye,DEAd,day,dry,dam,BCD,dip,eye,eggy
+5000
+33 - comment
+variable v;
+Select BOOLEAN such that Uses("Sixth","eye")
+true
+5000
+34 - comment
+variable v;
+Select BOOLEAN such that Uses("Sixth","BAsic")
+false
+5000
+35 - comment
+variable v;
+Select BOOLEAN such that Uses(23,"eye")
+true
+5000
+36 - comment
+variable v;
+Select BOOLEAN such that Uses(23,"BAsic")
+false
+5000
+37 - comment
+variable v;
+Select BOOLEAN such that Uses(28,"BAsic")
+false
+5000
+38 - comment
+variable v;
+Select BOOLEAN such that Uses(28,"eye")
+true
+5000
+39 - comment
+variable v;
+Select BOOLEAN such that Uses(1,"BAsic")
+false
+5000
+40 - comment
+variable v;
+Select BOOLEAN such that Uses(4,"eye")
+true
+5000
+41 - comment
+variable v;
+Select BOOLEAN such that Uses("Sixth",_)
+true
+5000
+42 - test Select boolean
+
+Select BOOLEAN such that Follows(45, 1)
+false
+5000
+43 - test one more boolean selecting
+
+Select BOOLEAN such that Follows(1, 1)
+false
+5000

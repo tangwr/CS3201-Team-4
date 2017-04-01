@@ -1,0 +1,60 @@
+1 - stmt with no parent
+stmt s;
+Select s such that Parent(s, 4)
+none
+5000
+2 - stmt in container stmt
+stmt s;
+Select s such that Parent(s, 13)
+12
+5000
+3 - stmt in nested container stmt
+stmt s;
+Select s such that Parent(s, 37)
+35
+5000
+4 - stmt in if then stmtlst
+stmt s;
+Select s such that Parent(s, 51)
+49
+5000
+5 - stmt in if else stmtlst
+stmt s;
+Select s such that Parent(s, 57)
+49
+5000
+6 - boolean no parent
+stmt s;
+Select BOOLEAN such that Parent(s, 4)
+false
+5000
+7 - boolean parent exists
+stmt s;
+Select BOOLEAN such that Parent(s, 15)
+true
+5000
+8 - stmt is a parent
+stmt s1, s2;
+Select s1 such that Parent(s1, s2)
+12, 13, 15, 20, 23, 28, 33, 35, 40, 48, 49, 52, 58, 61
+5000
+9 - stmt has a parent and is also a parent itself
+stmt s, s1, s2;
+Select s such that Parent(s1, s) and Parent(s, s2)
+13, 15, 20, 23, 33, 35, 40, 49, 52, 58, 61
+5000
+10 - invalid with same statement number as parent
+
+Select BOOLEAN such that Parent(59, 59)
+false
+5000
+11 - invalid with same stmt synonym
+stmt s;
+Select s such that Parent(s, s)
+none
+5000
+12 - does there exist parent stmt at all
+
+Select BOOLEAN such that Parent(_, _)
+true
+5000

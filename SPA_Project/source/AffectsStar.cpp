@@ -144,7 +144,7 @@ void AffectsStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStm
 		return;
 	}
 	if (affectedStmts->find(curStmt) != affectedStmts->end()) {
-		affectedStmts->at(curStmt) = true;
+		affectorStmts->at(curStmt) = true;
 	}
 
 	Type stmtType = getStmtType(pkb, curStmt);

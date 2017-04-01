@@ -167,13 +167,47 @@ void DesignExtractor::extractNextBipRel() {
 
 	for (int stmt : allStmtSet) {
 		if (pkb->isStmtInCallTable(stmt)) {
-			//if current stmt in call
+			//if current stmt is call
 			int calledProcId = pkb->getProcCalledByStmt(stmt);
-			vector<int> procFirstStmt = pkb->getStmtLstContainedInProc();
+			vector<int> procFirstStmt = pkb->getStmtLstContainedInProc(calledProcId);
 			for (int element : procFirstStmt) {
 				pkb->setStmtNextStmtRel(stmt, element);
 			}
-		}
+        }
+        else if (pkb->isStmtInWhileTable(stmt)) {
+            //current stmt is while
+            int followingStmt = pkb->getStmtFollowStmt(stmt);
+            unordered_set<int> containerStmtStarSet = pkb->getStmtParentStarStmt(stmt);
+            if (followingStmt == -1 && containerStmtStarSet.empty()) {
+                //while is the last in proc
+                int currentContainerProcId = pkb->getProcContainingStmt(stmt);
+                unordered_set<int> procCallerStmtSet = pkb->getStmtCallProc(currentContainerProcId);
+                for (int callerStmt : procCallerStmtSet) {
+                    unordered_set<int> callerNextStmtSet = pkb->getNextStmt(callerStmt);
+                    for (int callerNextStmt : callerNextStmtSet) {
+                        pkb->setStmtNextBipStmtRel(stmt, callerNextStmt);
+                    }
+                }
+                
+            }
+            //copy next
+            copyNext(stmt);
+        }
+        /*
+        Dont think this section is needed because both if then and else last stmt will be process as without next condition.
+
+        */
+        //else if (pkb->isStmtInIfTable(stmt)) {
+        //    //current stmt is if
+        //    int followingStmt = pkb->getStmtFollowStmt(stmt);
+        //    unordered_set<int> containerStmtStarSet = pkb->getStmtParentStarStmt(stmt);
+        //    if (followingStmt == -1 && containerStmtStarSet.empty()) {
+
+        //    }
+        //    //copy next
+
+        
+        //}
 		else if (pkb->getNextStmt(stmt) == unordered_set<int>()) {
 			//no next stmt
 			int currentContainerProcId = pkb->getProcContainingStmt(stmt);
@@ -186,18 +220,28 @@ void DesignExtractor::extractNextBipRel() {
 			}
 		}
 		else {
-			unordered_set<int> nextStmtSet = pkb->getNextStmt(stmt);
-			for (int nextStmt : nextStmtSet) {
-				pkb->setStmtNextBipStmtRel(stmt, nextStmt);
-			}
+            copyNext(stmt);
 		}
 	}
 	//if current is a call
 		//nextbip go to that proc stmtlst first stmt
 	//else if no next
 		//check if got stmt call this proc, set this stmt nextBip to the next of the call stmts.
+    //else if if stmt
+        //copy next
+        //check if it is the end by checking last stmt in stmt list got next or not, no next set both last stmt to call proc stmt next
+    //else if while stmt
+        //copy next
+        //check if no more stmt by using follows, if no more set while next to call proc stmt next
 	//else
 		//set same as next rel
+}
+
+void DesignExtractor::copyNext(int stmtId) {
+    unordered_set<int> nextStmtSet = pkb->getNextStmt(stmtId);
+    for (int nextStmt : nextStmtSet) {
+        pkb->setStmtNextBipStmtRel(stmtId, nextStmt);
+    }
 }
 
 void DesignExtractor::extractStarRelations() {

@@ -168,6 +168,7 @@
     <ClInclude Include="PKBStubNext.h" />
     <ClInclude Include="PKBStubNextStar.h" />
     <ClInclude Include="PKBStubParent.h" />
+    <ClInclude Include="PKBStubParentStar.h" />
     <ClInclude Include="PKBStubUses.h" />
     <ClInclude Include="PKBWithStub.h" />
     <ClInclude Include="stdafx.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="PKBStubNext.cpp" />
     <ClCompile Include="PKBStubNextStar.cpp" />
     <ClCompile Include="PKBStubParent.cpp" />
+    <ClCompile Include="PKBStubParentStar.cpp" />
     <ClCompile Include="PKBStubUses.cpp" />
     <ClCompile Include="PKBTableUnitTest.cpp" />
     <ClCompile Include="PKBWithStub.cpp" />
@@ -204,6 +206,7 @@
     <ClCompile Include="UnitTestNext.cpp" />
     <ClCompile Include="UnitTestNextStar.cpp" />
     <ClCompile Include="UnitTestParent.cpp" />
+    <ClCompile Include="UnitTestParentStar.cpp" />
     <ClCompile Include="UnitTestUses.cpp" />
     <ClCompile Include="WithUnitTest.cpp" />
   </ItemGroup>

@@ -143,7 +143,7 @@ void AffectsStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStm
 	if (hasFoundAllResult) {
 		return;
 	}
-	if (affectedStmts->find(curStmt) != affectedStmts->end()) {
+	if (affectorStmts->find(curStmt) != affectorStmts->end()) {
 		affectorStmts->at(curStmt) = true;
 	}
 

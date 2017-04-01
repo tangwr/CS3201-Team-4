@@ -56,6 +56,8 @@ unordered_set<int> AffectsStar::getValidStmts(PKB* pkb, ResultTable* intResultTa
 	case ASSIGN:
 		/* falls through */
 	case STMT:
+		/* falls through */
+	case PROG_LINE:
 		if (intResultTable->isSynInTable(child)) {
 			return intResultTable->getSynValue(child);
 		}

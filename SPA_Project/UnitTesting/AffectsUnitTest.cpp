@@ -224,7 +224,7 @@ namespace UnitTest_Affects_Object
 			Assert::IsTrue(expectedResult == tupleResult);
 		}
 
-		TEST_METHOD(UnitTest_Affects_Stmt_And_Stmt)
+		TEST_METHOD(UnitTest_Affects_ProgLine_And_ProgLine)
 		{
 			PKBAffectsStub pkbStub;
 
@@ -232,8 +232,8 @@ namespace UnitTest_Affects_Object
 			Parameter affectorStmt, affectedStmt;
 			vector<vector<int>> expectedResult, tupleResult;
 
-			affectorStmt = Parameter("s1", STMT);
-			affectedStmt = Parameter("s2", STMT);
+			affectorStmt = Parameter("s1", PROG_LINE);
+			affectedStmt = Parameter("s2", PROG_LINE);
 
 			Affects affectsObj(affectorStmt, affectedStmt);
 			queryResult = affectsObj.evaluate(&pkbStub, intResult);

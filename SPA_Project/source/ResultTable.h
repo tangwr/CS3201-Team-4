@@ -17,8 +17,8 @@ private:
 	string convertTupleToString(vector<int> tuple);
 	ResultTable nestedSelect(vector<Parameter> paramList);
 	ResultTable hashSelect(vector<Parameter> paramList);
-	ResultTable nestedJoin(ResultTable rt);
-	ResultTable hashJoin(ResultTable rt);
+	void nestedJoin(ResultTable rt);
+	void hashJoin(ResultTable rt);
 public:
 	ResultTable();
 	bool setInitialEmpty(bool status);
@@ -34,7 +34,7 @@ public:
 	bool getBoolean();
 	vector<Parameter> getSynList();
 	vector<vector<int>> getTupleList();
-	ResultTable join(ResultTable rt);
+	void join(ResultTable rt);
 	ResultTable select(vector<Parameter> paramList);
 	void removeDuplicateTuple();
 	unordered_set<int> getSynValue(Parameter param);

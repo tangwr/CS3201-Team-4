@@ -1,0 +1,85 @@
+1 - Find all While Stmt using variable synonym
+while w; variable v;
+Select w pattern w(v, _)
+12, 13, 15, 20, 23, 48, 61
+5000
+2 - Find all While Stmt using any variable
+while w;
+Select w pattern w(_, _)
+12, 13, 15, 20, 23, 48, 61
+5000
+3 - Find While Stmt using the variable b1B
+while w;
+Select w pattern w("b1B", _)
+13, 20
+5000
+4 - Find Ctrl Variable of While Stmt
+while w; variable v;
+Select v pattern w(v, _)
+B, b1B, bag, b, din, dip
+5000
+5 - Find all If Stmt using variable synonym
+if i; variable v;
+Select i pattern i(v, _, _)
+28, 33, 35, 40, 49, 52, 58
+5000
+6 - Find all If Stmt using any variable
+if i;
+Select i pattern i(_, _, _)
+28, 33, 35, 40, 49, 52, 58
+5000
+7 - Find If Stmt using the variable cue
+if i;
+Select i pattern i("cue", _, _)
+28, 40
+5000
+8 - Find Ctrl Variable of If Stmt
+if i; variable v;
+Select v pattern i(v, _, _)
+cue, c, c8, d, din, dye
+5000
+9 - Find all Assign Stmt using variable synonym
+assign a; variable v;
+Select a pattern a(v, _)
+1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 26, 27, 29, 30, 31, 32, 34, 36, 37, 38, 39, 41, 42, 44, 45, 46, 47, 50, 51, 53, 54, 55, 56, 59, 60, 62, 63, 64, 65
+5000
+10 - Find all Assign Stmt using any variable
+assign a; variable v;
+Select a pattern a(_, _)
+1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 26, 27, 29, 30, 31, 32, 34, 36, 37, 38, 39, 41, 42, 44, 45, 46, 47, 50, 51, 53, 54, 55, 56, 59, 60, 62, 63, 64, 65
+5000
+11 - Find all Assign Stmt modifying BAsic
+assign a;
+Select a pattern a("BAsic", _)
+3, 16
+5000
+12 - Find Assign Stmt that has full pattern anorak * aorta
+assign a;
+Select a pattern a(_, "anorak * aorta")
+3
+5000
+13 - Find Assign Stmt that has sub pattern anorak * aorta
+assign a;
+Select a pattern a(_, _"anorak * aorta"_)
+3, 7
+5000
+14 - Find Assign Stmt that has sub pattern aCcA - adele in bracket
+assign a;
+Select a pattern a(_, _"aCcA - adele"_)
+10
+5000
+15 - Find Assign Stmt that modify BAsic has sub pattern anorak * aorta
+assign a;
+Select a pattern a("BAsic", _"anorak * aorta"_)
+3
+5000
+16 - Find Variable modified
+assign a; variable v;
+Select v pattern a(v, _)
+albedo,Ar1aS,BAsic,alumni,augite,ABCove,atlas,anorak,b4X,b,BDear,bAbY,bAd,bA,c,cog,cut,c8,cHaN,car,c7,dry,dye,d,dip,day,due,din,dam,even,eye
+5000
+17 - Invalid Stmt type
+stmt s;
+Select s pattern s(_, _)
+none
+5000

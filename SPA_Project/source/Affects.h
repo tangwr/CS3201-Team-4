@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <set>
+#include <map>
 #include <stack>
 
 #include "PKB.h"
@@ -57,12 +57,12 @@ private:
 	void dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable, 
 							unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);
 	void fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-					set<int>* affectorStmts, unordered_map<int, int>* modifiedVarToStmt, set<int>* affectedStmts);
+					map<int, bool>* affectorStmts, unordered_map<int, int>* modifiedVarToStmt, map<int, bool>* affectedStmts);
 	void reverseDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-					set<int>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, set<int>* affectedStmts);
+					map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, map<int, bool>* affectedStmts);
 
 	unordered_set<int> getValidStmts(PKB* pkb, ResultTable* intResultTable, Parameter child);
 	Type getStmtType(PKB* pkb, int initialStmt);
-	bool isStmtValidResult(int affectorStmtId, set<int>* validAffectorResults, int affectedStmtId, set<int>* validAffectedResults);
+	bool isStmtValidResult(int affectorStmtId, map<int, bool>* validAffectorResults, int affectedStmtId, map<int, bool>* validAffectedResults);
 	void setResultTupleToTable(ResultTable* affectResultTable, int affectorStmtId, int affectedStmtId);
 };

@@ -158,6 +158,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PKBAffectsStub.h" />
     <ClInclude Include="PKBPatternStub.h" />
     <ClInclude Include="PKBStubCalls.h" />
     <ClInclude Include="PKBStubCallsStar.h" />
@@ -173,7 +174,9 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AffectsUnitTest.cpp" />
     <ClCompile Include="PatternUnitTest.cpp" />
+    <ClCompile Include="PKBAffectsStub.cpp" />
     <ClCompile Include="PKBPatternStub.cpp" />
     <ClCompile Include="PKBStubCalls.cpp" />
     <ClCompile Include="PKBStubCallsStar.cpp" />

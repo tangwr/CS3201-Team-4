@@ -1,0 +1,104 @@
+procedure F1r5t {
+	albedo = 10;
+	Ar1aS  = a5h + Al1eN;
+	BAsic = anorak * aorta;
+	call Sec0nd;
+	call Th1rd;
+	alumni = alumni * 2;
+	augite = albedo + anorak * aorta - a1A;
+	ABCove = 26;
+	call F1fth;
+	atlas = (DEAd + BAsic) * (aCcA - adele);
+	anorak = (alumni - alumni) * 567 - augite;
+}
+
+procedure Sec0nd {
+	while B {
+		while b1B {
+			b4X = bAbY + 29;
+			while bag {
+				BAsic = b4X - b1B;
+				b = bAd;
+				BDear = BCD;
+			}
+		}
+		b = bA - b4c * 5;
+		while b1B {
+			bAbY = (bAbY + b) * 11;
+			bAd = 8;
+		}
+		while b {
+			call F0urth;
+		}
+		call Th1rd;
+		ABCove = b4X - 40;
+	}
+	bA = 10 * b4c;
+}
+
+procedure Th1rd {
+	if cue then {
+		c = c8 + cob;
+		ABCove = c8 * cHaN;
+		cog = cHaN + 6 - c8;
+		cut = cog * cog;
+		if c then {
+			c8 = cob + c6;
+			if c8 then {
+				cHaN = c6 - c8;
+				cut = cut - 25;
+			} else {
+				cut = car * 8;
+				car = 10;
+			}
+		} else {
+			if cue then {
+				cut = 2 * cut;
+			} else {
+				car = c6 + c8 - cut;
+			}
+			call F0urth;
+		}
+		cHaN = cog - car;
+	} else {
+		ABCove = c7 + 18 * BCD;
+	}
+	c7 = car * cog - cut + c7;
+}
+
+procedure F0urth {
+	dry = d + din - 23;
+	while din {
+		if d then {
+			dye = d * 3;
+			d = din - d;
+			if dye then {
+				dip = 2 * dye;
+				day = DEAd - 6;
+			} else {
+				day = d * 44;
+			}
+		} else {
+			due = (day + 5) * dry;
+			call F1fth;
+			if din then {
+				dam = 90;
+				din = dam - BCD;
+			} else {
+				while dip {
+					 dip = dip - 1;
+				}
+			}
+		}
+	}
+	day = 8 + dam * dip;
+}
+
+procedure F1fth {
+	even = eye + eye;
+	eye = eggy + DEAd;
+}
+
+procedure Sixth {
+	call F0urth;
+}

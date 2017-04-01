@@ -13,7 +13,7 @@ With::With(Parameter lc, Parameter rc) {
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
 	}
-	if (rightChild.isSynonym()) {
+	if (rightChild.isSynonym() && !rightChild.isSame(leftChild)) {
 		synList.push_back(rightChild);
 	}
 }
@@ -98,9 +98,7 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 		break;
 
 	case CALL:
-		if (rightChild.getParaType() == STRINGVARIABLE || rightChild.getParaType() == PROCEDURE
-			|| rightChild.getParaType() == VARIABLE
-			|| (rightChild.getParaType() == CALL && rightChild.getAttributeProc())) {
+		if (leftChild.getAttributeProc()) {
 			for (auto id : rightResult) {
 				int rightId = id;
 				if (rightChild.getParaType() == CALL) {
@@ -232,11 +230,19 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 }
 
 void With::setResultTupleToTable(ResultTable* pattResultTable, int left, int right) {
-	if (rightChild.isSynonym()) {
+	switch (pattResultTable->getSynCount()) {
+	case 1:
+		if (rightChild.isSynonym()) {
+			if (left == right) {
+				pattResultTable->insertTuple({ left });
+			}
+		} else {
+			pattResultTable->insertTuple({ left });
+		}
+		break;
+	case 2:
 		pattResultTable->insertTuple({ left, right });
-	}
-	else {
-		pattResultTable->insertTuple({ left });
+		break;
 	}
 }
 

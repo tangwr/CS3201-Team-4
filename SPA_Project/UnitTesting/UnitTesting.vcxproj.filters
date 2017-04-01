@@ -60,6 +60,9 @@
     <ClInclude Include="PKBStubModifies.h">
       <Filter>Header Files\PKBStub</Filter>
     </ClInclude>
+    <ClInclude Include="PKBAffectsStub.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -135,6 +138,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UnitTestModifies.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBAffectsStub.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="AffectsUnitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

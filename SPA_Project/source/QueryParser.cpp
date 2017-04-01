@@ -1,7 +1,7 @@
 #include "QueryParser.h"
 #include "QueryTree.h"
-//#include "Affects.h"
-//#include "AffectsStar.h"
+#include "Affects.h"
+#include "AffectsStar.h"
 #include "Clause.h"
 #include "Follow.h"
 #include "FollowStar.h"
@@ -1168,8 +1168,8 @@ void QueryParser::getAffects(QueryTree* qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	//Affects *a = new Affects(leftChild, rightChild);
-	//qt->insertResult(a);
+	Affects *a = new Affects(leftChild, rightChild);
+	qt->insertResult(a);
 }
 void QueryParser::getAffectsStar(QueryTree* qt) {
 	Parameter leftChild;
@@ -1233,8 +1233,8 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	//AffectsStar *as = new AffectsStar(leftChild, rightChild);
-	//qt->insertResult(as);
+	AffectsStar *as = new AffectsStar(leftChild, rightChild);
+	qt->insertResult(as);
 }
 void QueryParser::getPattern(QueryTree *qt) {
 	Parameter leftChild;

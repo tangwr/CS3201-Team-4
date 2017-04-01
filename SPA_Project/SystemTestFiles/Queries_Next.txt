@@ -1,0 +1,50 @@
+1 - Next(num,num) with TRUE result
+while w;
+Select w such that Next(12, 27)
+12, 13, 15, 20, 23, 48, 61
+5000
+2 - Next(num, if) with non-empty result
+if ifs;
+Select ifs such that Next(32, ifs)
+33
+5000
+3 - Next(num, assign) for non-empty result
+assign a;
+Select a such that Next(33, a)
+34
+5000
+4 - Next(num, call) for empty result
+call c;
+Select c such that Next(58, c)
+none
+5000
+5 - Next(stmt, num) for FALSE result
+stmt s;
+Select s such that Next(s, 28)
+none
+5000
+6 - Next(underscore, num) for TRUE result
+while w;
+Select w such that Next(_, 45)
+12, 13, 15, 20, 23, 48, 61
+5000
+7 - Invalid Query
+procedure p;
+Select p such that Next(p, 2)
+none
+5000
+8 - Next(_,_) for TRUE result
+procedure p;
+Select p such that Next(_,_)
+F1r5t, Sec0nd, Th1rd, F1fth, F0urth, Sixth
+5000
+9 - Next(prog_line, if) for non-empty result
+prog_line n; if ifs;
+Select n such that Next(n, ifs)
+32, 33, 34, 48, 51, 57,
+5000
+10 - Next(assign, assign) for same synonym names
+assign a;
+Select a such that Next(a, a)
+none
+5000

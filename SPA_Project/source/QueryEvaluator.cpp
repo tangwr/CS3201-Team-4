@@ -326,14 +326,14 @@ ResultTable QueryEvaluator::evaluateWithOptimization(QueryTree qt)
 
 	// merge all sub table, return final result
 	for (int i = 0; i < (int)synGroup.size(); i++) {
-		finalTable = finalTable.join(resTableList.at(i));
+		finalTable.join(resTableList.at(i));
 	}
 
 	// merge selected but unused synonym
 	for (Parameter p : qt.getSelectParameter()) {
 		if (finalTable.isSynInTable(p) == false)
 			cout << "find select but not in clause synonym " << p.getParaName() << endl;
-			finalTable = finalTable.join(getAllValueForSyn(p));
+			finalTable.join(getAllValueForSyn(p));
 	}
 
 	
@@ -545,14 +545,14 @@ ResultTable QueryEvaluator::evaluateWithOptimization2(QueryTree qt)
 
 	// merge all sub table, return final result
 	for (int i = 0; i < (int)synGroup.size(); i++) {
-		finalTable = finalTable.join(resTableList.at(i));
+		finalTable.join(resTableList.at(i));
 	}
 
 	// merge selected but unused synonym
 	for (Parameter p : qt.getSelectParameter()) {
 		if (finalTable.isSynInTable(p) == false)
 			cout << "find select but not in clause synonym " << p.getParaName() << endl;
-		finalTable = finalTable.join(getAllValueForSyn(p));
+		finalTable.join(getAllValueForSyn(p));
 	}
 
 
@@ -651,7 +651,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 			string paraName = c->getSynList().at(0).getParaName();
 			if (paraName.compare(usedSynList.at(maxIdx).getParaName()) == 0) {
 				printClause(c);
-				gResultTable = gResultTable.join(clause1SynResult.at(k));
+				gResultTable.join(clause1SynResult.at(k));
 				cout << "After join table is " << endl;
 				gResultTable.printTable();
 				if (gResultTable.getTupleSize() == 0) {
@@ -661,10 +661,11 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 					return emptyTable;
 				}
 			}
+			
 		}
 		// then loop through all clause that contain the synonym
 		cout << "---Clause with two synonym---" << endl;
-
+		// test with clause
 		for (int k = 0; k < (int)withClauseList.size(); k++) {
 			int clauseIdx = withClauseList.at(k);
 			Clause* c = clauseList.at(clauseIdx);
@@ -672,7 +673,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 			for (Parameter p : c->getSynList())
 				if (p.getParaName().compare(usedSynList.at(maxIdx).getParaName()) == 0)
 					isClauseContainCurrentSyn = true;
-			if (isClauseContainCurrentSyn && isClauseVisited.at(clauseIdx) == false) {
+			if (isClauseContainCurrentSyn && isClauseVisited.at(clauseIdx) == false && (int)c->getSynList().size() == 2) {
 				isClauseVisited.at(clauseIdx) = true;
 				cout << "evaluate with clause " << endl;
 				printClause(c);
@@ -682,7 +683,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 						newlyIntroducedParam.push_back(p);
 				}
 				ResultTable queryResult = c->evaluate(pkb, ResultTable());
-				gResultTable = gResultTable.join(queryResult);
+				gResultTable.join(queryResult);
 				cout << "After join table is " << endl;
 				gResultTable.printTable();
 				if (gResultTable.getTupleSize() == 0) {
@@ -698,7 +699,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 						if (c->getSynList().at(0).getParaName().compare(p.getParaName()) == 0) {
 							cout << "found new clause that contains only the new synonym" << endl;
 							printClause(c);
-							gResultTable = gResultTable.join(clause1SynResult.at(k));
+							gResultTable.join(clause1SynResult.at(k));
 							cout << "After join table is " << endl;
 							gResultTable.printTable();
 							if (gResultTable.getTupleSize() == 0) {
@@ -757,7 +758,11 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 
 
 					ResultTable queryResult = c->evaluate(pkb, gResultTable.select(restrictedSynList));
-					gResultTable = gResultTable.join(queryResult);
+					cout << "QUERY RESULT" << endl;
+					queryResult.printTable();
+					cout << "CURRENT GTABLE" << endl;
+					gResultTable.printTable();
+					gResultTable.join(queryResult);
 					cout << "After join table is " << endl;
 					gResultTable.printTable();
 					if (gResultTable.getTupleSize() == 0) {
@@ -778,7 +783,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 							if (c->getSynList().at(0).getParaName().compare(p.getParaName()) == 0) {
 								cout << "found new clause that contains only the new synonym" << endl;
 								printClause(c);
-								gResultTable = gResultTable.join(clause1SynResult.at(k));
+								gResultTable.join(clause1SynResult.at(k));
 								cout << "After join table is " << endl;
 								gResultTable.printTable();
 								if (gResultTable.getTupleSize() == 0) {
@@ -809,7 +814,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 			}
 
 		ResultTable queryResult = c->evaluate(pkb, gResultTable.select(restrictedSynList));
-		gResultTable = gResultTable.join(queryResult);
+		gResultTable.join(queryResult);
 	}
 
 	cout << "FINAL TABLE FOR GROUP " << endl;
@@ -905,7 +910,7 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 			string paraName = c->getSynList().at(0).getParaName();
 			if (paraName.compare(usedSynList.at(maxIdx).getParaName()) == 0) {
 				printClause(c);
-				gResultTable = gResultTable.join(clause1SynResult.at(k));
+				gResultTable.join(clause1SynResult.at(k));
 				cout << "After join table is " << endl;
 				gResultTable.printTable();
 			}
@@ -947,7 +952,7 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 						}
 
 					ResultTable queryResult = c->evaluate(pkb, gResultTable.select(restrictedSynList));
-					gResultTable = gResultTable.join(queryResult);
+					gResultTable.join(queryResult);
 					cout << "After join table is " << endl;
 					gResultTable.printTable();
 					/*
@@ -973,7 +978,7 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 			}
 
 		ResultTable queryResult = c->evaluate(pkb, gResultTable.select(restrictedSynList));
-		gResultTable = gResultTable.join(queryResult);
+		gResultTable.join(queryResult);
 	}
 
 	cout << "FINAL TABLE FOR GROUP " << endl;
@@ -1041,7 +1046,7 @@ void QueryEvaluator::joinResultTable(ResultTable rt)
 	resTable.printTable();
 	cout << "joining Table" << endl;
 	rt.printTable();
-	resTable = resTable.join(rt);
+	resTable.join(rt);
 	cout << "after joining, the table is " << endl;
 	resTable.printTable();
 	cout << endl;

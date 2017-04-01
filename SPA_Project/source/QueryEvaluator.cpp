@@ -758,10 +758,7 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 
 
 					ResultTable queryResult = c->evaluate(pkb, gResultTable.select(restrictedSynList));
-					cout << "QUERY RESULT" << endl;
-					queryResult.printTable();
-					cout << "CURRENT GTABLE" << endl;
-					gResultTable.printTable();
+				
 					gResultTable.join(queryResult);
 					cout << "After join table is " << endl;
 					gResultTable.printTable();
@@ -819,8 +816,6 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 
 	cout << "FINAL TABLE FOR GROUP " << endl;
 	gResultTable.printTable();
-	int i = 1;
-	i++;
 	return gResultTable;
 }
 
@@ -849,8 +844,6 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 	vector<vector<int>> clauseListForSyn; // one synonym contain list of clause index
 	ResultTable gResultTable;
 	gResultTable.setInitialEmpty(true);
-
-
 
 	// set gSynMap
 	for (int i = 0; i < (int)usedSynList.size(); i++) {
@@ -983,8 +976,7 @@ ResultTable QueryEvaluator::evaluateGroup(vector<Parameter> usedSynList,
 
 	cout << "FINAL TABLE FOR GROUP " << endl;
 	gResultTable.printTable();
-	int i = 1;
-	i++;
+
 	return gResultTable;
 }
 

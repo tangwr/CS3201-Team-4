@@ -19,6 +19,7 @@ private:
     void recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated);
     void populateProcRel(int procId, int containerStmtId);
 	void extractNextBipRel();
+    void copyNext(int stmtId);
 
 public:
     DesignExtractor(PKB *pkbSource);

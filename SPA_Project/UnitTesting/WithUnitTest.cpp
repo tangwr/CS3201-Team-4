@@ -487,7 +487,6 @@ namespace UnitTest_With_Object
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
-			Assert::AreEqual(expectedResult[0][0], tupleResult[0][0]);
 			Assert::IsTrue(expectedResult == tupleResult);
 		}
 	};

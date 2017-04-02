@@ -14,6 +14,7 @@
 #include "NextTable.h"
 #include "StmtLstTable.h"
 #include "TableOperations.h"
+#include "NextBipTable.h"
 
 #include <unordered_map>
 #include <vector>
@@ -513,5 +514,22 @@ namespace UnitTesting
             unordered_set<int> allFirstStmtOfStmtLsts = { 4, 8, 6, 10, 11, 13, 12, 20 };
             Assert::IsTrue(TableOperations::isEqualUnorderedSet(slt.getAllStmtLst(), allFirstStmtOfStmtLsts));
         }
+
+		TEST_METHOD(UnitTest_NextBipTable) {
+			NextBipTable nbt;
+			nbt.setStmtNextBipStmtRel(3, 5);
+			nbt.setStmtNextBipStmtRel(3, 6);
+			nbt.setStmtNextBipStmtRel(1, 5);
+			nbt.setStmtNextBipStmtRel(10, 5);
+			Assert::IsFalse(nbt.setStmtNextBipStmtRel(3, 5));
+			Assert::AreEqual(4, nbt.getSize());
+			Assert::IsTrue(TableOperations::isEqualUnorderedSet(nbt.getNextBipStmt(22), unordered_set<int>()));
+			Assert::IsTrue(TableOperations::isEqualUnorderedSet(nbt.getPreviousBipStmt(22), unordered_set<int>()));
+
+			unordered_set<int> previousBipOfFive = { 10, 1, 3 };
+			unordered_set<int> nextBipOfThree = { 5, 6 };
+			Assert::IsTrue(TableOperations::isEqualUnorderedSet(nbt.getPreviousBipStmt(5), previousBipOfFive));
+			Assert::IsTrue(TableOperations::isEqualUnorderedSet(nbt.getNextBipStmt(3), nextBipOfThree));
+		}
     };
 }

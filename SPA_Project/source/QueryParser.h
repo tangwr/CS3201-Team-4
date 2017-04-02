@@ -12,6 +12,7 @@ class QueryParser {
 private:
 	unordered_map<string, Parameter> varMap;
 	unordered_map<string, Parameter> usedMap;
+	bool isSelectBoolean = false;
 	Tokenizer *tokenizer;
 
 	void getDeclaration(QueryTree* queryTree);

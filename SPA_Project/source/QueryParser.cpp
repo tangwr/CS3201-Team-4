@@ -1120,7 +1120,7 @@ void QueryParser::getAffects(QueryTree* qt) {
 		string key = leftChild.getParaName();
 		Type lcType = leftChild.getParaType();
 		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STRINGVARIABLE ||
-			lcType == PROCEDURE || lcType == STMTLST) {
+			lcType == PROCEDURE || lcType == STMTLST || lcType == WHILE || lcType == IF || lcType == CALL) {
 			throwError(ERROR_LEFT_CHILD);
 		}
 		if (!isUsedExists(key)) {
@@ -1147,7 +1147,7 @@ void QueryParser::getAffects(QueryTree* qt) {
 		string key = rightChild.getParaName();
 		Type rcType = rightChild.getParaType();
 		if (rcType == VARIABLE || rcType == CONSTANT || rcType == BOOLEAN || rcType == STRINGVARIABLE ||
-			rcType == PROCEDURE || rcType == STMTLST) {
+			rcType == PROCEDURE || rcType == STMTLST || rcType == WHILE || rcType == IF || rcType == CALL) {
 			throwError(ERROR_RIGHT_CHILD);
 		}
 		if (!isUsedExists(key)) {
@@ -1185,7 +1185,7 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 		string key = leftChild.getParaName();
 		Type lcType = leftChild.getParaType();
 		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STRINGVARIABLE ||
-			lcType == PROCEDURE || lcType == STMTLST) {
+			lcType == PROCEDURE || lcType == STMTLST || lcType == WHILE || lcType == IF || lcType == CALL) {
 			throwError(ERROR_LEFT_CHILD);
 		}
 		if (!isUsedExists(key)) {
@@ -1212,7 +1212,7 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 		string key = rightChild.getParaName();
 		Type rcType = rightChild.getParaType();
 		if (rcType == VARIABLE || rcType == CONSTANT || rcType == BOOLEAN || rcType == STRINGVARIABLE ||
-			rcType == PROCEDURE || rcType == STMTLST) {
+			rcType == PROCEDURE || rcType == STMTLST || rcType == WHILE || rcType == IF || rcType == CALL) {
 			throwError(ERROR_RIGHT_CHILD);
 		}
 		if (!isUsedExists(key)) {

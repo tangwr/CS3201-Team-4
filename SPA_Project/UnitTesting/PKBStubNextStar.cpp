@@ -9,14 +9,14 @@ x = 2;						//1
 z = 3;						//2
 i = 5;						//3
 while i {					//4
-x = x - 1;				//5
-if x then {				//6
-z = x + 1; }		//7
-else {
-y = z + x; }		//8
-z = z + x + i;		//9
-call q;					//10
-i = i - 1; }			//11
+	x = x - 1;				//5
+	if x then {				//6
+		z = x + 1; }		//7
+	else {
+		y = z + x; }		//8
+	z = z + x + i;		//9
+	call q;					//10
+	i = i - 1; }			//11
 call p; }				//12
 
 procedure p {

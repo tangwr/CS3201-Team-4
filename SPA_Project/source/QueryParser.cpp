@@ -74,6 +74,7 @@ const string ERROR_LEFT_CHILD = "The clause's left child is invalid";
 const string ERROR_RIGHT_CHILD = "The clause's right child is invalid";
 const string ERROR_FACTOR = "The Pattern's factor is invalid";
 const string ERROR_CHILD_TYPE = "The left child's type is not equal to right child's type for With";
+const string ERROR_SELECT_BOOLEAN = "The result is false";
 const int EQUAL = 0;
 const bool TRUE = true;
 const bool FALSE = false;
@@ -294,6 +295,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 			qt->insertSelect(selectSyn);
 		}
 		else if (token.compare(TYPE_BOOLEAN) == 0) {
+			isSelectBoolean = TRUE;
 			qt->insertSelect(Parameter(TYPE_BOOLEAN, BOOLEAN));
 			tokenizer->getToken();
 		}
@@ -329,8 +331,6 @@ void QueryParser::getClause(QueryTree *qt) {
 			throwError(ERROR_STRING);
 		}
 	}
-	string end = "";
-	string dd = "";
 }
 void QueryParser::getSuchThat(QueryTree *qt) {
 	string token = tokenizer->getToken();
@@ -1690,13 +1690,23 @@ bool QueryParser::isPositiveInteger(string str) {
 void QueryParser::match(string token, string matchRe) {
 
 	if (!tokenizer->match(token, matchRe)) {
-		throwError(ERROR_STRING);
+		if (isSelectBoolean) {
+			throwError(ERROR_SELECT_BOOLEAN);
+		}
+		else {
+			throwError(ERROR_STRING);
+		}
 	}
 }
 
 void QueryParser::throwError(string errorMsg) {
 	delete tokenizer;
-	throw errorMsg;
+	if (isSelectBoolean) {
+		throw ERROR_SELECT_BOOLEAN;
+	}
+	else {
+		throw errorMsg;
+	}
 }
 
 QueryParser::~QueryParser() {

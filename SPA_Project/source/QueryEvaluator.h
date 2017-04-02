@@ -26,14 +26,17 @@ public:
 	QueryEvaluator(PKB* pkbSource);
 	ResultTable evaluate(QueryTree qt);
 
+	ResultTable createEarlyTerminationTable(QueryTree qt);
 private:
 	PKB* pkb;
 	ResultTable resTable;
 	ResultTable evaluateGroup(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
+	ResultTable evaluateGroup2(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
 	ResultTable getAllValueForSyn(Parameter param);
 	void joinResultTable(ResultTable rt);
 	void printClause(Clause* c);
 	ResultTable evaluateWithOptimization(QueryTree qt);
+	ResultTable evaluateWithOptimization2(QueryTree qt);
 	ResultTable evaluateWithoutOptimization(QueryTree qt);
 };
 

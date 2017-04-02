@@ -106,16 +106,24 @@ vector<vector<int>> ResultTable::getTupleList()
 	return tupleList;
 }
 
-ResultTable ResultTable::join(ResultTable rt)
+void ResultTable::join(ResultTable rt)
 {
-	return hashJoin(rt);
+	hashJoin(rt);
+	return;
 }
 
-ResultTable ResultTable::nestedJoin(ResultTable rt)
+void ResultTable::nestedJoin(ResultTable rt)
 {
 	// if self is initial empty table, return rt 
-	if (isInitialEmpty)
-		return rt;
+	if (isInitialEmpty) {
+		setSynList( rt.getSynList());
+		tupleList = rt.getTupleList();
+		isInitialEmpty = rt.isNewTable();
+		return;
+	}
+	if (rt.isInitialEmpty) {
+		return;
+	}
 
 	// cases: 0 / 1 / 2 common synonym if rt is a result from a clause
 
@@ -123,9 +131,8 @@ ResultTable ResultTable::nestedJoin(ResultTable rt)
 	// now simply take O(mn) to compute equi-join
 
 	// create joined table 
-	ResultTable res = ResultTable();
 	vector<Parameter> resSynList = synList;
-
+	vector<vector<int>> newTupleList;
 	int commonSyn = 0;
 	vector<Parameter> commonSynList;
 	vector<pair<int, int>> idMap;  // first, id of syn in first 
@@ -143,7 +150,6 @@ ResultTable ResultTable::nestedJoin(ResultTable rt)
 			resSynList.push_back(it);
 		}
 	}
-	res.setSynList(resSynList);
 
 	for (vector<int> tuple1 : tupleList)
 		for (vector<int> tuple2 : rt.getTupleList()) {
@@ -163,30 +169,36 @@ ResultTable ResultTable::nestedJoin(ResultTable rt)
 					if (shouldInsert == true)
 						resTuple.push_back(tuple2.at(i));
 				}
-				res.insertTuple(resTuple);
+				newTupleList.push_back(resTuple);
 			}
 		}
 
-	return res;
+	
+	setSynList(resSynList);
+	tupleList = newTupleList;
+	return;
 
 }
 
-ResultTable ResultTable::hashJoin(ResultTable rt)
+void ResultTable::hashJoin(ResultTable rt)
 {
 
 	// if self is initial empty table, return rt 
-	if (isInitialEmpty)
-		return rt;
+	if (isInitialEmpty) {
+		setSynList(rt.getSynList());
+		tupleList = rt.getTupleList();
+		isInitialEmpty = rt.isNewTable();
+		return;
+	}
 	if (rt.isInitialEmpty)
-		return *this;
+		return;
 
 	// create joined table 
-	ResultTable res = ResultTable();
 	vector<Parameter> resSynList = synList;
-
 	int commonSyn = 0;
 	unordered_set<int> commonSynIdSet2ndTable;  // id of 2nd table syn, that is common syn with table 1
 	unordered_map<int, int> commonSyn2ndTo1stMap;
+	vector<vector<int>> newTupleList;
 	for (Parameter it : rt.getSynList()) {
 		bool isExist = false;
 		for (Parameter p : synList) {
@@ -205,7 +217,6 @@ ResultTable ResultTable::hashJoin(ResultTable rt)
 			commonSynIdSet2ndTable.insert(rt.getParamId(it));
 		}
 	}
-	res.setSynList(resSynList);
 
 	// create hash table for table rt
 	unordered_map<string, vector<vector<int>>> hashMap2ndTable;
@@ -261,12 +272,14 @@ ResultTable ResultTable::hashJoin(ResultTable rt)
 			for (vector<int> appendingTuple : mappedTupleList) {
 				vector<int> newTuple = tuple1; 
 				newTuple.insert(newTuple.end(), appendingTuple.begin(), appendingTuple.end());
-				res.insertTuple(newTuple);
+				newTupleList.push_back(newTuple);
 			}	
 
 		}
 	}
-	return res;
+	setSynList(resSynList);
+	tupleList = newTupleList;
+	return;
 }
 
 ResultTable ResultTable::select(vector<Parameter> paramList)

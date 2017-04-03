@@ -17,6 +17,7 @@
     <ClCompile Include="..\source\Calls.cpp" />
     <ClCompile Include="..\source\CallsStar.cpp" />
     <ClCompile Include="..\source\CallTable.cpp" />
+    <ClCompile Include="..\source\CombinedStmtTable.cpp" />
     <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\Controller.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
@@ -64,6 +65,7 @@
     <ClInclude Include="..\source\CallTable.h" />
     <ClInclude Include="..\source\Clause.h" />
     <ClInclude Include="..\source\ClauseType.h" />
+    <ClInclude Include="..\source\CombinedStmtTable.h" />
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Controller.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />

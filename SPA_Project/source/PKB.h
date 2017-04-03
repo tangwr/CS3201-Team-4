@@ -17,6 +17,7 @@
 #include "AssignTable.h"
 #include "NextTable.h"
 #include "StmtLstTable.h"
+#include "CombinedStmtTable.h"
 #include <algorithm>
 #include <iterator>
 
@@ -38,6 +39,7 @@ private:
 	AssignTable assignTable;
     NextTable nextTable;
     StmtLstTable stmtLstTable;
+	CombinedStmtTable combinedStmtTable;
 
 	bool isValidVarId(int VarId);
 	bool isValidVar(string varName);

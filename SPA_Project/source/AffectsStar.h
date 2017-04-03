@@ -47,22 +47,25 @@ private:
 	vector<Parameter> synList;
 
 	bool hasFoundAllResult;
-	unordered_map<int, unordered_set<unordered_map<int, unordered_set<int>>, Hasher>> whileTableStack;
 	unordered_map<int, unordered_set<unordered_map<int, unordered_set<int>>, Hasher>> contTableStack;
+
+	stack <tuple<int, int, unordered_map<int, unordered_set<int>>>> ifTableStack;
+	stack <tuple<int, int, unordered_map<int, unordered_set<int>>>> whileTableStack;
+	unordered_map<int, int> stmtVisitedCount;
 
 	void setSynToTable(ResultTable* pattResultTable);
 	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable);
 	void setBooleanToTable(ResultTable* pattResultTable);
 
 	void dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable,
-								unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);
-	void fowardDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-					map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* modifiedVarToStmt, map<int, bool>* affectedStmts);
+		unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);
+	void fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, int startStmt, map<int, bool>* affectorStmts, map<int, bool>* affectedStmts);
 	void reverseDfs(PKB* pkb, ResultTable* affectResultTable, int curStmt,
-					map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, map<int, bool >* affectedStmts);
+		map<int, bool>* affectorStmts, unordered_map<int, unordered_set<int>>* usedVarToStmt, map<int, bool >* affectedStmts);
 
 	unordered_set<int> getValidStmts(PKB* pkb, ResultTable* intResultTable, Parameter child);
 	Type getStmtType(PKB* pkb, int initialStmt);
 	bool isStmtValidResult(int affectorStmtId, map<int, bool>* validAffectorResults, int affectedStmtId, map<int, bool>* validAffectedResults);
+	bool mergeTable(unordered_map<int, unordered_set<int>>* merger, unordered_map<int, unordered_set<int>>* merged);
 	void setResultTupleToTable(ResultTable* affectResultTable, int affectorStmtId, int affectedStmtId);
 };

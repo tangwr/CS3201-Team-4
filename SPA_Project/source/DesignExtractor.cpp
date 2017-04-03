@@ -64,30 +64,18 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 		while (currentStmt != -1) {
 			//still got follows
 			if (pkb->isStmtInCallTable(currentStmt)) {
-				cout << "here" << endl;
+				//cout << "here" << endl;
 				int calledProcId = pkb->getProcCalledByStmt(currentStmt);
 
 				//populate current stmt use/modify with the ones from called proc
-				unordered_set<int> calledProcUsedVarLst = pkb->getVarUsedByProc(calledProcId);
-				for (int varId : calledProcUsedVarLst) {
-					pkb->insertStmtUseVarRel(currentStmt, varId);
-				}
+				populateStmtUseVarFromProc(currentStmt, calledProcId);
 
-				unordered_set<int> calledProcUsedConstLst = pkb->getConstUsedByProc(calledProcId);
-				for (int constId : calledProcUsedConstLst) {
-					pkb->insertStmtUseConstRel(currentStmt, constId);
-				}
+				populateStmtUseConstFromProc(currentStmt, calledProcId);
 
-				unordered_set<int> calledProcModifiedVarLst = pkb->getVarModifiedInProc(calledProcId);
-				for (int varId : calledProcModifiedVarLst) {
-					//pkb->setProcModifyVarRel(procId, varId);
-					pkb->insertStmtModifyVarRel(currentStmt, varId);
-				}
+				populateStmtModifyVarFromProc(currentStmt, calledProcId);
+
 				//getting call* of called proc and inserting into the proc containing current stmt
-				unordered_set<int> calledProcCallStarLst = pkb->getProcCalledByStarProc(calledProcId);
-				for (int calledStarProcId : calledProcCallStarLst) {
-					pkb->insertProcCallStarProcRel(procId, calledStarProcId);
-				}
+				populateProcCallStar(procId, calledProcId);
 			}
 			else if (pkb->isStmtInWhileTable(currentStmt) || pkb->isStmtInIfTable(currentStmt)) {
 				populateProcRel(procId, currentStmt);
@@ -104,58 +92,100 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 
 			//check for index out of bound
 			//get stmt uses and set as proc/container stmt uses
-			unordered_set<int> currentStmtUsedVarLst = pkb->getVarUsedByStmt(stmtLstStmt[i]);
-			for (int varId : currentStmtUsedVarLst) {
-				if (containerStmtId == -1) {
-					pkb->insertProcUseVarRel(procId, varId);
-					//use inset
-				}
-				else {
-					pkb->insertStmtUseVarRel(containerStmtId, varId);
-				}
-			}
 
-			unordered_set<int> currentStmtUsedConstLst = pkb->getConstUsedByStmt(stmtLstStmt[i]);
-			for (int constId : currentStmtUsedConstLst) {
-				if (containerStmtId == -1) {
-					pkb->insertProcUseConstRel(procId, constId);
-				}
-				else {
-					pkb->insertStmtUseConstRel(containerStmtId, constId);
-				}
-			}
+			populateUseRelFromStmt(procId, containerStmtId, stmtLstStmt[i]);
+
 			//get stmt modifies and set as proc/container stmt modifies
 
-			unordered_set<int> currentStmtModifiedVarLst = pkb->getVarModifiedInStmt(stmtLstStmt[i]);
-			for (int varId : currentStmtModifiedVarLst) {
-				//pkb->setProcModifyVarRel(procId, varId);
-				if (containerStmtId == -1) {
-					//no container stmt
-					pkb->insertProcModifyVarRel(procId, varId);
-				}
-				else {
-					pkb->insertStmtModifyVarRel(containerStmtId, varId);
-				}
-			}
+			populateModifyRelFromStmt(procId, containerStmtId, stmtLstStmt[i]);
 
 			//get follow star insert into 1 stmt up
 			if (i > 0) {
-				unordered_set<int> stmtFollowerStarLst = pkb->getStmtFollowStarStmt(stmtLstStmt[i]);
-				int stmtAtPreviousIndex = stmtLstStmt[i - 1];
-				for (int followerStarStmtId : stmtFollowerStarLst) {
-					pkb->insertStmtFollowStmtRel(stmtAtPreviousIndex, followerStarStmtId);
-				}
+				populateFollowStarFromStmt(stmtLstStmt[i], stmtLstStmt[i - 1]);
 			}
 
 			//get children* for current stmt, set for parent* for container stmt.
 			if (containerStmtId != -1) {
 				//got container stmt
-				unordered_set<int> currentStmtChildrenStarLst = pkb->getStmtChildrenStarStmt(stmtLstStmt[i]);
-				for (int childStarStmtId : currentStmtChildrenStarLst) {
-					pkb->insertStmtParentStmtRel(containerStmtId, childStarStmtId);
-				}
+				populateParentStarForContainerStmt(containerStmtId, stmtLstStmt[i]);
 			}
 		}
+	}
+}
+
+void DesignExtractor::populateStmtUseVarFromProc(int stmtId, int calledProcId) {
+	unordered_set<int> calledProcUsedVarLst = pkb->getVarUsedByProc(calledProcId);
+	for (int varId : calledProcUsedVarLst) {
+		pkb->insertStmtUseVarRel(stmtId, varId);
+	}
+}
+
+void DesignExtractor::populateStmtUseConstFromProc(int stmtId, int calledProcId) {
+	unordered_set<int> calledProcUsedConstLst = pkb->getConstUsedByProc(calledProcId);
+	for (int constId : calledProcUsedConstLst) {
+		pkb->insertStmtUseConstRel(stmtId, constId);
+	}
+}
+
+void DesignExtractor::populateStmtModifyVarFromProc(int stmtId, int calledProcId) {
+	unordered_set<int> calledProcModifiedVarLst = pkb->getVarModifiedInProc(calledProcId);
+	for (int varId : calledProcModifiedVarLst) {
+		pkb->insertStmtModifyVarRel(stmtId, varId);
+	}
+}
+
+void DesignExtractor::populateProcCallStar(int procId, int calledProcId) {
+	unordered_set<int> calledProcCallStarLst = pkb->getProcCalledByStarProc(calledProcId);
+	for (int calledStarProcId : calledProcCallStarLst) {
+		pkb->insertProcCallStarProcRel(procId, calledStarProcId);
+	}
+}
+
+void DesignExtractor::populateUseRelFromStmt(int procId, int containerStmtId, int sourceStmtId) {
+	unordered_set<int> currentStmtUsedVarLst = pkb->getVarUsedByStmt(sourceStmtId);
+	unordered_set<int> currentStmtUsedConstLst = pkb->getConstUsedByStmt(sourceStmtId);
+
+	if (containerStmtId == -1) {
+		for (int varId : currentStmtUsedVarLst) {
+			pkb->insertProcUseVarRel(procId, varId);
+		}
+		for (int constVal : currentStmtUsedConstLst) {
+			pkb->insertProcUseConstRel(procId, constVal);
+		}
+	}
+	else {
+		for (int varId : currentStmtUsedVarLst) {
+			pkb->insertStmtUseVarRel(containerStmtId, varId);
+		}
+		for (int constVal : currentStmtUsedConstLst) {
+			pkb->insertStmtUseConstRel(containerStmtId, constVal);
+		}
+	}
+}
+
+void DesignExtractor::populateModifyRelFromStmt(int procId, int containerStmtId, int sourceStmtId) {
+	unordered_set<int> currentStmtModifiedVarLst = pkb->getVarModifiedInStmt(sourceStmtId);
+	for (int varId : currentStmtModifiedVarLst) {
+		if (containerStmtId == -1) {
+			pkb->insertProcModifyVarRel(procId, varId);
+		}
+		else {
+			pkb->insertStmtModifyVarRel(containerStmtId, varId);
+		}
+	}
+}
+
+void DesignExtractor::populateFollowStarFromStmt(int sourceStmtId, int targetStmtId) {
+	unordered_set<int> stmtFollowerStarLst = pkb->getStmtFollowStarStmt(sourceStmtId);
+	for (int followerStarStmtId : stmtFollowerStarLst) {
+		pkb->insertStmtFollowStmtRel(targetStmtId, followerStarStmtId);
+	}
+}
+
+void DesignExtractor::populateParentStarForContainerStmt(int containerStmtId, int sourceStmtId) {
+	unordered_set<int> currentStmtChildrenStarLst = pkb->getStmtChildrenStarStmt(sourceStmtId);
+	for (int childStarStmtId : currentStmtChildrenStarLst) {
+		pkb->insertStmtParentStmtRel(containerStmtId, childStarStmtId);
 	}
 }
 

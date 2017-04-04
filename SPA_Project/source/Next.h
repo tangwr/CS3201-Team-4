@@ -18,7 +18,6 @@ private:
 	ResultTable result;
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
-	bool isValidStmtNo(int, PKB*);
 	bool isNext(PKB*, unordered_set<int>, unordered_set<int>);
 	unordered_set<int> getTypeStmt(Parameter, PKB*);
 	ResultTable getNextSynSyn(PKB*, ResultTable*);
@@ -27,25 +26,7 @@ private:
 	void insertTuple(int, int);
 	ResultTable getNext(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
-	/*
-	Parameter leftChild;
-	Parameter rightChild;
-	ResultTable result;
-	vector<Parameter> synList;
-	bool isNumber(Parameter);
-	bool isSynonym(Parameter);
-	bool isLeftChild(Parameter);
-	bool isNext(PKB*, int, int);
-	bool isValidStmtNo(int, PKB*);
-	unordered_set<int> getTypeStmt(Type, PKB*);
-	ResultTable getNextNumNum(PKB*, int, int);
-	ResultTable getNextNumSyn(PKB*, unordered_set<int>, int);
-	ResultTable getNextSynNum(PKB*, unordered_set<int>, int);
-	ResultTable getNextSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
-	ResultTable getNextSynSyn(PKB*, ResultTable*);
-	ResultTable evaluateWithoutRestrictions(PKB*);
-	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
-	*/
+
 public:
 	Next(Parameter lc, Parameter rc);
 	ResultTable evaluate(PKB*, ResultTable);

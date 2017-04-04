@@ -189,6 +189,12 @@
     <ClCompile Include="..\source\CombinedStmtTable.cpp">
       <Filter>Resource Files\Source Files\PKB\Tables</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\NextBip.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\NextBipStar.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -331,6 +337,12 @@
     </ClInclude>
     <ClInclude Include="..\source\CombinedStmtTable.h">
       <Filter>Header Files\PKB\Tables</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\NextBip.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\NextBipStar.h">
+      <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

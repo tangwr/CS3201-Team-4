@@ -13,10 +13,10 @@ public:
 	unordered_set<int> getAllAssignStmt();
 	unordered_set<int> getAllIfId();
 	unordered_set<int> getAllCallId();
-
-
+	unordered_set<int> getAllStmtId();
 
 private:
+	unordered_set<int> allStmts;
 	unordered_set<int> assignStmts;
 	unordered_set<int> whileStmts;
 	unordered_set<int> ifStmts;

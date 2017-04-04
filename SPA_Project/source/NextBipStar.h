@@ -1,5 +1,5 @@
-#ifndef NextStarH
-#define NextStarH
+#ifndef NextBipStarH
+#define NextBipStarH
 
 #include <string>
 #include "Clause.h"
@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class NextStar : public Clause {
+class NextBipStar : public Clause {
 private:
 
 	Parameter leftChild;
@@ -18,22 +18,22 @@ private:
 	ResultTable result;
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
-	ResultTable isNextStarItself(PKB*, unordered_set<int>);
-	bool isNextStar(PKB*, unordered_set<int>, unordered_set<int>);
+	ResultTable isNextBipStarItself(PKB*, unordered_set<int>);
+	bool isNextBipStar(PKB*, unordered_set<int>, unordered_set<int>);
 	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getNextStarSynSyn(PKB*, ResultTable*);
+	ResultTable getNextBipStarSynSyn(PKB*, ResultTable*);
 	vector<Parameter> synList;
 	void setSynList();
 	void insertTuple(int, int);
-	ResultTable getNextStar(PKB*, unordered_set<int>, unordered_set<int>);
+	ResultTable getNextBipStar(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
-	void getAllNextStar(int, unordered_set<int>*, PKB*);
-	void getAllNextStar(int, unordered_set<int>*, unordered_set<int>*, PKB*);
+	void getAllNextBipStar(int, unordered_set<int>*, PKB*);
+	void getAllNextBipStar(int, unordered_set<int>*, unordered_set<int>*, PKB*);
 	void getAllPrevStar(int, unordered_set<int>*, PKB*);
 	void getAllPrevStar(int, unordered_set<int>*, unordered_set<int>*, PKB*);
-	
+
 public:
-	NextStar(Parameter lc, Parameter rc);
+	NextBipStar(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	vector<Parameter> getSynList();

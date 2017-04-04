@@ -101,16 +101,6 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 		map<int, bool> affectorStmts = proc.second;
 		map<int, bool> affectedStmts = affected.at(procId);
 
-		for (auto stmtMap : affectorStmts) {
-			if (!stmtMap.second) {
-				fowardDfs(pkb, affectResultTable, procId, stmtMap.first, &affectorStmts, &affectedStmts);
-				if (hasFoundAllResult) {
-					return;
-				}
-			}
-		}
-
-		/*
 		if (affectorStmts.size() <= affectedStmts.size()) {
 			for (auto stmtMap : affectorStmts) {
 				if (!stmtMap.second) {
@@ -130,7 +120,6 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 				}
 			}
 		}
-		*/
 	}
 }
 

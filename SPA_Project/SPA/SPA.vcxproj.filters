@@ -338,11 +338,9 @@
     <ClInclude Include="..\source\AffectsStar.h">
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
-<<<<<<< HEAD
     <ClInclude Include="..\source\NextBipTable.h">
       <Filter>Header Files\PKB\Tables</Filter>
     </ClInclude>
-=======
     <ClInclude Include="..\source\CombinedStmtTable.h">
       <Filter>Header Files\PKB\Tables</Filter>
     </ClInclude>
@@ -352,6 +350,5 @@
     <ClInclude Include="..\source\NextBipStar.h">
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
->>>>>>> refs/remotes/origin/iteration-3
   </ItemGroup>
 </Project>

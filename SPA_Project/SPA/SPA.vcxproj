@@ -28,12 +28,9 @@
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
-<<<<<<< HEAD
     <ClCompile Include="..\source\NextBipTable.cpp" />
-=======
     <ClCompile Include="..\source\NextBip.cpp" />
     <ClCompile Include="..\source\NextBipStar.cpp" />
->>>>>>> refs/remotes/origin/iteration-3
     <ClCompile Include="..\source\NextStar.cpp" />
     <ClCompile Include="..\source\NextTable.cpp" />
     <ClCompile Include="..\source\Parameter.cpp" />

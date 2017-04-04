@@ -19,6 +19,7 @@ private:
     void recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated);
     void populateProcRel(int procId, int containerStmtId);
 	void extractNextBipRel();
+	void DesignExtractor::populateNextBipEndOfProc(int stmtId);
     void copyNext(int stmtId);
 	void populateStmtUseVarFromProc(int stmtId, int calledProcId);
 	void populateStmtUseConstFromProc(int stmtId, int calledProcId);

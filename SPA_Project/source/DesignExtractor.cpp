@@ -2,6 +2,7 @@
 
 #include "DesignExtractor.h"
 #include "TableOperations.h"
+#include <queue>
 
 using namespace std;
 
@@ -164,6 +165,8 @@ void DesignExtractor::extractNextBipRel() {
         //}
 		else if (pkb->getNextStmt(stmt) == unordered_set<int>()) {
 			//no next stmt
+			populateNextBipEndOfProc(stmt);
+			/*
 			int currentContainerProcId = pkb->getProcContainingStmt(stmt);
 			unordered_set<int> procCallerStmtSet = pkb->getStmtCallProc(currentContainerProcId);
 			for (int callerStmt : procCallerStmtSet) {
@@ -172,6 +175,7 @@ void DesignExtractor::extractNextBipRel() {
 					pkb->setStmtNextBipStmtRel(stmt, callerNextStmt);
 				}
 			}
+			*/
 		}
 		else {
             copyNext(stmt);
@@ -191,11 +195,42 @@ void DesignExtractor::extractNextBipRel() {
 		//set same as next rel
 }
 
+void DesignExtractor::populateNextBipEndOfProc(int stmtId) {
+	//no next stmt
+
+	int currentContainerProcId = pkb->getProcContainingStmt(stmtId);
+	queue<int> callerStmtQueue;
+	unordered_set<int> procCallerStmtSet = pkb->getStmtCallProc(currentContainerProcId);
+
+	for (int callerStmtId : procCallerStmtSet) {
+		callerStmtQueue.push(callerStmtId);
+	}
+
+	while (!callerStmtQueue.empty()) {
+		int currentCallerStmt = callerStmtQueue.front();
+		callerStmtQueue.pop();
+		unordered_set<int> callerNextStmtSet = pkb->getNextStmt(currentCallerStmt);
+		if (!callerNextStmtSet.empty()) {
+			for (int callerNextStmt : callerNextStmtSet) {
+				pkb->setStmtNextBipStmtRel(stmtId, callerNextStmt);
+			}
+		}
+		else {
+			int callerContainerProcId = pkb->getProcContainingStmt(stmtId);
+			unordered_set<int> callerProcCallerStmtSet = pkb->getStmtCallProc(callerContainerProcId);
+			for (int callerProcCallerStmt : callerProcCallerStmtSet) {
+				callerStmtQueue.push(callerProcCallerStmt);
+			}
+		}
+	}
+}
+
 void DesignExtractor::copyNext(int stmtId) {
-    unordered_set<int> nextStmtSet = pkb->getNextStmt(stmtId);
-    for (int nextStmt : nextStmtSet) {
-        pkb->setStmtNextBipStmtRel(stmtId, nextStmt);
-    }
+	unordered_set<int> nextStmtSet = pkb->getNextStmt(stmtId);
+	for (int nextStmt : nextStmtSet) {
+		pkb->setStmtNextBipStmtRel(stmtId, nextStmt);
+	}
+}
 
 void DesignExtractor::populateStmtUseVarFromProc(int stmtId, int calledProcId) {
 	unordered_set<int> calledProcUsedVarLst = pkb->getVarUsedByProc(calledProcId);

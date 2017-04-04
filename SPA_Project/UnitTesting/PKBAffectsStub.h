@@ -15,6 +15,7 @@ public:
 	bool isStmtInCallTable(int stmtId);
 
 	int getProcContainingStmt(int stmtId);
+	vector<int> getStmtLstContainedInProc(int stmtId);
 	unordered_set<int> getVarModifiedInStmt(int stmtId);
 	unordered_set<int> getVarUsedByStmt(int stmtId);
 
@@ -29,6 +30,7 @@ private:
 
 	unordered_map<int, int> assignStmtToVarTable;
 	unordered_map<int, int> stmtToProcTable;
+	unordered_map<int, vector<int>> stmtLstToProcTable;
 	unordered_map<int, unordered_set<int>> modStmtToVarTable;
 	unordered_map<int, unordered_set<int>> useStmtToVarTable;
 

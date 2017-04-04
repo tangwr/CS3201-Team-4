@@ -72,7 +72,9 @@ unordered_set<int> PKB::getModifyStmtInProc(int procId) {
     return resultSet;
 }
 
-unordered_set<int> PKB::getAllStmtId() {//currently only returning while and assignment statements
+unordered_set<int> PKB::getAllStmtId() {//while if assign call stmt
+	return combinedStmtTable.getAllStmtId();
+	/*
 	//unordered_set<int> combinedLst;
     unordered_set<int> combinedSet;
 
@@ -101,6 +103,7 @@ unordered_set<int> PKB::getAllStmtId() {//currently only returning while and ass
      
 	//set_union(whileStmtId.begin(), whileStmtId.end(), assignStmtId.begin(), assignStmtId.end(), back_inserter(combinedLst));
 	return combinedSet;
+	*/
 }
 
 
@@ -371,6 +374,7 @@ bool PKB::checkStmtVarUseRelExist(int stmtId, int varId) {
 
 //assign table
 bool PKB::setExpToAssignStmt(int stmtId, string expression) {
+	this->combinedStmtTable.insertStmt(stmtId);
 	return this->assignTable.setExpToAssignStmt(stmtId, expression);
 }
 
@@ -405,6 +409,7 @@ bool PKB::setVarToWhileStmt(int stmtId, int varId) {
 	if (!this->isValidVarId(varId)) {
 		return false;
 	}
+	this->combinedStmtTable.insertStmt(stmtId);
 	return this->whileTable.setVarToWhileStmt(stmtId, varId);
 }
 
@@ -425,6 +430,7 @@ bool PKB::setVarToIfStmt(int stmtId, int varId) {
 	if (!this->isValidVarId(varId)) {
 		return false;
 	}
+	this->combinedStmtTable.insertStmt(stmtId);
 	return this->ifTable.setVarToIfStmt(stmtId, varId);
 }
 
@@ -451,6 +457,7 @@ bool PKB::setStmtCallProcRel(int stmtId, int varId) {
 	if (!this->isValidVarId(varId)) {
 		return false;
 	}
+	this->combinedStmtTable.insertStmt(stmtId);
 	return this->callTable.setStmtCallProcRel(stmtId, varId);
 }
 bool PKB::setProcCallProcRel(int callerProcId, int calledProcId) {

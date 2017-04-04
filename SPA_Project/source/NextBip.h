@@ -1,16 +1,16 @@
-#ifndef ParentH
-#define ParentH
+#ifndef NextBipH
+#define NextBipH
 
 #include <string>
-#include <unordered_map>
 #include "Clause.h"
 #include "Type.h"
 #include "PKB.h"
+#include "unordered_set"
 #include "ResultTable.h"
 
 using namespace std;
 
-class Parent : public Clause {
+class NextBip : public Clause {
 private:
 
 	Parameter leftChild;
@@ -18,21 +18,20 @@ private:
 	ResultTable result;
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
-	bool isValidStmtNo(int, PKB*);
-	bool isParent(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isNextBip(PKB*, unordered_set<int>, unordered_set<int>);
 	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getParentSynSyn(PKB*, ResultTable*);
+	ResultTable getNextBipSynSyn(PKB*, ResultTable*);
 	vector<Parameter> synList;
 	void setSynList();
 	void insertTuple(int, int);
-	ResultTable getParent(PKB*, unordered_set<int>, unordered_set<int>);
+	ResultTable getNextBip(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
 
 public:
-	Parent(Parameter, Parameter);
+	NextBip(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB*, ResultTable);
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	ResultTable evaluate(PKB*, ResultTable);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 };

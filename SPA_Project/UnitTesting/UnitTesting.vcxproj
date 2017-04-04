@@ -175,6 +175,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AffectsStarUnitTest.cpp" />
     <ClCompile Include="AffectsUnitTest.cpp" />
     <ClCompile Include="PatternUnitTest.cpp" />
     <ClCompile Include="PKBAffectsStub.cpp" />

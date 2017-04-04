@@ -9,14 +9,14 @@ x = 2;						//1
 z = 3;						//2
 i = 5;						//3
 while i {					//4
-x = x - 1;				//5
-if x then {				//6
-z = x + 1; }		//7
-else {
-y = z + x; }		//8
-z = z + x + i;		//9
-call q;					//10
-i = i - 1; }			//11
+	x = x - 1;				//5
+	if x then {				//6
+		z = x + 1; }		//7
+	else {
+		y = z + x; }		//8
+	z = z + x + i;		//9
+	call q;					//10
+	i = i - 1; }			//11
 call p; }				//12
 
 procedure p {
@@ -39,6 +39,7 @@ x = z + x; } }			//24
 */
 
 PKBStubNextStar::PKBStubNextStar() {
+	allStmts = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 };
 	assignStmts = { 1, 2, 3, 5, 7, 8, 9, 11, 15, 17, 18, 19, 20, 21, 23, 24 };
 	whileStmts = { 4, 14 };
 	ifStmts = { 6, 13, 22 };
@@ -154,4 +155,8 @@ unordered_set<int> PKBStubNextStar::getStmtParentStarStmt(int a) {
 
 bool PKBStubNextStar::isStmtInWhileTable(int a) {
 	return whileStmts.find(a) != whileStmts.end();
+}
+
+unordered_set<int> PKBStubNextStar::getAllStmtId() {
+	return allStmts;
 }

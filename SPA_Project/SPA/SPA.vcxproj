@@ -17,6 +17,7 @@
     <ClCompile Include="..\source\Calls.cpp" />
     <ClCompile Include="..\source\CallsStar.cpp" />
     <ClCompile Include="..\source\CallTable.cpp" />
+    <ClCompile Include="..\source\CombinedStmtTable.cpp" />
     <ClCompile Include="..\source\ConstTable.cpp" />
     <ClCompile Include="..\source\Controller.cpp" />
     <ClCompile Include="..\source\DesignExtractor.cpp" />
@@ -27,7 +28,12 @@
     <ClCompile Include="..\source\Modifies.cpp" />
     <ClCompile Include="..\source\ModifiesTable.cpp" />
     <ClCompile Include="..\source\Next.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\source\NextBipTable.cpp" />
+=======
+    <ClCompile Include="..\source\NextBip.cpp" />
+    <ClCompile Include="..\source\NextBipStar.cpp" />
+>>>>>>> refs/remotes/origin/iteration-3
     <ClCompile Include="..\source\NextStar.cpp" />
     <ClCompile Include="..\source\NextTable.cpp" />
     <ClCompile Include="..\source\Parameter.cpp" />
@@ -65,6 +71,7 @@
     <ClInclude Include="..\source\CallTable.h" />
     <ClInclude Include="..\source\Clause.h" />
     <ClInclude Include="..\source\ClauseType.h" />
+    <ClInclude Include="..\source\CombinedStmtTable.h" />
     <ClInclude Include="..\source\ConstTable.h" />
     <ClInclude Include="..\source\Controller.h" />
     <ClInclude Include="..\source\DesignExtractor.h" />
@@ -76,6 +83,8 @@
     <ClInclude Include="..\source\ModifiesTable.h" />
     <ClInclude Include="..\source\Next.h" />
     <ClInclude Include="..\source\NextBipTable.h" />
+    <ClInclude Include="..\source\NextBip.h" />
+    <ClInclude Include="..\source\NextBipStar.h" />
     <ClInclude Include="..\source\NextStar.h" />
     <ClInclude Include="..\source\NextTable.h" />
     <ClInclude Include="..\source\Parameter.h" />

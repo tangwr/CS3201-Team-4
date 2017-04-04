@@ -18,6 +18,8 @@
 #include "NextTable.h"
 #include "StmtLstTable.h"
 #include "NextBipTable.h"
+#include "CombinedStmtTable.h"
+
 #include <algorithm>
 #include <iterator>
 
@@ -40,6 +42,7 @@ private:
     NextTable nextTable;
     StmtLstTable stmtLstTable;
 	NextBipTable nextBipTable;
+	CombinedStmtTable combinedStmtTable;
 
 	bool isValidVarId(int VarId);
 	bool isValidVar(string varName);

@@ -1,9 +1,10 @@
 #include "Type.h"
-#include "ParentStar.h"
 #include "Clause.h"
+#include "NextBip.h"
 
+using namespace std;
 
-ParentStar::ParentStar(Parameter lc, Parameter rc) {
+NextBip::NextBip(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
 	if (leftChild.isSynonym()) {
@@ -16,51 +17,65 @@ ParentStar::ParentStar(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable ParentStar::evaluate(PKB* pkb, ResultTable resultTable) {
+ResultTable NextBip::evaluate(PKB* pkb, ResultTable resultTable) {
 	if (resultTable.getSynCount() == 2) {
-		return getParentStarSynSyn(pkb, &resultTable);
+		return getNextBipSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
-		result.setBoolean(isParentStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
+		result.setBoolean(isNextBip(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
 		return result;
 	}
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
 		if (left.size() != 0) {
-			return getParentStar(pkb, left, getTypeStmt(rightChild, pkb));
+			return getNextBip(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (right.size() != 0) {
-			return getParentStar(pkb, getTypeStmt(leftChild, pkb), right);
+			return getNextBip(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getParentStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			return getNextBip(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
 	return result;
 }
 
-bool ParentStar::isParentStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-	for (auto& rightIterator : right) {
-		unordered_set<int> parentStar = pkb->getStmtParentStarStmt(rightIterator);
-		for (auto& it : parentStar) {
-			if (left.find(it) != left.end()) {
-				return true;
+bool NextBip::isNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+	if (left.size() < right.size()) {
+		for (auto& leftIterator : left) {
+			unordered_set<int> nextBip = pkb->getNextStmt(leftIterator);
+			//unordered_set<int> nextBip = pkb->getNextBipStmt(leftIterator);
+			for (auto& it : nextBip) {
+				if (right.find(it) != right.end()) {
+					return true;
+				}
+			}
+		}
+	}
+	else {
+		for (auto& rightIterator : right) {
+			unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
+			for (auto& it : prev) {
+				if (left.find(it) != left.end()) {
+					return true;
+				}
 			}
 		}
 	}
 	return false;
 }
 
-ResultTable ParentStar::getParentStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+ResultTable NextBip::getNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
 		return result;
 	}
-	if (left.size() == 1) {
+	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			unordered_set<int> childrenStar = pkb->getStmtChildrenStarStmt(leftIterator);
-			for (auto& it : childrenStar) {
+			//unordered_set<int> nextBip = pkb->getNextBipStmt(leftIterator);
+			unordered_set<int> nextBip = pkb->getNextStmt(leftIterator);
+			for (auto& it : nextBip) {
 				if (right.find(it) != right.end()) {
 					insertTuple(leftIterator, it);
 				}
@@ -69,8 +84,8 @@ ResultTable ParentStar::getParentStar(PKB* pkb, unordered_set<int> left, unorder
 	}
 	else {
 		for (auto& rightIterator : right) {
-			unordered_set<int> parentStar = pkb->getStmtParentStarStmt(rightIterator);
-			for (auto& it : parentStar) {
+			unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
+			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
 					insertTuple(it, rightIterator);
 				}
@@ -80,7 +95,7 @@ ResultTable ParentStar::getParentStar(PKB* pkb, unordered_set<int> left, unorder
 	return result;
 }
 
-ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) {
+ResultTable NextBip::getNextBipSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
 		return result;
@@ -89,7 +104,7 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 	vector<vector<int>> tupleList = resultTable->getTupleList();
 	if (isLeftChild(synonyms[0])) {
 		for (int i = 0; i < tupleList.size(); i++) {
-			if (isParentStar(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
+			if (isNextBip(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
 				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
 				result.insertTuple(tuple);
 			}
@@ -97,7 +112,7 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
-			if (isParentStar(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
+			if (isNextBip(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
 				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
 				result.insertTuple(tuple);
 			}
@@ -106,7 +121,7 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 	return result;
 }
 
-void ParentStar::setSynList() {
+void NextBip::setSynList() {
 	vector<Parameter> v;
 	if (isSynonym(leftChild)) {
 		v.push_back(leftChild);
@@ -119,7 +134,7 @@ void ParentStar::setSynList() {
 	result.setSynList(v);
 }
 
-void ParentStar::insertTuple(int left, int right) {
+void NextBip::insertTuple(int left, int right) {
 	vector<int> v;
 	if (isSynonym(leftChild)) {
 		if (isSynonym(rightChild)) {
@@ -140,7 +155,7 @@ void ParentStar::insertTuple(int left, int right) {
 	result.insertTuple(v);
 }
 
-unordered_set<int> ParentStar::getTypeStmt(Parameter p, PKB* pkb) {
+unordered_set<int> NextBip::getTypeStmt(Parameter p, PKB* pkb) {
 	Type type = p.getParaType();
 	switch (type) {
 	case PROG_LINE:
@@ -161,31 +176,31 @@ unordered_set<int> ParentStar::getTypeStmt(Parameter p, PKB* pkb) {
 	return unordered_set<int>();
 }
 
-bool ParentStar::isLeftChild(Parameter parameter) {
+bool NextBip::isLeftChild(Parameter parameter) {
 	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }
 
-bool ParentStar::isSynonym(Parameter parameter) {
+bool NextBip::isSynonym(Parameter parameter) {
 	Type type = parameter.getParaType();
 	return (type == ASSIGN || type == WHILE || type == STMT || type == PROG_LINE || type == IF || type == CALL);
 }
 
-bool ParentStar::isBooleanClause() {
+bool NextBip::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
 
-Parameter ParentStar::getLeftChild() {
+Parameter NextBip::getLeftChild() {
 	return leftChild;
 }
-Parameter ParentStar::getRightChild() {
+Parameter NextBip::getRightChild() {
 	return rightChild;
 }
 
-vector<Parameter> ParentStar::getSynList() {
+vector<Parameter> NextBip::getSynList() {
 	return synList;
 }
 
-ClauseType ParentStar::getClauseType() {
-	return PARENTSTAR;
+ClauseType NextBip::getClauseType() {
+	return FOLLOW;
 }

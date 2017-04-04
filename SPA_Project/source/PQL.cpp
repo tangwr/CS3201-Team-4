@@ -18,6 +18,9 @@ PQL::~PQL() {
 
 list<string> PQL::evaluateQuery(string querySource) {
 	string test = "procedure p1; assign a2; variable v3; stmt s; while w; if ifs; Select a2 such that Next*(a2, w) and Modifies(a2, v3)";
+	const string ERROR_SELECT_BOOLEAN = "The result is false";
+	const int EQUAL = 0;
+	const string FALSE = "false";
 	QueryTree queryTree;
 	/*
 	if (preProcessor.isValid(querySource)) {
@@ -33,7 +36,14 @@ list<string> PQL::evaluateQuery(string querySource) {
 	}
 	catch (string msg) {
 		cerr << "\n error is: " + msg << endl;
-		return list<string>();
+		if (msg.compare(ERROR_SELECT_BOOLEAN) == EQUAL) {
+			list<string> boolResult;
+			boolResult.push_back(FALSE);
+			return boolResult;
+		}
+		else {
+			return list<string>();
+		}
 	}
 
 	ResultTable result = evaluator->evaluate(queryTree);

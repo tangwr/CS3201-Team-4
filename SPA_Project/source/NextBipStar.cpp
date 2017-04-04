@@ -1,11 +1,11 @@
 #include "Type.h"
 #include "Clause.h"
-#include "NextStar.h"
+#include "NextBipStar.h"
 
 using namespace std;
 
 
-NextStar::NextStar(Parameter lc, Parameter rc) {
+NextBipStar::NextBipStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
 	if (leftChild.isSynonym()) {
@@ -18,12 +18,12 @@ NextStar::NextStar(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
+ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	if (resultTable.getSynCount() == 2) {
-		return getNextStarSynSyn(pkb, &resultTable);
+		return getNextBipStarSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
-		result.setBoolean(isNextStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
+		result.setBoolean(isNextBipStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
 		return result;
 	}
 	else {
@@ -31,26 +31,26 @@ ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
 		if (left.size() != 0) {
 			if (right.size() != 0) {
-				return getNextStarSynSyn(pkb, &resultTable);
+				return getNextBipStarSynSyn(pkb, &resultTable);
 			}
-			return getNextStar(pkb, left, getTypeStmt(rightChild, pkb));
+			return getNextBipStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (right.size() != 0) {
-			return getNextStar(pkb, getTypeStmt(leftChild, pkb), right);
+			return getNextBipStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getNextStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			return getNextBipStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
 	return result;
 }
 
-bool NextStar::isNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			unordered_set<int> nextStar;
-			getAllNextStar(leftIterator, &nextStar, pkb);
-			for (auto& it : nextStar) {
+			unordered_set<int> nextBipStar;
+			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
+			for (auto& it : nextBipStar) {
 				if (right.find(it) != right.end()) {
 					return true;
 				}
@@ -71,17 +71,17 @@ bool NextStar::isNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> 
 	return false;
 }
 
-ResultTable NextStar::getNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return isNextStarItself(pkb, getTypeStmt(leftChild, pkb));
+		return isNextBipStarItself(pkb, getTypeStmt(leftChild, pkb));
 	}
 
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			unordered_set<int> nextStar;
-			getAllNextStar(leftIterator, &nextStar, pkb);
-			for (auto& it : nextStar) {
+			unordered_set<int> nextBipStar;
+			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
+			for (auto& it : nextBipStar) {
 				if (right.find(it) != right.end()) {
 					insertTuple(leftIterator, it);
 				}
@@ -102,10 +102,10 @@ ResultTable NextStar::getNextStar(PKB* pkb, unordered_set<int> left, unordered_s
 	return result;
 }
 
-ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
+ResultTable NextBipStar::getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return isNextStarItself(pkb, resultTable->getSynValue(leftChild));
+		return isNextBipStarItself(pkb, resultTable->getSynValue(leftChild));
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -113,14 +113,14 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	unordered_set<int> right = resultTable->getSynValue(rightChild);
 	if (isLeftChild(synonyms[0])) {
 		if (left.size() < right.size()) {
-			unordered_map<int, unordered_set<int>> allNextStars;
+			unordered_map<int, unordered_set<int>> allNextBipStars;
 			for (auto& it : left) {
-				unordered_set<int> allNextStar;
-				getAllNextStar(it, &allNextStar, pkb);
-				allNextStars.insert({ it, allNextStar });
+				unordered_set<int> allNextBipStar;
+				getAllNextBipStar(it, &allNextBipStar, pkb);
+				allNextBipStars.insert({ it, allNextBipStar });
 			}
 			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allNextStars.find(tupleList[i][0]);
+				auto& it = allNextBipStars.find(tupleList[i][0]);
 				if (it->second.find(tupleList[i][1]) != it->second.end()) {
 					vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
 					result.insertTuple(tuple);
@@ -145,15 +145,15 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	}
 	else {
 		if (left.size() < right.size()) {
-			unordered_map<int, unordered_set<int>> allNextStars;
+			unordered_map<int, unordered_set<int>> allNextBipStars;
 			for (auto& it : left) {
-				unordered_set<int> allNextStar;
-				getAllNextStar(it, &allNextStar, pkb);
-				allNextStars.insert({ it, allNextStar });
+				unordered_set<int> allNextBipStar;
+				getAllNextBipStar(it, &allNextBipStar, pkb);
+				allNextBipStars.insert({ it, allNextBipStar });
 			}
 			for (int i = 0; i < tupleList.size(); i++) {
-				unordered_set<int> allNextStar = (allNextStars.find(tupleList[i][1]) -> second);
-				if (allNextStar.find(tupleList[i][0]) != allNextStar.end()) {
+				unordered_set<int> allNextBipStar = (allNextBipStars.find(tupleList[i][1])->second);
+				if (allNextBipStar.find(tupleList[i][0]) != allNextBipStar.end()) {
 					vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
 					result.insertTuple(tuple);
 				}
@@ -180,7 +180,7 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	return result;
 }
 
-ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
+ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts) {
 	if (leftChild.getParaType() == WHILE) {
 		for (auto& it : stmts) {
 			insertTuple(it, it);
@@ -207,32 +207,32 @@ ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
 	return result;
 }
 
-void NextStar::getAllNextStar(int prev, unordered_set<int>* allNextStar, PKB* pkb) {
+void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, PKB* pkb) {
 	unordered_set<int> visited;
-	getAllNextStar(prev, allNextStar, &visited, pkb);
+	getAllNextBipStar(prev, allNextBipStar, &visited, pkb);
 	return;
 }
 
-void NextStar::getAllNextStar(int prev, unordered_set<int>* allNextStar, unordered_set<int>* visited, PKB* pkb) {
+void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, unordered_set<int>* visited, PKB* pkb) {
 	if (visited->find(prev) != visited->end()) {
 		return;
 	}
 	visited->insert(prev);
 	unordered_set<int> next = pkb->getNextStmt(prev);
 	for (auto& it : next) {
-		allNextStar->insert(it);
-		getAllNextStar(it, allNextStar, visited, pkb);
+		allNextBipStar->insert(it);
+		getAllNextBipStar(it, allNextBipStar, visited, pkb);
 	}
 	return;
 }
 
-void NextStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, PKB* pkb) {
+void NextBipStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, PKB* pkb) {
 	unordered_set<int> visited;
 	getAllPrevStar(next, allPrevStar, &visited, pkb);
 	return;
 }
 
-void NextStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, unordered_set<int>* visited, PKB* pkb) {
+void NextBipStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, unordered_set<int>* visited, PKB* pkb) {
 	if (visited->find(next) != visited->end()) {
 		return;
 	}
@@ -245,7 +245,7 @@ void NextStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, unorder
 	return;
 }
 
-void NextStar::setSynList() {
+void NextBipStar::setSynList() {
 	vector<Parameter> v;
 	if (isSynonym(leftChild)) {
 		v.push_back(leftChild);
@@ -258,7 +258,7 @@ void NextStar::setSynList() {
 	result.setSynList(v);
 }
 
-void NextStar::insertTuple(int left, int right) {
+void NextBipStar::insertTuple(int left, int right) {
 	vector<int> v;
 	if (isSynonym(leftChild)) {
 		if (isSynonym(rightChild)) {
@@ -279,7 +279,7 @@ void NextStar::insertTuple(int left, int right) {
 	result.insertTuple(v);
 }
 
-unordered_set<int> NextStar::getTypeStmt(Parameter p, PKB* pkb) {
+unordered_set<int> NextBipStar::getTypeStmt(Parameter p, PKB* pkb) {
 	Type type = p.getParaType();
 	switch (type) {
 	case PROG_LINE:
@@ -300,31 +300,31 @@ unordered_set<int> NextStar::getTypeStmt(Parameter p, PKB* pkb) {
 	return unordered_set<int>();
 }
 
-bool NextStar::isLeftChild(Parameter parameter) {
+bool NextBipStar::isLeftChild(Parameter parameter) {
 	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }
 
-bool NextStar::isSynonym(Parameter parameter) {
+bool NextBipStar::isSynonym(Parameter parameter) {
 	Type type = parameter.getParaType();
 	return (type == ASSIGN || type == WHILE || type == STMT || type == PROG_LINE || type == IF || type == CALL);
 }
 
-bool NextStar::isBooleanClause() {
+bool NextBipStar::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
 
-Parameter NextStar::getLeftChild() {
+Parameter NextBipStar::getLeftChild() {
 	return leftChild;
 }
-Parameter NextStar::getRightChild() {
+Parameter NextBipStar::getRightChild() {
 	return rightChild;
 }
 
-vector<Parameter> NextStar::getSynList() {
+vector<Parameter> NextBipStar::getSynList() {
 	return synList;
 }
 
-ClauseType NextStar::getClauseType() {
+ClauseType NextBipStar::getClauseType() {
 	return FOLLOW;
 }

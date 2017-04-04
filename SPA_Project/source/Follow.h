@@ -27,18 +27,6 @@ private:
 	void insertTuple(int, int);
 	ResultTable getFollow(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
-	/*
-	bool isNumber(Parameter);
-	bool isRightChild(Parameter);
-	bool isFollows(PKB*, int, int);
-	ResultTable getFollowNumNum(PKB*, int, int);
-	ResultTable getFollowNumSyn(PKB*, unordered_set<int>, int);
-	ResultTable getFollowSynNum(PKB*, unordered_set<int>, int);
-	ResultTable getFollowSynSyn(PKB*, unordered_set<int>, unordered_set<int>);
-	ResultTable evaluateWithoutRestrictions(PKB*);
-	ResultTable evaluateWithoutOneRestriction(PKB*, ResultTable*);
-	*/
-	//bool isBothInt();
 
 public:
 	Follow(Parameter lc, Parameter rc);

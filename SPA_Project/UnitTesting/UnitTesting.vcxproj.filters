@@ -155,5 +155,8 @@
     <ClCompile Include="UnitTestParentStar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AffectsStarUnitTest.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

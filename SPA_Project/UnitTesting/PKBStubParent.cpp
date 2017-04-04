@@ -39,6 +39,7 @@ x = z + x; } }			//24
 */
 
 PKBStubParent::PKBStubParent() {
+	allStmts = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 };
 	assignStmts = { 1, 2, 3, 5, 7, 8, 9, 11, 15, 17, 18, 19, 20, 21, 23, 24 };
 	whileStmts = { 4, 14 };
 	ifStmts = { 6, 13, 22 };
@@ -101,4 +102,8 @@ unordered_set<int> PKBStubParent::getStmtChildrenStmt(int a) {
 	if (it == childrenTable.end())
 		return unordered_set<int>();
 	return it->second;
+}
+
+unordered_set<int> PKBStubParent::getAllStmtId() {
+	return allStmts;
 }

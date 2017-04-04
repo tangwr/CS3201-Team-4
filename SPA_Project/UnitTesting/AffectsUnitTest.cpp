@@ -134,7 +134,7 @@ namespace UnitTest_Affects_Object
 			Assert::IsTrue(queryResult.isSynInTable(affectedStmt));
 			Assert::AreEqual(0, queryResult.getSynIndex(affectedStmt));
 
-			expectedResult = { { 8 }, { 9 } };
+			expectedResult = { { 8 },{ 9 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -245,7 +245,7 @@ namespace UnitTest_Affects_Object
 			Assert::AreEqual(1, queryResult.getSynIndex(affectedStmt));
 
 			expectedResult = { { 1,5 },{ 2,8 },{ 2,9 },{ 3,9 },{ 3,11 },{ 5,7 },{ 5,8 },{ 5,9 },{ 7,9 },{ 11,9 },
-								{ 11,11 },{ 17,17 },{ 17,21 },{ 18,19 },{ 18,21 },{ 19,21 },{ 20,21 } };
+			{ 11,11 },{ 17,17 },{ 17,21 },{ 18,19 },{ 18,21 },{ 19,21 },{ 20,21 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -365,7 +365,8 @@ namespace UnitTest_Affects_Object
 			intResult.insertTuple({ 3,9 });
 			intResult.insertTuple({ 9,11 });
 			intResult.insertTuple({ 18,21 });
-			queryResult = affectsObj.evaluate(&pkbStub, intResult).join(intResult);
+			queryResult = affectsObj.evaluate(&pkbStub, intResult);
+			queryResult.join(intResult);
 
 			Assert::AreEqual(2, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(affectorStmt));
@@ -373,12 +374,12 @@ namespace UnitTest_Affects_Object
 			Assert::AreEqual(0, queryResult.getSynIndex(affectorStmt));
 			Assert::AreEqual(1, queryResult.getSynIndex(affectedStmt));
 
-			expectedResult = { { 3,9 },{ 18,21 }};
+			expectedResult = { { 3,9 },{ 18,21 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
-			Assert::AreEqual(expectedResult.size(), tupleResult.size());	
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 		}
 	};

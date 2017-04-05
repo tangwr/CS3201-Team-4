@@ -39,7 +39,7 @@ private:
 
 	unordered_set<int> getValidStmts(PKB* pkb, ResultTable* intResultTable, Parameter child);
 	Type getStmtType(PKB* pkb, int initialStmt);
-	bool mergeTable(unordered_map<int, unordered_set<int>>* merger, unordered_map<int, unordered_set<int>>* merged, bool eraseMissing);
+	bool mergeTable(unordered_map<int, unordered_set<int>>* merger, unordered_map<int, unordered_set<int>>* merged);
 	bool isStmtValidResult(int affectorStmtId, map<int, bool>* validAffectorResults, int affectedStmtId, map<int, bool>* validAffectedResults);
 	void setResultTupleToTable(ResultTable* affectResultTable, int affectorStmtId, int affectedStmtId);
 };

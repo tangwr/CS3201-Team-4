@@ -437,10 +437,6 @@ void QueryParser::getModifies(QueryTree* qt) {
 			usedMap[key] = rightChild;
 		}
 	}
-	else if (isPositiveInteger(rc)) {
-		rightChild.setParaName(rc);
-		rightChild.setParaType(INTEGER);
-	}
 	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
 		rightChild.setParaName(rc);
 		rightChild.setParaType(ANYTHING);
@@ -517,10 +513,6 @@ void QueryParser::getUses(QueryTree* qt) {
 			usedMap[key] = rightChild;
 		}
 	}
-	else if (isPositiveInteger(rc)) {
-		rightChild.setParaName(rc);
-		rightChild.setParaType(INTEGER);
-	}
 	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
 		rightChild.setParaName(rc);
 		rightChild.setParaType(ANYTHING);
@@ -564,10 +556,6 @@ void QueryParser::getCalls(QueryTree* qt) {
 			usedMap[key] = leftChild;
 		}
 	}
-	else if (isPositiveInteger(lc)) {
-		leftChild.setParaName(lc);
-		leftChild.setParaType(INTEGER);
-	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
 
 		string proceName = tokenizer->getToken();
@@ -599,10 +587,6 @@ void QueryParser::getCalls(QueryTree* qt) {
 		if (!isUsedExists(key)) {
 			usedMap[key] = rightChild;
 		}
-	}
-	else if (isPositiveInteger(rc)) {
-		rightChild.setParaName(rc);
-		rightChild.setParaType(INTEGER);
 	}
 	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
 		rightChild.setParaName(rc);
@@ -647,10 +631,6 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 			usedMap[key] = leftChild;
 		}
 	}
-	else if (isPositiveInteger(lc)) {
-		leftChild.setParaName(lc);
-		leftChild.setParaType(INTEGER);
-	}
 	else if (lc.compare(SYMBOL_QUOTE) == EQUAL) {
 
 		string proceName = tokenizer->getToken();
@@ -682,10 +662,6 @@ void QueryParser::getCallsStar(QueryTree* qt) {
 		if (!isUsedExists(key)) {
 			usedMap[key] = rightChild;
 		}
-	}
-	else if (isPositiveInteger(rc)) {
-		rightChild.setParaName(rc);
-		rightChild.setParaType(INTEGER);
 	}
 	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
 		rightChild.setParaName(rc);

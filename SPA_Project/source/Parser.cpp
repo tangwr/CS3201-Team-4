@@ -241,7 +241,7 @@ string Parser::extractExp() {
 string Parser::createExpPrefix(int assignStmtId, string infix) {
 	stack<string> prefix = ExpOperation::evaluatePrefix(infix);
 
-	string expStr;
+	string expStr = STRING_SEPARATOR;
 	string expWord;
 
 	while (!prefix.empty()) {

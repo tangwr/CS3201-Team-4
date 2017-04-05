@@ -237,7 +237,7 @@ bool Pattern::isValidStmtType(PKB* pkb, int stmtId) {
 
 string Pattern::getPrefix(string infixString) {
 	stack<string> prefix = ExpOperation::evaluatePrefix(infixString);
-	string prefixString;
+	string prefixString = "|";
 	while (!prefix.empty()) {
 		prefixString += prefix.top() + "|";
 		prefix.pop();

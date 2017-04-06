@@ -71,7 +71,7 @@ unordered_set<int> NextBipTable::getPreviousBipStmt(int stmtId) {
 
 void NextBipTable::printContents() {
 
-	cout << "---PRINT NEXTTABLE---" << endl;
+	cout << "---PRINT NEXTBIPTABLE---" << endl;
 
 	cout << "StmtId : Next bip stmtId" << endl;//can have more than one next
 	for (pair<int, unordered_set<int>> it : nextBipMap) {

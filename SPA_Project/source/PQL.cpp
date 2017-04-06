@@ -14,6 +14,7 @@ PQL::PQL(PKB *pkbSource) {
 PQL::~PQL() {
 	delete evaluator;
 	delete postProcessor;
+	delete preProcessor;
 }
 
 list<string> PQL::evaluateQuery(string querySource) {

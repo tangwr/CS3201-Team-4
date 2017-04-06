@@ -89,6 +89,7 @@ QueryParser::QueryParser() {}
 QueryTree QueryParser::parse(string query) {
 	tokenizer = new Tokenizer(query);
 	QueryTree queryTree;
+	isSelectBoolean = false;
 	usedMap.clear();
 	varMap.clear();
 	getDeclaration(&queryTree);

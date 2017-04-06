@@ -25,16 +25,18 @@ private:
 	Tokenizer *tokenizer;
 	string token;
 	int curStmtNum;
+	int curDummyStmtNum;
 	unordered_set<int> procInSource;
+	unordered_set<string> keyWords;
 
 	void createProg();
 	void createProc();
-	pair<int, vector<int>> createStmtLst(int procId, int contId);
-	vector<int> createStmt(int procId, int stmtId);
-	vector<int> createWhile(int procId, int whileStmtId);
-	vector<int> createIf(int procId, int ifStmtId);
-	vector<int> createCall(int procId, int callStmtId);
-	vector<int> createAssign(int procId, int assignStmtId);
+	int createStmtLst(int procId, int contId);
+	int createStmt(int procId, int stmtId);
+	int createWhile(int procId, int whileStmtId);
+	int createIf(int procId, int ifStmtId);
+	int createCall(int procId, int callStmtId);
+	int createAssign(int procId, int assignStmtId);
 	int createVar(string varName);
 	int createConst(int constValue);
 	void ensureAllCalledProcExisted();
@@ -42,4 +44,5 @@ private:
 	string extractExp();
 	string createExpPrefix(int assignStmtId, string infix);
 	void match(string matchRe);
+	void misMatch(string matchRe);
 };

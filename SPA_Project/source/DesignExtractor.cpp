@@ -126,7 +126,7 @@ void DesignExtractor::extractNextBipRel() {
 			int calledProcId = pkb->getProcCalledByStmt(stmt);
 			vector<int> procFirstStmt = pkb->getStmtLstContainedInProc(calledProcId);
 			for (int element : procFirstStmt) {
-				pkb->setStmtNextStmtRel(stmt, element);
+				pkb->setStmtNextBipStmtRel(stmt, element);
 			}
         }
         else if (pkb->isStmtInWhileTable(stmt)) {

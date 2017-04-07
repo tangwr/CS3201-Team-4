@@ -40,14 +40,7 @@ namespace UnitTesting
 			Assert::AreEqual(0, vt.getVarIndex("ABC"));
 			Assert::AreEqual(-1, vt.getVarIndex("GGG"));
 
-			try
-			{
-				vt.getVarNameById(9999);
-			}
-			catch (const std::exception& e1)
-			{
-				Assert::AreEqual(e1.what(), "InvalidReferenceException");
-			}
+			Assert::AreEqual(vt.getVarNameById(9999), (string)"");
 
 			vt.insertVar("ABCD");
 			vt.insertVar("ABCDE");
@@ -70,14 +63,7 @@ namespace UnitTesting
 			ProcTable pt;
 			Assert::AreEqual(0, pt.getSize());
 
-			try
-			{
-				pt.getProcName(99);
-			}
-			catch (exception& e1)
-			{
-				Assert::AreEqual(e1.what(), "InvalidReferenceException");
-			}
+			Assert::AreEqual(pt.getProcName(99), (string) "");
 
 			int a = pt.insertProc("ABC");
 			Assert::AreEqual(0, a);

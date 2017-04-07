@@ -41,12 +41,16 @@ int ProcTable::getSize()
 
 /*
 Query the procName by procId
-Return procName if procId is valid. else throw exception
+Return procName if procId is valid. else return ""
 */
 string ProcTable::getProcName(int procId)
 {
-	if (procId >= ptsize) throw exception("InvalidReferenceException");
-	else return procList.at(procId);
+	if (procId >= ptsize) {
+		return "";
+	}
+	else {
+		return procList.at(procId);
+	}
 }
 
 

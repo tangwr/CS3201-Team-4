@@ -20,15 +20,17 @@ private:
 
 	void setSynToTable(ResultTable* withResultTable);
 	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
-	void setBooleanToTable(ResultTable* withResultTable);
 
-	unordered_set<int> getRightResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
-	unordered_set<int> getLeftResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
+	void setBooleanResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
+	void setSynonymResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
+	void setMatchingTupleResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable);
+
+	unordered_set<int> getResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable, Parameter child, Parameter oppChild);
 	void assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<int> callStmts, unordered_set<int> procs);
 	unordered_set<int> getSynResultList(PKB* pkb, Parameter parameter);
 	void setResultTupleToTable(ResultTable* pattResultTable, int left, int right);
-	int getIdOfString(PKB* pkb);
-	string getStringOfId(PKB* pkb, int id);
+	int getIdOfString(PKB* pkb, Parameter child, Type type);
+	string getStringOfId(PKB* pkb, int id, Type type);
 
 public:
 	With(Parameter lc, Parameter rc);

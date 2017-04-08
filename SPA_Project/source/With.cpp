@@ -22,7 +22,6 @@ ResultTable With::evaluate(PKB* pkb, ResultTable intResultTable) {
 	ResultTable withResultTable;
 	setSynToTable(&withResultTable);
 	setResultToTable(pkb, &intResultTable, &withResultTable);
-	setBooleanToTable(&withResultTable);
 	return withResultTable;
 }
 
@@ -31,55 +30,98 @@ void With::setSynToTable(ResultTable* withResultTable) {
 }
 
 void With::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
-	unordered_set<int> rightResultList = getRightResultList(pkb, intResultTable, withResultTable);
-	unordered_set<int> leftResultList = getLeftResultList(pkb, intResultTable, withResultTable);
-	assignResult(pkb, withResultTable, leftResultList, rightResultList);
+	switch (synList.size()) {
+	case 0:
+		setBooleanResult(pkb, intResultTable, withResultTable);
+		break;
+	case 1:
+		/* falls through */
+	case 2:
+		switch (intResultTable->getSynCount()) {
+		case 0:
+			/* falls thorugh */
+		case 1:
+			setSynonymResult(pkb, intResultTable, withResultTable);
+			break;
+		case 2:
+			setMatchingTupleResult(pkb, intResultTable, withResultTable);
+			break;
+		}
+		break;
+	}
 }
 
-unordered_set<int> With::getRightResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
-	unordered_set<int> rightResultList;
-	if (rightChild.isSynonym()) {
-		if (intResultTable->isSynInTable(rightChild)) {
-			rightResultList = intResultTable->getSynValue(rightChild);
-		}
-		else {
-			rightResultList = getSynResultList(pkb, rightChild);
-		}
-	}
-	else if (rightChild.isInteger()) {
-		rightResultList = { stoi(rightChild.getParaName()) };
-	}
-	else if (rightChild.isString()) {
-		int id = getIdOfString(pkb);
-		if (id != NOT_FOUND) {
-			rightResultList = { getIdOfString(pkb) };
-		}
+void With::setBooleanResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
+	if (leftChild.getParaName() == rightChild.getParaName()) {
+		withResultTable->setBoolean(true);
 	}
 	else {
-		//error
+		withResultTable->setBoolean(false);
 	}
-	return rightResultList;
 }
 
-unordered_set<int> With::getLeftResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
-	unordered_set<int> leftResultList;
+void With::setSynonymResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
+	unordered_set<int> rightResultList = getResultList(pkb, intResultTable, withResultTable, rightChild, leftChild);
+	unordered_set<int> leftResultList = getResultList(pkb, intResultTable, withResultTable, leftChild, rightChild);
 	if (leftChild.isSynonym()) {
-		if (intResultTable->isSynInTable(leftChild)) {
-			leftResultList = intResultTable->getSynValue(leftChild);
-		}
-		else {
-			leftResultList = getSynResultList(pkb, leftChild);
+		assignResult(pkb, withResultTable, leftResultList, rightResultList);
+	} else {
+		assignResult(pkb, withResultTable, leftResultList, rightResultList);
+	}
+}
+
+void With::setMatchingTupleResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
+	vector<vector<int>> tupleList = intResultTable->getTupleList();
+	for (int tupleIndex = 0; tupleIndex < (int)tupleList.size(); tupleIndex++) {
+		//asset tupleList[tupleIndex].size() == 2
+		if (tupleList[tupleIndex][0] == tupleList[tupleIndex][1]) {
+			withResultTable->insertTuple({ tupleList[tupleIndex][0],tupleList[tupleIndex][1] });
 		}
 	}
-	else {
+}
+
+unordered_set<int> With::getResultList(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable, Parameter child, Parameter oppChild) {
+	unordered_set<int> resultList;
+	if (child.isSynonym()) {
+		if (intResultTable->isSynInTable(child)) {
+			resultList = intResultTable->getSynValue(child);
+		} else {
+			resultList = getSynResultList(pkb, child);
+		}
+	} else if (child.isInteger()) {
+		resultList = { stoi(child.getParaName()) };
+	} else if (child.isString()) {
+		int id = getIdOfString(pkb, child, oppChild.getParaType());
+		if (id != NOT_FOUND) {
+			resultList = { id };
+		}
+	} else {
 		//error
 	}
-	return leftResultList;
+	return resultList;
 }
 
 void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<int> leftResult, unordered_set<int> rightResult) {
+	Parameter assigner;
+	Parameter assigned;
+	unordered_set<int> assignerResult;
+	unordered_set<int> assignedResult;
+	if (leftChild.isSynonym()) {
+		assigner = rightChild;
+		assigned = leftChild;
+
+		assignerResult = rightResult;
+		assignedResult = leftResult;
+	} else {
+		assigner = leftChild;
+		assigned = rightChild;
+
+		assignerResult = leftResult;
+		assignedResult = rightResult;
+	}
+	
 	unordered_set<int> resultList;
-	switch (leftChild.getParaType()) {
+	switch (assigned.getParaType()) {
 	case PROG_LINE:
 		/* falls through */
 	case STMT:
@@ -91,33 +133,42 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 	case IF:
 		/* falls through */
 	case CONSTANT:
-		resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
+		resultList = UnorderedSetOperation<int>::setIntersection(assignerResult, assignedResult);
 		for (auto value : resultList) {
 			setResultTupleToTable(withResultTable, value, value);
 		}
 		break;
 
 	case CALL:
-		if (leftChild.getAttributeProc()) {
-			for (auto id : rightResult) {
-				int rightId = id;
-				if (rightChild.getParaType() == CALL) {
-					rightId = pkb->getProcCalledByStmt(id);
+		if (assigned.getAttributeProc()) {
+			for (auto id : assignerResult) {
+				int assignerId = id;
+				if (assigner.getParaType() == CALL) {
+					assignerId = pkb->getProcCalledByStmt(id);
 				}
 
-				string idString = getStringOfId(pkb, rightId);
+				string idString;
+				if (assigner.getParaType() == STRINGVARIABLE) {
+					idString = getStringOfId(pkb, assignerId, assigned.getParaType());
+				} else {
+					idString = getStringOfId(pkb, assignerId, assigner.getParaType());
+				}
+
 				if (pkb->isProcInTable(idString)) {
 					int procId = pkb->getProcIdByName(idString);
 					unordered_set<int> callStmts = pkb->getStmtCallProc(procId);
 					for (auto callStmtId : callStmts) {
-						if (leftResult.find(callStmtId) != leftResult.end()) {
-							setResultTupleToTable(withResultTable, callStmtId, id);
+						if (assignedResult.find(callStmtId) != assignedResult.end()) {
+							if (leftChild.isSynonym()) {
+								setResultTupleToTable(withResultTable, callStmtId, id);
+							} else {
+								setResultTupleToTable(withResultTable, id, callStmtId);
+							}
 						}
 					}
 				}
 			}
-		}
-		else {
+		} else {
 			resultList = UnorderedSetOperation<int>::setIntersection(leftResult, rightResult);
 			for (auto stmtId : resultList) {
 				setResultTupleToTable(withResultTable, stmtId, stmtId);
@@ -126,33 +177,53 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 		}
 		break;
 	case PROCEDURE:
-		for (auto id : rightResult) {
-			int rightId = id;
-			if (rightChild.getParaType() == CALL) {
-				rightId = pkb->getProcCalledByStmt(id);
+		for (auto id : assignerResult) {
+			int assignerId = id;
+			if (assigner.getParaType() == CALL) {
+				assignerId = pkb->getProcCalledByStmt(id);
 			}
 
-			string idString = getStringOfId(pkb, rightId);
+			string idString;
+			if (assigner.getParaType() == STRINGVARIABLE) {
+				idString = getStringOfId(pkb, assignerId, assigned.getParaType());
+			} else {
+				idString = getStringOfId(pkb, assignerId, assigner.getParaType());
+			}
+			
 			if (pkb->isProcInTable(idString)) {
 				int procId = pkb->getProcIdByName(idString);
-				if (leftResult.find(procId) != leftResult.end()) {
-					setResultTupleToTable(withResultTable, procId, id);
+				if (assignedResult.find(procId) != assignedResult.end()) {
+					if (leftChild.isSynonym()) {
+						setResultTupleToTable(withResultTable, procId, id);
+					} else {
+						setResultTupleToTable(withResultTable, id, procId);
+					}
 				}
 			}
 		}
 		break;
 	case VARIABLE:
-		for (auto id : rightResult) {
-			int rightId = id;
-			if (rightChild.getParaType() == CALL) {
-				rightId = pkb->getProcCalledByStmt(id);
+		for (auto id : assignerResult) {
+			int assignerId = id;
+			if (assigner.getParaType() == CALL) {
+				assignerId = pkb->getProcCalledByStmt(id);
 			}
 
-			string idString = getStringOfId(pkb, id);
+			string idString;
+			if (assigner.getParaType() == STRINGVARIABLE) {
+				idString = getStringOfId(pkb, assignerId, assigned.getParaType());
+			} else {
+				idString = getStringOfId(pkb, assignerId, assigner.getParaType());
+			}
+
 			if (pkb->isVarInTable(idString)) {
 				int varId = pkb->getVarIdByName(idString);
-				if (leftResult.find(varId) != leftResult.end()) {
-					setResultTupleToTable(withResultTable, varId, id);
+				if (assignedResult.find(varId) != assignedResult.end()) {
+					if (leftChild.isSynonym()) {
+						setResultTupleToTable(withResultTable, varId, id);
+					} else {
+						setResultTupleToTable(withResultTable, id, varId);
+					}
 				}
 			}
 		}
@@ -160,29 +231,21 @@ void With::assignResult(PKB* pkb, ResultTable* withResultTable, unordered_set<in
 	}
 }
 
-int With::getIdOfString(PKB* pkb) {
-	switch (leftChild.getParaType()) {
+int With::getIdOfString(PKB* pkb, Parameter child, Type type) {
+	switch (type) {
 	case CALL:
 		/* falls through */
 	case PROCEDURE:
-		return pkb->getProcIdByName(rightChild.getParaName());
+		return pkb->getProcIdByName(child.getParaName());
 	case VARIABLE:
-		return pkb->getVarIdByName(rightChild.getParaName());
+		return pkb->getVarIdByName(child.getParaName());
 	default:
 		return ERROR;
 	}
 }
 
-string With::getStringOfId(PKB* pkb, int id) {
-	Type idType;
-	if (rightChild.getParaType() == STRINGVARIABLE) {
-		idType = leftChild.getParaType();
-	}
-	else {
-		idType = rightChild.getParaType();
-	}
-
-	switch (idType) {
+string With::getStringOfId(PKB* pkb, int id, Type type) {
+	switch (type) {
 	case CALL:
 		/* falls through */
 	case PROCEDURE:
@@ -229,32 +292,27 @@ unordered_set<int> With::getSynResultList(PKB* pkb, Parameter parameter) {
 	return resultList;
 }
 
-void With::setResultTupleToTable(ResultTable* pattResultTable, int left, int right) {
-	switch (pattResultTable->getSynCount()) {
+void With::setResultTupleToTable(ResultTable* withResultTable, int left, int right) {
+	switch (withResultTable->getSynCount()) {
+	case 0:
+		withResultTable->setBoolean(true);
+		break;
 	case 1:
-		if (rightChild.isSynonym()) {
+		if (leftChild.isSynonym() && rightChild.isSynonym()) {
 			if (left == right) {
-				pattResultTable->insertTuple({ left });
+				withResultTable->insertTuple({ left });
 			}
+		} else if (leftChild.isSynonym()) {
+			withResultTable->insertTuple({ left });
 		} else {
-			pattResultTable->insertTuple({ left });
+			withResultTable->insertTuple({ right });
 		}
 		break;
 	case 2:
-		pattResultTable->insertTuple({ left, right });
+		withResultTable->insertTuple({ left, right });
 		break;
 	}
 }
-
-void With::setBooleanToTable(ResultTable* withResultTable) {
-	if (withResultTable->getTupleSize() > 0) {
-		withResultTable->setBoolean(true);
-	}
-	else {
-		withResultTable->setBoolean(false);
-	}
-}
-
 
 vector<Parameter>With::getSynList() {
 	return synList;

@@ -1,8 +1,10 @@
 #include "Affects.h"
 
 const int contStmtId = 0;
-const int contNextStmtId = 1;
+const int numOfPathDone = 1;
 const int varToStmtTable = 2;
+
+const int NOT_FOUND = 0;
 
 Affects::Affects(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -24,7 +26,6 @@ ResultTable Affects::evaluate(PKB* pkb, ResultTable intResultTable) {
 
 	setSynToTable(&affectResultTable);
 	setResultToTable(pkb, &intResultTable, &affectResultTable);
-	setBooleanToTable(&affectResultTable);
 
 	return affectResultTable;
 }
@@ -101,6 +102,16 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 		map<int, bool> affectorStmts = proc.second;
 		map<int, bool> affectedStmts = affected.at(procId);
 
+		for (auto stmtMap : affectorStmts) {
+			if (!stmtMap.second) {
+				fowardDfs(pkb, affectResultTable, procId, stmtMap.first, &affectorStmts, &affectedStmts);
+				if (hasFoundAllResult) {
+					return;
+				}
+			}
+		}
+
+		/*
 		if (affectorStmts.size() <= affectedStmts.size()) {
 			for (auto stmtMap : affectorStmts) {
 				if (!stmtMap.second) {
@@ -120,11 +131,11 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 				}
 			}
 		}
+		*/
 	}
 }
 
 void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, int startStmt, map<int, bool>* affectorStmts, map<int, bool>* affectedStmts) {
-	unordered_map<int, int> stmtVisitedCount;
 	unordered_map<int, unordered_set<int>> modifiedVarToStmt;
 	
 	stack<tuple<int, int, unordered_map<int, unordered_set<int>>>> ifTableStack;
@@ -144,44 +155,29 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			affectorStmts->at(curStmt) = true;
 		}
 
-		Type stmtType = getStmtType(pkb, curStmt);
-		int numOfPrevStmt = pkb->getPreviousStmt(curStmt).size();
-		if (numOfPrevStmt > 2 || (numOfPrevStmt > 1 && (stmtType != WHILE || curStmt == *(pkb->getStmtLstContainedInProc(procId).begin())))) {
-			//cout << curStmt;
-			if (stmtVisitedCount.find(curStmt) == stmtVisitedCount.end()) {
-				stmtVisitedCount.insert({ curStmt,1 });
-			}
-			else {
-				stmtVisitedCount.at(curStmt)++;
-			}
-
-			if (!ifTableStack.empty() && (stmtType != WHILE || stmtVisitedCount.at(curStmt) > 1)) {
-				if ( get<contNextStmtId>(ifTableStack.top()) == -1 || stmtVisitedCount.at(curStmt) < numOfPrevStmt) {
-					get<contNextStmtId>(ifTableStack.top()) = curStmt;
+		if (curStmt < NOT_FOUND) {
+			if (!ifTableStack.empty()) {
+				if (get<numOfPathDone>(ifTableStack.top()) == 0) {
+					get<numOfPathDone>(ifTableStack.top())++;
 					unordered_map<int, unordered_set<int>> copyModifiedVarToStmt = modifiedVarToStmt;
 					modifiedVarToStmt = get<varToStmtTable>(ifTableStack.top());
 					get<varToStmtTable>(ifTableStack.top()) = copyModifiedVarToStmt;
 					continue;
 				} else {
-					int mergedIfCount = 0;
-					while (mergedIfCount < ceil(numOfPrevStmt / 2.0) && !ifTableStack.empty() && get<contNextStmtId>(ifTableStack.top()) != -1) {
-						mergeTable(&get<varToStmtTable>(ifTableStack.top()), &modifiedVarToStmt);
-						ifTableStack.pop();
-						mergedIfCount++;
-					}
+					mergeTable(&get<varToStmtTable>(ifTableStack.top()), &modifiedVarToStmt);
+					ifTableStack.pop();
 				}
 			}
 
-			stmtVisitedCount.erase(curStmt);
-			if (stmtType == WHILE && curStmt != *(pkb->getStmtLstContainedInProc(procId).begin())) {
-				stmtVisitedCount.insert({ curStmt,1 });
+			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
+			if (nextStmts.size() == 1) {
+				dfsStack.push(*nextStmts.begin());
 			}
-			else {
-				stmtVisitedCount.insert({ curStmt,0 });
-			}
+			continue;
 		}
 
 		//cout << curStmt;
+		Type stmtType = getStmtType(pkb, curStmt);
 		switch (stmtType) {
 		case ASSIGN: {
 			unordered_set<int> usedVars = pkb->getVarUsedByStmt(curStmt);
@@ -204,13 +200,8 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			modifiedVarToStmt.at(modifiedVarId).insert(curStmt);
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() > 0) {
+			if (nextStmts.size() == 1) {
 				dfsStack.push(*nextStmts.begin());
-			} else {
-				if (!ifTableStack.empty()) {
-					modifiedVarToStmt = get<varToStmtTable>(ifTableStack.top());
-					ifTableStack.pop();
-				}
 			}
 			break;
 		}
@@ -224,13 +215,8 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			}
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() > 0) {
+			if (nextStmts.size() == 1) {
 				dfsStack.push(*nextStmts.begin());
-			} else {
-				if (!ifTableStack.empty()) {
-					modifiedVarToStmt = get<varToStmtTable>(ifTableStack.top());
-					ifTableStack.pop();
-				}
 			}
 			break;
 		}
@@ -238,7 +224,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 		case WHILE: {
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
 			int stmtWithinWhile = curStmt + 1;
-			int stmtAfterWhile = -1;
+			int stmtAfterWhile = NOT_FOUND;
 			for (auto nextStmtId : nextStmts) {
 				if (nextStmtId != stmtWithinWhile) {
 					stmtAfterWhile = nextStmtId;
@@ -246,24 +232,17 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			}
 
 			if (whileTableStack.empty() || get<contStmtId>(whileTableStack.top()) != curStmt) {
-				whileTableStack.push({ curStmt, stmtAfterWhile, modifiedVarToStmt });
+				whileTableStack.push({ curStmt, 0, modifiedVarToStmt });
 				dfsStack.push(stmtWithinWhile);
-			}
-			else {
+			} else {
 				bool hasNewEntryInTable = mergeTable(&modifiedVarToStmt, &get<varToStmtTable>(whileTableStack.top()));
 				if (hasNewEntryInTable) {
 					dfsStack.push(stmtWithinWhile);
-				}
-				else {
+				} else {
 					modifiedVarToStmt = get<varToStmtTable>(whileTableStack.top());
 					whileTableStack.pop();
-					if (stmtAfterWhile != -1) {
+					if (stmtAfterWhile != NOT_FOUND) {
 						dfsStack.push(stmtAfterWhile);
-					} else {
-						if (!ifTableStack.empty()) {
-							modifiedVarToStmt = get<varToStmtTable>(ifTableStack.top());
-							ifTableStack.pop();
-						}
 					}
 				}
 			}
@@ -271,7 +250,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 		}
 
 		case IF: {
-			ifTableStack.push({ curStmt, -1, modifiedVarToStmt });
+			ifTableStack.push({ curStmt, 0, modifiedVarToStmt });
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
 			for (auto nextStmtId : nextStmts) {
 				dfsStack.push(nextStmtId);
@@ -510,16 +489,6 @@ void Affects::setResultTupleToTable(ResultTable* affectResultTable, int affector
 	case 2:
 		affectResultTable->insertTuple({ affectorStmtId, affectedStmtId });
 		break;
-	}
-}
-
-void Affects::setBooleanToTable(ResultTable* affectResultTable) {
-	if (affectResultTable->getSynCount() > 0) {
-		if (affectResultTable->getTupleSize() > 0) {
-			affectResultTable->setBoolean(true);
-		} else {
-			affectResultTable->setBoolean(false);
-		}
 	}
 }
 

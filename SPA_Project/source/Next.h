@@ -5,6 +5,7 @@
 #include "Clause.h"
 #include "Type.h"
 #include "PKB.h"
+#include <stack>
 #include "unordered_set"
 #include "ResultTable.h"
 
@@ -26,6 +27,7 @@ private:
 	void insertTuple(int, int);
 	ResultTable getNext(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
+	unordered_set<int> mergeSet(unordered_set<int>, unordered_set<int>);
 
 public:
 	Next(Parameter lc, Parameter rc);
@@ -34,5 +36,8 @@ public:
 	Parameter getRightChild();
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
+	unordered_set<int> getNextStmt(int, PKB*);
+	unordered_set<int> getPreviousStmt(int, PKB*);
+
 };
 #endif

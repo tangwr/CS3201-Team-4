@@ -6,6 +6,7 @@
 #include "Type.h"
 #include "PKB.h"
 #include "unordered_set"
+#include <stack>
 #include "ResultTable.h"
 
 using namespace std;
@@ -29,8 +30,10 @@ private:
 	bool isBooleanClause();
 	void getAllNextBipStar(int, unordered_set<int>*, PKB*);
 	void getAllNextBipStar(int, unordered_set<int>*, unordered_set<int>*, PKB*);
+	void getCallNextBipStar(int, unordered_set<int>*, stack<int>*, unordered_set<int>*, unordered_set<int>*, PKB*);
+	void getWithinProc(int, unordered_set<int>*,stack<int>*, PKB*);
 	void getAllPrevStar(int, unordered_set<int>*, PKB*);
-	void getAllPrevStar(int, unordered_set<int>*, unordered_set<int>*, PKB*);
+	void getAllPrevStar(int, unordered_set<int>*, unordered_set<int>*, unordered_set<int>*, PKB*);
 
 public:
 	NextBipStar(Parameter lc, Parameter rc);

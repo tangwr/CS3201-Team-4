@@ -234,13 +234,6 @@ unordered_set<int> Next::getPreviousStmt(int a, PKB* pkb) {
 	return temp;
 }
 
-unordered_set<int> Next::mergeSet(unordered_set<int> s1, unordered_set<int> s2) {
-	unordered_set<int> elementMap;
-	elementMap.insert(s1.begin(), s1.end());
-	elementMap.insert(s2.begin(), s2.end());
-	return elementMap;
-}
-
 bool Next::isLeftChild(Parameter parameter) {
 	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
 }

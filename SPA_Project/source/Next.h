@@ -27,7 +27,6 @@ private:
 	void insertTuple(int, int);
 	ResultTable getNext(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
-	unordered_set<int> mergeSet(unordered_set<int>, unordered_set<int>);
 
 public:
 	Next(Parameter lc, Parameter rc);

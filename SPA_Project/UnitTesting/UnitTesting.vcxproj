@@ -166,6 +166,7 @@
     <ClInclude Include="PKBStubFollowStar.h" />
     <ClInclude Include="PKBStubModifies.h" />
     <ClInclude Include="PKBStubNext.h" />
+    <ClInclude Include="PKBStubNextBipStar.h" />
     <ClInclude Include="PKBStubNextStar.h" />
     <ClInclude Include="PKBStubParent.h" />
     <ClInclude Include="PKBStubParentStar.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="PKBStubFollowStar.cpp" />
     <ClCompile Include="PKBStubModifies.cpp" />
     <ClCompile Include="PKBStubNext.cpp" />
+    <ClCompile Include="PKBStubNextBipStar.cpp" />
     <ClCompile Include="PKBStubNextStar.cpp" />
     <ClCompile Include="PKBStubParent.cpp" />
     <ClCompile Include="PKBStubParentStar.cpp" />
@@ -205,6 +207,7 @@
     <ClCompile Include="UnitTestFollowStar.cpp" />
     <ClCompile Include="UnitTestModifies.cpp" />
     <ClCompile Include="UnitTestNext.cpp" />
+    <ClCompile Include="UnitTestNextBipStar.cpp" />
     <ClCompile Include="UnitTestNextStar.cpp" />
     <ClCompile Include="UnitTestParent.cpp" />
     <ClCompile Include="UnitTestParentStar.cpp" />

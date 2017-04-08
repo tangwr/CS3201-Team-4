@@ -45,11 +45,11 @@ PKBStubNext::PKBStubNext() {
 	ifStmts = { 6, 13, 22 };
 	callStmts = { 10, 12, 16 };
 
-	nextTable.insert({ 1, unordered_set<int>({2}) });
+	nextTable.insert({ 1, unordered_set<int>({ 2 }) });
 	nextTable.insert({ 2, unordered_set<int>({ 3 }) });
 	nextTable.insert({ 3, unordered_set<int>({ 4 }) });
 	nextTable.insert({ 4, unordered_set<int>({ 5 , 12 }) });
-	nextTable.insert({ 5, unordered_set<int>({6}) });
+	nextTable.insert({ 5, unordered_set<int>({ 6 }) });
 	nextTable.insert({ 6, unordered_set<int>({ 7 , 8 }) });
 	nextTable.insert({ 7, unordered_set<int>({ 9 }) });
 	nextTable.insert({ 8, unordered_set<int>({ 9 }) });
@@ -57,10 +57,10 @@ PKBStubNext::PKBStubNext() {
 	nextTable.insert({ 10, unordered_set<int>({ 11 }) });
 	nextTable.insert({ 11, unordered_set<int>({ 4 }) });
 
-	nextTable.insert({ 13, unordered_set<int>({ 14 , 20}) });
+	nextTable.insert({ 13, unordered_set<int>({ 14 , 20 }) });
 	nextTable.insert({ 14, unordered_set<int>({ 15 , 18 }) });
 	nextTable.insert({ 15, unordered_set<int>({ 16 }) });
-	nextTable.insert({ 16, unordered_set<int>({ 17}) });
+	nextTable.insert({ 16, unordered_set<int>({ 17 }) });
 	nextTable.insert({ 17, unordered_set<int>({ 14 }) });
 	nextTable.insert({ 18, unordered_set<int>({ 19 }) });
 	nextTable.insert({ 19, unordered_set<int>({ 21 }) });
@@ -68,6 +68,12 @@ PKBStubNext::PKBStubNext() {
 
 	nextTable.insert({ 22, unordered_set<int>({ 23 }) });
 	nextTable.insert({ 22, unordered_set<int>({ 24 }) });
+	nextTable.insert({ 19, unordered_set<int>({ -1 }) });
+	nextTable.insert({ 21, unordered_set<int>({ -1 }) });
+	nextTable.insert({ 23, unordered_set<int>({ -2 }) });
+	nextTable.insert({ 24, unordered_set<int>({ -2 }) });
+	prevTable.insert({ -1, unordered_set<int>({ 19, 21 }) });
+	prevTable.insert({ -2, unordered_set<int>({ 23, 24 }) });
 
 	prevTable.insert({ 2, unordered_set<int>({ 1 }) });
 	prevTable.insert({ 3, unordered_set<int>({ 2 }) });
@@ -76,19 +82,19 @@ PKBStubNext::PKBStubNext() {
 	prevTable.insert({ 6, unordered_set<int>({ 5 }) });
 	prevTable.insert({ 7, unordered_set<int>({ 6 }) });
 	prevTable.insert({ 8, unordered_set<int>({ 6 }) });
-	prevTable.insert({ 9, unordered_set<int>({ 7 , 8}) });
+	prevTable.insert({ 9, unordered_set<int>({ 7 , 8 }) });
 	prevTable.insert({ 10, unordered_set<int>({ 9 }) });
 	prevTable.insert({ 11, unordered_set<int>({ 10 }) });
 	prevTable.insert({ 12, unordered_set<int>({ 4 }) });
 
-	prevTable.insert({ 14, unordered_set<int>({ 13 , 17}) });
+	prevTable.insert({ 14, unordered_set<int>({ 13 , 17 }) });
 	prevTable.insert({ 15, unordered_set<int>({ 14 }) });
 	prevTable.insert({ 16, unordered_set<int>({ 15 }) });
 	prevTable.insert({ 17, unordered_set<int>({ 16 }) });
 	prevTable.insert({ 18, unordered_set<int>({ 14 }) });
 	prevTable.insert({ 19, unordered_set<int>({ 18 }) });
 	prevTable.insert({ 20, unordered_set<int>({ 13 }) });
-	prevTable.insert({ 21, unordered_set<int>({ 19 , 20}) });
+	prevTable.insert({ 21, unordered_set<int>({ 19 , 20 }) });
 	prevTable.insert({ 23, unordered_set<int>({ 22 }) });
 	prevTable.insert({ 24, unordered_set<int>({ 22 }) });
 }

@@ -9,14 +9,14 @@ x = 2;						//1
 z = 3;						//2
 i = 5;						//3
 while i {					//4
-	x = x - 1;				//5
-	if x then {				//6
-		z = x + 1; }		//7
-	else {
-		y = z + x; }		//8
-	z = z + x + i;		//9
-	call q;					//10
-	i = i - 1; }			//11
+x = x - 1;				//5
+if x then {				//6
+z = x + 1; }		//7
+else {
+y = z + x; }		//8
+z = z + x + i;		//9
+call q;					//10
+i = i - 1; }			//11
 call p; }				//12
 
 procedure p {
@@ -64,8 +64,12 @@ PKBStubNextStar::PKBStubNextStar() {
 	nextTable.insert({ 17, unordered_set<int>({ 14 }) });
 	nextTable.insert({ 18, unordered_set<int>({ 19 }) });
 	nextTable.insert({ 20, unordered_set<int>({ 21 }) });
+	nextTable.insert({ 19, unordered_set<int>({ -1 }) });
+	nextTable.insert({ 21, unordered_set<int>({ -1 }) });
 
 	nextTable.insert({ 22, unordered_set<int>({ 23,24 }) });
+	nextTable.insert({ 23, unordered_set<int>({ -2 }) });
+	nextTable.insert({ 24, unordered_set<int>({ -2 }) });
 
 	prevTable.insert({ 2, unordered_set<int>({ 1 }) });
 	prevTable.insert({ 3, unordered_set<int>({ 2 }) });
@@ -89,6 +93,8 @@ PKBStubNextStar::PKBStubNextStar() {
 	prevTable.insert({ 21, unordered_set<int>({ 20 }) });
 	prevTable.insert({ 23, unordered_set<int>({ 22 }) });
 	prevTable.insert({ 24, unordered_set<int>({ 22 }) });
+	prevTable.insert({ -1, unordered_set<int>({ 19, 21 }) });
+	prevTable.insert({ -2, unordered_set<int>({ 23, 24 }) });
 
 	parentStarTable.insert({ 5, unordered_set<int>({ 4 }) });
 	parentStarTable.insert({ 6, unordered_set<int>({ 4 }) });

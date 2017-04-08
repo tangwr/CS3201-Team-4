@@ -53,11 +53,11 @@ PKBStubNextBipStar::PKBStubNextBipStar() {
 	stmtLstContainedInProc.insert({ 4, vector<int>({ 18 }) });
 	stmtLstContainedInProc.insert({ 5, vector<int>({ 19 }) });
 
-	stmtCallProcTable.insert({ 2, unordered_set<int>({10, 16}) });
+	stmtCallProcTable.insert({ 2, unordered_set<int>({ 10, 16 }) });
 	stmtCallProcTable.insert({ 4, unordered_set<int>({ 15 }) });
 	stmtCallProcTable.insert({ 5, unordered_set<int>({ 18 }) });
 
-	procCalledByStmtTable.insert({10, 2});
+	procCalledByStmtTable.insert({ 10, 2 });
 	procCalledByStmtTable.insert({ 15, 4 });
 	procCalledByStmtTable.insert({ 16, 2 });
 	procCalledByStmtTable.insert({ 18, 5 });
@@ -98,6 +98,8 @@ PKBStubNextBipStar::PKBStubNextBipStar() {
 	nextTable.insert({ 11, unordered_set<int>({ 4 }) });
 
 	nextTable.insert({ 12, unordered_set<int>({ 13 , 14 }) });
+	nextTable.insert({ 13, unordered_set<int>({ -1 }) });
+	nextTable.insert({ 14, unordered_set<int>({ -1 }) });
 	nextTable.insert({ 15, unordered_set<int>({ 16 }) });
 	nextTable.insert({ 16, unordered_set<int>({ 17 }) });
 
@@ -112,6 +114,7 @@ PKBStubNextBipStar::PKBStubNextBipStar() {
 	prevTable.insert({ 10, unordered_set<int>({ 9 }) });
 	prevTable.insert({ 11, unordered_set<int>({ 10 }) });
 
+	prevTable.insert({ -1, unordered_set<int>({ 13, 14 }) });
 	prevTable.insert({ 13, unordered_set<int>({ 12 }) });
 	prevTable.insert({ 14, unordered_set<int>({ 12 }) });
 	prevTable.insert({ 16, unordered_set<int>({ 15 }) });

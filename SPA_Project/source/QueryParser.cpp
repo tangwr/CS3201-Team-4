@@ -1679,10 +1679,10 @@ void QueryParser::match(string token, string matchRe) {
 void QueryParser::throwError(string errorMsg) {
 	delete tokenizer;
 	if (isSelectBoolean) {
-		throw ERROR_SELECT_BOOLEAN;
+		throw logic_error("Select BOOLEAN's answer is FALSE");
 	}
 	else {
-		throw errorMsg;
+		throw ERROR_STRING;
 	}
 }
 

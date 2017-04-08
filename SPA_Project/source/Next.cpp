@@ -44,7 +44,8 @@ ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
 bool Next::isNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			unordered_set<int> next = pkb->getNextStmt(leftIterator);
+			//unordered_set<int> next = pkb->getNextStmt(leftIterator);
+			unordered_set<int> next = getNextStmt(leftIterator, pkb);
 			for (auto& it : next) {
 				if (right.find(it) != right.end()) {
 					return true;
@@ -54,7 +55,8 @@ bool Next::isNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	}
 	else {
 		for (auto& rightIterator : right) {
-			unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
+			unordered_set<int> prev = getPreviousStmt(rightIterator, pkb);
+			//unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
 					return true;
@@ -72,7 +74,8 @@ ResultTable Next::getNext(PKB* pkb, unordered_set<int> left, unordered_set<int> 
 	}
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			unordered_set<int> next = pkb->getNextStmt(leftIterator);
+			unordered_set<int> next = getNextStmt(leftIterator, pkb);
+		//	unordered_set<int> next = pkb->getNextStmt(leftIterator);
 			for (auto& it : next) {
 				if (right.find(it) != right.end()) {
 					insertTuple(leftIterator, it);
@@ -82,7 +85,8 @@ ResultTable Next::getNext(PKB* pkb, unordered_set<int> left, unordered_set<int> 
 	}
 	else {
 		for (auto& rightIterator : right) {
-			unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
+			unordered_set<int> prev = getPreviousStmt(rightIterator, pkb);
+			//unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
 					insertTuple(it, rightIterator);
@@ -172,6 +176,62 @@ unordered_set<int> Next::getTypeStmt(Parameter p, PKB* pkb) {
 		return unordered_set<int>({ stoi(p.getParaName()) });
 	}
 	return unordered_set<int>();
+}
+
+unordered_set<int> Next::getNextStmt(int a, PKB* pkb) {
+	unordered_set<int> next = pkb->getNextStmt(a);
+	unordered_set<int> temp;
+	stack<int> negatives;
+	for (auto& it : next) {
+		if (it < 0) {
+			negatives.push(it);
+		}
+		else {
+			temp.insert(it);
+		}
+	}
+
+	while (!negatives.empty()) {
+		next = pkb->getNextStmt(negatives.top());
+		negatives.pop();
+		for (auto& it : next) {
+			if (it < 0) {
+				negatives.push(it);
+			}
+			else {
+				temp.insert(it);
+			}
+		}
+	}
+	return temp;
+}
+
+unordered_set<int> Next::getPreviousStmt(int a, PKB* pkb) {
+	unordered_set<int> prev = pkb->getPreviousStmt(a);
+	unordered_set<int> temp;
+	stack<int> negatives;
+	for (auto& it : prev) {
+		if (it < 0) {
+			negatives.push(it);
+		}
+		else {
+			temp.insert(it);
+		}
+	}
+
+	while (!negatives.empty()) {
+		prev = pkb->getPreviousStmt(negatives.top());
+		negatives.pop();
+		for (auto& it : prev) {
+			if (it < 0) {
+				negatives.push(it);
+			}
+			else {
+				temp.insert(it);
+			}
+		}
+	}
+	return temp;
 }
 
 bool Next::isLeftChild(Parameter parameter) {

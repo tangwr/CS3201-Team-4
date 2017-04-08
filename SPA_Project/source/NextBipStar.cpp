@@ -46,7 +46,7 @@ ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
 }
 
 bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-	if (left.size() < right.size()) {
+	if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> nextBipStar;
 			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
@@ -208,11 +208,119 @@ ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts)
 }
 
 void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, PKB* pkb) {
-	unordered_set<int> visited;
-	getAllNextBipStar(prev, allNextBipStar, &visited, pkb);
+	//unordered_set<int> visited;
+	stack<int> callingStmts;
+	getWithinProc(prev, allNextBipStar, &callingStmts, pkb);
+
+	//getAllNextBipStar(prev, allNextBipStar, &visited, pkb);
 	return;
 }
 
+void NextBipStar::getWithinProc(int curr, unordered_set<int>* allNextBipStar, stack<int>* callingStmts, PKB* pkb) {
+	//visited->insert(curr);
+	unordered_set<int> next;
+	if (pkb->isStmtInCallTable(curr)) {
+		int calledProc = pkb->getProcCalledByStmt(curr);
+		int firstStmt = pkb->getStmtLstContainedInProc(calledProc)[0];
+		if (allNextBipStar->find(firstStmt) != allNextBipStar->end()) {
+			next = pkb->getNextStmt(curr);
+		}
+		else {
+			next.insert(firstStmt);
+			callingStmts->push(curr);
+		}
+	}
+	else {
+		next = pkb->getNextStmt(curr);
+	}
+	while (next.empty()) {
+		if (!callingStmts->empty()) {
+			int callingStmt = callingStmts->top();
+			callingStmts->pop();
+			next = pkb->getNextStmt(callingStmt);
+		}
+		else {
+			break;
+		}
+	}
+
+	if (next.empty()) {
+		// stack must be empty at this point
+		int currProc = pkb->getProcContainingStmt(curr);
+		unordered_set<int> stmtsCallingProc = pkb->getStmtCallProc(currProc);
+		for (auto& stmtCallingProc : stmtsCallingProc) {
+			unordered_set<int> nexts = pkb->getNextStmt(stmtCallingProc);
+			for (auto& it : nexts) {
+				if (allNextBipStar->find(it) == allNextBipStar->end()) {
+					if (it > 0)
+						allNextBipStar->insert(it);
+					getWithinProc(it, allNextBipStar, callingStmts, pkb);
+				}
+			}
+		}
+	}
+	else {
+		for (auto& it : next) {
+			if (allNextBipStar->find(it) == allNextBipStar->end()) {
+				if (it > 0)
+					allNextBipStar->insert(it);
+				if (pkb->isStmtInIfTable(curr)) {
+					stack<int> copiedStack = *callingStmts;
+					getWithinProc(it, allNextBipStar, &copiedStack, pkb);
+				}
+				else {
+					getWithinProc(it, allNextBipStar, callingStmts, pkb);
+				}
+			}
+		}
+	}
+	return;
+}
+
+void NextBipStar::getCallNextBipStar(int curr, unordered_set<int>* allNextBipStar, stack<int>* callingStmts, unordered_set<int>* visited, unordered_set<int>* visitedProc, PKB* pkb) {
+	visited->insert(curr);
+	unordered_set<int> next;
+	if (pkb->isStmtInCallTable(curr)) {
+		int calledProc = pkb->getProcCalledByStmt(curr);
+		visitedProc->insert(calledProc);
+		int firstStmt = pkb->getStmtLstContainedInProc(calledProc)[0];
+		if (visited->find(firstStmt) != visited->end()) {
+			next = pkb->getNextStmt(curr);
+		}
+		else {
+			next.insert(firstStmt);
+			callingStmts->push(curr);
+		}
+	}
+	else {
+		next = pkb->getNextStmt(curr);
+	}
+	while (next.empty()) {
+		if (!callingStmts->empty()) {
+			int callingStmt = callingStmts->top();
+			callingStmts->pop();
+			next = pkb->getNextStmt(callingStmt);
+		}
+		else {
+			break;
+		}
+	}
+	for (auto& it : next) {
+		if (visited->find(it) == visited->end()) {
+			if (it > 0)
+				allNextBipStar->insert(it);
+			if (pkb->isStmtInIfTable(curr)) {
+				stack<int> copiedStack = *callingStmts;
+				getCallNextBipStar(it, allNextBipStar, &copiedStack, visited, visitedProc, pkb);
+			}
+			else {
+				getCallNextBipStar(it, allNextBipStar, callingStmts, visited, visitedProc, pkb);
+			}
+		}
+	}
+	return;
+}
+/*
 void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, unordered_set<int>* visited, PKB* pkb) {
 	if (visited->find(prev) != visited->end()) {
 		return;
@@ -224,23 +332,51 @@ void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar
 		getAllNextBipStar(it, allNextBipStar, visited, pkb);
 	}
 	return;
-}
+}*/
 
 void NextBipStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, PKB* pkb) {
-	unordered_set<int> visited;
-	getAllPrevStar(next, allPrevStar, &visited, pkb);
+	unordered_set<int> visited, visitedProc;
+	getAllPrevStar(next, allPrevStar, &visited, &visitedProc, pkb);
 	return;
 }
 
-void NextBipStar::getAllPrevStar(int next, unordered_set<int>* allPrevStar, unordered_set<int>* visited, PKB* pkb) {
-	if (visited->find(next) != visited->end()) {
-		return;
+void NextBipStar::getAllPrevStar(int curr, unordered_set<int>* allPrevStar, unordered_set<int>* visited, unordered_set<int>* visitedProc, PKB* pkb) {
+	if (visited->find(curr) != visited->end()) {
+		if (pkb->isStmtInCallTable(curr)) {
+			int calledProc = pkb->getProcCalledByStmt(curr);
+			if (visitedProc->find(calledProc) != visitedProc->end()) {
+				return;
+			}
+		}
+		else {
+			return;
+		}
 	}
-	visited->insert(next);
-	unordered_set<int> prev = pkb->getPreviousStmt(next);
-	for (auto& it : prev) {
-		allPrevStar->insert(it);
-		getAllPrevStar(it, allPrevStar, visited, pkb);
+	visited->insert(curr);
+	unordered_set<int> prev = pkb->getPreviousStmt(curr);
+
+	if (prev.empty()) {
+		int currProc = pkb->getProcContainingStmt(curr);
+		unordered_set<int> stmtsCallingProc = pkb->getStmtCallProc(currProc);
+		for (auto& stmtCallingProc : stmtsCallingProc) {
+			allPrevStar->insert(stmtCallingProc);
+			getAllPrevStar(stmtCallingProc, allPrevStar, visited, visitedProc, pkb);
+		}
+	}
+	else {
+		for (auto& it : prev) {
+			if (pkb->isStmtInCallTable(it)) {
+				stack<int> callingStmts;
+				unordered_set<int> callVisited;
+				int calledProc = pkb->getProcCalledByStmt(it);
+				int firstStmt = pkb->getStmtLstContainedInProc(calledProc)[0];
+				visitedProc->insert(calledProc);
+				getCallNextBipStar(firstStmt, allPrevStar, &callingStmts, &callVisited, visitedProc, pkb);
+				//getCallNextBipStar(firstStmt, allPrevStar, &callingStmts, visited, visitedProc, pkb);
+			}
+			allPrevStar->insert(it);
+			getAllPrevStar(it, allPrevStar, visited, visitedProc, pkb);
+		}
 	}
 	return;
 }

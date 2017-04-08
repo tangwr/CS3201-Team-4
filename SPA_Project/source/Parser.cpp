@@ -31,13 +31,16 @@ const string ERROR_MESSAGE = "Error found in SIMPLE source code during parsing."
 const int COMPARE_EQUAL = 0;
 const int INITAL_INDEX = 0;
 const int INITIAL_STMT_NUM = 1;
-const int NOT_FOUND = -1;
+const int INITIAL_DUMMY_STMT_NUM = -1;
+const int NOT_FOUND = 0;
 
 
 Parser::Parser(PKB *pkbSource, string source) {
 	tokenizer = new Tokenizer(source);
 	pkb = pkbSource;
 	curStmtNum = INITIAL_STMT_NUM;
+	curDummyStmtNum = INITIAL_DUMMY_STMT_NUM;
+	keyWords = { STRING_PROC, STRING_IF, STRING_THEN, STRING_ELSE, STRING_WHILE, STRING_CALL };
 }
 
 void Parser::parse() {
@@ -60,6 +63,7 @@ void Parser::createProc() {
 	string procName = token;
 
 	match(STRING_NAME);
+	misMatch(procName);
 	
 	int procId = pkb->insertProc(procName);
 	if (procInSource.find(procId) != procInSource.end()) {
@@ -74,15 +78,15 @@ void Parser::createProc() {
 	match(STRING_CLOSE_CBRACKET);
 }
 
-pair<int, vector<int>> Parser::createStmtLst(int procId, int contStmtId) {
-	int firstStmt = curStmtNum;
-	int prevStmt = NOT_FOUND;
-	vector<int> prevStmts;
+int Parser::createStmtLst(int procId, int contStmtId) {
+	int beforeStmtId = NOT_FOUND;
+	int prevStmtId = NOT_FOUND;
 
 	if (contStmtId != NOT_FOUND) {
-		pkb->setContainerStmtStmtLstContainsStmtRel(contStmtId, firstStmt);
+		pkb->setContainerStmtStmtLstContainsStmtRel(contStmtId, curStmtNum);
+		pkb->setStmtNextStmtRel(contStmtId, curStmtNum);
 	} else {
-		pkb->setProcStmtLstContainsStmtRel(procId, firstStmt);
+		pkb->setProcStmtLstContainsStmtRel(procId, curStmtNum);
 	}
 
 	do {
@@ -92,22 +96,22 @@ pair<int, vector<int>> Parser::createStmtLst(int procId, int contStmtId) {
 			pkb->setStmtParentStmtRel(contStmtId, curStmtNum);
 		}
 
-		if (prevStmt != NOT_FOUND) {
-			pkb->setStmtFollowStmtRel(prevStmt, curStmtNum);
+		if (beforeStmtId != NOT_FOUND) {
+			pkb->setStmtFollowStmtRel(beforeStmtId, curStmtNum);
 		}
-		prevStmt = curStmtNum;
+		beforeStmtId = curStmtNum;
 
-		for (int index = INITAL_INDEX; index < (int)prevStmts.size(); index++) {
-			pkb->setStmtNextStmtRel(prevStmts[index], curStmtNum);
+		if (prevStmtId != NOT_FOUND) {
+			pkb->setStmtNextStmtRel(prevStmtId, curStmtNum);
 		}
-		
-		prevStmts = createStmt(procId, curStmtNum++);
+		prevStmtId = createStmt(procId, curStmtNum++);
+
 	} while (token.compare(STRING_CLOSE_BRACKET) != COMPARE_EQUAL);
 	
-	return make_pair(firstStmt, prevStmts);
+	return prevStmtId;
 }
 
-vector<int> Parser::createStmt(int procId, int stmtId) {
+int Parser::createStmt(int procId, int stmtId) {
 	string stmtType = token;
 	
 	if (stmtType.compare(STRING_WHILE) == COMPARE_EQUAL) {
@@ -121,7 +125,7 @@ vector<int> Parser::createStmt(int procId, int stmtId) {
 	}
 }
 
-vector<int> Parser::createWhile(int procId, int whileStmtId) {
+int Parser::createWhile(int procId, int whileStmtId) {
 	match(STRING_WHILE);
 
 	string varName = token;
@@ -134,21 +138,16 @@ vector<int> Parser::createWhile(int procId, int whileStmtId) {
 
 	match(STRING_OPEN_CBRACKET);
 
-	pair<int, vector<int>> stmtLst = createStmtLst(procId, whileStmtId);
-	int firstStmtId = stmtLst.first;
-	vector<int> lastStmts = stmtLst.second;
+	int lastStmt = createStmtLst(procId, whileStmtId);
 
 	match(STRING_CLOSE_CBRACKET);
 
-	pkb->setStmtNextStmtRel(whileStmtId, firstStmtId);
-	for (int index = INITAL_INDEX; index < (int)lastStmts.size(); index++) {
-		pkb->setStmtNextStmtRel(lastStmts[index], whileStmtId);
-	}
+	pkb->setStmtNextStmtRel(lastStmt, whileStmtId);
 
-	return vector<int>() = { whileStmtId };
+	return whileStmtId;
 }
 
-vector<int> Parser::createIf(int procId, int ifStmtId) {
+int Parser::createIf(int procId, int ifStmtId) {
 	match(STRING_IF);
 
 	string varName = token;
@@ -162,34 +161,34 @@ vector<int> Parser::createIf(int procId, int ifStmtId) {
 	match(STRING_THEN);
 	match(STRING_OPEN_CBRACKET);
 
-	pair<int, vector<int>> thenStmtLst = createStmtLst(procId, ifStmtId);
+	int thenLastStmt = createStmtLst(procId, ifStmtId);
 
 	match(STRING_CLOSE_CBRACKET);
 	match(STRING_ELSE);
 	match(STRING_OPEN_CBRACKET);
 
-	pair<int, vector<int>> elseStmtLst = createStmtLst(procId, ifStmtId);
+	int elseLastStmt = createStmtLst(procId, ifStmtId);
 
 	match(STRING_CLOSE_CBRACKET);
 
-	pkb->setStmtNextStmtRel(ifStmtId, thenStmtLst.first);
-	pkb->setStmtNextStmtRel(ifStmtId, elseStmtLst.first);
+	pkb->setStmtNextStmtRel(thenLastStmt, curDummyStmtNum);
+	pkb->setStmtNextStmtRel(elseLastStmt, curDummyStmtNum);
 
-	return VectorSetOperation<int>::setUnion(thenStmtLst.second, elseStmtLst.second);
+	return curDummyStmtNum--;
 }
 
-vector<int> Parser::createCall(int procId, int callStmtId) {
+int Parser::createCall(int procId, int callStmtId) {
 	match(STRING_CALL);
 
 	string procName = token;
 
 	match(STRING_NAME);
+	misMatch(procName);
 
 	int calledProcId;
 	if (!pkb->isProcInTable(procName)) {
 		calledProcId = pkb->insertProc(procName);
-	}
-	else {
+	} else {
 		calledProcId = pkb->getProcIdByName(procName);
 	}
 	pkb->setProcCallProcRel(procId, calledProcId);
@@ -197,10 +196,10 @@ vector<int> Parser::createCall(int procId, int callStmtId) {
 
 	match(STRING_SEMICOLON);
 
-	return vector<int>() = { callStmtId };
+	return callStmtId;
 }
 
-vector<int> Parser::createAssign(int procId, int assignStmtId) {
+int Parser::createAssign(int procId, int assignStmtId) {
 	string varName = token;
 
 	match(STRING_NAME);
@@ -219,7 +218,7 @@ vector<int> Parser::createAssign(int procId, int assignStmtId) {
 
 	match(STRING_SEMICOLON);
 
-	return vector<int>() = { assignStmtId };
+	return assignStmtId;
 }
 
 string Parser::extractExp() {
@@ -262,6 +261,7 @@ string Parser::createExpPrefix(int assignStmtId, string infix) {
 }
 
 int Parser::createVar(string varName) {
+	misMatch(varName);
 	return pkb->insertVar(varName);
 }
 
@@ -287,6 +287,12 @@ void Parser::match(string matchRe) {
 			token = STRING_EMPTY;
 		}
 	} else {
+		throw ERROR_MESSAGE;
+	}
+}
+
+void Parser::misMatch(string token) {
+	if (keyWords.find(token) != keyWords.end()) {
 		throw ERROR_MESSAGE;
 	}
 }

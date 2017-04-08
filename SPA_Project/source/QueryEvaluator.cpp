@@ -31,7 +31,10 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 }
 
 ResultTable QueryEvaluator::evaluate(QueryTree qt) {
- 	return evaluateWithOptimization2(qt);
+ 	ResultTable ans = evaluateWithOptimization2(qt);
+	for (int i = 0; i < (int)qt.getClauseSize() ; i++)
+		delete qt.getClause(i);
+	return ans;
 }
 
 ResultTable QueryEvaluator::createEarlyTerminationTable(QueryTree qt)
@@ -734,13 +737,12 @@ ResultTable QueryEvaluator::evaluateGroup2(vector<Parameter> usedSynList,
 				// set clause as visited 
 				isClauseVisited.at(clauseIdx) = true;
 				// if affect / next, put into deprior list
-				if (c->getClauseType() == AFFECTS || c->getClauseType() == NEXT) {
+				if (c->getClauseType() == AFFECTS || c->getClauseType() == NEXT || c->getClauseType() == AFFECTSSTAR || c->getClauseType() == NEXTSTAR) {
 					gDeprioritizedClauseList.push_back(c);
 					cout << "put into deprioritized list" << endl;
 				}
 				else {
 					// else, process and merge 
-					// MAYBE PRIORTIZE PARENT > FOLLOWS > MODIFIES > USES (not impmemented yet)
 					cout << "evaluting clause " << endl;
 					vector<Parameter> cSynList = c->getSynList();
 					vector<Parameter> restrictedSynList;

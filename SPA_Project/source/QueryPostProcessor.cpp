@@ -1,8 +1,8 @@
 #include "QueryPostProcessor.h"
 #include "Type.h"
 
-const string STRING_TRUE = "true";
-const string STRING_FALSE = "false";
+const string STRING_TRUE = "TRUE";
+const string STRING_FALSE = "FALSE";
 const string SYMBOL_SPACE = " ";
 const int SIZE_ZERO = 0;
 //const int INITIAL_INDEX = 0;

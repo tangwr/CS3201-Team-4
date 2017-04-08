@@ -34,7 +34,11 @@ private:
 	void getAffectsStar(QueryTree* queryTree);
 	void getPattern(QueryTree* queryTree);
 	void getWith(QueryTree* queryTree);
-    void match(string token, string matchRe);
+	void getAffectsBip(QueryTree* queryTree);
+	void getAffectsBipStar(QueryTree* queryTree);
+	void getNextBip(QueryTree* queryTree);
+	void getNextBipStar(QueryTree* queryTree);
+	void match(string token, string matchRe);
 	void throwError(string error);
 
 	string getSyn(Type synType);

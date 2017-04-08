@@ -47,6 +47,8 @@ const string TYPE_PARENT = "Parent";
 const string TYPE_FOLLOWS = "Follows";
 const string TYPE_NEXT = "Next";
 const string TYPE_AFFECTS = "Affects";
+const string TYPE_AFFECTSBIP = "AffectsBip";
+const string TYPE_NEXTBIP = "NextBip";
 const string TYPE_PROC_NAME = "procName";
 const string TYPE_LINE = "line";
 const string SYMBOL_SEMICOLON = ";";
@@ -378,6 +380,20 @@ void QueryParser::getSuchThat(QueryTree *qt) {
 	else if (compareStr.compare(TYPE_AFFECTS) == EQUAL && star.compare(SYMBOL_STAR) == EQUAL) {
 		tokenizer->getToken();
 		getAffectsStar(qt);
+	}
+	else if (compareStr.compare(TYPE_NEXTBIP) == EQUAL && star.compare(SYMBOL_STAR) != EQUAL) {
+		getNextBip(qt);
+	}
+	else if (compareStr.compare(TYPE_NEXTBIP) == EQUAL && star.compare(SYMBOL_STAR) == EQUAL) {
+		tokenizer->getToken();
+		getNextBipStar(qt);
+	}
+	else if (compareStr.compare(TYPE_AFFECTSBIP) == EQUAL && star.compare(SYMBOL_STAR) != EQUAL) {
+		getAffectsBip(qt);
+	}
+	else if (compareStr.compare(TYPE_AFFECTSBIP) == EQUAL && star.compare(SYMBOL_STAR) == EQUAL) {
+		tokenizer->getToken();
+		getAffectsBipStar(qt);
 	}
 	else {
 		throwError(ERROR_SUCH_THAT);
@@ -1083,6 +1099,137 @@ void QueryParser::getNextStar(QueryTree* qt) {
 
 	qt->insertResult(ns);
 }
+void QueryParser::getNextBip(QueryTree* qt) {
+	Parameter leftChild;
+	Parameter rightChild;
+
+	string token = tokenizer->getToken();
+
+	match(token, SYMBOL_OPEN_BRACKET);
+	string lc = tokenizer->getToken();
+
+	if (isVarNameExists(lc)) {
+		leftChild = varMap[lc];
+		string key = leftChild.getParaName();
+		Type lcType = leftChild.getParaType();
+		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STRINGVARIABLE ||
+			lcType == PROCEDURE || lcType == STMTLST) {
+			throwError(ERROR_LEFT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = leftChild;
+		}
+	}
+	else if (isPositiveInteger(lc)) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(INTEGER);
+	}
+	else if (lc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_LEFT_CHILD);
+	}
+
+	string comma = tokenizer->getToken();
+	match(comma, SYMBOL_COMMA);
+	string rc = tokenizer->getToken();
+	if (isVarNameExists(rc)) {
+		rightChild = varMap[rc];
+		string key = rightChild.getParaName();
+		Type rcType = rightChild.getParaType();
+		if (rcType == VARIABLE || rcType == CONSTANT || rcType == BOOLEAN || rcType == STRINGVARIABLE ||
+			rcType == PROCEDURE || rcType == STMTLST) {
+			throwError(ERROR_RIGHT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = rightChild;
+		}
+	}
+	else if (isPositiveInteger(rc)) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(INTEGER);
+	}
+	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_RIGHT_CHILD);
+	}
+
+	string closeBracket = tokenizer->getToken();
+	match(closeBracket, SYMBOL_CLOSE_BRACKET);
+	//NextBip *n = new NextBip(leftChild, rightChild);
+
+	//qt->insertResult(n);
+}
+void QueryParser::getNextBipStar(QueryTree* qt) {
+	Parameter leftChild;
+	Parameter rightChild;
+	string token = tokenizer->getToken();
+
+	match(token, SYMBOL_OPEN_BRACKET);
+	string lc = tokenizer->getToken();
+
+	if (isVarNameExists(lc)) {
+		leftChild = varMap[lc];
+		string key = leftChild.getParaName();
+		Type lcType = leftChild.getParaType();
+		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STRINGVARIABLE ||
+			lcType == PROCEDURE || lcType == STMTLST) {
+			throwError(ERROR_LEFT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = leftChild;
+		}
+	}
+	else if (isPositiveInteger(lc)) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(INTEGER);
+	}
+	else if (lc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_LEFT_CHILD);
+	}
+
+	string comma = tokenizer->getToken();
+	match(comma, SYMBOL_COMMA);
+	string rc = tokenizer->getToken();
+	if (isVarNameExists(rc)) {
+		rightChild = varMap[rc];
+		string key = rightChild.getParaName();
+		Type rcType = rightChild.getParaType();
+		if (rcType == VARIABLE || rcType == CONSTANT || rcType == BOOLEAN || rcType == STRINGVARIABLE ||
+			rcType == PROCEDURE || rcType == STMTLST) {
+			throwError(ERROR_RIGHT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = rightChild;
+		}
+	}
+	else if (isPositiveInteger(rc)) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(INTEGER);
+	}
+	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_RIGHT_CHILD);
+	}
+
+	string closeBracket = tokenizer->getToken();
+	match(closeBracket, SYMBOL_CLOSE_BRACKET);
+	//NextBipStar *ns = new NextBipStar(leftChild, rightChild);
+
+	//qt->insertResult(ns);
+}
 void QueryParser::getAffects(QueryTree* qt) {
 	Parameter leftChild;
 	Parameter rightChild;
@@ -1212,6 +1359,136 @@ void QueryParser::getAffectsStar(QueryTree* qt) {
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
 	AffectsStar *as = new AffectsStar(leftChild, rightChild);
 	qt->insertResult(as);
+}
+void QueryParser::getAffectsBip(QueryTree* qt) {
+	Parameter leftChild;
+	Parameter rightChild;
+
+	string token = tokenizer->getToken();
+
+	match(token, SYMBOL_OPEN_BRACKET);
+	string lc = tokenizer->getToken();
+
+	if (isVarNameExists(lc)) {
+		leftChild = varMap[lc];
+		string key = leftChild.getParaName();
+		Type lcType = leftChild.getParaType();
+		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STRINGVARIABLE ||
+			lcType == PROCEDURE || lcType == STMTLST || lcType == WHILE || lcType == IF || lcType == CALL) {
+			throwError(ERROR_LEFT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = leftChild;
+		}
+	}
+	else if (isPositiveInteger(lc)) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(INTEGER);
+	}
+	else if (lc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_LEFT_CHILD);
+	}
+
+	string comma = tokenizer->getToken();
+	match(comma, SYMBOL_COMMA);
+	string rc = tokenizer->getToken();
+	if (isVarNameExists(rc)) {
+		rightChild = varMap[rc];
+		string key = rightChild.getParaName();
+		Type rcType = rightChild.getParaType();
+		if (rcType == VARIABLE || rcType == CONSTANT || rcType == BOOLEAN || rcType == STRINGVARIABLE ||
+			rcType == PROCEDURE || rcType == STMTLST || rcType == WHILE || rcType == IF || rcType == CALL) {
+			throwError(ERROR_RIGHT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = rightChild;
+		}
+	}
+	else if (isPositiveInteger(rc)) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(INTEGER);
+	}
+	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_RIGHT_CHILD);
+	}
+
+	string closeBracket = tokenizer->getToken();
+	match(closeBracket, SYMBOL_CLOSE_BRACKET);
+	//AffectsBip *a = new AffectsBi[(leftChild, rightChild);
+	//qt->insertResult(a);
+}
+void QueryParser::getAffectsBipStar(QueryTree* qt) {
+	Parameter leftChild;
+	Parameter rightChild;
+
+	string token = tokenizer->getToken();
+
+	match(token, SYMBOL_OPEN_BRACKET);
+	string lc = tokenizer->getToken();
+
+	if (isVarNameExists(lc)) {
+		leftChild = varMap[lc];
+		string key = leftChild.getParaName();
+		Type lcType = leftChild.getParaType();
+		if (lcType == VARIABLE || lcType == CONSTANT || lcType == BOOLEAN || lcType == STRINGVARIABLE ||
+			lcType == PROCEDURE || lcType == STMTLST || lcType == WHILE || lcType == IF || lcType == CALL) {
+			throwError(ERROR_LEFT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = leftChild;
+		}
+	}
+	else if (isPositiveInteger(lc)) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(INTEGER);
+	}
+	else if (lc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		leftChild.setParaName(lc);
+		leftChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_LEFT_CHILD);
+	}
+
+	string comma = tokenizer->getToken();
+	match(comma, SYMBOL_COMMA);
+	string rc = tokenizer->getToken();
+	if (isVarNameExists(rc)) {
+		rightChild = varMap[rc];
+		string key = rightChild.getParaName();
+		Type rcType = rightChild.getParaType();
+		if (rcType == VARIABLE || rcType == CONSTANT || rcType == BOOLEAN || rcType == STRINGVARIABLE ||
+			rcType == PROCEDURE || rcType == STMTLST || rcType == WHILE || rcType == IF || rcType == CALL) {
+			throwError(ERROR_RIGHT_CHILD);
+		}
+		if (!isUsedExists(key)) {
+			usedMap[key] = rightChild;
+		}
+	}
+	else if (isPositiveInteger(rc)) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(INTEGER);
+	}
+	else if (rc.compare(SYMBOL_UNDERSCORE) == EQUAL) {
+		rightChild.setParaName(rc);
+		rightChild.setParaType(ANYTHING);
+	}
+	else {
+		throwError(ERROR_RIGHT_CHILD);
+	}
+
+	string closeBracket = tokenizer->getToken();
+	match(closeBracket, SYMBOL_CLOSE_BRACKET);
+	//AffectsBipStar *as = new AffectsBipStar(leftChild, rightChild);
+	//qt->insertResult(as);
 }
 void QueryParser::getPattern(QueryTree *qt) {
 	Parameter leftChild;
@@ -1679,10 +1956,10 @@ void QueryParser::match(string token, string matchRe) {
 void QueryParser::throwError(string errorMsg) {
 	delete tokenizer;
 	if (isSelectBoolean) {
-		throw ERROR_SELECT_BOOLEAN;
+		throw logic_error("Select BOOLEAN's answer is FALSE");
 	}
 	else {
-		throw errorMsg;
+		throw runtime_error("The query is invalid");
 	}
 }
 

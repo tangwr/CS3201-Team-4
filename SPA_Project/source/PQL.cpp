@@ -35,7 +35,7 @@ list<string> PQL::evaluateQuery(string querySource) {
 	}
 	catch (string msg) {
 		//cerr << "\n The error is: " + msg;
-	    return list<string>();
+	    	return list<string>();
 	}
 
 	ResultTable result = evaluator->evaluate(queryTree);

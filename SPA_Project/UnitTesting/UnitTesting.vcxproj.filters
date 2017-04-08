@@ -69,6 +69,9 @@
     <ClInclude Include="PKBStubNextBipStar.h">
       <Filter>Header Files\PKBStub</Filter>
     </ClInclude>
+    <ClInclude Include="PKBStubNextBip.h">
+      <Filter>Header Files\PKBStub</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -165,6 +168,12 @@
       <Filter>Source Files\PKBStub</Filter>
     </ClCompile>
     <ClCompile Include="UnitTestNextBipStar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PKBStubNextBip.cpp">
+      <Filter>Source Files\PKBStub</Filter>
+    </ClCompile>
+    <ClCompile Include="UnitTestNextBip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

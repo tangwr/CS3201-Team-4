@@ -5,6 +5,7 @@
 #include "Clause.h"
 #include "Type.h"
 #include "PKB.h"
+#include <stack>
 #include "unordered_set"
 #include "ResultTable.h"
 
@@ -26,6 +27,11 @@ private:
 	void insertTuple(int, int);
 	ResultTable getNextBip(PKB*, unordered_set<int>, unordered_set<int>);
 	bool isBooleanClause();
+	unordered_set<int> computeNextBip(int, PKB*);
+	unordered_set<int> computePrevBip(int, PKB*);
+	unordered_set<int> getLastStmts(int, PKB*);
+	void DFS(int, unordered_set<int>*, unordered_set<int>*, PKB*);
+	void computeLastBip(int, unordered_set<int>*, PKB*);
 
 public:
 	NextBip(Parameter lc, Parameter rc);

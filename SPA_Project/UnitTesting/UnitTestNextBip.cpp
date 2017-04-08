@@ -1,23 +1,23 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "PKBStubNextBipStar.h"
+#include "PKBStubNextBip.h"
 #include "ResultTable.h"
 #include "Parameter.h"
-#include "NextBipStar.h"
+#include "NextBip.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace UnitTesting
 {
-	TEST_CLASS(NextBipStarObjectTest)
+	TEST_CLASS(NextBipObjectTest)
 	{
 	public:
-		
 
-		TEST_METHOD(UnitTest_NextBipStar_Num_Num)
+
+		TEST_METHOD(UnitTest_NextBip_Num_Num)
 		{
-			PKBStubNextBipStar pkbStub;
+			PKBStubNextBip pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt1, stmt2;
@@ -26,7 +26,7 @@ namespace UnitTesting
 			stmt1 = Parameter("15", INTEGER);
 			stmt2 = Parameter("11", INTEGER);
 
-			NextBipStar nextStarClause(stmt1, stmt2);
+			NextBip nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
 			//expectedResult = { { 12 },{ 13 },{ 14 },{ 16 },{ 17 },{ 18 },{ 19 } };
@@ -43,9 +43,9 @@ namespace UnitTesting
 		}
 
 
-		TEST_METHOD(UnitTest_NextBipStar_Num_Num2)
+		TEST_METHOD(UnitTest_NextBip_Num_Num2)
 		{
-			PKBStubNextBipStar pkbStub;
+			PKBStubNextBip pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt1, stmt2;
@@ -54,7 +54,7 @@ namespace UnitTesting
 			stmt1 = Parameter("14", INTEGER);
 			stmt2 = Parameter("17", INTEGER);
 
-			NextBipStar nextStarClause(stmt1, stmt2);
+			NextBip nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
 			//expectedResult = { { 12 },{ 13 },{ 14 },{ 16 },{ 17 },{ 18 },{ 19 } };
@@ -69,21 +69,21 @@ namespace UnitTesting
 
 			Assert::IsTrue(queryResult.getBoolean());
 		}
-		TEST_METHOD(UnitTest_NextBipStar_Num_Stmt)
+		TEST_METHOD(UnitTest_NextBip_Num_Stmt)
 		{
-			PKBStubNextBipStar pkbStub;
+			PKBStubNextBip pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
-			stmt1 = Parameter("15", INTEGER);
+			stmt1 = Parameter("14", INTEGER);
 			stmt2 = Parameter("c1", STMT);
 
-			NextBipStar nextStarClause(stmt1, stmt2);
+			NextBip nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 12 },{ 13 },{ 14 },{ 16 },{ 17 },{ 18 },{ 19 } };
+			expectedResult = { {11}, {17} };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -96,21 +96,21 @@ namespace UnitTesting
 			Assert::IsFalse(queryResult.getBoolean());
 		}
 
-		TEST_METHOD(UnitTest_NextBipStar_Num_Stmt2)
+		TEST_METHOD(UnitTest_NextBip_Num_Stmt2)
 		{
-			PKBStubNextBipStar pkbStub;
+			PKBStubNextBip pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
-			stmt1 = Parameter("13", INTEGER);
+			stmt1 = Parameter("19", INTEGER);
 			stmt2 = Parameter("c1", STMT);
 
-			NextBipStar nextStarClause(stmt1, stmt2);
+			NextBip nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 4 },{ 5 },{ 6 },{ 7 },{ 8 },{ 9 },{ 10 },{ 11 },{ 12 },{ 13 },{ 14 },{ 17 } };
+			expectedResult = { { 16 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -123,22 +123,21 @@ namespace UnitTesting
 			Assert::IsFalse(queryResult.getBoolean());
 		}
 
-		TEST_METHOD(UnitTest_NextBipStar_Stmt_Num)
+		TEST_METHOD(UnitTest_NextBip_Stmt_Num)
 		{
-			PKBStubNextBipStar pkbStub;
+			PKBStubNextBip pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
 			stmt1 = Parameter("c1", STMT);
-			stmt2 = Parameter("13", INTEGER);
+			stmt2 = Parameter("12", INTEGER);
 
-			NextBipStar nextStarClause(stmt1, stmt2);
+			NextBip nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 1 },{ 2 },{ 3 },{ 4 },{ 5 },{ 6 },{ 7 },{ 8 },{ 9 },{ 10 },
-			{ 11 },{ 12 },{ 13 },{ 14 } ,{ 15 },{ 16 },{ 18 },{ 19 } };
+			expectedResult = { { 10 }, {16} };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -151,9 +150,9 @@ namespace UnitTesting
 			Assert::IsFalse(queryResult.getBoolean());
 		}
 
-		TEST_METHOD(UnitTest_NextBipStar_Stmt_Stmt)
+		TEST_METHOD(UnitTest_NextBip_Stmt_Stmt)
 		{
-			PKBStubNextBipStar pkbStub;
+			PKBStubNextBip pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt1, stmt2;
@@ -162,11 +161,12 @@ namespace UnitTesting
 			stmt1 = Parameter("c1", STMT);
 			stmt2 = Parameter("c2", STMT);
 
-			NextBipStar nextStarClause(stmt1, stmt2);
+			NextBip nextStarClause(stmt1, stmt2);
 			queryResult = nextStarClause.evaluate(&pkbStub, intResult);
 
-			expectedResult = { { 1 },{ 2 },{ 3 },{ 4 },{ 5 },{ 6 },{ 7 },{ 8 },{ 9 },{ 10 },
-			{ 11 },{ 12 },{ 13 },{ 14 } ,{ 15 },{ 16 },{ 18 },{ 19 } };
+			expectedResult = {{1,2}, {2,3},{3,4}, {4,5},{5,6},{6,7}, {6,8}, {7,9}, {8,9}, {9,10}, {10,12},{11,4}, {12,13}, {12,14},
+			{13,11}, {14,11}, {15,18}, {18,19}, {19,16}, {16,12}, {13,17}, {14,17} };
+
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -174,7 +174,7 @@ namespace UnitTesting
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(2, queryResult.getSynCount());
 
 			Assert::IsFalse(queryResult.getBoolean());
 		}

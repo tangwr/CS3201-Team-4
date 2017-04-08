@@ -195,6 +195,12 @@
     <ClCompile Include="..\source\NextBipStar.cpp">
       <Filter>Resource Files\Source Files\PQL\Clause</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\AffectsBipStar.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\AffectsBip.cpp">
+      <Filter>Resource Files\Source Files\PQL\Clause</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\source\Parser.h">
@@ -342,6 +348,12 @@
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
     <ClInclude Include="..\source\NextBipStar.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AffectsBip.h">
+      <Filter>Header Files\PQL\Clause</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\AffectsBipStar.h">
       <Filter>Header Files\PQL\Clause</Filter>
     </ClInclude>
   </ItemGroup>

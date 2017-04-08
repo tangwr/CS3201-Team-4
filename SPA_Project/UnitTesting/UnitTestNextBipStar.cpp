@@ -13,7 +13,7 @@ namespace UnitTesting
 	TEST_CLASS(NextBipStarObjectTest)
 	{
 	public:
-		/*
+		
 
 		TEST_METHOD(UnitTest_NextBipStar_Num_Num)
 		{
@@ -149,6 +149,6 @@ namespace UnitTesting
 			Assert::AreEqual(1, queryResult.getSynCount());
 
 			Assert::IsFalse(queryResult.getBoolean());
-		}*/
+		}
 	};
 }

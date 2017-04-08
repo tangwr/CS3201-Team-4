@@ -329,8 +329,7 @@ void NextBipStar::getCallNextBipStar(int curr, unordered_set<int>* allNextBipSta
 }
 
 unordered_set<int> NextBipStar::getNextStmt(int a, PKB* pkb) {
-	//unordered_set<int> next = pkb->getNextStmt(a);
-	unordered_set<int> next = getNextStmt(a, pkb);
+	unordered_set<int> next = pkb->getNextStmt(a);
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : next) {
@@ -343,8 +342,7 @@ unordered_set<int> NextBipStar::getNextStmt(int a, PKB* pkb) {
 	}
 
 	while (!negatives.empty()) {
-		next = getNextStmt(negatives.top(), pkb);
-		//next = pkb->getNextStmt(negatives.top());
+		next = pkb->getNextStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : next) {
 			if (it < 0) {
@@ -359,8 +357,7 @@ unordered_set<int> NextBipStar::getNextStmt(int a, PKB* pkb) {
 }
 
 unordered_set<int> NextBipStar::getPreviousStmt(int a, PKB* pkb) {
-	//unordered_set<int> prev = pkb->getPreviousStmt(a);
-	unordered_set<int> prev = getPreviousStmt(a, pkb);
+	unordered_set<int> prev = pkb->getPreviousStmt(a);
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : prev) {
@@ -373,8 +370,7 @@ unordered_set<int> NextBipStar::getPreviousStmt(int a, PKB* pkb) {
 	}
 
 	while (!negatives.empty()) {
-		prev = getPreviousStmt(negatives.top(), pkb);
-		//prev = pkb->getPreviousStmt(negatives.top());
+		prev = pkb->getPreviousStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : prev) {
 			if (it < 0) {

@@ -326,5 +326,5 @@ vector<Parameter> NextStar::getSynList() {
 }
 
 ClauseType NextStar::getClauseType() {
-	return FOLLOW;
+	return NEXTSTAR;
 }

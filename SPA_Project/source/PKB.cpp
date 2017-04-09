@@ -452,10 +452,10 @@ unordered_set<int> PKB::getAllIfId() {
 
 
 //call table
-bool PKB::setStmtCallProcRel(int stmtId, int varId) {
-	if (!this->isValidVarId(varId)) {
+bool PKB::setStmtCallProcRel(int stmtId, int procId) {
+	/*if (!this->isValidProcId(varId)) {
 		return false;
-	}
+	}*/
 	this->combinedStmtTable.insertStmt(stmtId);
 	return this->callTable.setStmtCallProcRel(stmtId, varId);
 }

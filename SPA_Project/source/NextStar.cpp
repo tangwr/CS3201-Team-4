@@ -181,12 +181,6 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 }
 
 ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
-	if (leftChild.getParaType() == WHILE) {
-		for (auto& it : stmts) {
-			insertTuple(it, it);
-			return result;
-		}
-	}
 	for (auto& it : stmts) {
 		//cout << "IT1: " << it << endl;
 		if (pkb->isStmtInWhileTable(it)) {

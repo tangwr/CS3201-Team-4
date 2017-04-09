@@ -555,5 +555,5 @@ vector<Parameter> AffectsStar::getSynList() {
 }
 
 ClauseType AffectsStar::getClauseType() {
-	return PATTERN;
+	return AFFECTSSTAR;
 }

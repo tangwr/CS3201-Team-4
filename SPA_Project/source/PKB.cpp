@@ -457,7 +457,7 @@ bool PKB::setStmtCallProcRel(int stmtId, int procId) {
 		return false;
 	}*/
 	this->combinedStmtTable.insertStmt(stmtId);
-	return this->callTable.setStmtCallProcRel(stmtId, varId);
+	return this->callTable.setStmtCallProcRel(stmtId, procId);
 }
 bool PKB::setProcCallProcRel(int callerProcId, int calledProcId) {
     //check if proc exist??

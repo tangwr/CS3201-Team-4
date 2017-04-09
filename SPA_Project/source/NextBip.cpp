@@ -299,6 +299,11 @@ unordered_set<int> NextBip::computeNextBip(int curr, PKB* pkb) {
 		if (next.empty()) {
 			computeLastBip(curr, &next, pkb);
 		}
+		else if (pkb->isStmtInWhileTable(curr)) {
+			if (next.size() == 1) {
+				computeLastBip(curr, &next, pkb);
+			}
+		}
 	}
 	return next;
 }
@@ -332,6 +337,13 @@ void NextBip::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb)
 	}
 
 	if (temp.empty()) {
+		int currProc = pkb->getProcContainingStmt(curr);
+		unordered_set<int> callingStmts = pkb->getStmtCallProc(currProc);
+		for (auto& it : callingStmts) {
+			computeLastBip(it, allNextBip, pkb);
+		}
+	}
+	else if ((pkb->isStmtInWhileTable(curr) && temp.size() == 1)) {
 		int currProc = pkb->getProcContainingStmt(curr);
 		unordered_set<int> callingStmts = pkb->getStmtCallProc(currProc);
 		for (auto& it : callingStmts) {

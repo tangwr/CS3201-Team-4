@@ -15,6 +15,8 @@
 #include "Calls.h"
 #include "CallsStar.h"
 #include "Next.h"
+#include "NextBip.h"
+#include "NextBipStar.h"
 #include "NextStar.h"
 #include "With.h"
 #include "ExpOperation.h"
@@ -1163,9 +1165,9 @@ void QueryParser::getNextBip(QueryTree* qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	//NextBip *n = new NextBip(leftChild, rightChild);
+	NextBip *n = new NextBip(leftChild, rightChild);
 
-	//qt->insertResult(n);
+	qt->insertResult(n);
 }
 void QueryParser::getNextBipStar(QueryTree* qt) {
 	Parameter leftChild;
@@ -1228,9 +1230,9 @@ void QueryParser::getNextBipStar(QueryTree* qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	//NextBipStar *ns = new NextBipStar(leftChild, rightChild);
+	NextBipStar *ns = new NextBipStar(leftChild, rightChild);
 
-	//qt->insertResult(ns);
+	qt->insertResult(ns);
 }
 void QueryParser::getAffects(QueryTree* qt) {
 	Parameter leftChild;

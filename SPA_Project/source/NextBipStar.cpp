@@ -46,7 +46,7 @@ ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
 }
 
 bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-	if (left.size() <= right.size()) {
+	//if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> nextBipStar;
 			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
@@ -55,7 +55,7 @@ bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set
 					return true;
 				}
 			}
-		}
+		}/*
 	}
 	else {
 		for (auto& rightIterator : right) {
@@ -67,7 +67,7 @@ bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set
 				}
 			}
 		}
-	}
+	}*/
 	return false;
 }
 
@@ -77,7 +77,7 @@ ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unord
 		return isNextBipStarItself(pkb, getTypeStmt(leftChild, pkb));
 	}
 
-	if (left.size() <= right.size()) {
+	//if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> nextBipStar;
 			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
@@ -86,7 +86,7 @@ ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unord
 					insertTuple(leftIterator, it);
 				}
 			}
-		}
+		}/*
 	}
 	else {
 		for (auto& rightIterator : right) {
@@ -98,7 +98,7 @@ ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unord
 				}
 			}
 		}
-	}
+	}*/
 	return result;
 }
 
@@ -212,7 +212,6 @@ void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar
 	stack<int> callingStmts;
 	getWithinProc(prev, allNextBipStar, &callingStmts, pkb);
 
-	//getAllNextBipStar(prev, allNextBipStar, &visited, pkb);
 	return;
 }
 
@@ -235,30 +234,84 @@ void NextBipStar::getWithinProc(int curr, unordered_set<int>* allNextBipStar, st
 		next = getNextStmt(curr, pkb);
 		//next = pkb->getNextStmt(curr);
 	}
-	while (next.empty()) {
+
+	/*
+	unordered_set<int> temp = next;
+	int callingStmt = curr;
+	int size = callingStmts->size();
+	while (temp.empty() || (pkb->isStmtInWhileTable(callingStmt) && temp.size() == 1)) {
 		if (!callingStmts->empty()) {
-			int callingStmt = callingStmts->top();
+			for (auto& it : temp) {
+				next.insert(it);
+			}
+			callingStmt = callingStmts->top();
 			callingStmts->pop();
-			next = getNextStmt(callingStmt, pkb);
-			//next = pkb->getNextStmt(callingStmt);
+			temp = getNextStmt(callingStmt, pkb);
 		}
 		else {
 			break;
 		}
-	}
+	}*/
 
-	if (next.empty()) {
-		// stack must be empty at this point
-		int currProc = pkb->getProcContainingStmt(curr);
-		unordered_set<int> stmtsCallingProc = pkb->getStmtCallProc(currProc);
-		for (auto& stmtCallingProc : stmtsCallingProc) {
-			unordered_set<int> nexts = getNextStmt(stmtCallingProc, pkb);
-			//unordered_set<int> nexts = pkb->getNextStmt(stmtCallingProc);
-			for (auto& it : nexts) {
+	// if last statement, compute nextBip
+	if (next.empty() || (pkb->isStmtInWhileTable(curr) && next.size() == 1)) {
+		//if stack of calling statements is empty, get all statements that call current proc
+		for (auto& it : next) {
+			allNextBipStar->insert(it);
+			getWithinProc(it, allNextBipStar, callingStmts, pkb);
+		}
+		if (callingStmts->empty()) {
+			int currProc = pkb->getProcContainingStmt(curr);
+			unordered_set<int> stmtsCallingProc = pkb->getStmtCallProc(currProc);
+			for (auto& stmtCallingProc : stmtsCallingProc) {
+				unordered_set<int> nexts = getNextStmt(stmtCallingProc, pkb);
+				//unordered_set<int> nexts = pkb->getNextStmt(stmtCallingProc);
+				for (auto& it : nexts) {
+					if (allNextBipStar->find(it) == allNextBipStar->end()) {
+						if (it > 0)
+							allNextBipStar->insert(it);
+						getWithinProc(it, allNextBipStar, callingStmts, pkb);
+					}
+				}
+			}
+		}
+		else {
+			//if stack is not empty, compute next Bip using calling statements
+			unordered_set<int> temp = next;
+			int callingStmt = curr;
+			int size = callingStmts->size();
+			while (temp.empty() || (pkb->isStmtInWhileTable(callingStmt) && temp.size() == 1)) {
+				for (auto& it : temp) {
+					next.insert(it);
+				}
+				if (!callingStmts->empty()) {
+					callingStmt = callingStmts->top();
+					callingStmts->pop();
+					temp = getNextStmt(callingStmt, pkb);
+					for (auto& it : temp) {
+						next.insert(it);
+					}
+				}
+				else {
+					break;
+				}
+			}
+			if (next.empty() || (pkb->isStmtInWhileTable(curr) && next.size() == 1)) {
+				int currProc = pkb->getProcContainingStmt(callingStmt);
+				computeLastBip(callingStmt, &next, pkb);
+			}
+
+			for (auto& it : next) {
 				if (allNextBipStar->find(it) == allNextBipStar->end()) {
 					if (it > 0)
 						allNextBipStar->insert(it);
-					getWithinProc(it, allNextBipStar, callingStmts, pkb);
+					if (pkb->isStmtInIfTable(curr)) {
+						stack<int> copiedStack = *callingStmts;
+						getWithinProc(it, allNextBipStar, &copiedStack, pkb);
+					}
+					else {
+						getWithinProc(it, allNextBipStar, callingStmts, pkb);
+					}
 				}
 			}
 		}
@@ -438,6 +491,50 @@ void NextBipStar::getAllPrevStar(int curr, unordered_set<int>* allPrevStar, unor
 		}
 	}
 	return;
+}
+
+void NextBipStar::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb) {
+	unordered_set<int> next = pkb->getNextStmt(curr);
+	unordered_set<int> temp;
+	stack<int> negatives;
+
+	for (auto& it : next) {
+		if (it < 0) {
+			negatives.push(it);
+		}
+		else {
+			temp.insert(it);
+			allNextBip->insert(it);
+		}
+	}
+	while (!negatives.empty()) {
+		next = pkb->getNextStmt(negatives.top());
+		negatives.pop();
+		for (auto& it : next) {
+			if (it < 0) {
+				negatives.push(it);
+			}
+			else {
+				temp.insert(it);
+				allNextBip->insert(it);
+			}
+		}
+	}
+
+	if (temp.empty()) {
+		int currProc = pkb->getProcContainingStmt(curr);
+		unordered_set<int> callingStmts = pkb->getStmtCallProc(currProc);
+		for (auto& it : callingStmts) {
+			computeLastBip(it, allNextBip, pkb);
+		}
+	}
+	else if ((pkb->isStmtInWhileTable(curr) && temp.size() == 1)) {
+		int currProc = pkb->getProcContainingStmt(curr);
+		unordered_set<int> callingStmts = pkb->getStmtCallProc(currProc);
+		for (auto& it : callingStmts) {
+			computeLastBip(it, allNextBip, pkb);
+		}
+	}
 }
 
 void NextBipStar::setSynList() {

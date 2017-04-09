@@ -5,25 +5,25 @@
 
 /*
 procedure o {
-x = 2;						//1
-z = 3;						//2
-i = 5;						//3
-while i {					//4
-x = x - 1;				//5
-if x then {				//6
-z = x + 1; }		//7
-else {
-y = z + x; }		//8
-z = z + x + i;		//9
-call q;					//10
-i = i - 1; }			//11
+	x = 2;						//1
+	z = 3;						//2
+	i = 5;						//3
+		while i {					//4
+		x = x - 1;				//5
+		if x then {				//6
+			z = x + 1; }		//7
+		else {
+			y = z + x; }		//8
+		z = z + x + i;		//9
+		call q;					//10
+		i = i - 1; }			//11
 }
 
 procedure q {
-if x then {					//12
-z = x + 1; }			//13
-else {
-x = z + x; } }			//14
+	if x then {					//12
+		z = x + 1; }			//13
+	else {
+		x = z + x; } }			//14
 
 procedure first{
 call second;			//15

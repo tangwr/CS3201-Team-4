@@ -36,6 +36,7 @@ private:
 	void getAllPrevStar(int, unordered_set<int>*, unordered_set<int>*, unordered_set<int>*, PKB*);
 	unordered_set<int> getNextStmt(int, PKB*);
 	unordered_set<int> getPreviousStmt(int, PKB*);
+	void computeLastBip(int, unordered_set<int>*, PKB*);
 
 public:
 	NextBipStar(Parameter lc, Parameter rc);

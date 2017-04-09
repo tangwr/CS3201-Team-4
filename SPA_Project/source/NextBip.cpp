@@ -189,8 +189,12 @@ unordered_set<int> NextBip::computePrevBip(int curr, PKB* pkb) {
 		return callingStmts;
 	}
 	else {
-		stack<int> calls;
 		unordered_set<int> allPrevious;
+		if (temp.size() == 1 && pkb->isStmtInWhileTable(curr)) {
+			int currProc = pkb->getProcContainingStmt(curr);
+			allPrevious = pkb->getStmtCallProc(currProc);
+		}
+		stack<int> calls;
 		for (auto& it : temp) {
 			if (pkb->isStmtInCallTable(it)) {
 				calls.push(it);
@@ -256,7 +260,7 @@ void NextBip::DFS(int currStmt, unordered_set<int>* lastStmts, unordered_set<int
 	}
 	visited->insert(currStmt);
 	unordered_set<int> next = pkb->getNextStmt(currStmt);
-	if (next.empty()) {
+	if (next.empty() || (pkb->isStmtInWhileTable(currStmt) && next.size() == 1)) {
 		lastStmts->insert(currStmt);
 		return;
 	}

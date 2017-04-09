@@ -2,6 +2,8 @@
 #include "QueryTree.h"
 #include "Affects.h"
 #include "AffectsStar.h"
+#include "AffectsBip.h"
+#include "AffectsBipStar.h"
 #include "Clause.h"
 #include "Follow.h"
 #include "FollowStar.h"
@@ -1422,8 +1424,8 @@ void QueryParser::getAffectsBip(QueryTree* qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	//AffectsBip *a = new AffectsBi[(leftChild, rightChild);
-	//qt->insertResult(a);
+	AffectsBip *a = new AffectsBip(leftChild, rightChild);
+	qt->insertResult(a);
 }
 void QueryParser::getAffectsBipStar(QueryTree* qt) {
 	Parameter leftChild;
@@ -1487,8 +1489,8 @@ void QueryParser::getAffectsBipStar(QueryTree* qt) {
 
 	string closeBracket = tokenizer->getToken();
 	match(closeBracket, SYMBOL_CLOSE_BRACKET);
-	//AffectsBipStar *as = new AffectsBipStar(leftChild, rightChild);
-	//qt->insertResult(as);
+	AffectsBipStar *as = new AffectsBipStar(leftChild, rightChild);
+	qt->insertResult(as);
 }
 void QueryParser::getPattern(QueryTree *qt) {
 	Parameter leftChild;

@@ -41,7 +41,7 @@ ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
 		return resultTable;
 	}
 
-	if (lcType == rcType && lcName == rcName) {
+	if (lcType == rcType && lcName == rcName && isLeftSyn == true && isRightSyn == true) {
 		resultTable.setBoolean(false);
 		return resultTable;
 	}

@@ -336,5 +336,5 @@ vector<Parameter> AffectsBipStar::getSynList() {
 }
 
 ClauseType AffectsBipStar::getClauseType() {
-	return PATTERN;
+	return AFFECTSBIPSTAR;
 }

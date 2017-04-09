@@ -521,5 +521,5 @@ vector<Parameter> NextBipStar::getSynList() {
 }
 
 ClauseType NextBipStar::getClauseType() {
-	return FOLLOW;
+	return NEXTBIPSTAR;
 }

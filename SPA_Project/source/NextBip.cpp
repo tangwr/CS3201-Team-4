@@ -387,5 +387,5 @@ vector<Parameter> NextBip::getSynList() {
 }
 
 ClauseType NextBip::getClauseType() {
-	return FOLLOW;
+	return NEXTBIP;
 }

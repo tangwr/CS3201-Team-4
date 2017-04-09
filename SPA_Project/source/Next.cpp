@@ -260,5 +260,5 @@ vector<Parameter> Next::getSynList() {
 }
 
 ClauseType Next::getClauseType() {
-	return FOLLOW;
+	return NEXT;
 }

@@ -505,5 +505,5 @@ vector<Parameter> Affects::getSynList() {
 }
 
 ClauseType Affects::getClauseType() {
-	return PATTERN;
+	return AFFECTS;
 }

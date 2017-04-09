@@ -313,5 +313,5 @@ vector<Parameter> AffectsBip::getSynList() {
 }
 
 ClauseType AffectsBip::getClauseType() {
-	return PATTERN;
+	return AFFECTSBIP;
 }

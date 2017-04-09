@@ -9,7 +9,7 @@ Calls::Calls(Parameter lc, Parameter rc){
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
 	}
-	if (rightChild.isSynonym()) {
+	if (rightChild.isSynonym() && !rightChild.isSame(leftChild)) {
 		synList.push_back(rightChild);
 	}
 	
@@ -37,6 +37,11 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 	isRightSyn = isSynonym(rcType);
 
 	if (isValidParameter(pkb, leftChild) == false || isValidParameter(pkb, rightChild) == false) {
+		resultTable.setBoolean(false);
+		return resultTable;
+	}
+
+	if (lcType == rcType && lcName == rcName) {
 		resultTable.setBoolean(false);
 		return resultTable;
 	}

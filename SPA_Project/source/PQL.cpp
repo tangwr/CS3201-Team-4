@@ -15,7 +15,8 @@ PQL::~PQL() {
 	delete evaluator;
 	delete postProcessor;
 	delete preProcessor;
-}
+} 
+
 
 list<string> PQL::evaluateQuery(string querySource) {
 	string test = "procedure p1; assign a2; variable v3; stmt s; while w; if ifs; Select a2 such that Next*(a2, w) and Modifies(a2, v3)";
@@ -24,6 +25,11 @@ list<string> PQL::evaluateQuery(string querySource) {
 	const int EQUAL = 0;
 	const string FALSE = "FALSE";
 	QueryTree queryTree;
+
+
+	preProcessor = new QueryParser();
+	evaluator = new QueryEvaluator(pkb);
+	postProcessor = new QueryPostProcessor(pkb);
 
 	try {
 		queryTree = preProcessor->parse(querySource);

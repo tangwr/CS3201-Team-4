@@ -68,6 +68,7 @@ public:
     virtual string getProcNameById(int procId);//returns empty string if no such procId
 
     virtual bool isProcInTable(string procName);
+	virtual bool isValidProcId(int procId);
     
     virtual int getProcContainingStmt(int stmtId);
     virtual unordered_set<int> getStmtInProc(int procId);

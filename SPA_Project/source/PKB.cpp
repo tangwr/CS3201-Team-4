@@ -122,6 +122,9 @@ string PKB::getProcNameById(int procId) {
 bool PKB::isProcInTable(string procName) {
     return this->procTable.checkProcExistByName(procName);
 }
+bool PKB::isValidProcId(int procId) {
+	return this->procTable.checkProcExistById(procId);
+}
 
 int PKB::getProcContainingStmt(int stmtId) {
     return this->procTable.getProcContainStmt(stmtId);
@@ -453,14 +456,16 @@ unordered_set<int> PKB::getAllIfId() {
 
 //call table
 bool PKB::setStmtCallProcRel(int stmtId, int procId) {
-	/*if (!this->isValidProcId(varId)) {
+	if (!this->isValidProcId(procId)) {
 		return false;
-	}*/
+	}
 	this->combinedStmtTable.insertStmt(stmtId);
 	return this->callTable.setStmtCallProcRel(stmtId, procId);
 }
 bool PKB::setProcCallProcRel(int callerProcId, int calledProcId) {
-    //check if proc exist??
+	if (!this->isValidProcId(callerProcId) || !this->isValidProcId(calledProcId)) {
+		return false;
+	}
     return this->callTable.setProcCallProcRel(callerProcId, calledProcId);
 }
 

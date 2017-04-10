@@ -373,6 +373,7 @@ unordered_set<int> ResultTable::getSynValue(Parameter param)
 
 void ResultTable::printTable()
 {
+	/*
 	for (Parameter p : synList)
 		cout << p.getParaName() << "  ";
 	cout << endl;
@@ -382,6 +383,7 @@ void ResultTable::printTable()
 			cout << i << "  ";
 		cout << endl;
 	}
+	*/
 }
 
 string ResultTable::convertTupleToString(vector<int> tuple)

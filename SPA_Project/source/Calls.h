@@ -19,7 +19,7 @@ private:
 
 	Type paramType1, paramType2;
 	string paramName1, paramName2;
-	vector<int> valueList1, valueList2;
+	//vector<int> valueList1, valueList2;
 	unordered_set<int> valueSet1, valueSet2;
 
 	bool isValidParameter(PKB *pkb, Parameter param);

@@ -13,6 +13,8 @@ Calls::Calls(Parameter lc, Parameter rc){
 		synList.push_back(rightChild);
 	}
 	
+	paramName1 = "";
+	paramName2 = "";
 }
 
 ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
@@ -22,7 +24,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 	
 	vector<int> tuple;
 	unordered_set<int> firstSynList, secondSynList, callSet;
-	bool isLeftSyn, isRightSyn, boolRel;
+	bool isLeftSyn = false, isRightSyn = false, boolRel = false;
 
 
 	Type lcType = leftChild.getParaType();
@@ -70,6 +72,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 	if (isLeftSyn == false && isRightSyn == false) {
 		boolRel = hasRelation(pkb);
 		resultTable.setBoolean(boolRel);
+		resultTable.setSynList(synList);
 	}
 	if (isLeftSyn == true && isRightSyn == false) {
 		resultTable.setSynList(synList);
@@ -115,7 +118,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 bool Calls::isValidParameter(PKB *pkb, Parameter param) {
 	bool isValidParam = false;
 	bool isProcString = false;
-	int varId;
+	//int varId;
 
 	Type paramType = param.getParaType();
 	string paramName = param.getParaName();
@@ -175,7 +178,7 @@ unordered_set<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synNam
 	string rcName = rightChild.getParaName();
 	Type lcType = leftChild.getParaType();
 	Type rcType = rightChild.getParaType();
-	int procId, callProcId;
+	//int procId, callProcId;
 	unordered_set<int> callSet, procSet, stmtSet, mergeCallSet;
 	unordered_set<int> callerProcSet, calledByProcSet, resultSet;
 
@@ -184,9 +187,11 @@ unordered_set<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synNam
 		procSet = getRestrictedSet(pkb, synType, synName);
 		break;
 	case STRINGVARIABLE:
-		procId = pkb->getProcIdByName(synName);
+	{
+		int procId = pkb->getProcIdByName(synName);
 		procSet.insert(procId);
 		break;
+	}
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
 		break;
@@ -229,16 +234,18 @@ unordered_set<int> Calls::evaluateRelation(PKB *pkb, Type synType, string synNam
 unordered_set<int> Calls::getCallProcSet(PKB *pkb, Type paraType, string paraName) {
 	vector<int> resultList;
 	unordered_set<int> callSet, procSet, stmtSet, mergeCallSet;
-	int procId, callProcId;
+	//int procId, callProcId;
 
 	switch (paraType) {
 	case PROCEDURE:
 		procSet = getRestrictedSet(pkb, paraType, paraName);
 		break;
 	case STRINGVARIABLE:
-		procId = pkb->getProcIdByName(paraName);
+	{
+		int procId = pkb->getProcIdByName(paraName);
 		procSet.insert(procId);
 		break;
+	}
 	case ANYTHING:
 		procSet = pkb->getAllProcId();
 		break;

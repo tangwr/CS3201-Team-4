@@ -32,6 +32,7 @@ private:
 	unordered_set<int> getLastStmts(int, PKB*);
 	void DFS(int, unordered_set<int>*, unordered_set<int>*, PKB*);
 	void computeLastBip(int, unordered_set<int>*, PKB*);
+	unordered_set<int> getNextStmt(int, PKB*);
 
 public:
 	NextBip(Parameter lc, Parameter rc);

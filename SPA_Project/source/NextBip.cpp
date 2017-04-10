@@ -45,7 +45,6 @@ bool NextBip::isNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> ri
 	if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> nextBip = computeNextBip(leftIterator, pkb);
-			//unordered_set<int> nextBip = pkb->getNextBipStmt(leftIterator);
 			for (auto& it : nextBip) {
 				if (right.find(it) != right.end()) {
 					return true;
@@ -56,7 +55,6 @@ bool NextBip::isNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> ri
 	else {
 		for (auto& rightIterator : right) {
 			unordered_set<int> prev = computePrevBip(rightIterator, pkb);
-			//unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
 					return true;
@@ -74,7 +72,6 @@ ResultTable NextBip::getNextBip(PKB* pkb, unordered_set<int> left, unordered_set
 	}
 	if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
-			//unordered_set<int> nextBip = pkb->getNextBipStmt(leftIterator);
 			unordered_set<int> nextBip = computeNextBip(leftIterator, pkb);
 			for (auto& it : nextBip) {
 				if (right.find(it) != right.end()) {
@@ -85,7 +82,6 @@ ResultTable NextBip::getNextBip(PKB* pkb, unordered_set<int> left, unordered_set
 	}
 	else {
 		for (auto& rightIterator : right) {
-			//unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			unordered_set<int> prev = computePrevBip(rightIterator, pkb);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
@@ -219,7 +215,6 @@ unordered_set<int> NextBip::computePrevBip(int curr, PKB* pkb) {
 		}
 		return allPrevious;
 	}
-	//return prev;
 }
 
 unordered_set<int> NextBip::getLastStmts(int procId, PKB* pkb) {
@@ -277,29 +272,7 @@ unordered_set<int> NextBip::computeNextBip(int curr, PKB* pkb) {
 		next.insert(firstStmt);
 	}
 	else {
-		unordered_set<int> temp = pkb->getNextStmt(curr);
-		stack<int> negatives;
-
-		for (auto& it : temp) {
-			if (it < 0) {
-				negatives.push(it);
-			}
-			else {
-				next.insert(it);
-			}
-		}
-		while (!negatives.empty()) {
-			temp = pkb->getNextStmt(negatives.top());
-			negatives.pop();
-			for (auto& it : temp) {
-				if (it < 0) {
-					negatives.push(it);
-				}
-				else {
-					next.insert(it);
-				}
-			}
-		}
+		next = getNextStmt(curr, pkb);
 		if (next.empty()) {
 			computeLastBip(curr, &next, pkb);
 		}
@@ -312,20 +285,19 @@ unordered_set<int> NextBip::computeNextBip(int curr, PKB* pkb) {
 	return next;
 }
 
-void NextBip::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb) {
-	unordered_set<int> next = pkb->getNextStmt(curr);
+unordered_set<int> NextBip::getNextStmt(int a, PKB* pkb) {
+	unordered_set<int> next = pkb->getNextStmt(a);
 	unordered_set<int> temp;
 	stack<int> negatives;
-
 	for (auto& it : next) {
 		if (it < 0) {
 			negatives.push(it);
 		}
 		else {
 			temp.insert(it);
-			allNextBip->insert(it);
 		}
 	}
+
 	while (!negatives.empty()) {
 		next = pkb->getNextStmt(negatives.top());
 		negatives.pop();
@@ -335,9 +307,17 @@ void NextBip::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb)
 			}
 			else {
 				temp.insert(it);
-				allNextBip->insert(it);
 			}
 		}
+	}
+	return temp;
+}
+
+void NextBip::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb) {
+	unordered_set<int> temp = getNextStmt(curr, pkb);
+	stack<int> negatives;
+	for (auto& it : temp) {
+		allNextBip->insert(it);
 	}
 
 	if (temp.empty()) {

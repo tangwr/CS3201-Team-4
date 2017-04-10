@@ -1968,5 +1968,5 @@ void QueryParser::throwError(string errorMsg) {
 }
 
 QueryParser::~QueryParser() {
-	delete tokenizer;
+	//delete tokenizer;
 }

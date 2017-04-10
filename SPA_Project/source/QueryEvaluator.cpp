@@ -32,7 +32,7 @@ void QueryEvaluator::setPKB(PKB* pkbInput) {
 
 ResultTable QueryEvaluator::evaluate(QueryTree qt) {
  	ResultTable ans = evaluateWithOptimization2(qt);
-	for (int i = 0; i < (int)qt.getClauseSize() ; i++)
+	//for (int i = 0; i < (int)qt.getClauseSize() ; i++)
 		//delete qt.getClause(i);
 	return ans;
 }

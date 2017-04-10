@@ -1,4 +1,7 @@
+#pragma once
 #include "CallTable.h"
+
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -94,7 +97,7 @@ int CallTable::getProcCalledByStmt(int stmtId) {
 		return it->second;
 	}
 	else {
-		return -1;
+		return INVALID_INDEX;
 	}
 }
 

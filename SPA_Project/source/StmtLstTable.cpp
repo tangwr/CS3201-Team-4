@@ -1,3 +1,4 @@
+#pragma once
 #include "StmtLstTable.h"
 
 StmtLstTable::StmtLstTable() {
@@ -73,7 +74,6 @@ vector<int> StmtLstTable::getStmtlstContainedInContainerStmt(int containerStmtid
 unordered_set<int> StmtLstTable::getAllStmtLst() {
 
     unordered_set<int> resultSet;
-    //check need only 1 or both table
     for (pair<int, vector<int>> entry : procToStmtLstMap) {
         for (int element : entry.second) {
             resultSet.insert(element);
@@ -96,9 +96,6 @@ void StmtLstTable::printContents() {
     cout << "ProcId : First stmtId in StmtLst" << endl;
     for (pair<int, vector<int>> it : procToStmtLstMap) {
         cout << it.first << " : ";
-        //cout << "StmtId: " << it.first;
-        //cout << " Modifies VarId: ";
-        //printVector(it.second);
         TableOperations::printTableVector(it.second);
         cout << endl;
     }
@@ -107,9 +104,6 @@ void StmtLstTable::printContents() {
     cout << "Container StmtId : First stmtId in StmtLst" << endl;
     for (pair<int, vector<int>> it : containerStmtToStmtLstMap) {
         cout << it.first << " : ";
-        //cout << "ProcId: " << it.first;
-        //cout << " Modifies VarId: ";
-        //printVector(it.second);
         TableOperations::printTableVector(it.second);
         cout << endl;
     }

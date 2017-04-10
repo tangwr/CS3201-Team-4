@@ -1,4 +1,7 @@
+#pragma once
 #include "IfTable.h"
+
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -30,7 +33,6 @@ bool IfTable::setVarToIfStmt(int stmtId, int varId) {
 		this->ifList.insert({ stmtId, varId });
         this->ifStmtSet.insert(stmtId);
 		this->size++;
-		//return true;
         return this->setCtrlVarUsedByStmt(varId, stmtId);
 	}
 }
@@ -41,7 +43,7 @@ int IfTable::getCtrlVarInIfStmt(int stmtId) {
 		return it->second;
 	}
 	else {
-		return -1;
+		return INVALID_INDEX;
 	}
 }
 
@@ -56,13 +58,6 @@ unordered_set<int> IfTable::getStmtWithCtrlVar(int ctrlVarId) {
 
 unordered_set<int> IfTable::getAllIfId() {
     return this->ifStmtSet;
-    /*
-    unordered_set<int> resultSet;
-    for (auto entry : ifList) {
-        resultSet.insert(entry.first);
-    }
-    return resultSet;
-    */
 }
 
 bool IfTable::isStmtInTable(int stmtId)
@@ -89,13 +84,4 @@ void IfTable::printContents() {
     }
 
     cout << "---END PRINT IF TABLE---" << endl;
-    /*
-	cout << "If Table" << endl;
-	cout << "====================" << endl;
-
-	for (auto& it : this->ifList)
-		cout << it.first << ": " << it.second << endl;
-
-	cout << "====================" << endl;
-    */
 }

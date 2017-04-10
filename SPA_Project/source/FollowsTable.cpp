@@ -1,9 +1,11 @@
+#pragma once
 #include "FollowsTable.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -30,7 +32,6 @@ bool FollowsTable::setStmtFollowStmtRel(int followeeId, int followerId)
 		else {
 			followeeMap.insert(make_pair(followeeId, followerId));
 			followerMap.insert(make_pair(followerId, followeeId));
-			// star table
 			insertStmtFollowStmtRel(followeeId, followerId);
 			return true;
 		}
@@ -76,7 +77,7 @@ int FollowsTable::getDirectFollow(int followeeId)
 	if (it != followeeMap.end()) {
 		return it->second;
 	}
-	return -1;
+	return INVALID_INDEX;
 }
 
 
@@ -92,7 +93,7 @@ int FollowsTable::getDirectFollowedBy(int followerId)
 	if (it != followerMap.end()) {
 		return it->second;
 	}
-	return -1;
+	return INVALID_INDEX;
 }
 
 unordered_set<int> FollowsTable::getStmtFollowStarStmt(int stmtId) {

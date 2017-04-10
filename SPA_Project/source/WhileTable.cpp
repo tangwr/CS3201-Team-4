@@ -1,4 +1,7 @@
+#pragma once
 #include "WhileTable.h"
+
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -29,7 +32,6 @@ bool WhileTable::setVarToWhileStmt(int stmtId, int varId) {
 		this->whileList.insert({ stmtId, varId });
         this->whileStmtSet.insert(stmtId);
 		this->size++;
-		//return true;
         return setStmtToCtrlVar(varId, stmtId);
 	}
 }
@@ -40,13 +42,12 @@ int WhileTable::getCtrlVarInWhileStmt(int stmtId) {
 		return it->second;
 	}
 	else {
-		return -1;
+		return INVALID_INDEX;
 	}
 }
 
 unordered_set<int> WhileTable::getStmtWithCtrlVar(int varId) {
     unordered_map<int, unordered_set<int>>::iterator it = this->ctrlVarList.find(varId);
-    //unordered_set<int> stmtSet = unordered_set<int>();
     if (it != this->ctrlVarList.end()) {
         return it->second;
     }
@@ -55,16 +56,9 @@ unordered_set<int> WhileTable::getStmtWithCtrlVar(int varId) {
     }
 }
 
-//returns a vector<int> of all while statements
+
 unordered_set<int> WhileTable::getAllStmtId() {
     return this->whileStmtSet;
-    /*
-    unordered_set<int> allWhileStmtList;
-    for (auto whileEntry : this->whileList) {
-        allWhileStmtList.insert(whileEntry.first);
-    }
-    return allWhileStmtList;
-    */
 }
 
 bool WhileTable::isStmtInTable(int stmtId)

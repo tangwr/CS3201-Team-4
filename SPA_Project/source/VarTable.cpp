@@ -1,8 +1,11 @@
+#pragma once
 #include "VarTable.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+#define EMPTY_STRING ""
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -28,7 +31,7 @@ int VarTable::insertVar(string varName)
 		varMap.insert(make_pair(varName, varId));
         varIdSet.insert(varId);
 		vtsize++;
-		return varId;   // index of the variable in the vector
+		return varId;
 	}
 }
 
@@ -48,7 +51,7 @@ int VarTable::getSize()
 string VarTable::getVarNameById(int varId)
 {
 	if (varId >= vtsize) {
-		return "";
+		return EMPTY_STRING;
 	}
 	else {
 		return varList.at(varId);
@@ -66,7 +69,7 @@ int VarTable::getVarIndex(string varName)
 	if (it != varMap.end())
 		return it->second;
 	else 
-		return -1;
+		return INVALID_INDEX;
 }
 
 bool VarTable::checkVarExistByName(string varName)
@@ -102,8 +105,6 @@ void VarTable::printContents()
     cout << "VarId : VarName" << endl;
 	for (pair<string, int> it : varMap) {
         cout << it.second << " : " << it.first << endl;
-		//cout << "VarId: " << it.second;
-		//cout << " VarName " << it.first << endl;
 	}
 	cout << "---END PRINT VARTABLE---" << endl;
 }

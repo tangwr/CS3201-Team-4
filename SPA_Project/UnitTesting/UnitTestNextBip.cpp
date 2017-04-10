@@ -69,6 +69,7 @@ namespace UnitTesting
 
 			Assert::IsTrue(queryResult.getBoolean());
 		}
+
 		TEST_METHOD(UnitTest_NextBip_Num_Stmt)
 		{
 			PKBStubNextBip pkbStub;

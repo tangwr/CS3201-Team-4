@@ -13,6 +13,7 @@
 #include "ModifiesTable.h"	
 #include "NextTable.h"
 #include "StmtLstTable.h"
+#include "CombinedStmtTable.h"
 #include "TableOperations.h"
 
 #include <unordered_map>
@@ -23,7 +24,7 @@ using namespace std;
 
 namespace UnitTesting
 {
-	TEST_CLASS(TestAST)
+	TEST_CLASS(TestTABLE)
 	{
 	public:
 
@@ -56,6 +57,7 @@ namespace UnitTesting
 			Assert::AreEqual(true, vt.checkVarExistByName("ABCD"));
 
             Assert::IsTrue(vt.getAllVarId() == unordered_set<int>({ 0, 1, 2, 3 }));
+			vt.printContents();
 		}
 
 		TEST_METHOD(UnitTest_ProcTable)
@@ -98,6 +100,7 @@ namespace UnitTesting
 			Assert::AreEqual(pt.getProcContainStmt(99), 1);
 
 			Assert::IsTrue(TableOperations::isEqualUnorderedSet(pt.getAllProcId(), unordered_set<int>({ 0, 1, 2, 3 })));
+			pt.printContents();
 		}
 
 		TEST_METHOD(UnitTest_ConstTable)
@@ -121,14 +124,11 @@ namespace UnitTesting
 			Assert::AreEqual(false, ct.checkConstExist(50));
 
             Assert::IsTrue(TableOperations::isEqualUnorderedSet(ct.getAllConst(), unordered_set<int>({ 10, 20, 30, 40 })));
-            //Assert::IsTrue(ct.getAllConstId() == vector<int>({ 0, 1, 2, 3 }));
+			ct.printContents();
 		}
 
 		TEST_METHOD(UnitTest_FollowsTable)
 		{
-			/*
-			Sample: 1,2,3,4-while{5,6}
-			*/
 			FollowsTable ft;
 			Assert::IsFalse(ft.hasFollowRel());
 
@@ -155,13 +155,11 @@ namespace UnitTesting
 
 			ft.setStmtFollowStmtRel(23, 24);
 			Assert::IsFalse(ft.setStmtFollowStmtRel(23, 24));
+			ft.printContents();
 		}
 
 		TEST_METHOD(UnitTest_ParentsTable)
 		{
-			/*
-				Sample 1, 2_while{3,4-if{5,6}, 7} 
-			*/
 			ParentsTable pt;
             Assert::IsFalse(pt.hasParentRel());
 			pt.setStmtParentStmtRel(2, 3);
@@ -186,6 +184,7 @@ namespace UnitTesting
             Assert::IsTrue(pt.hasParentRel());
 			Assert::IsFalse(pt.setStmtParentStmtRel(10, 3));
 			Assert::AreEqual(-1, pt.getParent(109));
+			pt.printContents();
 		}
 		
         TEST_METHOD(UnitTest_IfTable)
@@ -208,6 +207,7 @@ namespace UnitTesting
 
 			unordered_set<int> allIfStmtId = { 2, 3, 7, 9 };
 			Assert::IsTrue(TableOperations::isEqualUnorderedSet(it.getAllIfId(), allIfStmtId));
+			it.printContents();
 		}
 		
         TEST_METHOD(UnitTest_WhileTable)
@@ -231,6 +231,7 @@ namespace UnitTesting
 
 			unordered_set<int> allWhileStmtId = { 2, 3, 7, 9 };
 			Assert::IsTrue(TableOperations::isEqualUnorderedSet(wt.getAllStmtId(), allWhileStmtId));
+			wt.printContents();
 		}
 		
         TEST_METHOD(UnitTest_AssignTable)
@@ -265,17 +266,13 @@ namespace UnitTesting
 
 			unordered_set<int> allAssignStmtSet = { 99, 2, 3 };
 			Assert::IsTrue(TableOperations::isEqualUnorderedSet(at.getAllStmtId(), allAssignStmtSet));
+			at.printContents();
 
 		}
 		
         TEST_METHOD(UnitTest_CallTable)
 		{
 			CallTable ct;
-			//Assert::AreEqual(0, ct.getSize());
-			//ct.setStmtCallProc(2, 5);
-			//ct.setStmtCallProc(3, 6);
-			//Assert::AreEqual(5, ct.getCallProc(2));
-			//Assert::AreEqual(2, ct.getSize());
 
 			//statement call proc
 			Assert::IsTrue(ct.getSize() == 0);
@@ -322,6 +319,7 @@ namespace UnitTesting
 
 			ct.insertProcCallStarProcRel(25, 26);
 			Assert::IsFalse(ct.insertProcCallStarProcRel(25, 26));
+			ct.printContents();
 		}
 		
         TEST_METHOD(UnitTest_UsesTable)
@@ -418,18 +416,20 @@ namespace UnitTesting
 			ut.setStmtUseVarRel(78, 36);
 			Assert::IsFalse(ut.setStmtUseVarRel(78, 36));
 
+			ut.printContents();
+
 		}
 
 		TEST_METHOD(UnitTest_ModifiesTable)
 		{
 			ModifiesTable mt;
 			mt.setStmtModifyVarRel(2, 4);
-			mt.setStmtModifyVarRel(2, 5);  // this is not executed due to duplicate key
+			mt.setStmtModifyVarRel(2, 5);
 			mt.setStmtModifyVarRel(3, 5);
 			mt.insertStmtModifyVarRel(4, 5);
 
 			mt.setProcModifyVarRel(2, 4);
-			mt.setProcModifyVarRel(2, 5);  // this is not executed due to duplicate key
+			mt.setProcModifyVarRel(2, 5);
 			mt.setProcModifyVarRel(3, 5);
 			mt.insertProcModifyVarRel(4, 5);
 
@@ -456,6 +456,7 @@ namespace UnitTesting
 			mt.insertProcModifyVarRel(25, 26);
 			Assert::IsFalse(mt.insertProcModifyVarRel(25, 26));
 			Assert::IsTrue(mt.insertProcModifyVarRel(25, 27));
+			mt.printContents();
 		}
 	    
         TEST_METHOD(UnitTest_NextTable) {
@@ -473,6 +474,7 @@ namespace UnitTesting
 			unordered_set<int> nextOfThree = { 5, 6 };
 			Assert::IsTrue(TableOperations::isEqualUnorderedSet(nt.getPreviousStmt(5), previousOfFive));
 			Assert::IsTrue(TableOperations::isEqualUnorderedSet(nt.getNextStmt(3), nextOfThree));
+			nt.printContents();
         }
 
         TEST_METHOD(UnitTest_StmtLstTable) {
@@ -498,6 +500,18 @@ namespace UnitTesting
 
             unordered_set<int> allFirstStmtOfStmtLsts = { 4, 8, 6, 10, 11, 13, 12, 20 };
             Assert::IsTrue(TableOperations::isEqualUnorderedSet(slt.getAllStmtLst(), allFirstStmtOfStmtLsts));
+			slt.printContents();
         }
+
+		TEST_METHOD(UnitTest_CombinedStmtTable) {
+			CombinedStmtTable cst;
+			
+			cst.insertStmt(1);
+			cst.insertStmt(9);
+			cst.insertStmt(2);
+
+			Assert::IsTrue(cst.getSize == 3);
+			Assert::IsTrue(cst.getAllStmtId() == unordered_set<int>({ 1, 2, 9 }));
+		}
     };
 }

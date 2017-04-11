@@ -1,3 +1,0 @@
-﻿     Creating library C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.lib and object C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.exp
-SPA.lib(QueryEvaluator.obj) : error LNK2001: unresolved external symbol "public: static bool volatile AbstractWrapper::GlobalStop" (?GlobalStop@AbstractWrapper@@2_NC)
-C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\IntegrationTesting.dll : fatal error LNK1120: 1 unresolved externals

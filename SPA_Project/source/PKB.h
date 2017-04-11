@@ -186,48 +186,229 @@ public:
 	*/
     virtual bool insertConst(int value);
 
-	//virtual unordered_set<int> getAllConstId();
+	/*
+	Retrieves all constants
+
+	return						an unordered_set of all constant values
+	*/
     virtual unordered_set<int> getAllConst();
-    virtual int getNumOfConst();//was get Const Table Size
-    //virtual int getConstValueById(int constId);
-    //virtual int getConstIdByValue(int constValue);
+
+	/*
+	Retrieves total number of constants in const table
+
+	return						total number of constants as an integer
+	*/
+	virtual int getNumOfConst();
+	
+	/*
+	Checks if a given constant exists in const table
+
+	param int constValue		constant value
+	return						true if constant is in table, false otherwise
+	*/
     virtual bool isConstInTable(int constValue);
 
 
 	//Parent table
-    virtual bool setStmtParentStmtRel(int parentStmtId, int childStmtId);//was set Parent Direct Rel
-    virtual bool insertStmtParentStmtRel(int parentStmtId, int childStmtId);//was insert Parent Rel
+	/*
+	Stores the direct parent child relation between two statements
+
+	param int parentStmtId		statement index of the parent
+	param int childStmtId		statement index of the child
+	return						true if successful, false otherwise
+	*/
+    virtual bool setStmtParentStmtRel(int parentStmtId, int childStmtId);
+	
+	/*
+	Stores the transitive parent child relation between two statements
+
+	param int parentStmtId		statement index of the parent
+	param int childStmtId		statement index of the child
+	return						true if successful, false otherwise
+	*/
+    virtual bool insertStmtParentStmtRel(int parentStmtId, int childStmtId);
+
+	/*
+	Checks if there exist any parent child relationship in parent table
+
+	return						true if ther exist at least one parent child relation, false otherwise
+	*/
     virtual bool hasParentRel();
 
-    virtual int getStmtParentStmt(int stmtId);//-1 if no parent, was get Parent Direct
-    virtual unordered_set<int> getStmtParentStarStmt(int stmtId);//was get Parent Star
-    virtual unordered_set<int> getStmtChildrenStmt(int stmtId);//was get Children
-    virtual unordered_set<int> getStmtChildrenStarStmt(int stmtId);//was get Children Star
+	/*
+	Given a statement index, retrieves the index of its direct parent
+
+	param int stmtId			statement index
+	return						index of direct parent statement as an integer, returns -1 if it does not have any parent
+	*/
+    virtual int getStmtParentStmt(int stmtId);
+
+	/*
+	Given a statement index, retrieves the indices of its parents by transitive parent relation
+
+	param int stmtId			statement index
+	return						an unordered_set containing all of its parents by transitive parent relation
+	*/
+    virtual unordered_set<int> getStmtParentStarStmt(int stmtId);
+
+	/*
+	Given a statement index, retrieves all its direct children
+	
+	param int stmtId			statement index
+	return						an unordered_set containing all of its direct children
+	*/
+    virtual unordered_set<int> getStmtChildrenStmt(int stmtId);
+
+	/*
+	Given a statement index, retrieves all of its children by transitive relation
+
+	param int stmtId			statement index
+	return						an unordered_set containing all of its children, by transitive relation
+	*/
+    virtual unordered_set<int> getStmtChildrenStarStmt(int stmtId);
 
 
 	//Follow table
-    virtual bool setStmtFollowStmtRel(int stmtId, int followStmtId);//was set Follow Direct Rel
-    virtual bool insertStmtFollowStmtRel(int followeeId, int followerId);// was insert Follow Rel
+	/*
+	Stores follow relation between two given statement
+
+	param int stmtId			statement index
+	param int followStmtId		follower statement index
+	return						true if sucessful, false otherwise, if statment already has a follower, fails
+	*/
+    virtual bool setStmtFollowStmtRel(int stmtId, int followStmtId);
+
+	/*
+	Inserts transitive follow relation between two given statement
+
+	param int followeeId		statement index of statement being followed
+	param int followStmtId		follower statement index
+	return						true if sucessful, false otherwise
+	*/
+    virtual bool insertStmtFollowStmtRel(int followeeId, int followerId);
+
+	/*
+	Checks if follows table has any follow relation
+
+	returns						true if no follows relation, false otherwise
+	*/
     virtual bool hasFollowRel();
 
-    virtual int getStmtFollowStmt(int stmtId);//-1 if no follows, was get Follow Direct
-    virtual int getStmtFollowedByStmt(int stmtId);//-1 if no followedby, was get Followed By Direct
+	/*
+	Given a statement, retrieves its follower statment
+
+	param int stmtId			statement index
+	return						index of follower statement, -1 if no follower
+	*/
+    virtual int getStmtFollowStmt(int stmtId);
+
+	/*
+	Given a statement, retrieves the statement that it is following
+
+	param int stmtId			statement index
+	return						the index of the statement that it follows as an integer, -1 if not following any statement
+	*/
+    virtual int getStmtFollowedByStmt(int stmtId);
+
+	/*
+	Given a statement, retrieves follower statements by transitive relation
+
+	param int stmtId			statement index
+	return						an unordered_set of follower statement indices
+	*/
     virtual unordered_set<int> getStmtFollowStarStmt(int stmtId);
-    virtual unordered_set<int> getStmtFollowedByStarStmt(int stmtId);//was get Followed By Star
+
+	/*
+	Given a statement, retrieves statements that it is following by transitive relation
+
+	param int stmtId			statement index
+	return						an unordered_set of statements that it follows, by transitive relation
+	*/
+    virtual unordered_set<int> getStmtFollowedByStarStmt(int stmtId);
 
 
 	//Modifies table
-    virtual bool setStmtModifyVarRel(int stmtId, int varId);//was set Stmt Modify Rel
-    virtual bool setProcModifyVarRel(int procId, int varId);//was set Proc Modify Rel
-    virtual bool insertStmtModifyVarRel(int stmtId, int varId);//was insert Stmt Modifies Var
+
+	/*
+	Stores the modify relation between a statement and the variable that it modifies
+
+	param int stmtId			statement index
+	param int varId				variable index
+	return						true if successful, false if otherwise, if statement already has an entry, fails
+	*/
+    virtual bool setStmtModifyVarRel(int stmtId, int varId);
+
+	/*
+	Stores the modify relation between a procedure and the variable that it modifies
+
+	param int procId			procedure index
+	param int varId				variable index
+	return						true if successful, false if otherwise, if statement already has an entry, fails
+	*/
+    virtual bool setProcModifyVarRel(int procId, int varId);
+
+	/*
+	Stores the modifies relation between a statement and variable
+
+	param int stmtId			statement index
+	param int varId				variable index
+	return						true if successful, false if otherwise
+	*/
+    virtual bool insertStmtModifyVarRel(int stmtId, int varId);
+
+	/*
+	Stores the modifies relation between a procedure and variable
+
+	param int stmtId			statement index
+	param int procId			procedure index
+	return						true if successful, false if otherwise
+	*/
     virtual bool insertProcModifyVarRel(int procId, int varId);
 
-	virtual unordered_set<int> getStmtModifyVar(int varId);//was get Modified By Stmt
-	virtual unordered_set<int> getVarModifiedInStmt(int stmtId);//was get Stmt Modify
-    virtual unordered_set<int> getProcModifyVar(int varId);//was get Modified By Proc
-    virtual unordered_set<int> getVarModifiedInProc(int procId);//was get Proc Modify
+	/*
+	Given a variable index, retrieves the statements that modifies it
 
-    virtual unordered_set<int> getAllModifyStmt();//was get All Modifies Stmt
+	param int varId				variable index
+	return						unordered_set of statements that modifies the given variable
+	*/
+	virtual unordered_set<int> getStmtModifyVar(int varId);
+
+	/*
+	Given a statement index, retrieves the variables that it modifies
+
+	param int stmtId			statement index
+	return						unordered_set of variable indices that it modifies
+	*/
+	virtual unordered_set<int> getVarModifiedInStmt(int stmtId);
+
+	/*
+	Given a variable index, retrieves the procedures modifies it
+
+	param int varId				variable index
+	return						an unordered_set of procedure indices that modifies it
+	*/
+    virtual unordered_set<int> getProcModifyVar(int varId);
+
+	/*
+	Given a procedure index, retrieves the variable that it modifies
+
+	param int procId			procedure index
+	return						an unordered_set of variable indices that it modifies
+	*/
+    virtual unordered_set<int> getVarModifiedInProc(int procId);
+
+	/*
+	Retrieves all modifies statements
+
+	return						an unordered_set of modify statement indices in the modifies table
+	*/
+    virtual unordered_set<int> getAllModifyStmt();
+
+	/*
+	Checks if a statement is in modifies table
+
+	return						
+	*/
     virtual bool isStmtInModifyTable(int stmtId);//was is Stmt In Modifies Table
     virtual bool hasModifyRel(int stmtId, int varId);//was check Stmt Var Modifies Rel Exist
 

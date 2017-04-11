@@ -10,6 +10,17 @@
 using namespace std;
 
 class IfTable {
+
+public:
+	IfTable();
+	bool setVarToIfStmt(int stmtId, int varId);
+	int getCtrlVarInIfStmt(int stmtId);
+	unordered_set<int> getStmtWithCtrlVar(int ctrlVarId);
+	unordered_set<int> getAllIfId();
+	bool isStmtInTable(int stmtId);
+	int getSize();
+	void printContents();
+
 private:
 
 	unordered_map<int, int> ifList;//stmtId to ctrlVarId
@@ -18,13 +29,5 @@ private:
 	int size;
     bool setCtrlVarUsedByStmt(int ctrlVarId, int stmtId);
 
-public:
-	IfTable();
-	bool setVarToIfStmt(int stmtId, int varId);
-	int getCtrlVarInIfStmt(int stmtId);
-    unordered_set<int> getStmtWithCtrlVar(int ctrlVarId);
-    unordered_set<int> getAllIfId();
-	bool isStmtInTable(int stmtId);
-    int getSize();
-    void printContents();
+
 };

@@ -11,6 +11,16 @@
 using namespace std;
 
 class WhileTable {
+public:
+	WhileTable();
+	bool setVarToWhileStmt(int stmtId, int varId);
+	int getCtrlVarInWhileStmt(int stmtId);
+	unordered_set<int> getStmtWithCtrlVar(int varId);
+	unordered_set<int> getAllStmtId();
+	bool isStmtInTable(int stmtId);
+	int getSize();
+	void printContents();
+
 private:
 
 	unordered_map<int, int> whileList;//stmtId, controlVarId
@@ -19,13 +29,5 @@ private:
     int size;
     bool setStmtToCtrlVar(int varId, int stmtId);
 
-public:
-	WhileTable();
-	bool setVarToWhileStmt(int stmtId, int varId);
-	int getCtrlVarInWhileStmt(int stmtId);
-    unordered_set<int> getStmtWithCtrlVar(int varId);
-    unordered_set<int> getAllStmtId();
-	bool isStmtInTable(int stmtId);
-    int getSize();
-    void printContents();
+
 };

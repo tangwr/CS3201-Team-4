@@ -9,22 +9,25 @@
 using namespace std;
 
 class StmtLstTable {
+
+public:
+
+	StmtLstTable();
+
+	bool setProcStmtLstContainsStmtRel(int procId, int stmtId);
+	bool setContainerStmtStmtLstContainsStmtRel(int containerStmtId, int stmtId);
+
+	vector<int> getStmtLstContainedInProc(int procId);
+	vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
+	unordered_set<int> getAllStmtLst();
+
+	void printContents();
+
 private:
     unordered_map<int, vector<int>> procToStmtLstMap;//proc id, list of first stmt in stmtLst in proc
     unordered_map<int, vector<int>> containerStmtToStmtLstMap;//container stmtid, list of first stmt in stmtlst in container stmt
 
 
-public:
-    
-    StmtLstTable();
 
-    bool setProcStmtLstContainsStmtRel(int procId, int stmtId);
-    bool setContainerStmtStmtLstContainsStmtRel(int containerStmtId, int stmtId);
-
-    vector<int> getStmtLstContainedInProc(int procId);
-    vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
-    unordered_set<int> getAllStmtLst();
-
-    void printContents();
 
 };

@@ -10,6 +10,33 @@
 using namespace std;
 
 class UsesTable {
+
+public:
+	UsesTable();
+	bool setStmtUseVarRel(int stmtId, int varId);
+	bool setProcUseVarRel(int procId, int varId);
+	bool setStmtUseConstRel(int stmtId, int constId);
+	bool setProcUseConstRel(int procId, int constId);
+	bool insertStmtUseVarRel(int stmtId, int varId);
+	bool insertProcUseVarRel(int procId, int varId);
+	bool insertStmtUseConstRel(int stmtId, int constId);
+	bool insertProcUseConstRel(int procId, int constId);
+
+
+	unordered_set<int> getVarUsedByStmt(int stmtId);
+	unordered_set<int> getStmtUseVar(int varId);
+	unordered_set<int> getVarUsedByProc(int procId);
+	unordered_set<int> getProcUseVar(int varId);
+
+	unordered_set<int> getConstUsedByStmt(int stmtId);
+	unordered_set<int> getStmtUseConst(int constId);
+	unordered_set<int> getConstUsedByProc(int procId);
+	unordered_set<int> getProcUseConst(int constId);
+	unordered_set<int> getAllStmtId();
+	bool checkStmtExist(int stmtId);
+	bool checkStmtVarRelExist(int stmtId, int varId);
+	void printContents();
+
 private:
 	bool setStmtUsedByRel(int stmtId, int varId);
 	bool setProcUsedByRel(int procId, int varId);
@@ -32,30 +59,6 @@ private:
     unordered_map<int, unordered_set<int>> cUsedByStmtMap;
     unordered_map<int, unordered_set<int>> cUsedByProcMap;
 
-public:
-	UsesTable();
-	bool setStmtUseVarRel(int stmtId, int varId);
-	bool setProcUseVarRel(int procId, int varId);
-	bool setStmtUseConstRel(int stmtId, int constId);
-	bool setProcUseConstRel(int procId, int constId);
-	bool insertStmtUseVarRel(int stmtId, int varId);
-	bool insertProcUseVarRel(int procId, int varId);
-    bool insertStmtUseConstRel(int stmtId, int constId);
-    bool insertProcUseConstRel(int procId, int constId);
 
-
-    unordered_set<int> getVarUsedByStmt(int stmtId);
-    unordered_set<int> getStmtUseVar(int varId);
-    unordered_set<int> getVarUsedByProc(int procId);
-    unordered_set<int> getProcUseVar(int varId);
-
-    unordered_set<int> getConstUsedByStmt(int stmtId);
-    unordered_set<int> getStmtUseConst(int constId);
-    unordered_set<int> getConstUsedByProc(int procId);
-    unordered_set<int> getProcUseConst(int constId);
-	unordered_set<int> getAllStmtId();
-	bool checkStmtExist(int stmtId);
-	bool checkStmtVarRelExist(int stmtId, int varId);
-	void printContents();
 
 };

@@ -10,14 +10,6 @@
 using namespace std;
 
 class ConstTable {
-private:
-
-	//vector<int> constList;   // constId -> constName = Value
-    unordered_set<int> constSet;
-	//unordered_map<int, int> constMap;    // constName -> constId
-
-	int ctsize; // number of variables in the program
-
 public:
 	ConstTable(void);
 	//int insertConst( int value);
@@ -28,11 +20,21 @@ public:
 	//int getValueById(int constId);
 	//void printContents();
 	//vector<int> getAllConst();
-    //vector<int> getAllConstId();
+	//vector<int> getAllConstId();
 
-    //updated methods
-    bool insertConst(int value);
-    bool checkConstExist(int constValue);
-    void printContents();
-    unordered_set<int> getAllConst();
+	//updated methods
+	bool insertConst(int value);
+	bool checkConstExist(int constValue);
+	void printContents();
+	unordered_set<int> getAllConst();
+
+private:
+
+	//vector<int> constList;   // constId -> constName = Value
+    unordered_set<int> constSet;
+	//unordered_map<int, int> constMap;    // constName -> constId
+
+	int ctsize; // number of variables in the program
+
+
 };

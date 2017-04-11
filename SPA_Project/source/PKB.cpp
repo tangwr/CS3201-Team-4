@@ -126,7 +126,7 @@ bool PKB::isVarInTable(string varName) {
 }
 
 
-int PKB::insertConst(int value) {
+bool PKB::insertConst(int value) {
 	return this->constTable.insertConst(value);
 }
 int PKB::getNumOfConst() {

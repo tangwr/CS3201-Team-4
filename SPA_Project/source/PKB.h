@@ -100,26 +100,91 @@ public:
 	Given a procedure, check if it exists in the table
 
 	param string procName
+	return						true if the given procedure exists in the table, false if it does not
 	*/
     virtual bool isProcInTable(string procName);
+
+	/*
+	Given a procedure index, check if it exists in the table
+
+	param int procId			procedure index
+	return						true if the given procedure index exists in the table, false if it does not
+	*/
 	virtual bool isValidProcId(int procId);
     
+	/*
+	Given a statement index, retrieves the produre that contains it
+
+	param int stmtId			statement index
+	return						procedure index of the procedure which contains the given statement
+	*/
     virtual int getProcContainingStmt(int stmtId);
+
+	/*
+	Given a procedure index, retrieves all the statement that it contains
+
+	param int procId			procedure index
+	return						all the statement indices of statement that the given procedure contains as an unordered_set
+	*/
     virtual unordered_set<int> getStmtInProc(int procId);
+
+	/*
+	Retrieves all procedure indices
+
+	return						an unordered_set which contains all the procedure indices in the SIMPLE source
+	*/
     virtual unordered_set<int> getAllProcId();
 
 
 	//variable table
-    virtual int insertVar(string varName);
+	/*
+	Stores a variable in the var table
 
+	param string varName		variable name
+	return						a unique assigned index for the variable
+	*/
+    virtual int insertVar(string varName);
+	
+	/*
+	Retrieves all variable indices
+
+	return						an unordered_set containing all the variable indices in the var table
+	*/
 	virtual unordered_set<int> getAllVarId();
-	virtual string getVarNameById(int varId);//was get var name
-	virtual int getVarIdByName(string varName);// was get VarId
+
+	/*
+	Given a variable index, retrieves the name of the variable
+
+	param int varId				variable index
+	return						the name of the corresponding variable as a string
+	*/
+	virtual string getVarNameById(int varId);
+
+	/*
+	Given a variable name, retrieves the index of the variable
+
+	param string varName		variable name
+	return						the index of the corresponding variable as an integer
+	*/
+	virtual int getVarIdByName(string varName);
+
+	/*
+	Checks if a variable is in var table
+
+	param string varName		variable name
+	return						true if the given variable exists, false otherwise
+	*/
     virtual bool isVarInTable(string varName);
 
 
 	//const table
-    virtual int insertConst(int value);
+	/*
+	Stores a constant into the const table
+
+	param int value				constant value
+	return						true if successful, false otherwise
+	*/
+    virtual bool insertConst(int value);
 
 	//virtual unordered_set<int> getAllConstId();
     virtual unordered_set<int> getAllConst();

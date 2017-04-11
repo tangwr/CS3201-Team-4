@@ -1,8 +1,4 @@
 #include "ResultTable.h"
-#include <unordered_set>
-#include <unordered_map>
-#include <iostream>
-#include <string>
 
 using namespace std;
 
@@ -86,7 +82,7 @@ int ResultTable::getCount(Parameter p)
 	unordered_set<int> ans;
 	int id = getParamId(p);
 	for (vector<int> v : tupleList)
-		ans.insert(v.at(id));  // automatically skip when insert duplicate
+		ans.insert(v.at(id));  
 	return (int)ans.size();
 	
 }
@@ -114,7 +110,6 @@ void ResultTable::join(ResultTable rt)
 
 void ResultTable::nestedJoin(ResultTable rt)
 {
-	// if self is initial empty table, return rt 
 	if (isInitialEmpty) {
 		setSynList( rt.getSynList());
 		tupleList = rt.getTupleList();
@@ -125,17 +120,11 @@ void ResultTable::nestedJoin(ResultTable rt)
 		return;
 	}
 
-	// cases: 0 / 1 / 2 common synonym if rt is a result from a clause
-
-	// equi-join, can be done in nlogn + mlogm with sorting by equi-variable
-	// now simply take O(mn) to compute equi-join
-
-	// create joined table 
 	vector<Parameter> resSynList = synList;
 	vector<vector<int>> newTupleList;
 	int commonSyn = 0;
 	vector<Parameter> commonSynList;
-	vector<pair<int, int>> idMap;  // first, id of syn in first 
+	vector<pair<int, int>> idMap; 
 	for (Parameter it : rt.getSynList()) {
 		bool isExist = false;
 		for (Parameter p : synList) {
@@ -153,7 +142,6 @@ void ResultTable::nestedJoin(ResultTable rt)
 
 	for (vector<int> tuple1 : tupleList)
 		for (vector<int> tuple2 : rt.getTupleList()) {
-			// detect whether common param has same value
 			bool ismerge = true;
 			for (pair<int, int> pr : idMap)
 				if (tuple1.at(pr.first) != tuple2.at(pr.second)) {
@@ -183,7 +171,6 @@ void ResultTable::nestedJoin(ResultTable rt)
 void ResultTable::hashJoin(ResultTable rt)
 {
 
-	// if self is initial empty table, return rt 
 	if (isInitialEmpty) {
 		setSynList(rt.getSynList());
 		tupleList = rt.getTupleList();
@@ -193,10 +180,9 @@ void ResultTable::hashJoin(ResultTable rt)
 	if (rt.isInitialEmpty)
 		return;
 
-	// create joined table 
 	vector<Parameter> resSynList = synList;
 	int commonSyn = 0;
-	unordered_set<int> commonSynIdSet2ndTable;  // id of 2nd table syn, that is common syn with table 1
+	unordered_set<int> commonSynIdSet2ndTable; 
 	unordered_map<int, int> commonSyn2ndTo1stMap;
 	vector<vector<int>> newTupleList;
 	for (Parameter it : rt.getSynList()) {
@@ -209,32 +195,26 @@ void ResultTable::hashJoin(ResultTable rt)
 			}
 		}
 		if (isExist == false) {
-			// not a common synonmym, push to Synlist
 			resSynList.push_back(it);
 		}
 		else {
-			// is a common syn, add to 2nd table idx set
 			commonSynIdSet2ndTable.insert(rt.getParamId(it));
 		}
 	}
 
-	// create hash table for table rt
 	unordered_map<string, vector<vector<int>>> hashMap2ndTable;
 	
 	for (vector<int> tuple : rt.getTupleList()) {
 		vector<int> keyVector, valueVector;
 		for (int idx = 0; idx < rt.getSynCount(); idx++) {
 			if (commonSynIdSet2ndTable.find(idx) == commonSynIdSet2ndTable.end()) {
-				// not a common synonym, push the index to valueVetor
 				valueVector.push_back(tuple.at(idx));
 			}
 			else {
-				// is a common synonym, push to keyVector
 				keyVector.push_back(tuple.at(idx));
 			}
 		}
 
-		// insert the tuple to hashTable
 		string hashString = convertTupleToString(keyVector);
 		vector<vector<int>> tmpVector;
 		auto it = hashMap2ndTable.find(hashString);
@@ -249,13 +229,9 @@ void ResultTable::hashJoin(ResultTable rt)
 		}
 	}
 
-	// loop through tuples from self table, for each tuple, get the keyvector, 
-	// compare with the hashmap, if match, create new tuple for each mapped 2nd tuple
-
 	for (vector<int> tuple1 : tupleList) {
 		vector<int> tmpVector;
 		
-		// update keyvector for each synonym
 		for (int i = 0; i < rt.getSynCount(); i++) {
 			auto it = commonSyn2ndTo1stMap.find(i);
 			if (it != commonSyn2ndTo1stMap.end()) {
@@ -264,10 +240,8 @@ void ResultTable::hashJoin(ResultTable rt)
 		}
 		string hashString = convertTupleToString(tmpVector);
 
-		// check whether the hashtable contain the string 
 		auto it = hashMap2ndTable.find(hashString);
 		if (it != hashMap2ndTable.end()) {
-			// if match, 
 			vector<vector<int>> mappedTupleList = it->second;
 			for (vector<int> appendingTuple : mappedTupleList) {
 				vector<int> newTuple = tuple1; 
@@ -294,8 +268,7 @@ void ResultTable::removeDuplicateTuple()
 
 ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
 {
-	// original select, slow O(N2)
-	unordered_map<int, int> idMap;   // key: id in paramLst
+	unordered_map<int, int> idMap;  
 	for (int i = 0; i < (int)paramList.size(); i++) {
 		bool isExist = false;
 		for (int j = 0; j<(int)synList.size(); j++)
@@ -304,7 +277,7 @@ ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
 				idMap.insert(make_pair(i, j));
 			}
 		if (isExist == false)
-			return ResultTable();  // select element not in table, return empty
+			return ResultTable(); 
 	}
 
 	ResultTable res;
@@ -328,7 +301,7 @@ ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
 
 ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
 {
-	unordered_map<int, int> idMap;   // key: id in paramLst
+	unordered_map<int, int> idMap;  
 	for (int i = 0; i < (int)paramList.size(); i++) {
 		bool isExist = false;
 		for (int j = 0; j<(int)synList.size(); j++)
@@ -337,7 +310,7 @@ ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
 				idMap.insert(make_pair(i, j));
 			}
 		if (isExist == false)
-			return ResultTable();  // select element not in table, return empty
+			return ResultTable();  
 	}
 
 	ResultTable res;
@@ -361,7 +334,6 @@ ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
 unordered_set<int> ResultTable::getSynValue(Parameter param)
 {
 	unordered_set<int> ans;
-	// if param not in table, return empty table
 	if (!isSynInTable(param))
 		return ans;
 	int idx = getParamId(param);
@@ -386,14 +358,10 @@ void ResultTable::printTable()
 
 string ResultTable::convertTupleToString(vector<int> tuple)
 {
-	//<1,2,3> -> "@1%@2%@3%"
-	// <> -> ""
 	string hashString;
 	hashString += "\"";
 	for (int i = 0; i < (int)tuple.size(); i++) {
-		hashString += "@";
-		hashString += to_string(tuple.at(i));
-		hashString += "%";
+		hashString += "@" + to_string(tuple.at(i)) + "%";
 	}
 	hashString += "\"";
 	return hashString;

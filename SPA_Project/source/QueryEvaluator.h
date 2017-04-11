@@ -1,43 +1,76 @@
 #pragma once
-//#ifndef QueryEvaluatorH
-//#define QueryEvaluatorH
-#include <iostream>
 #include <string>
 #include <vector>
-#include <list>
+#include <queue>
 #include <algorithm>
 #include <unordered_map>
 #include <iterator>
+#include "ResultTable.h"
 #include "QueryTree.h"
-#include "PKB.h"
-#include "Clause.h"
-#include "VectorSetOperation.h"
-#include "Modifies.h"
-#include "Uses.h"
-#include "Pattern.h"
 
 using namespace std;
 
+/*
+Query evaluator is the component to evaluate a given PQL query.
+After the PQL Query is parsed into queryTree by query parser, 
+Controller will interact with Query Evaluator to evaluate the query.
+*/
 class QueryEvaluator {
 
 public:
 	QueryEvaluator();
-	void setPKB(PKB* pkbInput);
 	QueryEvaluator(PKB* pkbSource);
-	ResultTable evaluate(QueryTree qt);
 
-	ResultTable createEarlyTerminationTable(QueryTree qt);
+	/*
+	set the pkb source for query evaluator
+
+	@pkbInput: pkb souuce
+	@return: none 
+	*/
+	void setPKB(PKB* pkbInput);
+
+	/*
+	perform evaluation to the query and return the final result 
+	as a resultTable
+
+	@qt: queryTree containing information of PQL query
+	@return: resultTable containing the result of query
+	*/
+	ResultTable evaluate(QueryTree qt);
+	
+
 private:
 	PKB* pkb;
 	ResultTable resTable;
+
+	/*
+	Version 1 Optimization Query Evaluator
+	*/
+	ResultTable evaluateWithOptimization(QueryTree qt);
+
+	/*
+	Version 1 Optimization Query Evaluator
+	*/
+	ResultTable evaluateWithOptimization2(QueryTree qt);
+
+	/*
+	Unoptimized Version Query Evaluator
+	*/
+	ResultTable evaluateWithoutOptimization(QueryTree qt);
+
+	/*
+	Version 1 Optimization Evaluator for a synonym group
+	*/
 	ResultTable evaluateGroup(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
+	
+	/*
+	Version 1 Optimization Evaluator for a synonym group
+	*/
 	ResultTable evaluateGroup2(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
 	ResultTable getAllValueForSyn(Parameter param);
+	ResultTable createEarlyTerminationTable(QueryTree qt);
 	void joinResultTable(ResultTable rt);
 	void printClause(Clause* c);
-	ResultTable evaluateWithOptimization(QueryTree qt);
-	ResultTable evaluateWithOptimization2(QueryTree qt);
-	ResultTable evaluateWithoutOptimization(QueryTree qt);
 };
 
 

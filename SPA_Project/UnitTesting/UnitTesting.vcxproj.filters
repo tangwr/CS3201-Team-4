@@ -176,5 +176,8 @@
     <ClCompile Include="UnitTestNextBip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TableOperationsUnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

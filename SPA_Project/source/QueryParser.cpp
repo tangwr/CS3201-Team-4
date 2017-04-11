@@ -1,3 +1,4 @@
+#pragma once
 #include "QueryParser.h"
 #include "QueryTree.h"
 #include "Affects.h"
@@ -21,81 +22,85 @@
 #include "With.h"
 #include "ExpOperation.h"
 #include "Tokenizer.h"
+#define TYPE_VALUE "value"
+#define TYPE_SELECT "Select"
+#define TYPE_CONSTANT "constant"
+#define TYPE_ASSIGN "assign"
+#define TYPE_WHILE "while"
+#define TYPE_STMT "stmt"
+#define TYPE_VARNAME "varName"
+#define TYPE_PROG_LINE "prog_line"
+#define TYPE_PROG "prog"
+#define TYPE_ALL "all"
+#define TYPE_AND "and"
+#define TYPE_BOOLEAN "BOOLEAN"
+#define TYPE_VARIABLE "variable"
+#define TYPE_PATTERN "pattern"
+#define TYPE_SUCH "such"
+#define TYPE_THAT "that"
+#define TYPE_PROCEDURE "procedure"
+#define TYPE_STMTLST "stmtLst"
+#define TYPE_IF "if"
+#define TYPE_CALL "call"
+#define TYPE_WITH "with"
+#define TYPE_USES "Uses"
+#define TYPE_MODIFIES "Modifies"
+#define TYPE_CALLS "Calls"
+#define TYPE_PARENT "Parent"
+#define TYPE_FOLLOWS "Follows"
+#define TYPE_NEXT "Next"
+#define TYPE_AFFECTS "Affects"
+#define TYPE_AFFECTSBIP "AffectsBip"
+#define TYPE_NEXTBIP "NextBip"
+#define TYPE_PROC_NAME "procName"
+#define TYPE_LINE "line"
+#define SYMBOL_NONE ""
+#define SYMBOL_SEMICOLON ";"
+#define SYMBOL_SPACE " "
+#define SYMBOL_COMMA ","
+#define SYMBOL_QUOTE "\""
+#define SYMBOL_UNDERSCORE "_"
+#define SYMBOL_OPEN_BRACKET "\\("
+#define SYMBOL_CLOSE_BRACKET "\\)"
+#define SYMBOL_PATTERN_CLOSE ")"
+#define SYMBOL_STMT_NO "#"
+#define SYMBOL_TUPLE_OPEN_BRACKET "<"
+#define SYMBOL_TUPLE_CLOSE_BRACKET ">"
+#define SYMBOL_STAR "*"
+#define SYMBOL_EQUALS "="
+#define SYMBOL_FULL_STOP "."
+#define SYMBOL_START '0'
+#define VARIABLE_NAME "([a-zA-Z][a-zA-Z0-9]*)"
+#define ERROR_STRING "The query is invalid"
+#define ERROR_DECLARATION "The declaration is invalid"
+#define ERROR_DUPLICATE_VAR "The varName is exist"
+#define ERROR_SELECT "The select is invalid"
+#define ERROR_SUCH_THAT "The such that clasue is invalid"
+#define ERROR_LEFT_CHILD "The clause's left child is invalid"
+#define ERROR_RIGHT_CHILD "The clause's right child is invalid"
+#define ERROR_FACTOR "The Pattern's factor is invalid"
+#define ERROR_CHILD_TYPE "The left child's type is not equal to right child's type for With"
+#define ERROR_SELECT_BOOLEAN "The result is false"
+#define EQUAL 0
+#define EMPTY 0
+#define SIZE 10
+#define TRUE true
+#define FALSE false
+#define IDENT "([a-zA-Z][a-zA-Z0-9#]*)"
 
 using namespace std;
-const string TYPE_VALUE = "value";
-const string TYPE_SELECT = "Select";
-const string TYPE_CONSTANT = "constant";
-const string TYPE_ASSIGN = "assign";
-const string TYPE_WHILE = "while";
-const string TYPE_STMT = "stmt";
-const string TYPE_VARNAME = "varName";
-const string TYPE_PROG_LINE = "prog_line";
-const string TYPE_PROG = "prog";
-const string TYPE_ALL = "all";
-const string TYPE_AND = "and";
-const string TYPE_BOOLEAN = "BOOLEAN";
-const string TYPE_VARIABLE = "variable";
-const string TYPE_PATTERN = "pattern";
-const string TYPE_SUCH = "such";
-const string TYPE_THAT = "that";
-const string TYPE_PROCEDURE = "procedure";
-const string TYPE_STMTLST = "stmtLst";
-const string TYPE_IF = "if";
-const string TYPE_CALL = "call";
-const string TYPE_WITH = "with";
-const string TYPE_USES = "Uses";
-const string TYPE_MODIFIES = "Modifies";
-const string TYPE_CALLS = "Calls";
-const string TYPE_PARENT = "Parent";
-const string TYPE_FOLLOWS = "Follows";
-const string TYPE_NEXT = "Next";
-const string TYPE_AFFECTS = "Affects";
-const string TYPE_AFFECTSBIP = "AffectsBip";
-const string TYPE_NEXTBIP = "NextBip";
-const string TYPE_PROC_NAME = "procName";
-const string TYPE_LINE = "line";
-const string SYMBOL_SEMICOLON = ";";
-const string SYMBOL_SPACE = " ";
-const string SYMBOL_COMMA = ",";
-const string SYMBOL_QUOTE = "\"";
-const string SYMBOL_UNDERSCORE = "_";
-const string SYMBOL_OPEN_BRACKET = "\\(";
-const string SYMBOL_CLOSE_BRACKET = "\\)";
-const string SYMBOL_PATTERN_CLOSE = ")";
-const string SYMBOL_STMT_NO = "#";
-const string SYMBOL_TUPLE_OPEN_BRACKET = "<";
-const string SYMBOL_TUPLE_CLOSE_BRACKET = ">";
-const string SYMBOL_STAR = "*";
-const string SYMBOL_EQUALS = "=";
-const string SYMBOL_FULL_STOP = ".";
 
-const string VARIABLE_NAME = "([a-zA-Z][a-zA-Z0-9]*)";
-const string ERROR_STRING = "The query is invalid";
-const string ERROR_DECLARATION = "The declaration is invalid";
-const string ERROR_DUPLICATE_VAR = "The varName is exist";
-const string ERROR_SELECT = "The select is invalid";
-const string ERROR_SUCH_THAT = "The such that clasue is invalid";
-const string ERROR_LEFT_CHILD = "The clause's left child is invalid";
-const string ERROR_RIGHT_CHILD = "The clause's right child is invalid";
-const string ERROR_FACTOR = "The Pattern's factor is invalid";
-const string ERROR_CHILD_TYPE = "The left child's type is not equal to right child's type for With";
-const string ERROR_SELECT_BOOLEAN = "The result is false";
-const int EQUAL = 0;
-const bool TRUE = true;
-const bool FALSE = false;
 const vector<string> TYPES = { "variable", "constant", "stmt", "assign", "while","prog_line", "procedure", "stmtLst", "if", "call" };
-const vector<string> KEYS = { "Pattern", "and", "such", "that", "call", "prog_line", "Select", "constant", "stmt", "stmtLst", "assign", "while",
-"if", "procedure", "Calls", "Calls*", "Modifies", "Uses", "Affects", "Affects*", "Parent",
-"Parent*", "Follows", "Follows*","Next","Next*", "with" };
-const string IDENT = "([a-zA-Z][a-zA-Z0-9#]*)";
+const vector<string> KEYS = { "Pattern", "and", "such", "that", "call", "prog_line", "Select", "constant", "stmt", "stmtLst", "assign", "while", 
+"if", "procedure", "Calls", "Calls*", "Modifies", "Uses", "Affects", "Affects*", "Parent", "Parent*", "Follows", "Follows*","Next", 
+"Next*", "with" };
 
 QueryParser::QueryParser() {}
 
 QueryTree QueryParser::parse(string query) {
 	tokenizer = new Tokenizer(query);
 	QueryTree queryTree;
-	isSelectBoolean = false;
+	isSelectBoolean = FALSE;
 	usedMap.clear();
 	varMap.clear();
 	getDeclaration(&queryTree);
@@ -228,8 +233,6 @@ void QueryParser::getSelect(QueryTree *qt) {
 				}
 				else if (synType == CONSTANT) {
 					match(correctType, TYPE_VALUE);
-					string dd = tokenizer->peekToken();
-					string da = "";
 				}
 				else if (synType == VARIABLE) {
 					match(correctType, TYPE_VARNAME);
@@ -301,7 +304,7 @@ void QueryParser::getSelect(QueryTree *qt) {
 			}
 			qt->insertSelect(selectSyn);
 		}
-		else if (token.compare(TYPE_BOOLEAN) == 0) {
+		else if (token.compare(TYPE_BOOLEAN) == EQUAL) {
 			isSelectBoolean = TRUE;
 			qt->insertSelect(Parameter(TYPE_BOOLEAN, BOOLEAN));
 			tokenizer->getToken();
@@ -1498,7 +1501,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 	Parameter leftChild;
 	Parameter rightChild;
 	Parameter factor;
-	bool hasUnderScore = false;
+	bool hasUnderScore = FALSE;
 
 	string lc = tokenizer->getToken();
 
@@ -1572,7 +1575,7 @@ void QueryParser::getPattern(QueryTree *qt) {
 
 				string firstQuote = tokenizer->getToken();
 				match(firstQuote, SYMBOL_QUOTE);
-				string exp = "";
+				string exp = SYMBOL_NONE;
 				while (tokenizer->hasNextToken() && tokenizer->peekToken().compare(SYMBOL_QUOTE) != EQUAL) {
 					exp += tokenizer->getToken();
 				}
@@ -1587,11 +1590,11 @@ void QueryParser::getPattern(QueryTree *qt) {
 				}
 				factor.setParaName(exp);
 				factor.setParaType(STRINGVARIABLE);
-				hasUnderScore = true;
+				hasUnderScore = TRUE;
 			}
 			else if (fact.compare(SYMBOL_QUOTE) == EQUAL) {// pattern's expression 
 
-				string exp = "";
+				string exp = SYMBOL_NONE;
 				while (tokenizer->hasNextToken() && tokenizer->peekToken().compare(SYMBOL_QUOTE) != EQUAL) {
 					exp += tokenizer->getToken();
 				}
@@ -1888,7 +1891,6 @@ void QueryParser::getWith(QueryTree *qt) {
 		rightType = INTEGER;
 	}
 	else if (rc.compare(SYMBOL_QUOTE) == EQUAL) {
-
 		string proceName = tokenizer->getToken();
 		match(proceName, IDENT);
 		rightChild.setParaName(proceName);
@@ -1936,14 +1938,14 @@ bool QueryParser::isUsedExists(string name) {
 	return true;
 }
 bool QueryParser::isPositiveInteger(string str) {
-	if (str.empty() || !isdigit(str.at(0)) || str.at(0) == '0') {
+	if (str.empty() || !isdigit(str.at(0)) || str.at(0) == SYMBOL_START) {
 		return false;
 	}
 
 	char *p;
-	strtol(str.c_str(), &p, 10);
+	strtol(str.c_str(), &p, SIZE);
 
-	return (*p == 0);
+	return (*p == EMPTY);
 }
 void QueryParser::match(string token, string matchRe) {
 
@@ -1960,13 +1962,9 @@ void QueryParser::match(string token, string matchRe) {
 void QueryParser::throwError(string errorMsg) {
 	delete tokenizer;
 	if (isSelectBoolean) {
-		throw logic_error("Select BOOLEAN's answer is FALSE");
+		throw logic_error(ERROR_SELECT_BOOLEAN);
 	}
 	else {
-		throw runtime_error("The query is invalid");
+		throw runtime_error(ERROR_STRING);
 	}
-}
-
-QueryParser::~QueryParser() {
-	//delete tokenizer;
 }

@@ -14,6 +14,40 @@ namespace UnitTest_With_Object
 	{
 	public:
 
+		TEST_METHOD(UnitTest_With_INTEGER_Equal_INTEGER_Valid)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+
+			left = Parameter("11", INTEGER);
+			right = Parameter("11", INTEGER);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.getBoolean());
+		}
+
+		TEST_METHOD(UnitTest_With_INTEGER_Equal_INTEGER_Invalid)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+
+			left = Parameter("5", INTEGER);
+			right = Parameter("11", INTEGER);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::IsFalse(queryResult.getBoolean());
+		}
+
 		TEST_METHOD(UnitTest_With_ASSIGN_Equal_INTEGER)
 		{
 			PKBWithStub pkbStub;
@@ -41,6 +75,33 @@ namespace UnitTest_With_Object
 			Assert::IsTrue(expectedResult == tupleResult);
 		}
 
+		TEST_METHOD(UnitTest_With_INTEGER_Equal_Assign)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("11", INTEGER);
+			right = Parameter("a", ASSIGN);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(right));
+
+			expectedResult = { { 11 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
 		TEST_METHOD(UnitTest_With_Proc_Equal_NAME)
 		{
 			PKBWithStub pkbStub;
@@ -58,6 +119,33 @@ namespace UnitTest_With_Object
 			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+
+			expectedResult = { { 0 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_With_NAME_Equal_Proc)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("Example", STRINGVARIABLE);
+			right = Parameter("p", PROCEDURE);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(right));
 
 			expectedResult = { { 0 } };
 			sort(expectedResult.begin(), expectedResult.end());
@@ -96,6 +184,34 @@ namespace UnitTest_With_Object
 			Assert::IsTrue(expectedResult == tupleResult);
 		}
 
+		TEST_METHOD(UnitTest_With_NAME_Equal_Call)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("q", STRINGVARIABLE);
+			right = Parameter("cl", CALL);
+			right.setAttributeProc(true);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(right));
+
+			expectedResult = { { 10 },{ 16 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
 		TEST_METHOD(UnitTest_With_Var_Equal_NAME)
 		{
 			PKBWithStub pkbStub;
@@ -113,6 +229,33 @@ namespace UnitTest_With_Object
 			Assert::AreEqual(1, queryResult.getSynCount());
 			Assert::IsTrue(queryResult.isSynInTable(left));
 			Assert::AreEqual(0, queryResult.getSynIndex(left));
+
+			expectedResult = { { 3 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_With_NAME_Equal_Var)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("y", STRINGVARIABLE);
+			right = Parameter("v", VARIABLE);
+		
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(right));
 
 			expectedResult = { { 3 } };
 			sort(expectedResult.begin(), expectedResult.end());
@@ -301,6 +444,7 @@ namespace UnitTest_With_Object
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 		}
+
 		TEST_METHOD(UnitTest_With_Call_Equal_Stmt)
 		{
 			PKBWithStub pkbStub;
@@ -323,6 +467,128 @@ namespace UnitTest_With_Object
 			Assert::AreEqual(1, queryResult.getSynIndex(right));
 
 			expectedResult = { { 10, 10 },{ 12, 12 },{ 16, 16 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_With_CallStmt_Equal_CallStmt)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("cl1", CALL);
+			right = Parameter("cl2", CALL);
+			left.setAttributeProc(false);
+			right.setAttributeProc(false);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
+
+			expectedResult = { { 10, 10 },{ 12, 12 },{ 16, 16 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_With_CallProc_Equal_CallProc)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("cl1", CALL);
+			right = Parameter("cl2", CALL);
+			left.setAttributeProc(true);
+			right.setAttributeProc(true);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
+
+			expectedResult = { { 10, 10 },{ 12, 12 },{ 16, 16 },{ 10, 16 },{ 16, 10 } };
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_With_Var_Equal_Call)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("v", VARIABLE);
+			right = Parameter("cl", CALL);
+			right.setAttributeProc(true);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
+
+			expectedResult = {};
+			sort(expectedResult.begin(), expectedResult.end());
+			tupleResult = queryResult.getTupleList();
+			sort(tupleResult.begin(), tupleResult.end());
+
+			Assert::AreEqual(expectedResult.size(), tupleResult.size());
+			Assert::IsTrue(expectedResult == tupleResult);
+		}
+
+		TEST_METHOD(UnitTest_With_Proc_Equal_Call)
+		{
+			PKBWithStub pkbStub;
+
+			ResultTable intResult, queryResult;
+			Parameter left, right;
+			vector<vector<int>> expectedResult, tupleResult;
+
+			left = Parameter("p", PROCEDURE);
+			right = Parameter("cl", CALL);
+			right.setAttributeProc(true);
+
+			With withObj(left, right);
+			queryResult = withObj.evaluate(&pkbStub, intResult);
+
+			Assert::AreEqual(2, queryResult.getSynCount());
+			Assert::IsTrue(queryResult.isSynInTable(left));
+			Assert::IsTrue(queryResult.isSynInTable(right));
+			Assert::AreEqual(0, queryResult.getSynIndex(left));
+			Assert::AreEqual(1, queryResult.getSynIndex(right));
+
+			expectedResult = { { 2,10 },{ 1,12 },{ 2,16 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());

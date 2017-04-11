@@ -1,9 +1,11 @@
+#pragma once
 #include "ParentsTable.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -34,7 +36,6 @@ bool ParentsTable::setStmtParentStmtRel(int father, int child)
 		childsMap.insert(make_pair(father, childSet));
 	}
 
-	// star table 
 	insertStmtParentStmtRel(father, child);
 
 	return true;
@@ -65,9 +66,6 @@ bool ParentsTable::insertStmtParentStmtRel(int father, int child)
 	return true;
 }
 
-
-
-
 /*
 return list of childrens
 return empty list if no result
@@ -94,7 +92,7 @@ int ParentsTable::getParent(int stmtId)
 	if (it != parentsMap.end()) {
 		return it->second;
 	}
-	return -1;
+	return INVALID_INDEX;
 }
 
 unordered_set<int> ParentsTable::getStmtChildrenStarStmt(int stmtId)

@@ -1,5 +1,5 @@
+#pragma once
 #include "UsesTable.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -146,7 +146,7 @@ bool UsesTable::insertProcUsedByRel(int procId, int varId) {
 	return true;
 }
  
-// function for constant
+
 bool UsesTable::setStmtUseConstRel(int stmtId, int constId)//varId or constId?
 {
 	unordered_map<int, unordered_set<int>>::iterator it;
@@ -162,7 +162,6 @@ bool UsesTable::setStmtUseConstRel(int stmtId, int constId)//varId or constId?
 	constantSet.insert(constId);
 	cUsesStmtMap.insert(make_pair(stmtId, constantSet));
 	return setStmtUsedByRelConst(stmtId, constId);
-	//return true;
 }
 
 bool UsesTable::setStmtUsedByRelConst(int stmtId, int constId) {
@@ -196,7 +195,6 @@ bool UsesTable::insertStmtUseConstRel(int stmtId, int constId)//varId or constId
     constantSet.insert(constId);
     cUsesStmtMap.insert(make_pair(stmtId, constantSet));
     return insertStmtUsedByRelConst(stmtId, constId);
-    //return true;
 }
 
 bool UsesTable::insertStmtUsedByRelConst(int stmtId, int constId) {
@@ -268,8 +266,6 @@ bool UsesTable::insertProcUseConstRel(int procId, int constId) {
     constantSet.insert(constId);
     cUsesProcMap.insert(make_pair(procId, constantSet));
     return setProcUsedByRelConst(procId, constId);
-    //return true;
-
 }
 
 bool UsesTable::insertProcUsedByRelConst(int procId, int constId) {
@@ -393,8 +389,6 @@ void UsesTable::printContents()
     cout << "StmtId : used varId" << endl;
 	for (pair<int, unordered_set<int>> it : vUsesStmtMap) {
         cout << it.first << " : ";
-		//cout << "StmtId: " << it.first;
-		//cout << " Uses VarId ";
         printUnorderedSet(it.second);
 		cout << endl;
 	}
@@ -403,8 +397,6 @@ void UsesTable::printContents()
     cout << "StmtId : used constId" << endl;
 	for (pair<int, unordered_set<int>> it : cUsesStmtMap) {
         cout << it.first << " : ";
-		//cout << "StmtId: " << it.first;
-		//cout << " Uses ConstId ";
         printUnorderedSet(it.second);
 		cout << endl;
 	}
@@ -413,8 +405,6 @@ void UsesTable::printContents()
     cout << "ProcId : used varId" << endl;
 	for (pair<int, unordered_set<int>> it : vUsesProcMap) {
         cout << it.first << " : ";
-		//cout << "ProcId: " << it.first;
-		//cout << " Uses VarId ";
         printUnorderedSet(it.second);
 		cout << endl;
 	}
@@ -423,8 +413,6 @@ void UsesTable::printContents()
     cout << "ProcId : used constId" << endl;
 	for (pair<int, unordered_set<int>> it : cUsesProcMap) {
         cout << it.first << " : ";
-		//cout << "ProcId: " << it.first;
-		//cout << " Uses ConstId ";
         printUnorderedSet(it.second);
 		cout << endl;
 	}

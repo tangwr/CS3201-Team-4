@@ -1,3 +1,4 @@
+#pragma once
 #include "NextTable.h"
 
 NextTable::NextTable() {
@@ -9,16 +10,13 @@ int NextTable::getSize() {
 }
 
 bool NextTable::setStmtNextStmtRel(int currentStmtId, int nextStmtId) {
-    //next
     unordered_map<int, unordered_set<int>>::iterator it;
     it = nextMap.find(currentStmtId);
     unordered_set<int> nextSet;
 
     if (it != nextMap.end()) {
-        //currentStmtId has some next
         nextSet = it->second;
         if (nextSet.find(nextStmtId) != nextSet.end()) {
-            //already exist
             return false;
         }
         nextMap.erase(it);
@@ -26,7 +24,6 @@ bool NextTable::setStmtNextStmtRel(int currentStmtId, int nextStmtId) {
     nextSet.insert(nextStmtId);
     nextMap.insert(make_pair(currentStmtId, nextSet));
 
-    //previous
     unordered_map<int, unordered_set<int>>::iterator it2;
     it2 = previousMap.find(nextStmtId);
     unordered_set<int> previousSet;

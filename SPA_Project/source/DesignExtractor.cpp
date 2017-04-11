@@ -29,18 +29,12 @@ void DesignExtractor::recursiveTablePopulation(int procId, unordered_map<int, bo
 
     if (!isProcValidated->at(procId)) {
     	unordered_set<int> calledProcs = pkb->getProcCalledByProc(procId);
-        //cout << procId << " calls proc ";
-        //TableOperations::printUnorderedSet(calledProcs);
-        //cout << endl;
         
     	for (auto calledProcId : calledProcs) {
-            //cout << "proc " << procId << " called " << calledProcId << endl;
-
             recursiveTablePopulation(calledProcId, isProcInPath, isProcValidated);
     		isProcInPath->at(calledProcId) = false;
     	}
         populateProcRel(procId, -1);
-        //cout << "validate proc : " << procId << endl;
         isProcValidated->at(procId) = true;
     }
 
@@ -62,51 +56,38 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 
 		int currentStmt = stmtLst;
 		while (currentStmt != -1) {
-			//still got follows
 			if (pkb->isStmtInCallTable(currentStmt)) {
-				//cout << "here" << endl;
 				int calledProcId = pkb->getProcCalledByStmt(currentStmt);
 
-				//populate current stmt use/modify with the ones from called proc
 				populateStmtUseVarFromProc(currentStmt, calledProcId);
 
 				populateStmtUseConstFromProc(currentStmt, calledProcId);
 
 				populateStmtModifyVarFromProc(currentStmt, calledProcId);
 
-				//getting call* of called proc and inserting into the proc containing current stmt
 				populateProcCallStar(procId, calledProcId);
 			}
 			else if (pkb->isStmtInWhileTable(currentStmt) || pkb->isStmtInIfTable(currentStmt)) {
 				populateProcRel(procId, currentStmt);
 			}
 
-			stmtLstStmt.push_back(currentStmt);//figure out 0 duplicate
+			stmtLstStmt.push_back(currentStmt);
 			currentStmt = pkb->getStmtFollowStmt(currentStmt);
-			//stmtLstStmt.push_back(currentStmt);
 		}
 
 		for (int i = (int)stmtLstStmt.size() - 1; i >= 0 ; i--) {
 			cout << "counter : ";
 			cout << i << endl;
 
-			//check for index out of bound
-			//get stmt uses and set as proc/container stmt uses
-
 			populateUseRelFromStmt(procId, containerStmtId, stmtLstStmt[i]);
-
-			//get stmt modifies and set as proc/container stmt modifies
 
 			populateModifyRelFromStmt(procId, containerStmtId, stmtLstStmt[i]);
 
-			//get follow star insert into 1 stmt up
 			if (i > 0) {
 				populateFollowStarFromStmt(stmtLstStmt[i], stmtLstStmt[i - 1]);
 			}
 
-			//get children* for current stmt, set for parent* for container stmt.
 			if (containerStmtId != -1) {
-				//got container stmt
 				populateParentStarForContainerStmt(containerStmtId, stmtLstStmt[i]);
 			}
 		}
@@ -190,7 +171,6 @@ void DesignExtractor::populateParentStarForContainerStmt(int containerStmtId, in
 }
 
 void DesignExtractor::extractStarRelations() {
-    //unordered_set<int> procs = pkb->getAllProcs();
     unordered_set<int> procs = pkb->getAllProcId();
     unordered_map<int, bool> isProcInPath;
     unordered_map<int, bool> isProcValidated;

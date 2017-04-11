@@ -1,5 +1,5 @@
+#pragma once
 #include "ModifiesTable.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -17,12 +17,8 @@ bool ModifiesTable::setStmtModifyVarRel(int stmtId, int varId)
 	it = modifiesStmtMap.find(stmtId);
 	unordered_set<int> tempSet;
 	if (it != modifiesStmtMap.end()) {
-//		list = it->second;
-//		if (std::find(list.begin(), list.end(), varId) != list.end()) {
-			return false;
-		}
-//		modifiesStmtMap.erase(it);
-//	}
+		return false;
+	}
 	tempSet.insert(varId);
 	modifiesStmtMap.insert(make_pair(stmtId, tempSet));
 	return setStmtModifiedByRel(stmtId, varId);
@@ -34,7 +30,6 @@ bool ModifiesTable::setStmtModifiedByRel(int stmtId, int varId) {
 	unordered_set<int> tempSet;
 	if (it != modifiedByStmtMap.end()) {
 		tempSet = it->second;
-        //can be improved, use set native find
 		if (std::find(tempSet.begin(), tempSet.end(), stmtId) != tempSet.end()) {
 			return false;
 		}
@@ -86,12 +81,8 @@ bool ModifiesTable::setProcModifyVarRel(int procId, int varId)
 	it = modifiesProcMap.find(procId);
     unordered_set<int> tempSet;
 	if (it != modifiesProcMap.end()) {
-//		list = it->second;
-//		if (std::find(list.begin(), list.end(), procId) != list.end()) {
-			return false;
-		}
-//		modifiesStmtMap.erase(it);
-//	}
+		return false;
+	}
 	tempSet.insert(varId);
 	modifiesProcMap.insert(make_pair(procId, tempSet));
 	return setProcModifiedByRel(procId, varId);
@@ -147,21 +138,6 @@ bool ModifiesTable::insertProcModifiedByRel(int procId, int varId)
 	modifiedByProcMap.insert(make_pair(varId, tempSet));
 	return true;
 }
-
-
-/*
-int ModifiesTable::insertProcModifyVarRel(int varNo, int procNo)
-{
-	if (varNo >= vsize) throw "InvalidVarIndexException";
-	for (int t : modifiesProcList.at(varNo)) {
-		if (t == procNo) return -1;
-	}
-
-	modifiesProcList.at(varNo).push_back(procNo);
-	return 1;
-}
-*/
-
 
 /*
 	return list of stmt that modify the given variable
@@ -228,9 +204,6 @@ void ModifiesTable::printContents()
     cout << "StmtId : Modified varId" << endl;
 	for (pair<int, unordered_set<int>> it : modifiesStmtMap) {
         cout << it.first << " : ";
-		//cout << "StmtId: " << it.first;
-		//cout << " Modifies VarId: ";
-		//printVector(it.second);
         printUnorderedSet(it.second);
 		cout << endl;
 	}
@@ -239,9 +212,6 @@ void ModifiesTable::printContents()
     cout << "ProcId : Modified varId" << endl;
 	for (pair<int, unordered_set<int>> it : modifiesProcMap) {
         cout << it.first << " : ";
-		//cout << "ProcId: " << it.first;
-		//cout << " Modifies VarId: ";
-		//printVector(it.second);
         printUnorderedSet(it.second);
 		cout << endl;
 	}

@@ -1,4 +1,8 @@
+#pragma once
 #include "AssignTable.h"
+
+#define EMPTY_STRING ""
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -63,7 +67,7 @@ string AssignTable::getExpInAssignStmt(int stmtId) {
 		return it->second;
 	}
 	else {
-		return "";
+		return EMPTY_STRING;
 	}
 }
 
@@ -73,7 +77,7 @@ int AssignTable::getAssignedVarInAssignStmt(int stmtId) {
         return it->second;
     }
     else {
-        return -1;
+        return INVALID_INDEX;
     }
 }
 
@@ -89,13 +93,6 @@ unordered_set<int> AssignTable::getStmtWithCtrlVar(int varId) {
 //returns a vector<int> of all assign statement Id
 unordered_set<int> AssignTable::getAllStmtId() {
     return this->assignStmtSet;
-    /*
-    unordered_set<int> allAssignStmtSet;
-    for (auto assignEntry : this->assignList) {
-        allAssignStmtSet.insert(assignEntry.first);
-    }
-    return allAssignStmtSet;
-    */
 }
 
 bool AssignTable::isStmtInTable(int stmtId)

@@ -1,3 +1,4 @@
+#pragma once
 #include "CombinedStmtTable.h"
 
 CombinedStmtTable::CombinedStmtTable() {

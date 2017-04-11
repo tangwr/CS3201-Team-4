@@ -1,8 +1,10 @@
+#pragma once
 #include "ProcTable.h"
-
 #include <string>
 #include <vector>
 #include <unordered_map>
+
+#define INVALID_INDEX -1
 
 using namespace std;
 
@@ -65,7 +67,7 @@ int ProcTable::getProcIndex(string procName)
 	if (it != procMap.end())
 		return it->second;
 	else 
-		return -1;
+		return INVALID_INDEX;
 }
 
 //given statment, return procedure that contains it, -1 if statement does not exist
@@ -75,7 +77,7 @@ int ProcTable::getProcContainStmt(int stmtId) {
         return it->second;
     }
     else {
-        return -1;
+        return INVALID_INDEX;
     }
 }
 
@@ -88,20 +90,15 @@ bool ProcTable::setProcToStmtRel(int procId, int stmtId) {
         return false;
     }
     else {
-        //relationship not in yet, so insert
         this->stmtContainedInProcMap.insert(make_pair(stmtId, procId));
     }
 
-
-    //check if proc contains stmt 
-
     unordered_map<int, unordered_set<int>>::iterator it;
     it = procContainsStmtMap.find(procId);
-    unordered_set<int> stmtSet;//stmtSet should be empty
+    unordered_set<int> stmtSet;
     if (it != procContainsStmtMap.end()) {
         stmtSet = it->second;
         if (stmtSet.find(stmtId) != stmtSet.end()) {
-            //already exists
             return false;
         }
         procContainsStmtMap.erase(it);
@@ -154,26 +151,18 @@ void ProcTable::printContents()
     cout << "ProcId : ProcName" << endl;
 	for (pair<string, int> it : procMap) {
         cout << it.second << " : " << it.first << endl;
-		//cout << "ProcId: " << it.second;
-		//cout << " ProcName " << it.first << endl;
-        //cout << endl;
 	}
     cout << endl;
 
     cout << "StmtId : Direct containing proc" << endl;
     for (pair<int, int> entry : stmtContainedInProcMap) {
         cout << entry.first << " : " << entry.second << endl;
-        //cout << "StmtId " << entry.first;
-        //cout << " is contained in procedure with index: " << entry.second;
-        //cout << endl;
     }
     cout << endl;
 
     cout << "ProcId : contained stmtId" << endl;
     for (pair<int, unordered_set<int>> entry : procContainsStmtMap) {
         cout << entry.first << " : ";
-        //cout << "ProcId: " << entry.first;
-        //cout << "contains stmtId ";
         printUnorderedSet(entry.second);
         cout << endl;
     }

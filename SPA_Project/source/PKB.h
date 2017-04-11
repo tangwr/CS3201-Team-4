@@ -25,48 +25,82 @@ using namespace std;
 typedef short PROC;
 
 class PKB {
-private:
-	FollowsTable followsTable;
-	ModifiesTable modifiesTable;
-	ParentsTable parentTable;
-	ProcTable procTable;
-	UsesTable usesTable;
-	VarTable variableTable;
-	ConstTable constTable;
-	WhileTable whileTable;
-	IfTable ifTable;
-	CallTable callTable;
-	AssignTable assignTable;
-    NextTable nextTable;
-    StmtLstTable stmtLstTable;
-	CombinedStmtTable combinedStmtTable;
-
-	bool isValidVarId(int VarId);
-	bool isValidVar(string varName);
-	bool isValidConst(int constId);
 public:
 
 	PKB();
     virtual void printAllTables();
-	//Table API
-	//set is for direct parent/relations and not *
-	//insert is for *
 
-    virtual int getNumOfStmt();//was get total stmt num
-    virtual unordered_set<int> getAllStmtId();//currentnly only returning while, assign, if & while statements
+	/*
+	Retrieves the total number of statement
+
+	return		number of statements as an integer
+	*/
+    virtual int getNumOfStmt();
+
+	/*
+	Retrieves all the statement indices
+
+	return		an unordered_set of all statement indices
+	*/
+    virtual unordered_set<int> getAllStmtId();
 
     //multi-table api
+	/*
+	Retrieves all the statemnts that have uses relations in a given procedure
+
+	param int procId	procedure index to retrieve statements from
+	return				an unordered_set of all the statemnts that have uses relations in a given procedure
+	*/
     virtual unordered_set<int> getUseStmtInProc(int procId);
+
+	/*
+	Retrieves all the statemnts that have modifies relations in a given procedure
+
+	param int procId	procedure index to retrieve statements from
+	return				an unordered_set of all the statemnts that have modifies relations in a given procedure
+	*/
     virtual unordered_set<int> getModifyStmtInProc(int procId);
 
-	//proc table
-    virtual int insertProc(string procName);
 
+	//proc table
+	/*
+	Stores a procedure in the proc table
+
+	param string procName		procedure name
+	return						the procedure's given index as an integer
+	*/
+    virtual int insertProc(string procName);
+	
+	/*
+	Stores relationship that a given procedure contains a given statement
+
+	param int procId			procedure index
+	param int stmtId			statement index
+	return						true if successful, false otherwise
+	*/
     virtual bool setProcToStmtRel(int procId, int stmtId);
 
-    virtual int getProcIdByName(string procName);
-    virtual string getProcNameById(int procId);//returns empty string if no such procId
+	/*
+	Given a procedure name, retrieves its corresponding index
 
+	param string procName		procedure name
+	return						index of the given procedure as an integer
+	*/
+    virtual int getProcIdByName(string procName);
+
+	/*
+	Given a procedure index, retrieves its corresponding name
+
+	param int procId			procedure index
+	return						procedure name as a string, an empty string if the procedure index in invalid
+	*/
+    virtual string getProcNameById(int procId);
+
+	/*
+	Given a procedure, check if it exists in the table
+
+	param string procName
+	*/
     virtual bool isProcInTable(string procName);
 	virtual bool isValidProcId(int procId);
     
@@ -209,6 +243,23 @@ public:
     virtual vector<int> getStmtlstContainedInContainerStmt(int containerStmtId);
     virtual unordered_set<int> getAllStmtLst();
 
+private:
+	FollowsTable followsTable;
+	ModifiesTable modifiesTable;
+	ParentsTable parentTable;
+	ProcTable procTable;
+	UsesTable usesTable;
+	VarTable variableTable;
+	ConstTable constTable;
+	WhileTable whileTable;
+	IfTable ifTable;
+	CallTable callTable;
+	AssignTable assignTable;
+	NextTable nextTable;
+	StmtLstTable stmtLstTable;
+	CombinedStmtTable combinedStmtTable;
 
-    //to be implemented
+	bool isValidVarId(int VarId);
+	bool isValidVar(string varName);
+	bool isValidConst(int constId);
 };

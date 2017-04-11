@@ -256,10 +256,3 @@ bool Next::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
-
-Parameter Next::getLeftChild() {
-	return leftChild;
-}
-Parameter Next::getRightChild() {
-	return rightChild;
-}

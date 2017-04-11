@@ -282,15 +282,6 @@ unordered_set<int> CallsStar::mergeSet(unordered_set<int> s1, unordered_set<int>
 }
 
 //Pulbic
-Parameter CallsStar::getLeftChild() {
-	return leftChild;
-}
-
-Parameter CallsStar::getRightChild() {
-	return rightChild;
-}
-
-
 void CallsStar::insertSynList(Parameter p) {
 	synList.push_back(p);
 }

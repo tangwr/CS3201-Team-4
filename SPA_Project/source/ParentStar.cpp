@@ -186,10 +186,3 @@ bool ParentStar::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
-
-Parameter ParentStar::getLeftChild() {
-	return leftChild;
-}
-Parameter ParentStar::getRightChild() {
-	return rightChild;
-}

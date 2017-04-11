@@ -282,14 +282,6 @@ void AffectsBip::setResultTupleToTable(ResultTable* affectResultTable, int affec
 	}
 }
 
-Parameter AffectsBip::getLeftChild() {
-	return leftChild;
-}
-
-Parameter AffectsBip::getRightChild() {
-	return rightChild;
-}
-
 vector<Parameter> AffectsBip::getSynList() {
 	return synList;
 }

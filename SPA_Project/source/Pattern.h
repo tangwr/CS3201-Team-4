@@ -21,8 +21,6 @@ public:
 	void setFactor(Parameter factor);
 
 	bool getUnderScore();
-	Parameter getLeftChild();
-	Parameter getRightChild();
 	Parameter getFactor();
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();

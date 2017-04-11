@@ -13,6 +13,15 @@
 using namespace std;
 
 class Uses : public Clause {
+
+public:
+
+	Uses(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
+	void insertSynList(Parameter p);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+
 private:
 	Parameter leftChild;
 	Parameter rightChild;
@@ -35,17 +44,6 @@ private:
 	unordered_set<int> mergeSet(unordered_set<int> s1, unordered_set<int> s2);
 
 	unordered_set<int> getRestrictedSet(PKB *pkb, Type synType);
-	
-
-public:
-
-	Uses(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
-	void insertSynList(Parameter p);
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
 
 };
 #endif

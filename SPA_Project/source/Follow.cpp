@@ -9,7 +9,6 @@
 
 using namespace std;
 
-
 Follow::Follow(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
@@ -192,11 +191,4 @@ bool Follow::isSynonym(Parameter parameter) {
 bool Follow::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
-}
-
-Parameter Follow::getLeftChild() {
-	return leftChild;
-}
-Parameter Follow::getRightChild() {
-	return rightChild;
 }

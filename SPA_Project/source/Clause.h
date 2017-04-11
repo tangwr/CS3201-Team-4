@@ -26,8 +26,6 @@ public:
 	@return: the list of arguments in the clause
 	*/
 	virtual vector<Parameter> getSynList() = 0;
-	virtual Parameter getLeftChild() = 0;
-	virtual Parameter getRightChild() = 0;
 	/*
 	Returns the clause type
 	@return: the clause type

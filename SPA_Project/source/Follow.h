@@ -11,6 +11,13 @@
 using namespace std;
 
 class Follow : public Clause {
+
+public:
+	Follow(Parameter lc, Parameter rc);
+	vector<Parameter> getSynList();
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	ClauseType getClauseType();
+
 private:
 
 	Parameter leftChild;
@@ -84,12 +91,5 @@ private:
 	*/
 	ResultTable getFollow(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 
-public:
-	Follow(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	vector<Parameter> getSynList();
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
-	ClauseType getClauseType();
 };
 #endif

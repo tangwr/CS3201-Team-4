@@ -12,6 +12,13 @@
 using namespace std;
 
 class NextBipStar : public Clause {
+
+public:
+	NextBipStar(Parameter lc, Parameter rc);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+
 private:
 
 	Parameter leftChild;
@@ -88,13 +95,5 @@ private:
 	@return: the table which contains the list of tuples
 	*/
 	ResultTable getNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
-
-public:
-	NextBipStar(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
 };
 #endif

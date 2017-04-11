@@ -529,14 +529,6 @@ unordered_set<int> Modifies::mergeSet(unordered_set<int> s1, unordered_set<int> 
 }
 
 //Public 
-Parameter Modifies::getLeftChild() {
-	return leftChild;
-}
-
-Parameter Modifies::getRightChild() {
-	return rightChild;
-}
-
 void Modifies::insertSynList(Parameter p) {
 	synList.push_back(p);
 }

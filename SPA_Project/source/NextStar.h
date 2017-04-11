@@ -11,6 +11,13 @@
 using namespace std;
 
 class NextStar : public Clause {
+
+public:
+	NextStar(Parameter lc, Parameter rc);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+
 private:
 
 	Parameter leftChild;
@@ -125,13 +132,5 @@ private:
 	@pkb: the storage from which we retrieve information
 	*/
 	void getAllPrevStar(int next, unordered_set<int>* allPrevStar, unordered_set<int>* visited, PKB* pkb);
-	
-public:
-	NextStar(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
 };
 #endif

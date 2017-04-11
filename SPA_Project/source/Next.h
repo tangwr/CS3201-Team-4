@@ -12,6 +12,13 @@
 using namespace std;
 
 class Next : public Clause {
+
+public:
+	Next(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+
 private:
 
 	Parameter leftChild;
@@ -102,14 +109,6 @@ private:
 	@return: the table which contains the list of tuples
 	*/
 	ResultTable getNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
-
-public:
-	Next(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
 
 };
 #endif

@@ -316,10 +316,3 @@ bool NextStar::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
-
-Parameter NextStar::getLeftChild() {
-	return leftChild;
-}
-Parameter NextStar::getRightChild() {
-	return rightChild;
-}

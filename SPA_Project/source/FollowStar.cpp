@@ -198,10 +198,3 @@ bool FollowStar::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
-
-Parameter FollowStar::getLeftChild() {
-	return leftChild;
-}
-Parameter FollowStar::getRightChild() {
-	return rightChild;
-}

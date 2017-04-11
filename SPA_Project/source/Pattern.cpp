@@ -252,14 +252,6 @@ bool Pattern::getUnderScore() {
 	return hasUnderScore;
 }
 
-Parameter Pattern::getLeftChild() {
-	return leftChild;
-}
-
-Parameter Pattern::getRightChild() {
-	return rightChild;
-}
-
 Parameter Pattern::getFactor() {
 	return factor;
 }

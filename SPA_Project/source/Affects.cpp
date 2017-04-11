@@ -313,14 +313,6 @@ void Affects::setResultTupleToTable(ResultTable* affectResultTable, int affector
 	}
 }
 
-Parameter Affects::getLeftChild() {
-	return leftChild;
-}
-
-Parameter Affects::getRightChild() {
-	return rightChild;
-}
-
 vector<Parameter> Affects::getSynList() {
 	return synList;
 }

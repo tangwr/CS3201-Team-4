@@ -375,10 +375,3 @@ bool NextBipStar::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
-
-Parameter NextBipStar::getLeftChild() {
-	return leftChild;
-}
-Parameter NextBipStar::getRightChild() {
-	return rightChild;
-}

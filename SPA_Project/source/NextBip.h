@@ -12,6 +12,13 @@
 using namespace std;
 
 class NextBip : public Clause {
+
+public:
+	NextBip(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+
 private:
 
 	Parameter leftChild;
@@ -88,13 +95,5 @@ private:
 	unordered_set<int> computeNextBip(int curr, PKB* pkb);
 	unordered_set<int> computePrevBip(int curr, PKB* pkb);
 	unordered_set<int> getLastStmts(int procId, PKB* pkb);
-
-public:
-	NextBip(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
 };
 #endif

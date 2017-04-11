@@ -319,14 +319,6 @@ vector<Parameter>With::getSynList() {
 	return synList;
 }
 
-Parameter With::getLeftChild() {
-	return leftChild;
-}
-
-Parameter With::getRightChild() {
-	return rightChild;
-}
-
 void With::insertSynList(Parameter p) {
 	synList.push_back(p);
 }

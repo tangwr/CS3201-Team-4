@@ -11,6 +11,14 @@
 using namespace std;
 
 class FollowStar : public Clause {
+
+public:
+
+	FollowStar(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+
 private:
 
 	Parameter leftChild;
@@ -81,14 +89,5 @@ private:
 	@return: the table which contains the list of tuples
 	*/
 	ResultTable getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
-
-public:
-
-	FollowStar(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
 };
 #endif

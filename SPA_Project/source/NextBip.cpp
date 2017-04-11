@@ -383,10 +383,3 @@ bool NextBip::isBooleanClause() {
 	return (leftChild.getParaType() == ANYTHING || leftChild.getParaType() == INTEGER)
 		&& (rightChild.getParaType() == ANYTHING || rightChild.getParaType() == INTEGER);
 }
-
-Parameter NextBip::getLeftChild() {
-	return leftChild;
-}
-Parameter NextBip::getRightChild() {
-	return rightChild;
-}

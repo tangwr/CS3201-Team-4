@@ -15,10 +15,7 @@ using namespace std;
 class AffectsStar : public Clause {
 public:
 	AffectsStar(Parameter lc, Parameter rc);
-
 	vector<Parameter> getSynList();
-	Parameter getLeftChild();
-	Parameter getRightChild();
 	ClauseType getClauseType();
 	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
 

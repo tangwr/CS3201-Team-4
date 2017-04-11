@@ -15,6 +15,14 @@
 using namespace std;
 
 class Modifies : public Clause {
+
+public:
+	Modifies(Parameter lc, Parameter rc);
+	vector<Parameter> getSynList();
+	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
+	void insertSynList(Parameter p);
+	ClauseType getClauseType();
+
 private:
 	
 	Parameter leftChild;
@@ -37,15 +45,6 @@ private:
 
 	unordered_set<int> mergeSet(unordered_set<int> s1, unordered_set<int> s2);
 	unordered_set<int> getRestrictedSet(PKB *pkb, Type synType);
-
-public:
-	Modifies(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	vector<Parameter> getSynList();
-	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
-	void insertSynList(Parameter p);
-	ClauseType getClauseType();
 
 };
 #endif

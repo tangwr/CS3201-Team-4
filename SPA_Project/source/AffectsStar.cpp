@@ -337,14 +337,6 @@ void AffectsStar::setResultTupleToTable(ResultTable* affectResultTable, int affe
 	}
 }
 
-Parameter AffectsStar::getLeftChild() {
-	return leftChild;
-}
-
-Parameter AffectsStar::getRightChild() {
-	return rightChild;
-}
-
 vector<Parameter> AffectsStar::getSynList() {
 	return synList;
 }

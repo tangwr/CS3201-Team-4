@@ -11,6 +11,14 @@
 using namespace std;
 
 class ParentStar : public Clause {
+
+public:
+
+	ParentStar(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	vector<Parameter> getSynList();
+	ClauseType getClauseType();
+
 private:
 
 	Parameter leftChild;
@@ -82,14 +90,5 @@ private:
 	@return: the table which contains the list of tuples
 	*/
 	ResultTable getParentStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
-
-public:
-
-	ParentStar(Parameter lc, Parameter rc);
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
-	vector<Parameter> getSynList();
-	ClauseType getClauseType();
 };
 #endif

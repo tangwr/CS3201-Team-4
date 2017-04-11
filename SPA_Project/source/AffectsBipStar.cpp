@@ -300,14 +300,6 @@ void AffectsBipStar::setResultTupleToTable(ResultTable* affectResultTable, int a
 	}
 }
 
-Parameter AffectsBipStar::getLeftChild() {
-	return leftChild;
-}
-
-Parameter AffectsBipStar::getRightChild() {
-	return rightChild;
-}
-
 vector<Parameter> AffectsBipStar::getSynList() {
 	return synList;
 }

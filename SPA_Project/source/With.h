@@ -12,6 +12,14 @@
 using namespace std;
 
 class With : public Clause {
+
+public:
+	With(Parameter lc, Parameter rc);
+	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+	vector<Parameter> getSynList();
+	void insertSynList(Parameter p);
+	ClauseType getClauseType();
+
 private:
 	Parameter leftChild;
 	Parameter rightChild;
@@ -30,13 +38,4 @@ private:
 	void setResultTupleToTable(ResultTable* pattResultTable, int left, int right);
 	int getIdOfString(PKB* pkb, Parameter child, Type type);
 	string getStringOfId(PKB* pkb, int id, Type type);
-
-public:
-	With(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
-	vector<Parameter> getSynList();
-	Parameter getLeftChild();
-	Parameter getRightChild();
-	void insertSynList(Parameter p);
-	ClauseType getClauseType();
 };

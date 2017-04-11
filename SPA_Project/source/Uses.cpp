@@ -532,15 +532,6 @@ unordered_set<int> Uses::mergeSet(unordered_set<int> s1, unordered_set<int> s2) 
 }
 
 //Public 
-
-Parameter Uses::getLeftChild() {
-	return leftChild;
-}
-
-Parameter Uses::getRightChild() {
-	return rightChild;
-}
-
 void Uses::insertSynList(Parameter p) {
 	synList.push_back(p);
 }

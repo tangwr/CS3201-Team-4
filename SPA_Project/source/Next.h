@@ -18,21 +18,21 @@ private:
 	Parameter rightChild;
 	ResultTable result;
 	bool isBooleanClause();
-	bool isSynonym(Parameter);
-	bool isLeftChild(Parameter);
-	bool isNext(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isSynonym(Parameter parameter);
+	bool isLeftChild(Parameter parameter);
+	bool isNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 	void setSynList();
-	void insertTuple(int, int);
+	void insertTuple(int left, int right);
 	vector<Parameter> synList;
-	unordered_set<int> getNextStmt(int, PKB*);
-	unordered_set<int> getPreviousStmt(int, PKB*);
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getNextSynSyn(PKB*, ResultTable*);
-	ResultTable getNext(PKB*, unordered_set<int>, unordered_set<int>);
+	unordered_set<int> getNextStmt(int a, PKB* pkb);
+	unordered_set<int> getPreviousStmt(int a, PKB* pkb);
+	unordered_set<int> getTypeStmt(Parameter p, PKB* pkb);
+	ResultTable getNextSynSyn(PKB* pkb, ResultTable* resultTable);
+	ResultTable getNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 
 public:
 	Next(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB*, ResultTable);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	vector<Parameter> getSynList();

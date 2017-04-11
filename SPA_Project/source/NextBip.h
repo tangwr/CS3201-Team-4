@@ -19,24 +19,24 @@ private:
 	ResultTable result;
 	vector<Parameter> synList;
 	bool isBooleanClause();
-	bool isSynonym(Parameter);
-	bool isLeftChild(Parameter);
-	bool isNextBip(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isSynonym(Parameter parameter);
+	bool isLeftChild(Parameter parameter);
+	bool isNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 	void setSynList();
-	void insertTuple(int, int);
-	void DFS(int, unordered_set<int>*, unordered_set<int>*, PKB*);
-	void computeLastBip(int, unordered_set<int>*, PKB*);
-	ResultTable getNextBipSynSyn(PKB*, ResultTable*);
-	ResultTable getNextBip(PKB*, unordered_set<int>, unordered_set<int>);
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	unordered_set<int> getNextStmt(int, PKB*);
-	unordered_set<int> computeNextBip(int, PKB*);
-	unordered_set<int> computePrevBip(int, PKB*);
-	unordered_set<int> getLastStmts(int, PKB*);
+	void insertTuple(int left, int right);
+	void DFS(int currStmt, unordered_set<int>* lastStmts, unordered_set<int>* visited, PKB* pkb);
+	void computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb);
+	ResultTable getNextBipSynSyn(PKB* pkb, ResultTable* resultTable);
+	ResultTable getNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	unordered_set<int> getTypeStmt(Parameter p, PKB* pkb);
+	unordered_set<int> getNextStmt(int a, PKB* pkb);
+	unordered_set<int> computeNextBip(int curr, PKB* pkb);
+	unordered_set<int> computePrevBip(int curr, PKB* pkb);
+	unordered_set<int> getLastStmts(int procId, PKB* pkb);
 
 public:
 	NextBip(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB*, ResultTable);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
 	Parameter getLeftChild();
 	Parameter getRightChild();
 	vector<Parameter> getSynList();

@@ -17,21 +17,21 @@ private:
 	Parameter rightChild;
 	ResultTable result;
 	bool isBooleanClause();
-	bool isSynonym(Parameter);
-	bool isLeftChild(Parameter);
-	bool isParent(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isSynonym(Parameter parameter);
+	bool isLeftChild(Parameter parameter);
+	bool isParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 	void setSynList();
-	void insertTuple(int, int);
+	void insertTuple(int left, int right);
 	vector<Parameter> synList;
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getParentSynSyn(PKB*, ResultTable*);
-	ResultTable getParent(PKB*, unordered_set<int>, unordered_set<int>);
+	unordered_set<int> getTypeStmt(Parameter p, PKB* pkb);
+	ResultTable getParentSynSyn(PKB* pkb, ResultTable* resultTable);
+	ResultTable getParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 
 public:
-	Parent(Parameter, Parameter);
+	Parent(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	ResultTable evaluate(PKB*, ResultTable);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 };

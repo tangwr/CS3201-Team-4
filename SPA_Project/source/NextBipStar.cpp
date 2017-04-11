@@ -215,11 +215,11 @@ ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts)
 void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, PKB* pkb) {
 	unordered_set<int> visited;
 	stack<int> callingStmts;
-	getAllNextBipStar(prev, allNextBipStar, &visited, &callingStmts, pkb, ZERO);
+	getAllNextBipStar(prev, allNextBipStar, &visited, callingStmts, pkb, ZERO);
 
 	return;
 }
-void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar, unordered_set<int>* visited, stack<int>* callingStmts, PKB* pkb, int count) {
+void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar, unordered_set<int>* visited, stack<int> callingStmts, PKB* pkb, int count) {
 	if (visited->find(curr) != visited->end()) {
 		return;
 	}
@@ -236,8 +236,8 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 		if (currProc == nextProc) {
 			allNextBipStar->insert(it);
 			if (pkb->isStmtInIfTable(curr)) {
-				stack<int> copiedStack = *callingStmts;
-				getAllNextBipStar(it, allNextBipStar, visited, &copiedStack, pkb, count);
+				stack<int> copiedStack = callingStmts;
+				getAllNextBipStar(it, allNextBipStar, visited, copiedStack, pkb, count);
 			}
 			else {
 				getAllNextBipStar(it, allNextBipStar, visited, callingStmts, pkb, count);
@@ -265,13 +265,13 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 				}
 				else {
 					allNextBipStar->insert(it);
-					callingStmts->push(curr);
+					callingStmts.push(curr);
 					getAllNextBipStar(it, allNextBipStar, visited, callingStmts, pkb, count);
 				}
 			}
 		}
-		else if(!callingStmts->empty()){ // next is diff proc and curr is not call stmt, and stack is not empty
-			stack<int> copiedStack = *callingStmts;
+		else if(!callingStmts.empty()){ // next is diff proc and curr is not call stmt, and stack is not empty
+			stack<int> copiedStack = callingStmts;
 			int callingStmt = copiedStack.top();
 			copiedStack.pop();
 			unordered_set<int> callNext = getNextStmt(callingStmt,pkb);
@@ -284,7 +284,7 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 				int callsNext = *callNext.begin();
 				if (callsNext == it) {
 					allNextBipStar->insert(it);
-					getAllNextBipStar(it, allNextBipStar, visited, &copiedStack, pkb, count);
+					getAllNextBipStar(it, allNextBipStar, visited, copiedStack, pkb, count);
 				}
 			}
 			else {
@@ -295,12 +295,12 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 				int callingStmtNext = *lastBip.begin();
 				if (it == callingStmtNext) {
 					allNextBipStar->insert(it);
-					getAllNextBipStar(it, allNextBipStar, visited, &copiedStack, pkb, count);
+					getAllNextBipStar(it, allNextBipStar, visited, copiedStack, pkb, count);
 				}
 			}
 			
 		}
-		else if(callingStmts->empty()){
+		else if(callingStmts.empty()){
 			allNextBipStar->insert(it);
 			getAllNextBipStar(it, allNextBipStar, visited, callingStmts, pkb, count);
 		}

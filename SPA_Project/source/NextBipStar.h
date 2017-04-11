@@ -63,7 +63,7 @@ private:
 	*/
 	void insertTuple(int left, int right);
 	void getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, PKB* pkb);
-	void getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar, unordered_set<int>* visited, stack<int>* callingStmts, PKB* pkb, int count);
+	void getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar, unordered_set<int>* visited, stack<int> callingStmts, PKB* pkb, int count);
 	void computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb);
 	unordered_set<int> getNextStmt(int a, PKB* pkb);
 	unordered_set<int> computeNextBip(int curr, PKB* pkb);

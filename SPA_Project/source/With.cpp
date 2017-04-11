@@ -5,7 +5,7 @@
 
 #define ERROR -1
 #define NOT_FOUND -1
-#define INTIAL_INDEX 1
+#define INTIAL_INDEX 0
 #define LEFT_ASSIGNMENT 0
 #define RIGHT_ASSIGNMENT 1
 

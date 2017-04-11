@@ -10,6 +10,7 @@ Parameter::Parameter() {
 Parameter::Parameter(string name, Type type) {
 	paraName = name;
 	paraType = type;
+	isAttributeProc = false;
 
 	if (paraType != BOOLEAN && paraType != ANYTHING
 		&& paraType != STRINGVARIABLE && paraType != INTEGER) {

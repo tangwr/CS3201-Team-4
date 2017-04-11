@@ -2,6 +2,11 @@
 #include "Clause.h"
 #include "Next.h"
 
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
+
 using namespace std;
 
 Next::Next(Parameter lc, Parameter rc) {
@@ -18,7 +23,7 @@ Next::Next(Parameter lc, Parameter rc) {
 }
 
 ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getNextSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -28,10 +33,10 @@ ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
+		if (!left.empty()) {
 			return getNext(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getNext(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -44,7 +49,6 @@ ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
 bool Next::isNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
-			//unordered_set<int> next = pkb->getNextStmt(leftIterator);
 			unordered_set<int> next = getNextStmt(leftIterator, pkb);
 			for (auto& it : next) {
 				if (right.find(it) != right.end()) {
@@ -56,7 +60,6 @@ bool Next::isNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	else {
 		for (auto& rightIterator : right) {
 			unordered_set<int> prev = getPreviousStmt(rightIterator, pkb);
-			//unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
 					return true;
@@ -75,7 +78,6 @@ ResultTable Next::getNext(PKB* pkb, unordered_set<int> left, unordered_set<int> 
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> next = getNextStmt(leftIterator, pkb);
-		//	unordered_set<int> next = pkb->getNextStmt(leftIterator);
 			for (auto& it : next) {
 				if (right.find(it) != right.end()) {
 					insertTuple(leftIterator, it);
@@ -86,7 +88,6 @@ ResultTable Next::getNext(PKB* pkb, unordered_set<int> left, unordered_set<int> 
 	else {
 		for (auto& rightIterator : right) {
 			unordered_set<int> prev = getPreviousStmt(rightIterator, pkb);
-			//unordered_set<int> prev = pkb->getPreviousStmt(rightIterator);
 			for (auto& it : prev) {
 				if (left.find(it) != left.end()) {
 					insertTuple(it, rightIterator);
@@ -104,18 +105,18 @@ ResultTable Next::getNextSynSyn(PKB* pkb, ResultTable* resultTable) {
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
-	if (isLeftChild(synonyms[0])) {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isNext(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
-				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+	if (isLeftChild(synonyms[FIRST_SYNONYM_INDEX])) {
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isNext(pkb, unordered_set<int>({ tupleList[i][ZERO] }), unordered_set<int>({ tupleList[i][ONE] }))) {
+				vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isNext(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
-				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isNext(pkb, unordered_set<int>({ tupleList[i][ONE] }), unordered_set<int>({ tupleList[i][ZERO] }))) {
+				vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 				result.insertTuple(tuple);
 			}
 		}
@@ -183,7 +184,7 @@ unordered_set<int> Next::getNextStmt(int a, PKB* pkb) {
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : next) {
-		if (it < 0) {
+		if (it < ZERO) {
 			negatives.push(it);
 		}
 		else {
@@ -195,7 +196,7 @@ unordered_set<int> Next::getNextStmt(int a, PKB* pkb) {
 		next = pkb->getNextStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : next) {
-			if (it < 0) {
+			if (it < ZERO) {
 				negatives.push(it);
 			}
 			else {
@@ -211,7 +212,7 @@ unordered_set<int> Next::getPreviousStmt(int a, PKB* pkb) {
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : prev) {
-		if (it < 0) {
+		if (it < ZERO) {
 			negatives.push(it);
 		}
 		else {
@@ -223,7 +224,7 @@ unordered_set<int> Next::getPreviousStmt(int a, PKB* pkb) {
 		prev = pkb->getPreviousStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : prev) {
-			if (it < 0) {
+			if (it < ZERO) {
 				negatives.push(it);
 			}
 			else {
@@ -235,7 +236,7 @@ unordered_set<int> Next::getPreviousStmt(int a, PKB* pkb) {
 }
 
 bool Next::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool Next::isSynonym(Parameter parameter) {

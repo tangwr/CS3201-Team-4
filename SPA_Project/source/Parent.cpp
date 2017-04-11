@@ -3,6 +3,11 @@
 #include "Clause.h"
 #include "unordered_set"
 
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
+
 Parent::Parent(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
@@ -17,7 +22,7 @@ Parent::Parent(Parameter lc, Parameter rc) {
 }
 
 ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getParentSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -27,10 +32,10 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
+		if (!left.empty()) {
 			return getParent(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getParent(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -41,24 +46,12 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
 }
 
 bool Parent::isParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-	/*	if (left.size() < right.size()) {
-			for (auto& leftIterator : left) {
-				unordered_set<int> children= pkb->getStmtChildrenStmt(leftIterator);
-				for (auto& it : children) {
-					if (right.find(it) != right.end()) {
-						return true;
-					}
-				}
-			}
-		}
-		else {*/
 	for (auto& rightIterator : right) {
 		int parent = pkb->getStmtParentStmt(rightIterator);
 		if (left.find(parent) != left.end()) {
 			return true;
 		}
 	}
-	//}
 	return false;
 }
 
@@ -67,7 +60,7 @@ ResultTable Parent::getParent(PKB* pkb, unordered_set<int> left, unordered_set<i
 	if (isLeftChild(rightChild)) {
 		return result;
 	}
-	if (left.size() == 1) {
+	if (left.size() == ONE) {
 		for (auto& leftIterator : left) {
 			unordered_set<int> children = pkb->getStmtChildrenStmt(leftIterator);
 			for (auto& it : children) {
@@ -95,18 +88,18 @@ ResultTable Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
-	if (isLeftChild(synonyms[0])) {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isParent(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
-				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+	if (isLeftChild(synonyms[FIRST_SYNONYM_INDEX])) {
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isParent(pkb, unordered_set<int>({ tupleList[i][ZERO] }), unordered_set<int>({ tupleList[i][ONE] }))) {
+				vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isParent(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
-				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isParent(pkb, unordered_set<int>({ tupleList[i][ONE] }), unordered_set<int>({ tupleList[i][ZERO] }))) {
+				vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 				result.insertTuple(tuple);
 			}
 		}
@@ -170,7 +163,7 @@ unordered_set<int> Parent::getTypeStmt(Parameter p, PKB* pkb) {
 }
 
 bool Parent::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool Parent::isSynonym(Parameter parameter) {

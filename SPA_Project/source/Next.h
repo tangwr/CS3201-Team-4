@@ -17,16 +17,16 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	ResultTable result;
+	bool isBooleanClause();
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
 	bool isNext(PKB*, unordered_set<int>, unordered_set<int>);
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getNextSynSyn(PKB*, ResultTable*);
-	vector<Parameter> synList;
 	void setSynList();
 	void insertTuple(int, int);
+	vector<Parameter> synList;
+	unordered_set<int> getTypeStmt(Parameter, PKB*);
+	ResultTable getNextSynSyn(PKB*, ResultTable*);
 	ResultTable getNext(PKB*, unordered_set<int>, unordered_set<int>);
-	bool isBooleanClause();
 
 public:
 	Next(Parameter lc, Parameter rc);

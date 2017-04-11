@@ -2,8 +2,12 @@
 #include "Clause.h"
 #include "NextStar.h"
 
-using namespace std;
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
 
+using namespace std;
 
 NextStar::NextStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -19,7 +23,7 @@ NextStar::NextStar(Parameter lc, Parameter rc) {
 }
 
 ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getNextStarSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -29,13 +33,13 @@ ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
-			if (right.size() != 0) {
+		if (!left.empty()) {
+			if (!right.empty()) {
 				return getNextStarSynSyn(pkb, &resultTable);
 			}
 			return getNextStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getNextStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -111,7 +115,7 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	vector<vector<int>> tupleList = resultTable->getTupleList();
 	unordered_set<int> left = resultTable->getSynValue(leftChild);
 	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (isLeftChild(synonyms[0])) {
+	if (isLeftChild(synonyms[FIRST_SYNONYM_INDEX])) {
 		if (left.size() < right.size()) {
 			unordered_map<int, unordered_set<int>> allNextStars;
 			for (auto& it : left) {
@@ -119,10 +123,10 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 				getAllNextStar(it, &allNextStar, pkb);
 				allNextStars.insert({ it, allNextStar });
 			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allNextStars.find(tupleList[i][0]);
-				if (it->second.find(tupleList[i][1]) != it->second.end()) {
-					vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+			for (int i = ZERO; i < tupleList.size(); i++) {
+				auto& it = allNextStars.find(tupleList[i][ZERO]);
+				if (it->second.find(tupleList[i][ONE]) != it->second.end()) {
+					vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 					result.insertTuple(tuple);
 				}
 			}
@@ -134,10 +138,10 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 				getAllPrevStar(it, &allPrevStar, pkb);
 				allPrevStars.insert({ it, allPrevStar });
 			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allPrevStars.find(tupleList[i][1]);
-				if (it->second.find(tupleList[i][0]) != it->second.end()) {
-					vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+			for (int i = ZERO; i < tupleList.size(); i++) {
+				auto& it = allPrevStars.find(tupleList[i][ONE]);
+				if (it->second.find(tupleList[i][ZERO]) != it->second.end()) {
+					vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 					result.insertTuple(tuple);
 				}
 			}
@@ -151,10 +155,10 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 				getAllNextStar(it, &allNextStar, pkb);
 				allNextStars.insert({ it, allNextStar });
 			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				unordered_set<int> allNextStar = (allNextStars.find(tupleList[i][1]) -> second);
-				if (allNextStar.find(tupleList[i][0]) != allNextStar.end()) {
-					vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+			for (int i = ZERO; i < tupleList.size(); i++) {
+				unordered_set<int> allNextStar = (allNextStars.find(tupleList[i][ONE]) -> second);
+				if (allNextStar.find(tupleList[i][ZERO]) != allNextStar.end()) {
+					vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 					result.insertTuple(tuple);
 				}
 			}
@@ -166,12 +170,12 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 				getAllPrevStar(it, &allPrevStar, pkb);
 				allPrevStars.insert({ it, allPrevStar });
 			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allPrevStars.find(tupleList[i][0]);
-				int a = tupleList[i][0];
-				int b = tupleList[i][1];
-				if (it->second.find(tupleList[i][1]) != it->second.end()) {
-					vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+			for (int i = ZERO; i < tupleList.size(); i++) {
+				auto& it = allPrevStars.find(tupleList[i][ZERO]);
+				int a = tupleList[i][ZERO];
+				int b = tupleList[i][ONE];
+				if (it->second.find(tupleList[i][ONE]) != it->second.end()) {
+					vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 					result.insertTuple(tuple);
 				}
 			}
@@ -182,16 +186,13 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 
 ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
 	for (auto& it : stmts) {
-		//cout << "IT1: " << it << endl;
 		if (pkb->isStmtInWhileTable(it)) {
-			cout << "IT2: " << it << endl;
 			insertTuple(it, it);
 		}
 		else {
 			unordered_set<int> parentStar = pkb->getStmtParentStarStmt(it);
 			for (auto& parent : parentStar) {
 				if (pkb->isStmtInWhileTable(parent)) {
-					cout << "IT3: " << it << endl;
 					insertTuple(it, it);
 					break;
 				}
@@ -295,7 +296,7 @@ unordered_set<int> NextStar::getTypeStmt(Parameter p, PKB* pkb) {
 }
 
 bool NextStar::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool NextStar::isSynonym(Parameter parameter) {

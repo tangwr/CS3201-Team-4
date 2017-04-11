@@ -2,6 +2,11 @@
 #include "Clause.h"
 #include "NextBip.h"
 
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
+
 using namespace std;
 
 NextBip::NextBip(Parameter lc, Parameter rc) {
@@ -18,7 +23,7 @@ NextBip::NextBip(Parameter lc, Parameter rc) {
 }
 
 ResultTable NextBip::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getNextBipSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -28,10 +33,10 @@ ResultTable NextBip::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
+		if (!left.empty()) {
 			return getNextBip(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getNextBip(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -100,18 +105,18 @@ ResultTable NextBip::getNextBipSynSyn(PKB* pkb, ResultTable* resultTable) {
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
-	if (isLeftChild(synonyms[0])) {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isNextBip(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
-				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+	if (isLeftChild(synonyms[ZERO])) {
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isNextBip(pkb, unordered_set<int>({ tupleList[i][ZERO] }), unordered_set<int>({ tupleList[i][ONE] }))) {
+				vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isNextBip(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
-				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isNextBip(pkb, unordered_set<int>({ tupleList[i][ONE] }), unordered_set<int>({ tupleList[i][ZERO] }))) {
+				vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 				result.insertTuple(tuple);
 			}
 		}
@@ -158,7 +163,7 @@ unordered_set<int> NextBip::computePrevBip(int curr, PKB* pkb) {
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : prev) {
-		if (it < 0) {
+		if (it < ZERO) {
 			negatives.push(it);
 		}
 		else {
@@ -170,7 +175,7 @@ unordered_set<int> NextBip::computePrevBip(int curr, PKB* pkb) {
 		prev = pkb->getPreviousStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : prev) {
-			if (it < 0) {
+			if (it < ZERO) {
 				negatives.push(it);
 			}
 			else {
@@ -186,7 +191,7 @@ unordered_set<int> NextBip::computePrevBip(int curr, PKB* pkb) {
 	}
 	else {
 		unordered_set<int> allPrevious;
-		if (temp.size() == 1 && pkb->isStmtInWhileTable(curr)) {
+		if (temp.size() == ONE && pkb->isStmtInWhileTable(curr)) {
 			int currProc = pkb->getProcContainingStmt(curr);
 			allPrevious = pkb->getStmtCallProc(currProc);
 		}
@@ -220,11 +225,11 @@ unordered_set<int> NextBip::computePrevBip(int curr, PKB* pkb) {
 unordered_set<int> NextBip::getLastStmts(int procId, PKB* pkb) {
 	unordered_set<int> temp, visited, lastStmts;
 	stack<int> negatives;
-	int firstStmt = pkb->getStmtLstContainedInProc(procId)[0];
+	int firstStmt = pkb->getStmtLstContainedInProc(procId)[ZERO];
 	DFS(firstStmt, &temp, &visited, pkb);
 
 	for (auto& it : temp) {
-		if (it < 0) {
+		if (it < ZERO) {
 			negatives.push(it);
 		}
 		else {
@@ -235,7 +240,7 @@ unordered_set<int> NextBip::getLastStmts(int procId, PKB* pkb) {
 		temp = pkb->getPreviousStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : temp) {
-			if (it < 0) {
+			if (it < ZERO) {
 				negatives.push(it);
 			}
 			else {
@@ -255,7 +260,7 @@ void NextBip::DFS(int currStmt, unordered_set<int>* lastStmts, unordered_set<int
 	}
 	visited->insert(currStmt);
 	unordered_set<int> next = pkb->getNextStmt(currStmt);
-	if (next.empty() || (pkb->isStmtInWhileTable(currStmt) && next.size() == 1)) {
+	if (next.empty() || (pkb->isStmtInWhileTable(currStmt) && next.size() == ONE)) {
 		lastStmts->insert(currStmt);
 		return;
 	}
@@ -268,7 +273,7 @@ unordered_set<int> NextBip::computeNextBip(int curr, PKB* pkb) {
 	unordered_set<int> next;
 	if (pkb->isStmtInCallTable(curr)) {
 		int calledProc = pkb->getProcCalledByStmt(curr);
-		int firstStmt = pkb->getStmtLstContainedInProc(calledProc)[0];
+		int firstStmt = pkb->getStmtLstContainedInProc(calledProc)[ZERO];
 		next.insert(firstStmt);
 	}
 	else {
@@ -277,7 +282,7 @@ unordered_set<int> NextBip::computeNextBip(int curr, PKB* pkb) {
 			computeLastBip(curr, &next, pkb);
 		}
 		else if (pkb->isStmtInWhileTable(curr)) {
-			if (next.size() == 1) {
+			if (next.size() == ONE) {
 				computeLastBip(curr, &next, pkb);
 			}
 		}
@@ -290,7 +295,7 @@ unordered_set<int> NextBip::getNextStmt(int a, PKB* pkb) {
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : next) {
-		if (it < 0) {
+		if (it < ZERO) {
 			negatives.push(it);
 		}
 		else {
@@ -302,7 +307,7 @@ unordered_set<int> NextBip::getNextStmt(int a, PKB* pkb) {
 		next = pkb->getNextStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : next) {
-			if (it < 0) {
+			if (it < ZERO) {
 				negatives.push(it);
 			}
 			else {
@@ -327,7 +332,7 @@ void NextBip::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* pkb)
 			computeLastBip(it, allNextBip, pkb);
 		}
 	}
-	else if ((pkb->isStmtInWhileTable(curr) && temp.size() == 1)) {
+	else if ((pkb->isStmtInWhileTable(curr) && temp.size() == ONE)) {
 		int currProc = pkb->getProcContainingStmt(curr);
 		unordered_set<int> callingStmts = pkb->getStmtCallProc(currProc);
 		for (auto& it : callingStmts) {
@@ -358,7 +363,7 @@ unordered_set<int> NextBip::getTypeStmt(Parameter p, PKB* pkb) {
 }
 
 bool NextBip::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool NextBip::isSynonym(Parameter parameter) {

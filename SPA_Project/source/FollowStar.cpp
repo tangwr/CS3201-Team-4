@@ -2,6 +2,11 @@
 #include "FollowStar.h"
 #include "Clause.h"
 
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
+
 FollowStar::FollowStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
@@ -16,7 +21,7 @@ FollowStar::FollowStar(Parameter lc, Parameter rc) {
 }
 
 ResultTable FollowStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getFollowStarSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -26,10 +31,10 @@ ResultTable FollowStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
+		if (!left.empty()) {
 			return getFollowStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getFollowStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -98,18 +103,18 @@ ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
-	if (isLeftChild(synonyms[0])) {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isFollowStar(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
-				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+	if (isLeftChild(synonyms[FIRST_SYNONYM_INDEX])) {
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isFollowStar(pkb, unordered_set<int>({ tupleList[i][ZERO] }), unordered_set<int>({ tupleList[i][ONE] }))) {
+				vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
 		for (int i = 0; i < tupleList.size(); i++) {
-			if (isFollowStar(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
-				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+			if (isFollowStar(pkb, unordered_set<int>({ tupleList[i][ONE] }), unordered_set<int>({ tupleList[i][ZERO] }))) {
+				vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 				result.insertTuple(tuple);
 			}
 		}
@@ -173,7 +178,7 @@ unordered_set<int> FollowStar::getTypeStmt(Parameter p, PKB* pkb) {
 }
 
 bool FollowStar::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool FollowStar::isSynonym(Parameter parameter) {

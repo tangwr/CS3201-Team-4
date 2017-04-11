@@ -2,6 +2,11 @@
 #include "Follow.h"
 #include "Clause.h"
 
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
+
 using namespace std;
 
 
@@ -19,7 +24,7 @@ Follow::Follow(Parameter lc, Parameter rc) {
 }
 
 ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getFollowSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -29,10 +34,10 @@ ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
+		if (!left.empty()) {
 			return getFollow(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getFollow(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -93,18 +98,18 @@ ResultTable Follow::getFollowSynSyn(PKB* pkb, ResultTable* resultTable) {
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
-	if (isLeftChild(synonyms[0])) {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isFollows(pkb, unordered_set<int>({ tupleList[i][0] }), unordered_set<int>({ tupleList[i][1] }))) {
-				vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
+	if (isLeftChild(synonyms[FIRST_SYNONYM_INDEX])) {
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isFollows(pkb, unordered_set<int>({ tupleList[i][ZERO] }), unordered_set<int>({ tupleList[i][ONE] }))) {
+				vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
 				result.insertTuple(tuple);
 			}
 		}
 	}
 	else {
-		for (int i = 0; i < tupleList.size(); i++) {
-			if (isFollows(pkb, unordered_set<int>({ tupleList[i][1] }), unordered_set<int>({ tupleList[i][0] }))) {
-				vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			if (isFollows(pkb, unordered_set<int>({ tupleList[i][ONE] }), unordered_set<int>({ tupleList[i][ZERO] }))) {
+				vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
 				result.insertTuple(tuple);
 			}
 		}
@@ -168,7 +173,7 @@ unordered_set<int> Follow::getTypeStmt(Parameter p, PKB* pkb) {
 }
 
 bool Follow::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool Follow::isSynonym(Parameter parameter) {

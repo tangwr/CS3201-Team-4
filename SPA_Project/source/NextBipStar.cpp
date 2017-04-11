@@ -2,8 +2,12 @@
 #include "Clause.h"
 #include "NextBipStar.h"
 
-using namespace std;
+#define ZERO 0
+#define ONE 1
+#define FIRST_SYNONYM_INDEX 0
+#define NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO 2
 
+using namespace std;
 
 NextBipStar::NextBipStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -19,7 +23,7 @@ NextBipStar::NextBipStar(Parameter lc, Parameter rc) {
 }
 
 ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == 2) {
+	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
 		return getNextBipStarSynSyn(pkb, &resultTable);
 	}
 	else if (isBooleanClause()) {
@@ -29,13 +33,13 @@ ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	else {
 		unordered_set<int> left = resultTable.getSynValue(leftChild);
 		unordered_set<int> right = resultTable.getSynValue(rightChild);
-		if (left.size() != 0) {
-			if (right.size() != 0) {
+		if (!left.empty()) {
+			if (!right.empty()) {
 				return getNextBipStarSynSyn(pkb, &resultTable);
 			}
 			return getNextBipStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
-		else if (right.size() != 0) {
+		else if (!right.empty()) {
 			return getNextBipStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
@@ -46,28 +50,15 @@ ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
 }
 
 bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
-	//if (left.size() <= right.size()) {
-		for (auto& leftIterator : left) {
-			unordered_set<int> nextBipStar;
-			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
-			for (auto& it : nextBipStar) {
-				if (right.find(it) != right.end()) {
-					return true;
-				}
-			}
-		}/*
-	}
-	else {
-		for (auto& rightIterator : right) {
-			unordered_set<int> prevStar;
-			getAllPrevStar(rightIterator, &prevStar, pkb);
-			for (auto& it : prevStar) {
-				if (left.find(it) != left.end()) {
-					return true;
-				}
+	for (auto& leftIterator : left) {
+		unordered_set<int> nextBipStar;
+		getAllNextBipStar(leftIterator, &nextBipStar, pkb);
+		for (auto& it : nextBipStar) {
+			if (right.find(it) != right.end()) {
+				return true;
 			}
 		}
-	}*/
+	}
 	return false;
 }
 
@@ -77,28 +68,15 @@ ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unord
 		return isNextBipStarItself(pkb, getTypeStmt(leftChild, pkb));
 	}
 
-	//if (left.size() <= right.size()) {
-		for (auto& leftIterator : left) {
-			unordered_set<int> nextBipStar;
-			getAllNextBipStar(leftIterator, &nextBipStar, pkb);
-			for (auto& it : nextBipStar) {
-				if (right.find(it) != right.end()) {
-					insertTuple(leftIterator, it);
-				}
-			}
-		}/*
-	}
-	else {
-		for (auto& rightIterator : right) {
-			unordered_set<int> prevStar;
-			getAllPrevStar(rightIterator, &prevStar, pkb);
-			for (auto& it : prevStar) {
-				if (left.find(it) != left.end()) {
-					insertTuple(it, rightIterator);
-				}
+	for (auto& leftIterator : left) {
+		unordered_set<int> nextBipStar;
+		getAllNextBipStar(leftIterator, &nextBipStar, pkb);
+		for (auto& it : nextBipStar) {
+			if (right.find(it) != right.end()) {
+				insertTuple(leftIterator, it);
 			}
 		}
-	}*/
+	}
 	return result;
 }
 
@@ -111,71 +89,35 @@ ResultTable NextBipStar::getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable
 	vector<vector<int>> tupleList = resultTable->getTupleList();
 	unordered_set<int> left = resultTable->getSynValue(leftChild);
 	unordered_set<int> right = resultTable->getSynValue(rightChild);
-	if (isLeftChild(synonyms[0])) {
-		//if (left.size() <= right.size()) {
-			unordered_map<int, unordered_set<int>> allNextBipStars;
-			for (auto& it : left) {
-				unordered_set<int> allNextBipStar;
-				getAllNextBipStar(it, &allNextBipStar, pkb);
-				allNextBipStars.insert({ it, allNextBipStar });
-			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allNextBipStars.find(tupleList[i][0]);
-				if (it->second.find(tupleList[i][1]) != it->second.end()) {
-					vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
-					result.insertTuple(tuple);
-				}
-			}/*
+	if (isLeftChild(synonyms[FIRST_SYNONYM_INDEX])) {
+		unordered_map<int, unordered_set<int>> allNextBipStars;
+		for (auto& it : left) {
+			unordered_set<int> allNextBipStar;
+			getAllNextBipStar(it, &allNextBipStar, pkb);
+			allNextBipStars.insert({ it, allNextBipStar });
 		}
-		else {
-			unordered_map<int, unordered_set<int>> allPrevStars;
-			for (auto& it : right) {
-				unordered_set<int> allPrevStar;
-				getAllPrevStar(it, &allPrevStar, pkb);
-				allPrevStars.insert({ it, allPrevStar });
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			auto& it = allNextBipStars.find(tupleList[i][ZERO]);
+			if (it->second.find(tupleList[i][ONE]) != it->second.end()) {
+				vector<int> tuple = { tupleList[i][ZERO], tupleList[i][ONE] };
+				result.insertTuple(tuple);
 			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allPrevStars.find(tupleList[i][1]);
-				if (it->second.find(tupleList[i][0]) != it->second.end()) {
-					vector<int> tuple = { tupleList[i][0], tupleList[i][1] };
-					result.insertTuple(tuple);
-				}
-			}
-		}*/
+		}
 	}
 	else {
-		//if (left.size() <= right.size()) {
-			unordered_map<int, unordered_set<int>> allNextBipStars;
-			for (auto& it : left) {
-				unordered_set<int> allNextBipStar;
-				getAllNextBipStar(it, &allNextBipStar, pkb);
-				allNextBipStars.insert({ it, allNextBipStar });
-			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				unordered_set<int> allNextBipStar = (allNextBipStars.find(tupleList[i][1])->second);
-				if (allNextBipStar.find(tupleList[i][0]) != allNextBipStar.end()) {
-					vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
-					result.insertTuple(tuple);
-				}
-			}/*
+		unordered_map<int, unordered_set<int>> allNextBipStars;
+		for (auto& it : left) {
+			unordered_set<int> allNextBipStar;
+			getAllNextBipStar(it, &allNextBipStar, pkb);
+			allNextBipStars.insert({ it, allNextBipStar });
 		}
-		else {
-			unordered_map<int, unordered_set<int>> allPrevStars;
-			for (auto& it : right) {
-				unordered_set<int> allPrevStar;
-				getAllPrevStar(it, &allPrevStar, pkb);
-				allPrevStars.insert({ it, allPrevStar });
+		for (int i = ZERO; i < tupleList.size(); i++) {
+			unordered_set<int> allNextBipStar = (allNextBipStars.find(tupleList[i][ONE])->second);
+			if (allNextBipStar.find(tupleList[i][ZERO]) != allNextBipStar.end()) {
+				vector<int> tuple = { tupleList[i][ONE], tupleList[i][ZERO] };
+				result.insertTuple(tuple);
 			}
-			for (int i = 0; i < tupleList.size(); i++) {
-				auto& it = allPrevStars.find(tupleList[i][0]);
-				int a = tupleList[i][0];
-				int b = tupleList[i][1];
-				if (it->second.find(tupleList[i][1]) != it->second.end()) {
-					vector<int> tuple = { tupleList[i][1], tupleList[i][0] };
-					result.insertTuple(tuple);
-				}
-			}
-		}*/
+		}
 	}
 	return result;
 }
@@ -193,7 +135,7 @@ unordered_set<int> NextBipStar::computeNextBip(int curr, PKB* pkb) {
 			computeLastBip(curr, &next, pkb);
 		}
 		else if (pkb->isStmtInWhileTable(curr)) {
-			if (next.size() == 1) {
+			if (next.size() == ONE) {
 				computeLastBip(curr, &next, pkb);
 			}
 		}
@@ -206,7 +148,7 @@ unordered_set<int> NextBipStar::getNextStmt(int a, PKB* pkb) {
 	unordered_set<int> temp;
 	stack<int> negatives;
 	for (auto& it : next) {
-		if (it < 0) {
+		if (it < ZERO) {
 			negatives.push(it);
 		}
 		else {
@@ -218,7 +160,7 @@ unordered_set<int> NextBipStar::getNextStmt(int a, PKB* pkb) {
 		next = pkb->getNextStmt(negatives.top());
 		negatives.pop();
 		for (auto& it : next) {
-			if (it < 0) {
+			if (it < ZERO) {
 				negatives.push(it);
 			}
 			else {
@@ -242,7 +184,7 @@ void NextBipStar::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* 
 			computeLastBip(it, allNextBip, pkb);
 		}
 	}
-	else if ((pkb->isStmtInWhileTable(curr) && temp.size() == 1)) {
+	else if ((pkb->isStmtInWhileTable(curr) && temp.size() == ONE)) {
 		int currProc = pkb->getProcContainingStmt(curr);
 		unordered_set<int> callingStmts = pkb->getStmtCallProc(currProc);
 		for (auto& it : callingStmts) {
@@ -252,27 +194,11 @@ void NextBipStar::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* 
 }
 
 ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts) {
-	if (leftChild.getParaType() == WHILE) {
-		for (auto& it : stmts) {
-			insertTuple(it, it);
-			return result;
-		}
-	}
 	for (auto& it : stmts) {
-		//cout << "IT1: " << it << endl;
-		if (pkb->isStmtInWhileTable(it)) {
-			cout << "IT2: " << it << endl;
+		unordered_set<int> allNextBipStar;
+		getAllNextBipStar(it, &allNextBipStar, pkb);
+		if (allNextBipStar.find(it) != allNextBipStar.end()) {
 			insertTuple(it, it);
-		}
-		else {
-			unordered_set<int> parentStar = pkb->getStmtParentStarStmt(it);
-			for (auto& parent : parentStar) {
-				if (pkb->isStmtInWhileTable(parent)) {
-					cout << "IT3: " << it << endl;
-					insertTuple(it, it);
-					break;
-				}
-			}
 		}
 	}
 	return result;
@@ -281,7 +207,7 @@ ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts)
 void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, PKB* pkb) {
 	unordered_set<int> visited;
 	stack<int> callingStmts;
-	getAllNextBipStar(prev, allNextBipStar, &visited, &callingStmts, pkb, 0);
+	getAllNextBipStar(prev, allNextBipStar, &visited, &callingStmts, pkb, ZERO);
 
 	return;
 }
@@ -292,7 +218,7 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 	unordered_set<int> nextBip = computeNextBip(curr, pkb);
 	int currProc = pkb->getProcContainingStmt(curr);
 	visited->insert(curr);
-	if (count == 0) {
+	if (count == ZERO) {
 		visited->clear();
 		count++;
 	}
@@ -341,7 +267,6 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 			int callingStmt = copiedStack.top();
 			copiedStack.pop();
 			unordered_set<int> callNext = getNextStmt(callingStmt,pkb);
-			//while (callNext.empty() || copiedStack.empty()) {
 			while (callNext.empty() && !copiedStack.empty()) {
 				callingStmt = copiedStack.top();
 				callNext = getNextStmt(callingStmt, pkb);
@@ -352,7 +277,6 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 				if (callsNext == it) {
 					allNextBipStar->insert(it);
 					getAllNextBipStar(it, allNextBipStar, visited, &copiedStack, pkb, count);
-					//getAllNextBipStar(it, allNextBipStar, visited, callingStmts, pkb);
 				}
 			}
 			else {
@@ -364,15 +288,9 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 				if (it == callingStmtNext) {
 					allNextBipStar->insert(it);
 					getAllNextBipStar(it, allNextBipStar, visited, &copiedStack, pkb, count);
-					//getAllNextBipStar(it, allNextBipStar, visited, callingStmts, pkb);
 				}
 			}
-			/*
-			if (callingStmtNext == it) {
-				callingStmts->pop();
-				allNextBipStar->insert(it);
-				getAllNextBipStar(it, allNextBipStar, visited, callingStmts, pkb);
-			}*/
+			
 		}
 		else if(callingStmts->empty()){
 			allNextBipStar->insert(it);
@@ -380,125 +298,7 @@ void NextBipStar::getAllNextBipStar(int curr, unordered_set<int>* allNextBipStar
 		}
 	}
 }
-/*
-void NextBipStar::getWithinProc(int curr, unordered_set<int>* allNextBipStar, stack<int>* callingStmts, PKB* pkb) {
-	//visited->insert(curr);
-	unordered_set<int> next;
-	if (pkb->isStmtInCallTable(curr)) {
-		int calledProc = pkb->getProcCalledByStmt(curr);
-		int firstStmt = pkb->getStmtLstContainedInProc(calledProc)[0];
-		if (allNextBipStar->find(firstStmt) != allNextBipStar->end()) {
-			next = getNextStmt(curr, pkb);
-			//next = pkb->getNextStmt(curr);
-		}
-		else {
-			next.insert(firstStmt);
-			callingStmts->push(curr);
-		}
-	}
-	else {
-		next = getNextStmt(curr, pkb);
-		//next = pkb->getNextStmt(curr);
-	}
 
-	/*
-	unordered_set<int> temp = next;
-	int callingStmt = curr;
-	int size = callingStmts->size();
-	while (temp.empty() || (pkb->isStmtInWhileTable(callingStmt) && temp.size() == 1)) {
-		if (!callingStmts->empty()) {
-			for (auto& it : temp) {
-				next.insert(it);
-			}
-			callingStmt = callingStmts->top();
-			callingStmts->pop();
-			temp = getNextStmt(callingStmt, pkb);
-		}
-		else {
-			break;
-		}
-	}*/
-/*
-	// if last statement, compute nextBip
-	if (next.empty() || (pkb->isStmtInWhileTable(curr) && next.size() == 1)) {
-		//if stack of calling statements is empty, get all statements that call current proc
-		for (auto& it : next) {
-			allNextBipStar->insert(it);
-			getWithinProc(it, allNextBipStar, callingStmts, pkb);
-		}
-		if (callingStmts->empty()) {
-			int currProc = pkb->getProcContainingStmt(curr);
-			unordered_set<int> stmtsCallingProc = pkb->getStmtCallProc(currProc);
-			for (auto& stmtCallingProc : stmtsCallingProc) {
-				unordered_set<int> nexts = getNextStmt(stmtCallingProc, pkb);
-				//unordered_set<int> nexts = pkb->getNextStmt(stmtCallingProc);
-				for (auto& it : nexts) {
-					if (allNextBipStar->find(it) == allNextBipStar->end()) {
-						if (it > 0)
-							allNextBipStar->insert(it);
-						getWithinProc(it, allNextBipStar, callingStmts, pkb);
-					}
-				}
-			}
-		}
-		else {
-			//if stack is not empty, compute next Bip using calling statements
-			unordered_set<int> temp = next;
-			int callingStmt = curr;
-			int size = callingStmts->size();
-			while (temp.empty() || (pkb->isStmtInWhileTable(callingStmt) && temp.size() == 1)) {
-				for (auto& it : temp) {
-					next.insert(it);
-				}
-				if (!callingStmts->empty()) {
-					callingStmt = callingStmts->top();
-					callingStmts->pop();
-					temp = getNextStmt(callingStmt, pkb);
-					for (auto& it : temp) {
-						next.insert(it);
-					}
-				}
-				else {
-					break;
-				}
-			}
-			if (next.empty() || (pkb->isStmtInWhileTable(curr) && next.size() == 1)) {
-				int currProc = pkb->getProcContainingStmt(callingStmt);
-				computeLastBip(callingStmt, &next, pkb);
-			}
-
-			for (auto& it : next) {
-				if (allNextBipStar->find(it) == allNextBipStar->end()) {
-					if (it > 0)
-						allNextBipStar->insert(it);
-					if (pkb->isStmtInIfTable(curr)) {
-						stack<int> copiedStack = *callingStmts;
-						getWithinProc(it, allNextBipStar, &copiedStack, pkb);
-					}
-					else {
-						getWithinProc(it, allNextBipStar, callingStmts, pkb);
-					}
-				}
-			}
-		}
-	}
-	else {
-		for (auto& it : next) {
-			if (allNextBipStar->find(it) == allNextBipStar->end()) {
-				if (it > 0)
-					allNextBipStar->insert(it);
-				if (pkb->isStmtInIfTable(curr)) {
-					stack<int> copiedStack = *callingStmts;
-					getWithinProc(it, allNextBipStar, &copiedStack, pkb);
-				}
-				else {
-					getWithinProc(it, allNextBipStar, callingStmts, pkb);
-				}
-			}
-		}
-	}
-	return;
-}*/
 void NextBipStar::setSynList() {
 	vector<Parameter> v;
 	if (isSynonym(leftChild)) {
@@ -555,7 +355,7 @@ unordered_set<int> NextBipStar::getTypeStmt(Parameter p, PKB* pkb) {
 }
 
 bool NextBipStar::isLeftChild(Parameter parameter) {
-	return (parameter.getParaName().compare(leftChild.getParaName()) == 0 && parameter.getParaType() == leftChild.getParaType());
+	return (parameter.getParaName().compare(leftChild.getParaName()) == ZERO && parameter.getParaType() == leftChild.getParaType());
 }
 
 bool NextBipStar::isSynonym(Parameter parameter) {

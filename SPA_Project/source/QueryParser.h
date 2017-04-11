@@ -9,6 +9,18 @@
 
 using namespace std;
 class QueryParser {
+public:
+	QueryParser();
+	/**
+	* Take in the query and parse the query
+	*
+	* @param query string from queries code
+	* @return queryTree object
+	* @throws if the query is invalid, the corresponding exception 
+	* will be thrown
+	*/
+	QueryTree parse(string query);
+
 private:
 	unordered_map<string, Parameter> varMap;
 	unordered_map<string, Parameter> usedMap;
@@ -46,11 +58,5 @@ private:
 	bool isVarNameExists(string varName);
 	bool isPositiveInteger(string str);
 	bool isUsedExists(string name);
-
-public:
-	QueryParser();
-	~QueryParser();
-	QueryTree parse(string query);
-
 };
 #endif

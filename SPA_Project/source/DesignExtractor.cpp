@@ -21,7 +21,6 @@ void DesignExtractor::extractProcModifiesUsesStar() {
 
 
 void DesignExtractor::recursiveTablePopulation(int procId, unordered_map<int, bool> *isProcInPath, unordered_map<int, bool> *isProcValidated) {
-    cout << "procID : "<< procId << endl;
     if (isProcInPath->at(procId)) {        
         throw "Circular call detected";
     }
@@ -76,8 +75,6 @@ void DesignExtractor::populateProcRel(int procId, int containerStmtId) {
 		}
 
 		for (int i = (int)stmtLstStmt.size() - 1; i >= 0 ; i--) {
-			cout << "counter : ";
-			cout << i << endl;
 
 			populateUseRelFromStmt(procId, containerStmtId, stmtLstStmt[i]);
 
@@ -184,6 +181,5 @@ void DesignExtractor::extractStarRelations() {
             recursiveTablePopulation(procId, &isProcInPath, &isProcValidated);
             isProcInPath.at(procId) = false;
         }
-        cout << "end iter" << endl;
     }
 }

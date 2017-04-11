@@ -46,6 +46,14 @@ ResultTable NextBip::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> NextBip::getSynList() {
+	return synList;
+}
+
+ClauseType NextBip::getClauseType() {
+	return NEXTBIP;
+}
+
 bool NextBip::isNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
@@ -381,12 +389,4 @@ Parameter NextBip::getLeftChild() {
 }
 Parameter NextBip::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> NextBip::getSynList() {
-	return synList;
-}
-
-ClauseType NextBip::getClauseType() {
-	return NEXTBIP;
 }

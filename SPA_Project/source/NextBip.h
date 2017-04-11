@@ -17,22 +17,22 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	ResultTable result;
+	vector<Parameter> synList;
+	bool isBooleanClause();
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
 	bool isNextBip(PKB*, unordered_set<int>, unordered_set<int>);
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getNextBipSynSyn(PKB*, ResultTable*);
-	vector<Parameter> synList;
 	void setSynList();
 	void insertTuple(int, int);
+	void DFS(int, unordered_set<int>*, unordered_set<int>*, PKB*);
+	void computeLastBip(int, unordered_set<int>*, PKB*);
+	ResultTable getNextBipSynSyn(PKB*, ResultTable*);
 	ResultTable getNextBip(PKB*, unordered_set<int>, unordered_set<int>);
-	bool isBooleanClause();
+	unordered_set<int> getTypeStmt(Parameter, PKB*);
+	unordered_set<int> getNextStmt(int, PKB*);
 	unordered_set<int> computeNextBip(int, PKB*);
 	unordered_set<int> computePrevBip(int, PKB*);
 	unordered_set<int> getLastStmts(int, PKB*);
-	void DFS(int, unordered_set<int>*, unordered_set<int>*, PKB*);
-	void computeLastBip(int, unordered_set<int>*, PKB*);
-	unordered_set<int> getNextStmt(int, PKB*);
 
 public:
 	NextBip(Parameter lc, Parameter rc);

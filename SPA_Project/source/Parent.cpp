@@ -45,6 +45,14 @@ ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> Parent::getSynList() {
+	return synList;
+}
+
+ClauseType Parent::getClauseType() {
+	return PARENT;
+}
+
 bool Parent::isParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	for (auto& rightIterator : right) {
 		int parent = pkb->getStmtParentStmt(rightIterator);
@@ -181,12 +189,4 @@ Parameter Parent::getLeftChild() {
 }
 Parameter Parent::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> Parent::getSynList() {
-	return synList;
-}
-
-ClauseType Parent::getClauseType() {
-	return PARENT;
 }

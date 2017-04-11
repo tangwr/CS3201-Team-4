@@ -44,6 +44,14 @@ ResultTable ParentStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> ParentStar::getSynList() {
+	return synList;
+}
+
+ClauseType ParentStar::getClauseType() {
+	return PARENTSTAR;
+}
+
 bool ParentStar::isParentStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	for (auto& rightIterator : right) {
 		unordered_set<int> parentStar = pkb->getStmtParentStarStmt(rightIterator);
@@ -184,12 +192,4 @@ Parameter ParentStar::getLeftChild() {
 }
 Parameter ParentStar::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> ParentStar::getSynList() {
-	return synList;
-}
-
-ClauseType ParentStar::getClauseType() {
-	return PARENTSTAR;
 }

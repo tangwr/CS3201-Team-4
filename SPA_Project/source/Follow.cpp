@@ -47,6 +47,14 @@ ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> Follow::getSynList() {
+	return synList;
+}
+
+ClauseType Follow::getClauseType() {
+	return FOLLOW;
+}
+
 bool Follow::isFollows(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& it : left) {
@@ -191,12 +199,4 @@ Parameter Follow::getLeftChild() {
 }
 Parameter Follow::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> Follow::getSynList() {
-	return synList;
-}
-
-ClauseType Follow::getClauseType() {
-	return FOLLOW;
 }

@@ -24,6 +24,8 @@ private:
 	void setSynList();
 	void insertTuple(int, int);
 	vector<Parameter> synList;
+	unordered_set<int> getNextStmt(int, PKB*);
+	unordered_set<int> getPreviousStmt(int, PKB*);
 	unordered_set<int> getTypeStmt(Parameter, PKB*);
 	ResultTable getNextSynSyn(PKB*, ResultTable*);
 	ResultTable getNext(PKB*, unordered_set<int>, unordered_set<int>);
@@ -35,8 +37,6 @@ public:
 	Parameter getRightChild();
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
-	unordered_set<int> getNextStmt(int, PKB*);
-	unordered_set<int> getPreviousStmt(int, PKB*);
 
 };
 #endif

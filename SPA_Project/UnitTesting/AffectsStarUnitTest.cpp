@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "PKBAffectsStub.h"
+#include "AffectsPKBStub.h"
 #include "AffectsStar.h"
 #include "ResultTable.h"
 #include "Parameter.h"
@@ -16,7 +16,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Integer_And_Integer_Valid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -33,7 +33,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Integer_And_Integer_Invalid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -50,7 +50,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Integer_And_Anything_Valid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -67,7 +67,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Integer_And_Anything_Invalid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -84,7 +84,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Anything_And_Integer_Valid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -101,7 +101,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Anything_And_Integer_Invalid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -118,7 +118,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Anything_And_Anything_Valid)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -135,7 +135,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Integer_And_Assign)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -162,7 +162,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Stmt_And_Integer)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -189,7 +189,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Integer_And_Anyhting)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -216,7 +216,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Anything_And_Stmt)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -243,7 +243,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_ProgLine_And_ProgLine)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -262,7 +262,7 @@ namespace UnitTest_AffectsStar_Object
 			Assert::AreEqual(1, queryResult.getSynIndex(affectedStmt));
 
 			expectedResult = { { 1,5 },{ 1,7 },{ 1,8 },{ 1,9 },{ 2,8 },{ 2,9 },{ 3,9 },{ 3,11 },{ 5,7 },{ 5,8 },{ 5,9 },
-								{ 7,9 },{ 11,9 },{ 11,11 },{ 17,17 },{ 17,21 },{ 18,19 },{ 18,21 },{ 19,21 },{ 20,21 } };
+			{ 7,9 },{ 11,9 },{ 11,11 },{ 17,17 },{ 17,21 },{ 18,19 },{ 18,21 },{ 19,21 },{ 20,21 } };
 			sort(expectedResult.begin(), expectedResult.end());
 			tupleResult = queryResult.getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
@@ -273,7 +273,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Stmt_And_Stmt_Identical_Synonym)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -302,7 +302,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Stmt_And_Assign_With_LeftIntermediateList)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -336,7 +336,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Assign_And_Stmt_With_RightIntermediateList)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;
@@ -369,7 +369,7 @@ namespace UnitTest_AffectsStar_Object
 
 		TEST_METHOD(UnitTest_AffectsStar_Assign_And_Assign_With_BothIntermediateList)
 		{
-			PKBAffectsStub pkbStub;
+			AffectsPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter affectorStmt, affectedStmt;

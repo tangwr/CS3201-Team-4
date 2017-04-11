@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "PKBPatternStub.h"
+#include "PatternPKBStub.h"
 #include "Pattern.h"
 #include "ResultTable.h"
 #include "Parameter.h"
@@ -16,7 +16,7 @@ namespace UnitTest_Pattern_Object
 		
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_VariableSynonym)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -48,7 +48,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_IDENT)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -76,7 +76,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_VariableSynonym)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -108,7 +108,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_IDENT)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -136,7 +136,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_SubExpression)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -168,7 +168,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_FullExpression)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -200,7 +200,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VariableSynonym_And_NoExpression)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -234,7 +234,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_AnyVariable_And_SubExpression)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -264,7 +264,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_IDENT_And_SubExpression)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -294,7 +294,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_StmtIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -330,7 +330,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_StmtIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -366,7 +366,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_StmtIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -398,7 +398,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_VarIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -433,7 +433,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_AssignSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -472,7 +472,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_WhileSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;
@@ -511,7 +511,7 @@ namespace UnitTest_Pattern_Object
 
 		TEST_METHOD(UnitTest_Pattern_IfSynonym_With_StmtIntermediateResult_And_VarIntermediateResult)
 		{
-			PKBPatternStub pkbStub;
+			PatternPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter stmt, var, factor;

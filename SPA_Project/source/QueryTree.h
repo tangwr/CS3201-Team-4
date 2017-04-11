@@ -1,3 +1,4 @@
+#pragma once
 #ifndef QueryTreeH
 #define QueryTreeH
 
@@ -14,39 +15,62 @@
 using namespace std;
 
 class QueryTree {
-private:
+public:
+	QueryTree();
+	/**
+	* Take in the parameter and insert it into the vector select
+	*
+	* @param Parameter p
+	*/
+	void insertSelect(Parameter p);
+	/**
+	* Take in a pointer of Clause object and insert it into the vector of the results
+	*
+	* @param a pointer of the Clause object
+	*/
+	void insertResult(Clause*);
+	/**
+	* Take in a Parameter object and insert it into a vector of the used synonyms
+	*
+	* @param Parameter p
+	*/
+	void insertUsed(Parameter p);
+	/**
+	* get the vector of the results
+	*
+	* @return a vector of Clauses' pointers
+	*/
+	vector<Clause*> getResult();
+	/**
+	* get the vector of the selected Parameters
+	*
+	* @return a vector of Parameter objects
+	*/
+	vector<Parameter> getSelectParameter();
+	/**
+	* get the vector of the useds Parameters
+	*
+	* @return a vector of Parameter objects
+	*/
+	vector<Parameter> getUsedParameter();
+	/**
+	* get the size of the vector of the results
+	*
+	* @return the size of the vector of the results
+	*/
+	int getClauseSize();
+	/**
+	* get the specific Clause's pointer by given index 
+	* 
+	* @param the index 
+	* @return the specific Clause's pointer in the resultList  
+	*/
+	Clause* getClause(int index);
 
-	//unordered_map<string, Type> select;
-	//unordered_map<string, Type> comonVar;
-	//bool isCommonVar;
-	//vector<Clause*> limits;
-	//vector<Clause*> unlimits;
+private:
 	vector<Parameter> select;
 	vector<Parameter> used;
 	vector<Clause*> resultList;
-
-public:
-	QueryTree();
-   // void insertSelect(string, Type);
-	//void insertComonVar(string, Type);
-	//void insertLimits(Clause*);
-	//void insertUnLimits(Clause*);
-	//void setIsComonVar(bool);
-	void insertSelect(Parameter p);
-	void insertResult(Clause*);
-	void insertUsed(Parameter p);
-	
-	//vector<Clause*> getLimits();
-	//vector<Clause*> getUnLimits();
-	//unordered_map<string, Type> getSelect();
-	//unordered_map<string, Type> getComonVar();
-	//bool getIsComonVar();
-	vector<Clause*> getResult();
-	vector<Parameter> getSelectParameter();
-	vector<Parameter> getUsedParameter();
-	int getClauseSize();
-	Clause* getClause(int index);
-
 
 };
 #endif

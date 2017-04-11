@@ -44,6 +44,14 @@ ResultTable FollowStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> FollowStar::getSynList() {
+	return synList;
+}
+
+ClauseType FollowStar::getClauseType() {
+	return FOLLOWSTAR;
+}
+
 bool FollowStar::isFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
@@ -196,12 +204,4 @@ Parameter FollowStar::getLeftChild() {
 }
 Parameter FollowStar::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> FollowStar::getSynList() {
-	return synList;
-}
-
-ClauseType FollowStar::getClauseType() {
-	return FOLLOWSTAR;
 }

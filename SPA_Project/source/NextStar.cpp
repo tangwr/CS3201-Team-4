@@ -49,6 +49,14 @@ ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> NextStar::getSynList() {
+	return synList;
+}
+
+ClauseType NextStar::getClauseType() {
+	return NEXTSTAR;
+}
+
 bool NextStar::isNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
@@ -314,12 +322,4 @@ Parameter NextStar::getLeftChild() {
 }
 Parameter NextStar::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> NextStar::getSynList() {
-	return synList;
-}
-
-ClauseType NextStar::getClauseType() {
-	return NEXTSTAR;
 }

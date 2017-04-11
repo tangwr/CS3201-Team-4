@@ -17,28 +17,22 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	ResultTable result;
+	vector<Parameter> synList;
+	bool isBooleanClause();
 	bool isSynonym(Parameter);
 	bool isLeftChild(Parameter);
-	ResultTable isNextBipStarItself(PKB*, unordered_set<int>);
 	bool isNextBipStar(PKB*, unordered_set<int>, unordered_set<int>);
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getNextBipStarSynSyn(PKB*, ResultTable*);
-	vector<Parameter> synList;
 	void setSynList();
 	void insertTuple(int, int);
-	ResultTable getNextBipStar(PKB*, unordered_set<int>, unordered_set<int>);
-	bool isBooleanClause();
 	void getAllNextBipStar(int, unordered_set<int>*, PKB*);
-	void getAllNextBipStar(int, unordered_set<int>*, unordered_set<int>*, PKB*);
-	void getCallNextBipStar(int, unordered_set<int>*, stack<int>*, unordered_set<int>*, unordered_set<int>*, PKB*);
-	void getWithinProc(int, unordered_set<int>*, stack<int>*, PKB*);
 	void getAllNextBipStar(int, unordered_set<int>*, unordered_set<int>*, stack<int>*, PKB*, int);
-	void getAllPrevStar(int, unordered_set<int>*, PKB*);
-	void getAllPrevStar(int, unordered_set<int>*, unordered_set<int>*, unordered_set<int>*, PKB*);
-	unordered_set<int> getPreviousStmt(int, PKB*);
 	void computeLastBip(int, unordered_set<int>*, PKB*);
 	unordered_set<int> getNextStmt(int, PKB*);
 	unordered_set<int> computeNextBip(int, PKB*);
+	unordered_set<int> getTypeStmt(Parameter, PKB*);
+	ResultTable getNextBipStarSynSyn(PKB*, ResultTable*);
+	ResultTable isNextBipStarItself(PKB*, unordered_set<int>);
+	ResultTable getNextBipStar(PKB*, unordered_set<int>, unordered_set<int>);
 
 public:
 	NextBipStar(Parameter lc, Parameter rc);

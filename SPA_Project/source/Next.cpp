@@ -46,6 +46,14 @@ ResultTable Next::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> Next::getSynList() {
+	return synList;
+}
+
+ClauseType Next::getClauseType() {
+	return NEXT;
+}
+
 bool Next::isNext(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
@@ -254,12 +262,4 @@ Parameter Next::getLeftChild() {
 }
 Parameter Next::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> Next::getSynList() {
-	return synList;
-}
-
-ClauseType Next::getClauseType() {
-	return NEXT;
 }

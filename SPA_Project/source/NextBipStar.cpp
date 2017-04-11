@@ -49,6 +49,14 @@ ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
 	return result;
 }
 
+vector<Parameter> NextBipStar::getSynList() {
+	return synList;
+}
+
+ClauseType NextBipStar::getClauseType() {
+	return NEXTBIPSTAR;
+}
+
 bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	for (auto& leftIterator : left) {
 		unordered_set<int> nextBipStar;
@@ -373,12 +381,4 @@ Parameter NextBipStar::getLeftChild() {
 }
 Parameter NextBipStar::getRightChild() {
 	return rightChild;
-}
-
-vector<Parameter> NextBipStar::getSynList() {
-	return synList;
-}
-
-ClauseType NextBipStar::getClauseType() {
-	return NEXTBIPSTAR;
 }

@@ -9,6 +9,8 @@
 #include "Follow.h"
 #include "AffectsStar.h"
 #include "PKB.h"
+#include "Modifies.h"
+#include "Uses.h"
 #include <vector>
 #include <unordered_map>
 #include <iostream>

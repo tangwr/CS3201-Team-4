@@ -5,6 +5,8 @@
 Uses::Uses(Parameter lc, Parameter rc) {
     leftChild = lc;
 	rightChild = rc;
+	paramType1 = INVALID;
+	paramType2 = INVALID;
 
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
@@ -36,7 +38,7 @@ ResultTable Uses::evaluate(PKB *pkb, ResultTable intResultTable){
 		resultTable.setBoolean(false);
 		return resultTable;
 	}
-	
+
 	if (paramList.size() == 1) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
@@ -550,4 +552,3 @@ vector<Parameter> Uses::getSynList() {
 ClauseType Uses::getClauseType() {
 	return USES;
 }
-

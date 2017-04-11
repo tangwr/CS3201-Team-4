@@ -29,6 +29,8 @@ namespace UnitTesting
 			queries.push_back("assign a1, a2; stmt s1, s2;call c; Select c.procName such that Affects(a1 , a2) and Affects(1, 3) and Affects(_, _) and Affects*(s1, s2) and Affects*(9, 6) and Affects*(_ ,_)");
 			queries.push_back("while w1, w2; assign a2, a3; if i4,i5; constant con; Select con.value pattern a3(_, _) and w2(_, _)");
 			queries.push_back("assign a1, a2; call c1, c2; variable v4, v5; procedure p1, p2; constant cos; Select v4.varName with c1.stmt# = a2.stmt# and 6 = a1.stmt# and \"h\" = v5.varName and c2.procName = \"test\" and 45 = cos.value");
+			queries.push_back("assign a1, a2; stmt s1, s2; Select <a1, s2> such that AffectsBip(a1, a2) and AffectsBip(_, _) and AffectsBip(6, 4) and AffectsBip*(_, _) and AffectsBip*(8, 9) and AffectsBip*(s2, a2)");
+			queries.push_back("if ifs; while w; assign a; Select <w, a, ifs> such that NextBip(_, _) and NextBip(ifs, w) and NextBip(5, 6) and NextBip*(_, _) and NextBip*(2, 9) and NextBip*(a, ifs)");
 			QueryParser *qp = new QueryParser();
 
 			//test the first query
@@ -256,6 +258,14 @@ namespace UnitTesting
 			//test fourteenth query
 			QueryTree qt14 = qp->parse(queries.at(13));
 			Assert::AreEqual(5, (int)qt14.getClauseSize());
+
+			//test fifteenth query
+			QueryTree qt15 = qp->parse(queries.at(14));
+			Assert::AreEqual(6, (int)qt15.getClauseSize());
+
+			//test sixteenth query
+			QueryTree qt16 = qp->parse(queries.at(15));
+			Assert::AreEqual(6, (int)qt16.getClauseSize());
 		}
 	};
 }

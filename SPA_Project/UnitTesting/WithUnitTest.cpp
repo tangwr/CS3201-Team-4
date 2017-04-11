@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
-#include "PKBWithStub.h"
+#include "WithPKBStub.h"
 #include "With.h"
 #include "ResultTable.h"
 #include "Parameter.h"
@@ -16,7 +16,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_INTEGER_Equal_INTEGER_Valid)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -33,7 +33,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_INTEGER_Equal_INTEGER_Invalid)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -50,7 +50,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_ASSIGN_Equal_INTEGER)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -77,7 +77,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_INTEGER_Equal_Assign)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -104,7 +104,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Proc_Equal_NAME)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -131,7 +131,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_NAME_Equal_Proc)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -158,7 +158,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Call_Equal_NAME)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -186,7 +186,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_NAME_Equal_Call)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -214,7 +214,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Var_Equal_NAME)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -241,7 +241,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_NAME_Equal_Var)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -268,7 +268,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_ASSIGN_Equal_INTEGER_With_LeftIntermediateList)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -299,7 +299,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Proc_Equal_NAME_With_LeftIntermediateList)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -329,7 +329,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Var_Equal_NAME_With_LeftIntermediateList)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -360,7 +360,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Assign_Equal_Constant)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -389,7 +389,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_While_Equal_Stmt)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -418,7 +418,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_If_Equal_ProgLine)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -447,7 +447,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Call_Equal_Stmt)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -477,7 +477,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_CallStmt_Equal_CallStmt)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -508,7 +508,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_CallProc_Equal_CallProc)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -539,7 +539,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Var_Equal_Call)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -569,7 +569,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Proc_Equal_Call)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -599,7 +599,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Proc_Equal_Var)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -628,7 +628,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_While_Equal_While_Identical_Synonym)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -657,7 +657,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Proc_Equal_Call_With_RightIntermediateList)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -689,7 +689,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Call_Equal_Proc_With_LeftIntermediateLsit)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;
@@ -722,7 +722,7 @@ namespace UnitTest_With_Object
 
 		TEST_METHOD(UnitTest_With_Constant_Equal_Stmt_With_BothIntermediateLsit)
 		{
-			PKBWithStub pkbStub;
+			WithPKBStub pkbStub;
 
 			ResultTable intResult, queryResult;
 			Parameter left, right;

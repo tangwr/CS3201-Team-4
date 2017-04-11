@@ -158,21 +158,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="PKBAffectsStub.h" />
-    <ClInclude Include="PKBPatternStub.h" />
-    <ClInclude Include="PKBStubCalls.h" />
-    <ClInclude Include="PKBStubCallsStar.h" />
-    <ClInclude Include="PKBStubFollow.h" />
-    <ClInclude Include="PKBStubFollowStar.h" />
-    <ClInclude Include="PKBStubModifies.h" />
-    <ClInclude Include="PKBStubNext.h" />
-    <ClInclude Include="PKBStubNextBip.h" />
-    <ClInclude Include="PKBStubNextBipStar.h" />
-    <ClInclude Include="PKBStubNextStar.h" />
-    <ClInclude Include="PKBStubParent.h" />
-    <ClInclude Include="PKBStubParentStar.h" />
-    <ClInclude Include="PKBStubUses.h" />
-    <ClInclude Include="PKBWithStub.h" />
+    <ClInclude Include="AffectsPKBStub.h" />
+    <ClInclude Include="PatternPKBStub.h" />
+    <ClInclude Include="CallsPKBStub.h" />
+    <ClInclude Include="CallsStarPKBStub.h" />
+    <ClInclude Include="FollowPKBStub.h" />
+    <ClInclude Include="FollowStarPKBStub.h" />
+    <ClInclude Include="ModifiesPKBStub.h" />
+    <ClInclude Include="NextPKBStub.h" />
+    <ClInclude Include="NextBipPKBStub.h" />
+    <ClInclude Include="NextBipStarPKBStub.h" />
+    <ClInclude Include="NextStarPKBStub.h" />
+    <ClInclude Include="ParentPKBStub.h" />
+    <ClInclude Include="ParentStarPKBStub.h" />
+    <ClInclude Include="UsesPKBStub.h" />
+    <ClInclude Include="WithPKBStub.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
@@ -180,22 +180,22 @@
     <ClCompile Include="AffectsStarUnitTest.cpp" />
     <ClCompile Include="AffectsUnitTest.cpp" />
     <ClCompile Include="PatternUnitTest.cpp" />
-    <ClCompile Include="PKBAffectsStub.cpp" />
-    <ClCompile Include="PKBPatternStub.cpp" />
-    <ClCompile Include="PKBStubCalls.cpp" />
-    <ClCompile Include="PKBStubCallsStar.cpp" />
-    <ClCompile Include="PKBStubFollow.cpp" />
-    <ClCompile Include="PKBStubFollowStar.cpp" />
-    <ClCompile Include="PKBStubModifies.cpp" />
-    <ClCompile Include="PKBStubNext.cpp" />
-    <ClCompile Include="PKBStubNextBip.cpp" />
-    <ClCompile Include="PKBStubNextBipStar.cpp" />
-    <ClCompile Include="PKBStubNextStar.cpp" />
-    <ClCompile Include="PKBStubParent.cpp" />
-    <ClCompile Include="PKBStubParentStar.cpp" />
-    <ClCompile Include="PKBStubUses.cpp" />
+    <ClCompile Include="AffectsPKBStub.cpp" />
+    <ClCompile Include="PatternPKBStub.cpp" />
+    <ClCompile Include="CallsPKBStub.cpp" />
+    <ClCompile Include="CallsStarPKBStub.cpp" />
+    <ClCompile Include="FollowPKBStub.cpp" />
+    <ClCompile Include="FollowStarPKBStub.cpp" />
+    <ClCompile Include="ModifiesPKBStub.cpp" />
+    <ClCompile Include="NextPKBStub.cpp" />
+    <ClCompile Include="NextBipPKBStub.cpp" />
+    <ClCompile Include="NextBipStarPKBStub.cpp" />
+    <ClCompile Include="NextStarPKBStub.cpp" />
+    <ClCompile Include="ParentPKBStub.cpp" />
+    <ClCompile Include="ParentStarPKBStub.cpp" />
+    <ClCompile Include="UsesPKBStub.cpp" />
     <ClCompile Include="PKBTableUnitTest.cpp" />
-    <ClCompile Include="PKBWithStub.cpp" />
+    <ClCompile Include="WithPKBStub.cpp" />
     <ClCompile Include="QueryParserUnitTest.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -204,18 +204,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TableOperationsUnitTest.cpp" />
-    <ClCompile Include="UnitTestCalls.cpp" />
-    <ClCompile Include="UnitTestCallsStar.cpp" />
-    <ClCompile Include="UnitTestFollow.cpp" />
-    <ClCompile Include="UnitTestFollowStar.cpp" />
-    <ClCompile Include="UnitTestModifies.cpp" />
-    <ClCompile Include="UnitTestNext.cpp" />
-    <ClCompile Include="UnitTestNextBip.cpp" />
-    <ClCompile Include="UnitTestNextBipStar.cpp" />
-    <ClCompile Include="UnitTestNextStar.cpp" />
-    <ClCompile Include="UnitTestParent.cpp" />
-    <ClCompile Include="UnitTestParentStar.cpp" />
-    <ClCompile Include="UnitTestUses.cpp" />
+    <ClCompile Include="CallsUnitTest.cpp" />
+    <ClCompile Include="CallsStarUnitTest.cpp" />
+    <ClCompile Include="FollowUnitTest.cpp" />
+    <ClCompile Include="FollowStarUnitTest.cpp" />
+    <ClCompile Include="ModifiesUnitTest.cpp" />
+    <ClCompile Include="NextUnitTest.cpp" />
+    <ClCompile Include="NextBipUnitTest.cpp" />
+    <ClCompile Include="NextBipStarUnitTest.cpp" />
+    <ClCompile Include="NextStarUnitTest.cpp" />
+    <ClCompile Include="ParentUnitTest.cpp" />
+    <ClCompile Include="ParentStarUnitTest.cpp" />
+    <ClCompile Include="UsesUnitTest.cpp" />
     <ClCompile Include="WithUnitTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

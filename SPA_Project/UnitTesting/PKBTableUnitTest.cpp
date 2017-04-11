@@ -510,7 +510,7 @@ namespace UnitTesting
 			cst.insertStmt(9);
 			cst.insertStmt(2);
 
-			Assert::IsTrue(cst.getSize == 3);
+			Assert::IsTrue(cst.getSize() == 3);
 			Assert::IsTrue(cst.getAllStmtId() == unordered_set<int>({ 1, 2, 9 }));
 		}
     };

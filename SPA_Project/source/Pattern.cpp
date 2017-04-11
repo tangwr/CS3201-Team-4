@@ -1,8 +1,12 @@
+#pragma once
+
 #include "Pattern.h"
 #include "ExpOperation.h"
 #include "Tokenizer.h"
 
-const int NOT_FOUND = -1;
+#define NOT_FOUND -1
+#define EQUAL 0
+#define STRING_SEPARATOR "|"
 
 Pattern::Pattern(Parameter lc, Parameter rc, Parameter f, bool isSubExp) {
 	leftChild = lc;
@@ -25,7 +29,6 @@ ResultTable Pattern::evaluate(PKB* pkb, ResultTable intResultTable) {
 	ResultTable pattResultTable;
 	setSynToTable(&pattResultTable);
 	setResultToTable(pkb, &intResultTable, &pattResultTable);
-	setBooleanToTable(&pattResultTable);
 	return pattResultTable;
 }
 
@@ -49,14 +52,6 @@ void Pattern::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTabl
 	case 2:
 		matchTuplePattern(pkb, intResultTable, pattResultTable);
 		break;
-	}
-}
-
-void Pattern::setBooleanToTable(ResultTable* pattResultTable) {
-	if (pattResultTable->getTupleSize() > 0) {
-		pattResultTable->setBoolean(true);
-	} else {
-		pattResultTable->setBoolean(false);
 	}
 }
 
@@ -204,9 +199,8 @@ bool Pattern::hasPattern(PKB* pkb, int assignStmtId) {
 			if (pkb->getExpInAssignStmt(assignStmtId).find(prefix) != string::npos) {
 				return true;
 			}
-		}
-		else {
-			if (pkb->getExpInAssignStmt(assignStmtId).compare(prefix) == 0) {
+		} else {
+			if (pkb->getExpInAssignStmt(assignStmtId).compare(prefix) == EQUAL) {
 				return true;
 			}
 		}
@@ -237,12 +231,11 @@ bool Pattern::isValidStmtType(PKB* pkb, int stmtId) {
 
 string Pattern::getPrefix(string infixString) {
 	stack<string> prefix = ExpOperation::evaluatePrefix(infixString);
-	string prefixString = "|";
+	string prefixString = STRING_SEPARATOR;
 	while (!prefix.empty()) {
-		prefixString += prefix.top() + "|";
+		prefixString += prefix.top() + STRING_SEPARATOR;
 		prefix.pop();
 	}
-
 	return prefixString;
 }
 

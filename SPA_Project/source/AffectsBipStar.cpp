@@ -1,10 +1,17 @@
+#pragma once
+
 #include "AffectsBipStar.h"
 
-const int contStmtId = 0;
-const int numOfPathDone = 1;
-const int varToStmtTable = 2;
+#define contStmtId 0
+#define numOfPathDone 1
+#define varToStmtTable 2
 
-const int NOT_FOUND = 0;
+#define NOT_FOUND 0
+#define NONE 0
+#define INITIAL_NUM_OF_PATH_DONE 0
+#define VALID_NUM_OF_NEXT_STMT 1
+#define VALID_NUM_OF_PROC_CONTAIN_STMT 1
+#define INCREMENT 1
 
 AffectsBipStar::AffectsBipStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -26,7 +33,6 @@ ResultTable AffectsBipStar::evaluate(PKB* pkb, ResultTable intResultTable) {
 
 	setSynToTable(&affectResultTable);
 	setResultToTable(pkb, &intResultTable, &affectResultTable);
-	setBooleanToTable(&affectResultTable);
 
 	return affectResultTable;
 }
@@ -48,8 +54,7 @@ unordered_set<int> AffectsBipStar::getValidStmts(PKB* pkb, ResultTable* intResul
 		int stmtId = stoi(child.getParaName());
 		if (pkb->isStmtInAssignTable(stmtId)) {
 			return{ stmtId };
-		}
-		else {
+		} else {
 			return{};
 		}
 	}
@@ -62,8 +67,7 @@ unordered_set<int> AffectsBipStar::getValidStmts(PKB* pkb, ResultTable* intResul
 	case PROG_LINE:
 		if (intResultTable->isSynInTable(child)) {
 			return intResultTable->getSynValue(child);
-		}
-		else {
+		} else {
 			return  pkb->getAllAssignStmt();
 		}
 	}
@@ -105,27 +109,25 @@ void AffectsBipStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int pro
 
 		if (curStmt < NOT_FOUND) {
 			if (!ifTableStack.empty()) {
-				if (get<numOfPathDone>(ifTableStack.top()) == 0) {
+				if (get<numOfPathDone>(ifTableStack.top()) == INITIAL_NUM_OF_PATH_DONE) {
 					get<numOfPathDone>(ifTableStack.top())++;
 					unordered_map<int, unordered_set<int>> copyModifiedVarToStmt = modifiedVarToStmt;
 					modifiedVarToStmt = get<varToStmtTable>(ifTableStack.top());
 					get<varToStmtTable>(ifTableStack.top()) = copyModifiedVarToStmt;
 					continue;
-				}
-				else {
+				} else {
 					mergeTable(&get<varToStmtTable>(ifTableStack.top()), &modifiedVarToStmt);
 					ifTableStack.pop();
 				}
 			}
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() == 1) {
+			if (nextStmts.size() == VALID_NUM_OF_NEXT_STMT) {
 				dfsStack.push(*nextStmts.begin());
 			}
 			continue;
 		}
 
-		//cout << curStmt;
 		Type stmtType = getStmtType(pkb, curStmt);
 		switch (stmtType) {
 		case ASSIGN: {
@@ -143,7 +145,6 @@ void AffectsBipStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int pro
 						if (isStmtValidResult(affectorStmt, validAffectorStmts, curStmt, validAffectedStmts)) {
 							setResultTupleToTable(affectResultTable, affectorStmt, curStmt);
 						}
-						modifiedVarToStmt.at(modifiedVarId).insert(affectorStmt);
 					}
 				}
 
@@ -168,7 +169,7 @@ void AffectsBipStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int pro
 			}
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() == 1) {
+			if (nextStmts.size() == VALID_NUM_OF_NEXT_STMT) {
 				dfsStack.push(*nextStmts.begin());
 			}
 			break;
@@ -176,25 +177,22 @@ void AffectsBipStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int pro
 
 		case CALL: {
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() == 1) {
+			if (nextStmts.size() == VALID_NUM_OF_NEXT_STMT) {
 				dfsStack.push(*nextStmts.begin());
 			}
 
 			int calledProcId = pkb->getProcCalledByStmt(curStmt);
 			vector<int> procStmtLst = pkb->getStmtLstContainedInProc(calledProcId);
-			if (procStmtLst.size() == 1) {
+			if (procStmtLst.size() == VALID_NUM_OF_PROC_CONTAIN_STMT) {
 				dfsStack.push(*procStmtLst.begin());
-			}
-			else {
-				//error
 			}
 			break;
 		}
 
 		case WHILE: {
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			int stmtWithinWhile = curStmt + 1;
-			int stmtAfterWhile = 0;
+			int stmtWithinWhile = curStmt + INCREMENT;
+			int stmtAfterWhile = NOT_FOUND;
 			for (auto nextStmtId : nextStmts) {
 				if (nextStmtId != stmtWithinWhile) {
 					stmtAfterWhile = nextStmtId;
@@ -202,18 +200,16 @@ void AffectsBipStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int pro
 			}
 
 			if (whileTableStack.empty() || get<contStmtId>(whileTableStack.top()) != curStmt) {
-				whileTableStack.push({ curStmt, 0, modifiedVarToStmt });
+				whileTableStack.push({ curStmt, INITIAL_NUM_OF_PATH_DONE, modifiedVarToStmt });
 				dfsStack.push(stmtWithinWhile);
-			}
-			else {
+			} else {
 				bool hasNewEntryInTable = mergeTable(&modifiedVarToStmt, &get<varToStmtTable>(whileTableStack.top()));
 				if (hasNewEntryInTable) {
 					dfsStack.push(stmtWithinWhile);
-				}
-				else {
+				} else {
 					modifiedVarToStmt = get<varToStmtTable>(whileTableStack.top());
 					whileTableStack.pop();
-					if (stmtAfterWhile != 0) {
+					if (stmtAfterWhile != NOT_FOUND) {
 						dfsStack.push(stmtAfterWhile);
 					}
 				}
@@ -222,7 +218,7 @@ void AffectsBipStar::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int pro
 		}
 
 		case IF: {
-			ifTableStack.push({ curStmt, 0, modifiedVarToStmt });
+			ifTableStack.push({ curStmt, INITIAL_NUM_OF_PATH_DONE, modifiedVarToStmt });
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
 			for (auto nextStmtId : nextStmts) {
 				dfsStack.push(nextStmtId);
@@ -239,14 +235,12 @@ bool AffectsBipStar::mergeTable(unordered_map<int, unordered_set<int>>* merger, 
 		if (merged->find(tableEntry.first) == merged->end()) {
 			merged->insert({ tableEntry.first,tableEntry.second });
 			hasNewEntry = true;
-		}
-		else {
+		} else {
 			for (auto stmtId : tableEntry.second) {
 				if (merged->at(tableEntry.first).find(stmtId) == merged->at(tableEntry.first).end()) {
 					merged->at(tableEntry.first).insert(stmtId);
 					hasNewEntry = true;
-				}
-				else {
+				} else {
 					merger->at(tableEntry.first).erase(stmtId);
 				}
 			}
@@ -261,15 +255,14 @@ bool AffectsBipStar::mergeTable(unordered_map<int, unordered_set<int>>* merger, 
 Type AffectsBipStar::getStmtType(PKB* pkb, int stmtId) {
 	if (pkb->isStmtInAssignTable(stmtId)) {
 		return ASSIGN;
-	}
-	else if (pkb->isStmtInWhileTable(stmtId)) {
+	} else if (pkb->isStmtInWhileTable(stmtId)) {
 		return WHILE;
-	}
-	else if (pkb->isStmtInIfTable(stmtId)) {
+	} else if (pkb->isStmtInIfTable(stmtId)) {
 		return IF;
-	}
-	else if (pkb->isStmtInCallTable(stmtId)) {
+	} else if (pkb->isStmtInCallTable(stmtId)) {
 		return CALL;
+	} else {
+		return INVALID;
 	}
 }
 
@@ -277,13 +270,10 @@ bool AffectsBipStar::isStmtValidResult(int affectorStmtId, unordered_set<int>* v
 	if (validAffectorResults->find(affectorStmtId) != validAffectorResults->end()
 		&& validAffectedResults->find(affectedStmtId) != validAffectedResults->end()) {
 		if (!leftChild.isSynonym() && !rightChild.isSynonym()) {
-			validAffectorResults->clear();
-			validAffectedResults->clear();
 			hasFoundAllResult = true;
 		}
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -298,28 +288,15 @@ void AffectsBipStar::setResultTupleToTable(ResultTable* affectResultTable, int a
 			if (affectorStmtId == affectedStmtId) {
 				affectResultTable->insertTuple({ affectorStmtId });
 			}
-		}
-		else if (leftChild.isSynonym()) {
+		} else if (leftChild.isSynonym()) {
 			affectResultTable->insertTuple({ affectorStmtId });
-		}
-		else {
+		} else {
 			affectResultTable->insertTuple({ affectedStmtId });
 		}
 		break;
 	case 2:
 		affectResultTable->insertTuple({ affectorStmtId, affectedStmtId });
 		break;
-	}
-}
-
-void AffectsBipStar::setBooleanToTable(ResultTable* affectResultTable) {
-	if (affectResultTable->getSynCount() > 0) {
-		if (affectResultTable->getTupleSize() > 0) {
-			affectResultTable->setBoolean(true);
-		}
-		else {
-			affectResultTable->setBoolean(false);
-		}
 	}
 }
 

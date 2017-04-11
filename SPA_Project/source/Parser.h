@@ -12,12 +12,27 @@
 
 using namespace std;
 
-typedef string stmt;
-
+/**
+* The parser is used to validate that the source is syntactically correct 
+* and populate the direct relationships into the PKB.
+*/
 class Parser {
 public:
+	/**
+	* Takes in the source code in string to set the relavant information into the PKB.
+	*
+	* @param pkbSource    the PKB object to store the information
+	* @param source       string form of the source code
+	*/
 	Parser(PKB *pkbSource, string source);
 	~Parser();
+
+	/**
+	* Process the given source and set the relavant information into the PKB.
+	* Exception will be thrown if there is error found in source code
+	*
+	* @throws Exception    if there is error found during parsing
+	*/
 	void parse();
 
 private:

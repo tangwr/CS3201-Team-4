@@ -1,10 +1,16 @@
+#pragma once
+
 #include "Affects.h"
 
-const int contStmtId = 0;
-const int numOfPathDone = 1;
-const int varToStmtTable = 2;
+#define contStmtId 0
+#define numOfPathDone 1
+#define varToStmtTable 2
 
-const int NOT_FOUND = 0;
+#define NOT_FOUND 0
+#define NONE 0
+#define INITIAL_NUM_OF_PATH_DONE 0
+#define VALID_NUM_OF_NEXT_STMT 1
+#define INCREMENT 1
 
 Affects::Affects(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -47,8 +53,7 @@ unordered_set<int> Affects::getValidStmts(PKB* pkb, ResultTable* intResultTable,
 		int stmtId = stoi(child.getParaName());
 		if (pkb->isStmtInAssignTable(stmtId)) {
 			return { stmtId };
-		}
-		else {
+		} else {
 			return {};
 		}
 	}
@@ -61,8 +66,7 @@ unordered_set<int> Affects::getValidStmts(PKB* pkb, ResultTable* intResultTable,
 	case PROG_LINE:
 		if (intResultTable->isSynInTable(child)) {
 			return intResultTable->getSynValue(child);
-		}
-		else {
+		} else {
 			return  pkb->getAllAssignStmt();
 		}
 	}
@@ -110,28 +114,6 @@ void Affects::dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultT
 				}
 			}
 		}
-
-		/*
-		if (affectorStmts.size() <= affectedStmts.size()) {
-			for (auto stmtMap : affectorStmts) {
-				if (!stmtMap.second) {
-					fowardDfs(pkb, affectResultTable, procId, stmtMap.first, &affectorStmts, &affectedStmts);
-					if (hasFoundAllResult) {
-						return;
-					}
-				}
-			}
-		} else {
-			for (auto stmtMapIter = affectedStmts.rbegin(); stmtMapIter != affectedStmts.rend(); ++stmtMapIter) {
-				if (!(*stmtMapIter).second) {
-					reverseDfs(pkb, affectResultTable, (*stmtMapIter).first, &affectorStmts, &affectedStmts);
-					if (hasFoundAllResult) {
-						return;
-					}
-				}
-			}
-		}
-		*/
 	}
 }
 
@@ -157,7 +139,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 
 		if (curStmt < NOT_FOUND) {
 			if (!ifTableStack.empty()) {
-				if (get<numOfPathDone>(ifTableStack.top()) == 0) {
+				if (get<numOfPathDone>(ifTableStack.top()) == NONE) {
 					get<numOfPathDone>(ifTableStack.top())++;
 					unordered_map<int, unordered_set<int>> copyModifiedVarToStmt = modifiedVarToStmt;
 					modifiedVarToStmt = get<varToStmtTable>(ifTableStack.top());
@@ -170,13 +152,12 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			}
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() == 1) {
+			if (nextStmts.size() == VALID_NUM_OF_NEXT_STMT) {
 				dfsStack.push(*nextStmts.begin());
 			}
 			continue;
 		}
 
-		//cout << curStmt;
 		Type stmtType = getStmtType(pkb, curStmt);
 		switch (stmtType) {
 		case ASSIGN: {
@@ -200,7 +181,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			modifiedVarToStmt.at(modifiedVarId).insert(curStmt);
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() == 1) {
+			if (nextStmts.size() == VALID_NUM_OF_NEXT_STMT) {
 				dfsStack.push(*nextStmts.begin());
 			}
 			break;
@@ -215,7 +196,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			}
 
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			if (nextStmts.size() == 1) {
+			if (nextStmts.size() == VALID_NUM_OF_NEXT_STMT) {
 				dfsStack.push(*nextStmts.begin());
 			}
 			break;
@@ -223,7 +204,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 
 		case WHILE: {
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
-			int stmtWithinWhile = curStmt + 1;
+			int stmtWithinWhile = curStmt + INCREMENT;
 			int stmtAfterWhile = NOT_FOUND;
 			for (auto nextStmtId : nextStmts) {
 				if (nextStmtId != stmtWithinWhile) {
@@ -232,7 +213,7 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 			}
 
 			if (whileTableStack.empty() || get<contStmtId>(whileTableStack.top()) != curStmt) {
-				whileTableStack.push({ curStmt, 0, modifiedVarToStmt });
+				whileTableStack.push({ curStmt, INITIAL_NUM_OF_PATH_DONE, modifiedVarToStmt });
 				dfsStack.push(stmtWithinWhile);
 			} else {
 				bool hasNewEntryInTable = mergeTable(&modifiedVarToStmt, &get<varToStmtTable>(whileTableStack.top()));
@@ -250,170 +231,12 @@ void Affects::fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, in
 		}
 
 		case IF: {
-			ifTableStack.push({ curStmt, 0, modifiedVarToStmt });
+			ifTableStack.push({ curStmt, INITIAL_NUM_OF_PATH_DONE, modifiedVarToStmt });
 			unordered_set<int> nextStmts = pkb->getNextStmt(curStmt);
 			for (auto nextStmtId : nextStmts) {
 				dfsStack.push(nextStmtId);
 			}
 		}
-		}
-	}
-}
-
-void Affects::reverseDfs(PKB* pkb, ResultTable* affectResultTable, int startStmt, map<int, bool>* affectorStmts, map<int, bool>* affectedStmts) {
-	unordered_map<int, int> stmtVisitedCount;
-	unordered_map<int, unordered_set<int>> usedVarToStmt;
-
-	unordered_map<int, unordered_map<int, unordered_set<int>>> contTableMap;
-	unordered_map<int, unordered_map<int, unordered_set<int>>> splitStmtTableMap;
-
-	stack<int> dfsStack;
-	dfsStack.push(startStmt);
-
-	while (!dfsStack.empty()) {
-		int curStmt = dfsStack.top();
-		dfsStack.pop();
-
-		if (hasFoundAllResult) {
-			return;
-		}
-		if (affectedStmts->find(curStmt) != affectedStmts->end()) {
-			affectedStmts->at(curStmt) = true;
-		}
-		if (splitStmtTableMap.find(curStmt) != splitStmtTableMap.end()) {
-			usedVarToStmt = splitStmtTableMap.at(curStmt);
-			splitStmtTableMap.erase(curStmt);
-		}
-
-		Type stmtType = getStmtType(pkb, curStmt);
-		switch (stmtType) {
-		case ASSIGN: {
-			int modifiedVarId = pkb->getVarAtLeftOfAssignStmt(curStmt);
-			if (usedVarToStmt.find(modifiedVarId) != usedVarToStmt.end()) {
-				unordered_set<int> usedStmts = usedVarToStmt.at(modifiedVarId);
-				for (auto affectedStmt : usedStmts) {
-					if (isStmtValidResult(curStmt, affectorStmts, affectedStmt, affectedStmts)) {
-						setResultTupleToTable(affectResultTable, curStmt, affectedStmt);
-					}
-				}
-				usedVarToStmt.erase(modifiedVarId);
-			}
-
-			unordered_set<int> usedVars = pkb->getVarUsedByStmt(curStmt);
-			for (auto usedVarId : usedVars) {
-				if (usedVarToStmt.find(usedVarId) == usedVarToStmt.end()) {
-					usedVarToStmt.insert({ usedVarId, unordered_set<int>() });
-				}
-				usedVarToStmt.at(usedVarId).insert(curStmt);
-			}
-
-			if (pkb->getPreviousStmt(curStmt).size() != 0) {
-				unordered_set<int> prevStmts = pkb->getPreviousStmt(curStmt);
-				if (prevStmts.size() == 1) {
-					dfsStack.push(*prevStmts.begin());
-				}
-				else {
-					for (auto prevStmtId : prevStmts) {
-						dfsStack.push(prevStmtId);
-						splitStmtTableMap.insert({ prevStmtId,usedVarToStmt });
-					}
-				}
-			}
-			break;
-		}
-		case CALL: {
-			unordered_set<int> modifiedVars = pkb->getVarModifiedInStmt(curStmt);
-			for (auto modifiedVarId : modifiedVars) {
-				if (usedVarToStmt.find(modifiedVarId) != usedVarToStmt.end()) {
-					usedVarToStmt.erase(modifiedVarId);
-				}
-			}
-
-			if (pkb->getPreviousStmt(curStmt).size() != 0) {
-				unordered_set<int> prevStmts = pkb->getPreviousStmt(curStmt);
-				if (prevStmts.size() == 1) {
-					dfsStack.push(*prevStmts.begin());
-				}
-				else {
-					for (auto prevStmtId : prevStmts) {
-						dfsStack.push(prevStmtId);
-						splitStmtTableMap.insert({ prevStmtId,usedVarToStmt });
-					}
-				}
-			}
-			break;
-		}
-
-		case WHILE: {
-			bool hasNewEntry = true;
-			if (contTableMap.find(curStmt) == contTableMap.end()) {
-				contTableMap.insert({ curStmt, usedVarToStmt });
-			} else {
-				hasNewEntry = mergeTable(&usedVarToStmt, &contTableMap.at(curStmt));
-			}
-
-			unordered_set<int> prevStmts = pkb->getPreviousStmt(curStmt);
-			unordered_set<int> withinWhileStmts;
-			unordered_set<int> beforeWhileStmts;
-
-			for (auto prevStmtId : prevStmts) {
-				if (prevStmtId > curStmt) {
-					withinWhileStmts.insert(prevStmtId);
-				} else {
-					beforeWhileStmts.insert(prevStmtId);
-				}
-			}
-
-			if (hasNewEntry) {
-				if (withinWhileStmts.size() == 1) {
-					dfsStack.push(*withinWhileStmts.begin());
-				}
-				else {
-					for (auto prevStmtId : withinWhileStmts) {
-						dfsStack.push(prevStmtId);
-						splitStmtTableMap.insert({ prevStmtId,usedVarToStmt });
-					}
-				}
-			} else {
-				if (beforeWhileStmts.size() == 1) {
-					dfsStack.push(*beforeWhileStmts.begin());
-				}
-				else {
-					for (auto prevStmtId : beforeWhileStmts) {
-						dfsStack.push(prevStmtId);
-						splitStmtTableMap.insert({ prevStmtId,usedVarToStmt });
-					}
-				}
-				mergeTable(&contTableMap.at(curStmt), &usedVarToStmt);
-				contTableMap.erase(curStmt);
-			}
-			break;
-		}
-
-		case IF:
-			if (contTableMap.find(curStmt) == contTableMap.end()) {
-				if (!dfsStack.empty()) {
-					contTableMap.insert({ curStmt, usedVarToStmt });
-					continue;
-				}
-			} else {
-				mergeTable(&contTableMap.at(curStmt), &usedVarToStmt);
-				contTableMap.erase(curStmt);
-			}
-
-			if (pkb->getPreviousStmt(curStmt).size() != 0) {
-				unordered_set<int> prevStmts = pkb->getPreviousStmt(curStmt);
-				if (prevStmts.size() == 1) {
-					dfsStack.push(*prevStmts.begin());
-				}
-				else {
-					for (auto prevStmtId : prevStmts) {
-						dfsStack.push(prevStmtId);
-						splitStmtTableMap.insert({ prevStmtId,usedVarToStmt });
-					}
-				}
-			}
-			break;
 		}
 	}
 }
@@ -430,8 +253,7 @@ bool Affects::mergeTable(unordered_map<int, unordered_set<int>>* merger, unorder
 				if (merged->at(tableEntry.first).find(stmtId) == merged->at(tableEntry.first).end()) {
 					merged->at(tableEntry.first).insert(stmtId);
 					hasNewEntry = true;
-				}
-				else {
+				} else {
 					merger->at(tableEntry.first).erase(stmtId);
 				}
 			}
@@ -452,6 +274,8 @@ Type Affects::getStmtType(PKB* pkb, int stmtId) {
 		return IF;
 	} else if (pkb->isStmtInCallTable(stmtId)) {
 		return CALL;
+	} else {
+		return INVALID;
 	}
 }
 
@@ -459,13 +283,10 @@ bool Affects::isStmtValidResult(int affectorStmtId, map<int, bool>* validAffecto
 	if (validAffectorResults->find(affectorStmtId) != validAffectorResults->end()
 		&& validAffectedResults->find(affectedStmtId) != validAffectedResults->end()) {
 		if (!leftChild.isSynonym() && !rightChild.isSynonym()) {
-			validAffectorResults->clear();
-			validAffectedResults->clear();
 			hasFoundAllResult = true;
 		}
 		return true;
-	}
-	else {
+	} else {
 		return false;
 	}
 }

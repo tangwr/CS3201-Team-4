@@ -30,7 +30,6 @@ private:
 
 	void setSynToTable(ResultTable* pattResultTable);
 	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable);
-	void setBooleanToTable(ResultTable* pattResultTable);
 
 	void dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable,
 								unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);

@@ -1,39 +1,40 @@
+#pragma once
+
 #include <algorithm>
 #include <iostream>
 
 #include "Parser.h"
 #include "ExpOperation.h"
 
-const string STRING_NAME = "([a-zA-Z][a-zA-Z0-9]*)";
-const string STRING_DIGIT = "([0-9]+)";
-const string STRING_OPERATOR = "([+\\-*])";
+#define STRING_NAME "([a-zA-Z][a-zA-Z0-9]*)"
+#define STRING_DIGIT "([0-9]+)"
+#define STRING_OPERATOR "([+\\-*])"
 
-const string STRING_SEMICOLON = ";";
-const string STRING_OPEN_CBRACKET = "\\{";
-const string STRING_CLOSE_CBRACKET = "\\}";
-const string STRING_OPEN_RBRACKET = "\\(";
-const string STRING_CLOSE_RBRACKET = "\\)";
-const string STRING_CLOSE_BRACKET = "}";
-const string STRING_EQUAL = "=";
-const string STRING_OR = "|";
-const string STRING_SEPARATOR = "|";
-const string STRING_EMPTY = "";
+#define STRING_SEMICOLON ";"
+#define STRING_OPEN_CBRACKET "\\{"
+#define STRING_CLOSE_CBRACKET "\\}"
+#define STRING_OPEN_RBRACKET "\\("
+#define STRING_CLOSE_RBRACKET "\\)"
+#define STRING_CLOSE_BRACKET "}"
+#define STRING_EQUAL "="
+#define STRING_OR "|"
+#define STRING_SEPARATOR "|"
+#define STRING_EMPTY ""
 
-const string STRING_PROC = "procedure";
-const string STRING_IF = "if";
-const string STRING_THEN = "then";
-const string STRING_ELSE = "else";
-const string STRING_WHILE = "while";
-const string STRING_CALL = "call";
+#define STRING_PROC "procedure"
+#define STRING_IF "if"
+#define STRING_THEN "then"
+#define STRING_ELSE "else"
+#define STRING_WHILE "while"
+#define STRING_CALL "call"
 
-const string ERROR_MESSAGE = "Error found in SIMPLE source code during parsing.";
+#define ERROR_MESSAGE "Error found in SIMPLE source code during parsing."
 
-const int COMPARE_EQUAL = 0;
-const int INITAL_INDEX = 0;
-const int INITIAL_STMT_NUM = 1;
-const int INITIAL_DUMMY_STMT_NUM = -1;
-const int NOT_FOUND = 0;
-
+#define COMPARE_EQUAL 0
+#define INITAL_INDEX 0
+#define INITIAL_STMT_NUM 1
+#define INITIAL_DUMMY_STMT_NUM -1
+#define NOT_FOUND 0
 
 Parser::Parser(PKB *pkbSource, string source) {
 	tokenizer = new Tokenizer(source);
@@ -225,9 +226,9 @@ string Parser::extractExp() {
 	string infix;
 	do {
 		string exp = token;
-		match(STRING_NAME + STRING_OR + STRING_DIGIT + STRING_OR
-			+ STRING_OPERATOR + STRING_OR + STRING_OPEN_RBRACKET
-			+ STRING_OR + STRING_CLOSE_RBRACKET);
+		match(STRING_NAME STRING_OR STRING_DIGIT STRING_OR
+			STRING_OPERATOR STRING_OR STRING_OPEN_RBRACKET
+			STRING_OR STRING_CLOSE_RBRACKET);
 		infix += exp;
 	} while (token.compare(STRING_SEMICOLON) != COMPARE_EQUAL);
 

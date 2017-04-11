@@ -1,10 +1,15 @@
+#pragma once
+
 #include "With.h"
 #include "UnorderedSetOperation.h"
 
-using namespace std;
+#define ERROR -1
+#define NOT_FOUND -1
+#define INTIAL_INDEX 1
+#define LEFT_ASSIGNMENT 0
+#define RIGHT_ASSIGNMENT 1
 
-const int ERROR = -1;
-const int NOT_FOUND = -1;
+#define STRING_EMPTY ""
 
 With::With(Parameter lc, Parameter rc) {
 	leftChild = lc;
@@ -54,8 +59,7 @@ void With::setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* 
 void With::setBooleanResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
 	if (leftChild.getParaName() == rightChild.getParaName()) {
 		withResultTable->setBoolean(true);
-	}
-	else {
+	} else {
 		withResultTable->setBoolean(false);
 	}
 }
@@ -72,10 +76,9 @@ void With::setSynonymResult(PKB* pkb, ResultTable* intResultTable, ResultTable* 
 
 void With::setMatchingTupleResult(PKB* pkb, ResultTable* intResultTable, ResultTable* withResultTable) {
 	vector<vector<int>> tupleList = intResultTable->getTupleList();
-	for (int tupleIndex = 0; tupleIndex < (int)tupleList.size(); tupleIndex++) {
-		//asset tupleList[tupleIndex].size() == 2
-		if (tupleList[tupleIndex][0] == tupleList[tupleIndex][1]) {
-			withResultTable->insertTuple({ tupleList[tupleIndex][0],tupleList[tupleIndex][1] });
+	for (int tupleIndex = INTIAL_INDEX; tupleIndex < (int)tupleList.size(); tupleIndex++) {
+		if (tupleList[tupleIndex][LEFT_ASSIGNMENT] == tupleList[tupleIndex][RIGHT_ASSIGNMENT]) {
+			withResultTable->insertTuple({ tupleList[tupleIndex][LEFT_ASSIGNMENT],tupleList[tupleIndex][RIGHT_ASSIGNMENT] });
 		}
 	}
 }
@@ -95,8 +98,6 @@ unordered_set<int> With::getResultList(PKB* pkb, ResultTable* intResultTable, Re
 		if (id != NOT_FOUND) {
 			resultList = { id };
 		}
-	} else {
-		//error
 	}
 	return resultList;
 }
@@ -253,7 +254,7 @@ string With::getStringOfId(PKB* pkb, int id, Type type) {
 	case VARIABLE:
 		return pkb->getVarNameById(id);
 	default:
-		return "";
+		return STRING_EMPTY;
 	}
 }
 
@@ -321,9 +322,11 @@ vector<Parameter>With::getSynList() {
 Parameter With::getLeftChild() {
 	return leftChild;
 }
+
 Parameter With::getRightChild() {
 	return rightChild;
 }
+
 void With::insertSynList(Parameter p) {
 	synList.push_back(p);
 }

@@ -37,7 +37,6 @@ private:
 
 	void setSynToTable(ResultTable* pattResultTable);
 	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable);
-	void setBooleanToTable(ResultTable* pattResultTable);
 
 	void setStmtsFromVars(PKB* pkb, ResultTable* pattResultTable, unordered_set<int> vars);
 	void setVarsFromStmts(PKB* pkb, ResultTable* pattResultTable, unordered_set<int> stmts);

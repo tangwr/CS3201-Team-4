@@ -34,7 +34,6 @@ private:
 	void dfsToSetResultTable(PKB* pkb, ResultTable* intResultTable, ResultTable* affectResultTable,
 		unordered_set<int> validAffectorStmts, unordered_set<int> validAffectedStmts);
 	void fowardDfs(PKB* pkb, ResultTable* affectResultTable, int procId, int startStmt, map<int, bool>* affectorStmts, map<int, bool>* affectedStmts);
-	void reverseDfs(PKB* pkb, ResultTable* affectResultTable, int startStmt, map<int, bool>* affectorStmts, map<int, bool >* affectedStmts);
 
 	unordered_set<int> getValidStmts(PKB* pkb, ResultTable* intResultTable, Parameter child);
 	Type getStmtType(PKB* pkb, int initialStmt);

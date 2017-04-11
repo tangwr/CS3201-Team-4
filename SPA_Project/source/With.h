@@ -1,5 +1,4 @@
-#ifndef WithH
-#define WithH
+#pragma once
 
 #include <string>
 #include <unordered_set>
@@ -41,4 +40,3 @@ public:
 	void insertSynList(Parameter p);
 	ClauseType getClauseType();
 };
-#endif

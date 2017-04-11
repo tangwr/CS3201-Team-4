@@ -12,8 +12,8 @@ Controller::~Controller() {
 	delete pql;
 }
 
-void Controller::processSource(string source) {	
-	Parser parser(pkb, source);
+void Controller::processSource(string sourceCode) {	
+	Parser parser(pkb, sourceCode);
 	DesignExtractor designExtractor(pkb);
 	
 	try {
@@ -23,12 +23,8 @@ void Controller::processSource(string source) {
 		cerr << msg << endl;
 		exit(1);
 	}
-
-	pkb->printAllTables();
-
-	cout << "finish parsing" << endl;
 }
 
-list<string> Controller::processQuery(string source) {
-	return pql->evaluateQuery(source);
+list<string> Controller::processQuery(string querySource) {
+	return pql->evaluateQuery(querySource);
 }

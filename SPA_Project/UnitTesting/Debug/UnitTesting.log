@@ -1,0 +1,502 @@
+﻿  stdafx.cpp
+  WithUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UsesUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(69): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(234): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(317): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(400): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(490): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(913): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(951): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\usesunittest.cpp(989): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ParentStarUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ParentUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextStarUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextBipStarUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextBipUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ModifiesUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(41): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(81): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(251): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(334): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(417): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(507): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(930): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(968): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\modifiesunittest.cpp(1006): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  FollowStarUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  FollowUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  CallsStarUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  CallsUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  TableOperationsUnitTest.cpp
+  QueryParserUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  WithPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\withpkbstub.cpp(58): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\withpkbstub.cpp(91): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(14): warning C4661: 'std::unordered_set<int,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Kty>> UnorderedSetOperation<int>::setIntersection(std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Kty>>,std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(10): note: see declaration of 'UnorderedSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(14): warning C4661: 'std::unordered_set<int,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Kty>> UnorderedSetOperation<int>::setUnion(std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Kty>>,std::unordered_set<_Kty,std::hash<int>,std::equal_to<_Kty>,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\unorderedsetoperation.h(11): note: see declaration of 'UnorderedSetOperation<int>::setUnion'
+  PKBTableUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  UsesPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ParentStarPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ParentPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  Generating Code...
+  Compiling...
+  NextStarPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextBipStarPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextBipPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  NextPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  ModifiesPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  FollowStarPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  FollowPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  CallsStarPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  CallsPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PatternPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\unittesting\patternpkbstub.cpp(65): warning C4018: '<': signed/unsigned mismatch
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  AffectsPKBStub.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  PatternUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  AffectsUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  AffectsStarUnitTest.cpp
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\consttable.h(8): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setIntersection(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(12): note: see declaration of 'VectorSetOperation<int>::setIntersection'
+c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(16): warning C4661: 'std::vector<int,std::allocator<_Kty>> VectorSetOperation<int>::setUnion(std::vector<int,std::allocator<_Kty>>,std::vector<int,std::allocator<_Kty>>)': no suitable definition provided for explicit template instantiation request
+          with
+          [
+              _Kty=int
+          ]
+  c:\users\twr\desktop\cs3201-team-4\spa_project\source\vectorsetoperation.h(13): note: see declaration of 'VectorSetOperation<int>::setUnion'
+  Generating Code...
+     Creating library C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.lib and object C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.exp
+  UnitTesting.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.dll
+  UnitTesting.vcxproj -> C:\Users\TWR\Desktop\CS3201-Team-4\SPA_Project\Debug\UnitTesting.pdb (Full PDB)

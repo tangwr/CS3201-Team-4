@@ -17,22 +17,22 @@ private:
 	Parameter rightChild;
 	ResultTable result;
 	bool isBooleanClause();
-	bool isSynonym(Parameter);
-	bool isLeftChild(Parameter);
-	bool isFollowStar(PKB*, unordered_set<int>, unordered_set<int>);
+	bool isSynonym(Parameter parameter);
+	bool isLeftChild(Parameter parameter);
+	bool isFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 	void setSynList();
-	void insertTuple(int, int);
+	void insertTuple(int left, int right);
 	vector<Parameter> synList;
-	unordered_set<int> getTypeStmt(Parameter, PKB*);
-	ResultTable getFollowStarSynSyn(PKB*, ResultTable*);
-	ResultTable getFollowStar(PKB*, unordered_set<int>, unordered_set<int>);
+	unordered_set<int> getTypeStmt(Parameter p, PKB* pkb);
+	ResultTable getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable);
+	ResultTable getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 
 public:
 
 	FollowStar(Parameter lc, Parameter rc);
 	Parameter getLeftChild();
 	Parameter getRightChild();
-	ResultTable evaluate(PKB*, ResultTable);
+	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 };

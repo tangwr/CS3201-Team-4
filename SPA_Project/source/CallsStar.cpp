@@ -5,6 +5,8 @@
 CallsStar::CallsStar(Parameter lc, Parameter rc) {
 	leftChild = lc;
 	rightChild = rc;
+	paramType1 = INVALID;
+	paramType2 = INVALID;
 
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
@@ -300,4 +302,3 @@ vector<Parameter> CallsStar::getSynList() {
 ClauseType CallsStar::getClauseType() {
 	return CALLSSTAR;
 }
-

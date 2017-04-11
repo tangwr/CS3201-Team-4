@@ -11,6 +11,12 @@ using namespace std;
 class QueryPostProcessor {
 public:
 	QueryPostProcessor(PKB* pkb);
+	/**
+	* take in the resultTable and process the result to the list of string
+	*
+	* @param the ResultTable object
+	* @return the processed result in a list of string
+	*/
 	list<string> processResult(ResultTable result);
 
 private:

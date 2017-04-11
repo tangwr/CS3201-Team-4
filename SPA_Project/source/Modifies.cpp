@@ -6,6 +6,8 @@ Modifies::Modifies(Parameter lc, Parameter rc) {
 	
 	leftChild = lc;
 	rightChild = rc;
+	paramType1 = INVALID;
+	paramType2 = INVALID;
 
 	if (leftChild.isSynonym()) {
 		synList.push_back(leftChild);
@@ -546,4 +548,3 @@ vector<Parameter> Modifies::getSynList() {
 ClauseType Modifies::getClauseType() {
 	return MODIFIES;
 }
-

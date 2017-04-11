@@ -1,11 +1,13 @@
+#pragma once
 #include "QueryPostProcessor.h"
 #include "Type.h"
-
-const string STRING_TRUE = "TRUE";
-const string STRING_FALSE = "FALSE";
-const string SYMBOL_SPACE = " ";
-const int SIZE_ZERO = 0;
-//const int INITIAL_INDEX = 0;
+#define STRING_TRUE "TRUE"
+#define STRING_FALSE "FALSE"
+#define STRING_EMPTY ""
+#define SYMBOL_SPACE " "
+#define SIZE_ZERO 0
+#define START 0
+#define LAST 1
 
 QueryPostProcessor::QueryPostProcessor(PKB *pkbSource) {
 	pkb = pkbSource;
@@ -31,7 +33,7 @@ list<string> QueryPostProcessor::processResult(ResultTable result) {
 }
 
 string QueryPostProcessor::processSingleResult(vector<int> vectorInt, vector<Parameter> select) {
-	string result = "";
+	string result = STRING_EMPTY;
 	for (int i = 0; i < vectorInt.size(); i++) {
 		int value = vectorInt.at(i);
 		Type vauleType = select.at(i).getParaType();
@@ -40,7 +42,7 @@ string QueryPostProcessor::processSingleResult(vector<int> vectorInt, vector<Par
 		result += res + SYMBOL_SPACE;
 	}
 
-	result = result.substr(0, result.size() - 1);
+	result = result.substr(START, result.size() - LAST);
 	return result;
 }
 
@@ -62,6 +64,7 @@ string  QueryPostProcessor::processResultType(int value, Type valueType, bool at
 	case CALL:
 		return formatCallResult(value, attribute);
 		break;
+
 	default:
 		return formatStmtResult(value);
 		break;
@@ -83,7 +86,6 @@ string QueryPostProcessor::formatVarResult(int result) {
 }
 
 string QueryPostProcessor::formatConstResult(int result) {
-
 	return to_string(result);
 }
 

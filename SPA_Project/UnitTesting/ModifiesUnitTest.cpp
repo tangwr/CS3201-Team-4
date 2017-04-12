@@ -17,7 +17,7 @@ namespace UnitTesting
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string s = "s", v = "v";
@@ -27,13 +27,13 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(stmt, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 			
 			expectedResult = { {1,0}, {2,1},{3,2},{4,0}, {4,1}, {4,2}, {4,3}, {5,0}, {6,1}, {6,3},
 								{7,1}, {8,3}, {9,1}, {10,0}, {10,1}, {11,2}, {12,0}, {12,1}, {12,2},
 								{13,0}, {13,1}, {13,2}, {14,0}, {14,1}, {14,2}, {15,0}, {16,0}, {16,1},
 								{17,2}, {18,0}, {19,1} ,{ 20,1 }, { 21,1 }, { 22,0 }, { 22,1 }, { 23,1 }, { 24,0 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -48,18 +48,18 @@ namespace UnitTesting
 			
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
-			Assert::AreEqual(s, queryResult.getSynList().at(0).getParaName());
-			Assert::AreEqual(v, queryResult.getSynList().at(1).getParaName());
-			Assert::IsTrue(STMT == queryResult.getSynList().at(0).getParaType());
-			Assert::IsTrue(VARIABLE == queryResult.getSynList().at(1).getParaType());
+			Assert::IsFalse(queryResult->getBoolean());
+			Assert::AreEqual(s, queryResult->getSynList().at(0).getParaName());
+			Assert::AreEqual(v, queryResult->getSynList().at(1).getParaName());
+			Assert::IsTrue(STMT == queryResult->getSynList().at(0).getParaType());
+			Assert::IsTrue(VARIABLE == queryResult->getSynList().at(1).getParaType());
 			
 		}
 		TEST_METHOD(UnitTest_Modifies_Stmt_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string s = "s", any = "_";
@@ -69,11 +69,11 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(stmt, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},
 						{13},{14},{15},{16},{17},{18},{19},{20},{21},{22},{23}, {24} };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -86,15 +86,15 @@ namespace UnitTesting
 			
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
-			Assert::AreEqual(s, queryResult.getSynList().at(0).getParaName());
-			Assert::IsTrue(STMT == queryResult.getSynList().at(0).getParaType());
+			Assert::IsFalse(queryResult->getBoolean());
+			Assert::AreEqual(s, queryResult->getSynList().at(0).getParaName());
+			Assert::IsTrue(STMT == queryResult->getSynList().at(0).getParaType());
 		}
 		TEST_METHOD(UnitTest_Modifies_Stmt_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string s = "s", strVar = "x";
@@ -104,10 +104,10 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(stmt, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 }, { 4 },{ 5 },{ 10 },{ 12 },{ 13 },{ 14 },{ 15 },{ 16 },{ 18 },{ 22 },{ 24 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -115,16 +115,16 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
-			Assert::AreEqual(s, queryResult.getSynList().at(0).getParaName());
-			Assert::IsTrue(STMT == queryResult.getSynList().at(0).getParaType());
+			Assert::IsFalse(queryResult->getBoolean());
+			Assert::AreEqual(s, queryResult->getSynList().at(0).getParaName());
+			Assert::IsTrue(STMT == queryResult->getSynList().at(0).getParaType());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_Assign_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter assign, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string a = "a", v = "v";
@@ -133,25 +133,25 @@ namespace UnitTesting
 			var = Parameter(v, VARIABLE);
 
 			Modifies modifiesClause(assign, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1,0 },{ 2,1 },{ 3,2 },{ 5,0 },
 			{ 7,1 },{ 8,3 },{ 9,1 },{ 11,2 },{ 15,0 },
 			{ 17,2 },{ 18,0 },{ 19,1 } ,{ 20,1 },{ 21,1 },{ 23,1 },{ 24,0 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Assign_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter assign, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string a = "a", any = "_";
@@ -161,24 +161,24 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(assign, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 },{ 2 },{ 3 },{ 5 },{ 7 },{ 8 },{ 9 },{ 11 },
 			{ 15 },{ 17 },{ 18 },{ 19 },{ 20 },{ 21 },{ 23 },{ 24 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Assign_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter assign, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string a = "a", strVar = "x";
@@ -188,24 +188,24 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(assign, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 },{ 5 },{ 15 },{ 18 },{ 24 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_While_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter whiles, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string w = "w", v = "v";
@@ -214,23 +214,23 @@ namespace UnitTesting
 			var = Parameter(v, VARIABLE);
 
 			Modifies modifiesClause(whiles, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 4,0 },{ 4,1 },{ 4,2 },{ 4,3 },{ 14,0 },{ 14,1 },{ 14,2 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_While_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter whiles, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string w = "w", any = "_";
@@ -240,10 +240,10 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(whiles, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 4 },{ 14 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -256,13 +256,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_While_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter whiles, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string w = "w", strVar = "x";
@@ -271,24 +271,24 @@ namespace UnitTesting
 			stringVar = Parameter(strVar, STRINGVARIABLE);
 
 			Modifies modifiesClause(whiles, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 4 },{ 14 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_If_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter ifs, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string i = "i", v = "v";
@@ -297,23 +297,23 @@ namespace UnitTesting
 			var = Parameter(v, VARIABLE);
 
 			Modifies modifiesClause(ifs, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {6,1}, {6,3}, { 13,0 },{ 13,1 },{ 13,2 },{ 22,0 },{ 22,1 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_If_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter ifs, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string i = "i", any = "_";
@@ -323,10 +323,10 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(ifs, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 6 },{ 13 }, {22 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -339,13 +339,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_If_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter ifs, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string i = "i", strVar = "x";
@@ -354,24 +354,24 @@ namespace UnitTesting
 			stringVar = Parameter(strVar, STRINGVARIABLE);
 
 			Modifies modifiesClause(ifs, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 13 },{ 22 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_Call_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter call, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string c = "c", v = "v";
@@ -380,23 +380,23 @@ namespace UnitTesting
 			var = Parameter(v, VARIABLE);
 
 			Modifies modifiesClause(call, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 10,0 },{ 10,1 },{ 12,0 },{ 12,1 },{ 12,2 },{ 16,0 },{ 16,1 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Call_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter call, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string c = "c", any = "_";
@@ -406,10 +406,10 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(call, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {10}, {12}, {16} };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -422,13 +422,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Call_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter call, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string c = "c", strVar = "i";
@@ -438,10 +438,10 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(call, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 12 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -449,14 +449,14 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_ProgLine_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter prog_line, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string n = "n", v = "v";
@@ -466,26 +466,26 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(prog_line, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1,0 },{ 2,1 },{ 3,2 },{ 4,0 },{ 4,1 },{ 4,2 },{ 4,3 },{ 5,0 },{ 6,1 },{ 6,3 },
 			{ 7,1 },{ 8,3 },{ 9,1 },{ 10,0 },{ 10,1 },{ 11,2 },{ 12,0 },{ 12,1 },{ 12,2 },
 			{ 13,0 },{ 13,1 },{ 13,2 },{ 14,0 },{ 14,1 },{ 14,2 },{ 15,0 },{ 16,0 },{ 16,1 },
 			{ 17,2 },{ 18,0 },{ 19,1 } ,{ 20,1 },{ 21,1 },{ 22,0 },{ 22,1 },{ 23,1 },{ 24,0 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_ProgLine_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter prog_line, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string n = "n", any = "_";
@@ -495,11 +495,11 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(prog_line, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 },{ 2 },{ 3 },{ 4 },{ 5 },{ 6 },{ 7 },{ 8 },{ 9 },{ 10 },{ 11 },{ 12 },
 			{ 13 },{ 14 },{ 15 },{ 16 },{ 17 },{ 18 },{ 19 },{ 20 },{ 21 },{ 22 },{ 23 },{ 24 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -512,13 +512,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_ProgLine_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter prog_line, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string n = "n", strVar = "y";
@@ -528,10 +528,10 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(prog_line, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {{ 4 },{ 6 },{ 8 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -539,14 +539,14 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_Proc_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", v = "v";
@@ -556,23 +556,23 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(proc, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {0,0}, {0,1}, {0,2}, {0,3}, {1,0}, {1,1}, {1,2}, {2,0},{2,1} };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Proc_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", any = "v";
@@ -582,23 +582,23 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(proc, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {0}, {1}, {2} };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Proc_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", strVar = "i";
@@ -607,24 +607,24 @@ namespace UnitTesting
 			stringVar = Parameter(strVar, STRINGVARIABLE);
 
 			Modifies modifiesClause(proc, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 0 },{ 1 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_StmtNum_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmtNum, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string sn = "13", v = "v";
@@ -633,23 +633,23 @@ namespace UnitTesting
 			var = Parameter(v, VARIABLE);
 
 			Modifies modifiesClause(stmtNum, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {0},{ 1 },{ 2 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_StmtNum_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmtNum, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string sn = "13", any = "_";
@@ -658,23 +658,23 @@ namespace UnitTesting
 			anything = Parameter(any, ANYTHING);
 
 			Modifies modifiesClause(stmtNum, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_StmtNum_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmtNum, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string sn = "13", strVar = "y";
@@ -683,24 +683,24 @@ namespace UnitTesting
 			stringVar = Parameter(strVar, STRINGVARIABLE);
 
 			Modifies modifiesClause(stmtNum, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_ProcName_Var)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string pn = "p", v = "v";
@@ -709,23 +709,23 @@ namespace UnitTesting
 			var = Parameter(v, VARIABLE);
 
 			Modifies modifiesClause(procName, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 0 },{ 1 },{ 2 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_ProcName_Anything)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string pn = "q", any = "_";
@@ -734,23 +734,23 @@ namespace UnitTesting
 			anything = Parameter(any, ANYTHING);
 
 			Modifies modifiesClause(procName, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_ProcName_StrVar)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string pn = "y", strVar = "y";
@@ -759,23 +759,23 @@ namespace UnitTesting
 			stringVar = Parameter(strVar, STRINGVARIABLE);
 
 			Modifies modifiesClause(procName, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_Invalid_Paramters) {
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName, stringVar;
 			vector<vector<int>> expectedResult, actualResult;
 			string pn = "p1", strVar = "y";
@@ -784,24 +784,24 @@ namespace UnitTesting
 			stringVar = Parameter(strVar, STRINGVARIABLE);
 
 			Modifies modifiesClause(procName, stringVar);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_Two_Restricted_List_Stmt_Variable)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string s = "n", v = "v";
@@ -819,23 +819,23 @@ namespace UnitTesting
 			intResult.insertTuple({ 3, 2 });
 			
 			Modifies modifiesClause(stmt, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1,0 },{ 2,1 },{ 3,2 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_Two_Restricted_List_Stmt_Procedure)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, var;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", v = "v";
@@ -853,24 +853,24 @@ namespace UnitTesting
 			intResult.insertTuple({ 0, 2 });
 
 			Modifies modifiesClause(proc, var);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 0,0 },{ 0,1 },{ 0,2 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Modifies_One_Restricted_List_Assign)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter assign, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string a = "a", any = "_";
@@ -888,23 +888,23 @@ namespace UnitTesting
 
 
 			Modifies modifiesClause(assign, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 },{ 2 },{ 3 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_One_Restricted_List_While)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter whiles, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string w = "w", any = "_";
@@ -919,10 +919,10 @@ namespace UnitTesting
 			intResult.insertTuple({ 4 });
 
 			Modifies modifiesClause(whiles, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 4 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -935,13 +935,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_One_Restricted_List_If)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter ifs, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string i = "i", any = "_";
@@ -957,10 +957,10 @@ namespace UnitTesting
 			intResult.insertTuple({ 22 });
 
 			Modifies modifiesClause(ifs, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 13 },{ 22 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -973,13 +973,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_One_Restricted_List_Call)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter call, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string c = "c", any = "_";
@@ -995,10 +995,10 @@ namespace UnitTesting
 			intResult.insertTuple({ 16 });
 
 			Modifies modifiesClause(call, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 10 },{ 16 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
@@ -1011,13 +1011,13 @@ namespace UnitTesting
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Modifies_One_Restricted_List_Procedure)
 		{
 			ModifiesPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", any = "v";
@@ -1033,17 +1033,17 @@ namespace UnitTesting
 			intResult.insertTuple({ 2 });
 
 			Modifies modifiesClause(proc, anything);
-			queryResult = modifiesClause.evaluate(&pkbStub, intResult);
+			queryResult = modifiesClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 0 },{ 2 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 	};
 }

@@ -18,7 +18,7 @@ namespace UnitTesting
 		{
 			ParentStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -27,18 +27,18 @@ namespace UnitTesting
 
 
 			ParentStar parentStarClause(stmt1, stmt2);
-			queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+			queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
-			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Num_Num2)
 		{
 			ParentStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -47,18 +47,18 @@ namespace UnitTesting
 
 
 			ParentStar parentStarClause(stmt1, stmt2);
-			queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+			queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
-			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult->getSynCount());
 
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Stmt_Num)
 		{
 			ParentStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -67,26 +67,26 @@ namespace UnitTesting
 
 
 			ParentStar parentStarClause(stmt1, stmt2);
-			queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+			queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 4 }, {6} };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_While_Num)
 		{
 			ParentStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -95,26 +95,26 @@ namespace UnitTesting
 
 
 			ParentStar parentStarClause(stmt1, stmt2);
-			queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+			queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 4 } };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_While_Num2)
 		{
 			ParentStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -123,26 +123,26 @@ namespace UnitTesting
 
 
 			ParentStar parentStarClause(stmt1, stmt2);
-			queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+			queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 			//expectedResult = { { 7 } };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Call_Num)
 		{
 			ParentStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -151,26 +151,26 @@ namespace UnitTesting
 
 
 			ParentStar parentStarClause(stmt1, stmt2);
-			queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+			queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 			//expectedResult = { { 10 } };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_ProgLine_Num)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -179,26 +179,26 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 13 }, {14} };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Underscore_Num)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -207,26 +207,26 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 4 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Num_Underscore)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -235,26 +235,26 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 15 }, {16}, {17} };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Num_Call)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -263,26 +263,26 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 16 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Num_IF)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -291,26 +291,26 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 4 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Stmt_Stmt)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -319,25 +319,25 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_If_Call)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -346,27 +346,27 @@ namespace UnitTesting
 
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 13, 16 }};
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
+		Assert::AreEqual(2, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Stmt_Num)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -381,26 +381,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 4 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Stmt_Num2)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -412,26 +412,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 1 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Num_Stmt)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -443,26 +443,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 14 }, {18}, {19}, {20} };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Num_Stmt2)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -474,26 +474,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 3 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Stmt_Stmt)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -505,26 +505,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 6 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 6,7 },{ 6,8 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_While_IF)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -535,26 +535,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 6 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4, 6 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Stmt_Stmt_Tuple)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -575,26 +575,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 13,20 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4,6 },{ 4,8 },{ 13,14 },{ 13,15 },{ 13,20 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_ParentStar_Restricted_Stmt_Stmt_Tuple2)
 		{
 		ParentStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -615,19 +615,19 @@ namespace UnitTesting
 		intResult.insertTuple({ 20, 13 });
 
 		ParentStar parentStarClause(stmt1, stmt2);
-		queryResult = parentStarClause.evaluate(&pkbStub, intResult);
+		queryResult = parentStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4,6 },{ 13,20 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 	};
 }

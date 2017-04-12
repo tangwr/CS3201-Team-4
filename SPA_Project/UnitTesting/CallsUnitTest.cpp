@@ -17,7 +17,7 @@ namespace UnitTesting
 		{
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc1, proc2;
 			vector<vector<int>> expectedResult, actualResult;
 			string p1 = "p1", p2 = "p2";
@@ -27,22 +27,22 @@ namespace UnitTesting
 
 
 			Calls callsClause(proc1, proc2);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 0,1 },{ 0,2 },{ 1,2 }};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Calls_Proc_Anything) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", any = "_";
@@ -52,22 +52,22 @@ namespace UnitTesting
 
 
 			Calls callsClause(proc, anything);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 0},{ 1 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Calls_Proc_ProcName) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, procName;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", pN = "p";
@@ -77,22 +77,22 @@ namespace UnitTesting
 
 
 			Calls callsClause(proc, procName);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {0} };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Calls_Anything_Proc) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter anything, proc;
 			vector<vector<int>> expectedResult, actualResult;
 			string  any = "_", p = "p";
@@ -103,22 +103,22 @@ namespace UnitTesting
 
 
 			Calls callsClause(anything, proc);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 },{ 2 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Calls_ProcName_Proc) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName, proc;
 			vector<vector<int>> expectedResult, actualResult;
 			string pN = "p", p = "p";
@@ -127,22 +127,22 @@ namespace UnitTesting
 			proc = Parameter(p, PROCEDURE);
 			
 			Calls callsClause(procName, proc);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {{2}};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Calls_ProcName_ProcName) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName1, procName2;
 			vector<vector<int>> expectedResult, actualResult;
 			string pN1 = "p", pN2 = "q";
@@ -152,24 +152,24 @@ namespace UnitTesting
 
 
 			Calls callsClause(procName1, procName2);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Calls_Anything_Anything)
 		{
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter anything1, anything2;
 			vector<vector<int>> expectedResult, actualResult;
 			string any1 = "_", any2 = "_";
@@ -179,23 +179,23 @@ namespace UnitTesting
 
 
 			Calls callsClause(anything1, anything2);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Calls_One_Restricted_List_Proc) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc, anything;
 			vector<vector<int>> expectedResult, actualResult;
 			string p = "p", any = "_";
@@ -210,22 +210,22 @@ namespace UnitTesting
 			intResult.insertTuple({ 1 });
 
 			Calls callsClause(proc, anything);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		TEST_METHOD(UnitTest_Calls_Two_Restricted_List_Proc_Proc) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter proc1, proc2;
 			vector<vector<int>> expectedResult, actualResult;
 			string p1 = "p1", p2 = "p2";
@@ -242,23 +242,23 @@ namespace UnitTesting
 		
 
 			Calls callsClause(proc1, proc2);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {1,2 } };
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_Calls_Invalid_Paramters) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName1, procName2;
 			vector<vector<int>> expectedResult, actualResult;
 			string pN1 = "q", pN2 = "p1";
@@ -268,23 +268,23 @@ namespace UnitTesting
 
 
 			Calls callsClause(procName1, procName2);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Calls_No_Results) {
 			CallsPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter procName1, procName2;
 			vector<vector<int>> expectedResult, actualResult;
 			string pN1 = "q", pN2 = "p";
@@ -294,17 +294,17 @@ namespace UnitTesting
 
 
 			Calls callsClause(procName1, procName2);
-			queryResult = callsClause.evaluate(&pkbStub, intResult);
+			queryResult = callsClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = {};
-			actualResult = queryResult.getTupleList();
+			actualResult = queryResult->getTupleList();
 
 			sort(expectedResult.begin(), expectedResult.end());
 			sort(actualResult.begin(), actualResult.end());
 
 			Assert::AreEqual(expectedResult.size(), actualResult.size());
 			Assert::IsTrue(expectedResult == actualResult);
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 	};
 }

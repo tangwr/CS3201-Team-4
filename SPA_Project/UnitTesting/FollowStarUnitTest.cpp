@@ -18,7 +18,7 @@ namespace UnitTesting
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -27,18 +27,18 @@ namespace UnitTesting
 
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
-			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult->getSynCount());
 
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_Stmt_Num)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -47,26 +47,26 @@ namespace UnitTesting
 
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 5 },{ 6 },{ 9 },{ 10 } };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_Assign_Num)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -75,25 +75,25 @@ namespace UnitTesting
 
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_Assign_Num2)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -102,26 +102,26 @@ namespace UnitTesting
 
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 5 },{ 9 } };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Call_Num)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -130,26 +130,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 10 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Call_Num2)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -158,26 +158,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 10 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_ProgLine_Num)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -186,26 +186,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 1 },{ 2 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Underscore_Num)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -214,26 +214,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 14 }, {18} };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_If_Num)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -242,26 +242,26 @@ namespace UnitTesting
 
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { {6} };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(1, queryResult.getSynCount());
+			Assert::AreEqual(1, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Num_Underscore)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -270,26 +270,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 3 }, {4}, {12} };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Num_While)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -298,26 +298,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Num_While2)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -326,26 +326,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 4 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_Underscore_Underscore)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -354,26 +354,26 @@ namespace UnitTesting
 
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			//expectedResult = { { 4 } };
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult->getSynCount());
 
-			Assert::IsTrue(queryResult.getBoolean());
+			Assert::IsTrue(queryResult->getBoolean());
 		}
 	
 		TEST_METHOD(UnitTest_FollowStar_Stmt_Stmt)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -382,26 +382,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 4 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_While_Call)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -410,27 +410,27 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4,12 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
+		Assert::AreEqual(2, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_Stmt_Call)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -439,26 +439,26 @@ namespace UnitTesting
 
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { {1,12},{ 2,12 },{ 3,12 },{ 4,12 }, {5,10},{ 6,10 } ,{ 9,10 },{ 15,16 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
+		Assert::AreEqual(2, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Stmt_Num)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -471,26 +471,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 1 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		//Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Stmt_Num2)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -502,26 +502,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 1 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Num_Stmt)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -533,26 +533,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 12 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Num_Stmt2)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -564,26 +564,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 212 });
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 3 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Stmt_Stmt)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -595,26 +595,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 13 });
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 3,4 },{ 3,12 },{ 13, 21 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_While_Stmt)
 		{
 		FollowStarPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -625,26 +625,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		FollowStar followStarClause(stmt1, stmt2);
-		queryResult = followStarClause.evaluate(&pkbStub, intResult);
+		queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 4,12 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 		
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Stmt_Stmt_Tuple)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -666,26 +666,26 @@ namespace UnitTesting
 			intResult.insertTuple({ 13,21 });
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1,2 },{ 2,4 },{ 13,21 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::AreEqual(2, queryResult->getSynCount());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_FollowStar_Restricted_Stmt_Stmt_Tuple2)
 		{
 			FollowStarPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -707,19 +707,19 @@ namespace UnitTesting
 			intResult.insertTuple({ 21, 13 });
 
 			FollowStar followStarClause(stmt1, stmt2);
-			queryResult = followStarClause.evaluate(&pkbStub, intResult);
+			queryResult = followStarClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1,2 },{ 2,4 },{ 13,21 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::AreEqual(2, queryResult->getSynCount());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 

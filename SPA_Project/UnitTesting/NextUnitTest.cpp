@@ -18,7 +18,7 @@ namespace UnitTesting
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -27,18 +27,18 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Num_Num2)
 		{
 			NextPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -47,18 +47,18 @@ namespace UnitTesting
 
 
 			Next nextClause(stmt1, stmt2);
-			queryResult = nextClause.evaluate(&pkbStub, intResult);
+			queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
-			Assert::AreEqual(0, queryResult.getSynCount());
+			Assert::AreEqual(0, queryResult->getSynCount());
 
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Stmt_Num)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -67,26 +67,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 3 }, {11} };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Assign_Num)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -95,26 +95,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 17 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Assign_Num2)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -123,26 +123,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 	//	expectedResult = { { 1 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Call_Num)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -151,26 +151,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 10 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Call_Num2)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -179,26 +179,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 10 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_ProgLine_Num)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -207,26 +207,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 1 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Underscore_Num)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -234,26 +234,26 @@ namespace UnitTesting
 		stmt2 = Parameter("2", INTEGER);
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 	//	expectedResult = { { 1 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Num_Underscore)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -262,26 +262,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 7 }, {8} };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(0, queryResult.getSynCount());
+		Assert::AreEqual(0, queryResult->getSynCount());
 
-		Assert::IsTrue(queryResult.getBoolean());
+		Assert::IsTrue(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Num_While)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -290,26 +290,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 3 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Num_While2)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -318,26 +318,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 14 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Stmt_Stmt)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -346,26 +346,26 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 4 } };
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
+		Assert::AreEqual(1, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Stmt_Stmt2)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -374,29 +374,29 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 1,2 },{ 2,3 },{ 3,4 },{ 4,5 },{ 4,12 },{ 5,6 },{ 6,7 },{ 6,8 },{ 7,9 },{ 8,9 },{ 9,10 },{ 10,11 }
 		,{ 11, 4 },{ 13, 14 },{ 13,20 },{ 14,15 },{ 14,18 },{ 15,16 },{ 16,17 },{ 17, 14 },{ 18,19 },{ 19, 21 },{ 20, 21 },
 		{ 22, 23 },{ 22, 24 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
+		Assert::AreEqual(2, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Call_Stmt)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -405,27 +405,27 @@ namespace UnitTesting
 
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { {10, 11}, {16,17} };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
+		Assert::AreEqual(2, queryResult->getSynCount());
 
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Stmt_Num)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -438,26 +438,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 13 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 13 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		//Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Stmt_Num2)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -469,26 +469,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 1 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Num_Stmt)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -500,26 +500,26 @@ namespace UnitTesting
 		intResult.insertTuple({5 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 5 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Num_Stmt2)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -531,26 +531,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 12 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		//expectedResult = { { 3 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(1, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(1, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Stmt_Stmt)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -562,26 +562,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 13 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 3,4 },{ 13, 14 }, { 13, 20} };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_While_Stmt)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -592,26 +592,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 14 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { { 14, 15 } , { 14,18 } };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Stmt_Stmt2)
 		{
 			NextPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -623,26 +623,26 @@ namespace UnitTesting
 			intResult.insertTuple({ 14 });
 
 			Next nextClause(stmt1, stmt2);
-			queryResult = nextClause.evaluate(&pkbStub, intResult);
+			queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 13,14 },{ 17,14 },{ 14,15 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::AreEqual(2, queryResult->getSynCount());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_While_Stmt2)
 		{
 			NextPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -653,26 +653,26 @@ namespace UnitTesting
 			intResult.insertTuple({ 15 });
 
 			Next nextClause(stmt1, stmt2);
-			queryResult = nextClause.evaluate(&pkbStub, intResult);
+			queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 14, 15 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::AreEqual(2, queryResult->getSynCount());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Stmt_Stmt_Tuple)
 		{
 		NextPKBStub pkbStub;
 
-		ResultTable intResult, queryResult;
+		ResultTable intResult, *queryResult;
 		Parameter stmt1, stmt2;
 		vector<vector<int>> expectedResult, tupleResult;
 
@@ -694,26 +694,26 @@ namespace UnitTesting
 		intResult.insertTuple({ 13,21 });
 
 		Next nextClause(stmt1, stmt2);
-		queryResult = nextClause.evaluate(&pkbStub, intResult);
+		queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 		expectedResult = { {1,2 }, {2,3}, {13,14}, {13,20} };
 
 		sort(expectedResult.begin(), expectedResult.end());
-		tupleResult = queryResult.getTupleList();
+		tupleResult = queryResult->getTupleList();
 		sort(tupleResult.begin(), tupleResult.end());
 
 		Assert::AreEqual(expectedResult.size(), tupleResult.size());
 		Assert::IsTrue(expectedResult == tupleResult);
 
-		Assert::AreEqual(2, queryResult.getSynCount());
-		Assert::IsFalse(queryResult.getBoolean());
+		Assert::AreEqual(2, queryResult->getSynCount());
+		Assert::IsFalse(queryResult->getBoolean());
 		}
 
 		TEST_METHOD(UnitTest_Next_Restricted_Stmt_Stmt_Tuple2)
 		{
 			NextPKBStub pkbStub;
 
-			ResultTable intResult, queryResult;
+			ResultTable intResult, *queryResult;
 			Parameter stmt1, stmt2;
 			vector<vector<int>> expectedResult, tupleResult;
 
@@ -732,19 +732,19 @@ namespace UnitTesting
 			intResult.insertTuple({ 14,13 });
 
 			Next nextClause(stmt1, stmt2);
-			queryResult = nextClause.evaluate(&pkbStub, intResult);
+			queryResult = nextClause.evaluate(&pkbStub, &intResult);
 
 			expectedResult = { { 1,2 }, { 13,14 } };
 
 			sort(expectedResult.begin(), expectedResult.end());
-			tupleResult = queryResult.getTupleList();
+			tupleResult = queryResult->getTupleList();
 			sort(tupleResult.begin(), tupleResult.end());
 
 			Assert::AreEqual(expectedResult.size(), tupleResult.size());
 			Assert::IsTrue(expectedResult == tupleResult);
 
-			Assert::AreEqual(2, queryResult.getSynCount());
-			Assert::IsFalse(queryResult.getBoolean());
+			Assert::AreEqual(2, queryResult->getSynCount());
+			Assert::IsFalse(queryResult->getBoolean());
 		}
 
 	};

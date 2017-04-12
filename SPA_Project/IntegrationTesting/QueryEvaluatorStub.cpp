@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "QueryEvaluatorStub.h"
-#include "AbstractWrapper.h"
 #include "ClauseType.h"
 
 

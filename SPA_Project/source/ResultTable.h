@@ -126,7 +126,7 @@ public:
 	@rt: given result table to join with 
 	@return: none
 	*/
-	void join(ResultTable rt);
+	void join(ResultTable* rt);
 
 	/*
 	get the subtable that contains only synonyms in the given list
@@ -135,7 +135,7 @@ public:
 	@paramList: list of synonyms to be selected
 	@return: table that contains only selected synonyms
 	*/
-	ResultTable select(vector<Parameter> paramList);
+	ResultTable* select(vector<Parameter> paramList);
 
 	/*
 	remove any duplicate tuples in the table
@@ -166,9 +166,9 @@ private:
 	int getParamId(Parameter p);
 	string convertTupleToString(vector<int> tuple);
 	ResultTable nestedSelect(vector<Parameter> paramList);
-	ResultTable hashSelect(vector<Parameter> paramList);
+	ResultTable* hashSelect(vector<Parameter> paramList);
 	void nestedJoin(ResultTable rt);
-	void hashJoin(ResultTable rt);
+	void hashJoin(ResultTable* rt);
 
 	
 };

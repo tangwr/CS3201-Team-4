@@ -15,7 +15,7 @@ class FollowStar : public Clause {
 public:
 
 	FollowStar(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* resultTable);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 
@@ -78,7 +78,7 @@ private:
 	@resultTable: the table which stores the intermediate results
 	@return: the table which contains the results
 	*/
-	ResultTable getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable);
+	void getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable);
 	/*
 	Returns the list of tuples where any statement in the left list
 	is followedBy* any statement in the right list
@@ -88,6 +88,6 @@ private:
 	@right: the right list
 	@return: the table which contains the list of tuples
 	*/
-	ResultTable getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	void getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 };
 #endif

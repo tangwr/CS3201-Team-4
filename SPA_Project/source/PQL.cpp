@@ -33,7 +33,7 @@ list<string> PQL::evaluateQuery(string querySource) {
 	    return list<string>();
 	}
 
-	ResultTable result = evaluator->evaluate(queryTree);
+	ResultTable *result = evaluator->evaluate(queryTree);
 	list<string> resultList = postProcessor->processResult(result);
 	return resultList;
 }

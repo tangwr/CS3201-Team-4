@@ -23,11 +23,10 @@ With::With(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable With::evaluate(PKB* pkb, ResultTable intResultTable) {
-	ResultTable withResultTable;
-	setSynToTable(&withResultTable);
-	setResultToTable(pkb, &intResultTable, &withResultTable);
-	return withResultTable;
+ResultTable* With::evaluate(PKB* pkb, ResultTable* intResultTable) {
+	setSynToTable(&resultTable);
+	setResultToTable(pkb, intResultTable, &resultTable);
+	return &resultTable;
 }
 
 void With::setSynToTable(ResultTable* withResultTable) {

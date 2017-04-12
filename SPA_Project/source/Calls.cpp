@@ -19,9 +19,7 @@ Calls::Calls(Parameter lc, Parameter rc){
 	paramName2 = "";
 }
 
-ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
-	ResultTable resultTable;
-	
+ResultTable* Calls::evaluate(PKB *pkb, ResultTable* intResultTable){
 	Parameter param1, param2;
 	
 	vector<int> tuple;
@@ -34,7 +32,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
 
-	vector<Parameter> paramList = intResultTable.getSynList(); // restricted paramlist
+	vector<Parameter> paramList = intResultTable->getSynList(); // restricted paramlist
 
 	
 	isLeftSyn = isSynonym(lcType);
@@ -42,12 +40,12 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 
 	if (isValidParameter(pkb, leftChild) == false || isValidParameter(pkb, rightChild) == false) {
 		resultTable.setBoolean(false);
-		return resultTable;
+		return &resultTable;
 	}
 
 	if (lcType == rcType && lcName == rcName && isLeftSyn == true && isRightSyn == true) {
 		resultTable.setBoolean(false);
-		return resultTable;
+		return &resultTable;
 	}
 
 	
@@ -55,7 +53,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
 		paramName1 = param1.getParaName();
-		valueSet1 = intResultTable.getSynValue(param1);
+		valueSet1 = intResultTable->getSynValue(param1);
 	}
 
 	if (paramList.size() == 2) {
@@ -63,12 +61,12 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 		paramType1 = param1.getParaType();
 		paramName1 = param1.getParaName();
 		
-		valueSet1 = intResultTable.getSynValue(param1);
+		valueSet1 = intResultTable->getSynValue(param1);
 
 		param2 = paramList.at(1);
 		paramType2 = param2.getParaType();
 		paramName2 = param2.getParaName();
-		valueSet2 = intResultTable.getSynValue(param2);
+		valueSet2 = intResultTable->getSynValue(param2);
 	}
 
 	if (isLeftSyn == false && isRightSyn == false) {
@@ -114,7 +112,7 @@ ResultTable Calls::evaluate(PKB *pkb, ResultTable intResultTable){
 		}
 	}
 	
-	return resultTable;
+	return &resultTable;
 }
 
 bool Calls::isValidParameter(PKB *pkb, Parameter param) {

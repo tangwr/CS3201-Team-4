@@ -26,14 +26,13 @@ Affects::Affects(Parameter lc, Parameter rc) {
 	hasFoundAllResult = false;
 }
 
-ResultTable Affects::evaluate(PKB* pkb, ResultTable intResultTable) {
-	ResultTable affectResultTable;
-	affectResultTable.setBoolean(false);
+ResultTable* Affects::evaluate(PKB* pkb, ResultTable* intResultTable) {
+	resultTable.setBoolean(false);
 
-	setSynToTable(&affectResultTable);
-	setResultToTable(pkb, &intResultTable, &affectResultTable);
+	setSynToTable(&resultTable);
+	setResultToTable(pkb, intResultTable, &resultTable);
 
-	return affectResultTable;
+	return &resultTable;
 }
 
 void Affects::setSynToTable(ResultTable* affectResultTable) {

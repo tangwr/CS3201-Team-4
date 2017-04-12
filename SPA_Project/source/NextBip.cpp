@@ -22,28 +22,28 @@ NextBip::NextBip(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable NextBip::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getNextBipSynSyn(pkb, &resultTable);
+ResultTable* NextBip::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getNextBipSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isNextBip(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
-			return getNextBip(pkb, left, getTypeStmt(rightChild, pkb));
+			getNextBip(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (!right.empty()) {
-			return getNextBip(pkb, getTypeStmt(leftChild, pkb), right);
+			getNextBip(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getNextBip(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getNextBip(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> NextBip::getSynList() {
@@ -78,10 +78,10 @@ bool NextBip::isNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> ri
 	return false;
 }
 
-ResultTable NextBip::getNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void NextBip::getNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	if (left.size() <= right.size()) {
 		for (auto& leftIterator : left) {
@@ -103,13 +103,13 @@ ResultTable NextBip::getNextBip(PKB* pkb, unordered_set<int> left, unordered_set
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable NextBip::getNextBipSynSyn(PKB* pkb, ResultTable* resultTable) {
+void NextBip::getNextBipSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -129,7 +129,7 @@ ResultTable NextBip::getNextBipSynSyn(PKB* pkb, ResultTable* resultTable) {
 			}
 		}
 	}
-	return result;
+	return;
 }
 
 void NextBip::setSynList() {

@@ -102,7 +102,7 @@ vector<vector<int>> ResultTable::getTupleList()
 	return tupleList;
 }
 
-void ResultTable::join(ResultTable rt)
+void ResultTable::join(ResultTable* rt)
 {
 	hashJoin(rt);
 	return;
@@ -168,16 +168,16 @@ void ResultTable::nestedJoin(ResultTable rt)
 
 }
 
-void ResultTable::hashJoin(ResultTable rt)
+void ResultTable::hashJoin(ResultTable* rt)
 {
 
 	if (isInitialEmpty) {
-		setSynList(rt.getSynList());
-		tupleList = rt.getTupleList();
-		isInitialEmpty = rt.isNewTable();
+		setSynList(rt->getSynList());
+		tupleList = rt->getTupleList();
+		isInitialEmpty = rt->isNewTable();
 		return;
 	}
-	if (rt.isInitialEmpty)
+	if (rt->isInitialEmpty)
 		return;
 
 	vector<Parameter> resSynList = synList;
@@ -185,12 +185,12 @@ void ResultTable::hashJoin(ResultTable rt)
 	unordered_set<int> commonSynIdSet2ndTable; 
 	unordered_map<int, int> commonSyn2ndTo1stMap;
 	vector<vector<int>> newTupleList;
-	for (Parameter it : rt.getSynList()) {
+	for (Parameter it : rt->getSynList()) {
 		bool isExist = false;
 		for (Parameter p : synList) {
 			if (p.getParaName().compare(it.getParaName()) == 0) {
 				commonSyn++;
-				commonSyn2ndTo1stMap.insert(make_pair(rt.getParamId(it), getParamId(p)));
+				commonSyn2ndTo1stMap.insert(make_pair(rt->getParamId(it), getParamId(p)));
 				isExist = true;
 			}
 		}
@@ -198,15 +198,15 @@ void ResultTable::hashJoin(ResultTable rt)
 			resSynList.push_back(it);
 		}
 		else {
-			commonSynIdSet2ndTable.insert(rt.getParamId(it));
+			commonSynIdSet2ndTable.insert(rt->getParamId(it));
 		}
 	}
 
 	unordered_map<string, vector<vector<int>>> hashMap2ndTable;
 	
-	for (vector<int> tuple : rt.getTupleList()) {
+	for (vector<int> tuple : rt->getTupleList()) {
 		vector<int> keyVector, valueVector;
-		for (int idx = 0; idx < rt.getSynCount(); idx++) {
+		for (int idx = 0; idx < rt->getSynCount(); idx++) {
 			if (commonSynIdSet2ndTable.find(idx) == commonSynIdSet2ndTable.end()) {
 				valueVector.push_back(tuple.at(idx));
 			}
@@ -232,7 +232,7 @@ void ResultTable::hashJoin(ResultTable rt)
 	for (vector<int> tuple1 : tupleList) {
 		vector<int> tmpVector;
 		
-		for (int i = 0; i < rt.getSynCount(); i++) {
+		for (int i = 0; i < rt->getSynCount(); i++) {
 			auto it = commonSyn2ndTo1stMap.find(i);
 			if (it != commonSyn2ndTo1stMap.end()) {
 				tmpVector.push_back(tuple1.at(it->second));
@@ -256,14 +256,14 @@ void ResultTable::hashJoin(ResultTable rt)
 	return;
 }
 
-ResultTable ResultTable::select(vector<Parameter> paramList)
+ResultTable* ResultTable::select(vector<Parameter> paramList)
 {
 	return hashSelect(paramList);
 }
 
 void ResultTable::removeDuplicateTuple()
 {
-	tupleList = select(synList).getTupleList();
+	tupleList = select(synList)->getTupleList();
 }
 
 ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
@@ -299,7 +299,7 @@ ResultTable ResultTable::nestedSelect(vector<Parameter> paramList)
 
 }
 
-ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
+ResultTable* ResultTable::hashSelect(vector<Parameter> paramList)
 {
 	unordered_map<int, int> idMap;  
 	for (int i = 0; i < (int)paramList.size(); i++) {
@@ -310,13 +310,13 @@ ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
 				idMap.insert(make_pair(i, j));
 			}
 		if (isExist == false)
-			return ResultTable();  
+			return new ResultTable();  
 	}
 
-	ResultTable res;
+	ResultTable* res = new ResultTable();
 
 
-	res.setSynList(paramList);
+	res->setSynList(paramList);
 	unordered_set<string> tupleHashSet;
 	for (vector<int> tuple : tupleList) {
 		vector<int> insTuple;
@@ -324,7 +324,7 @@ ResultTable ResultTable::hashSelect(vector<Parameter> paramList)
 			insTuple.push_back(tuple.at(idMap[i]));
 
 		if (tupleHashSet.find(convertTupleToString(insTuple)) == tupleHashSet.end()) {
-			res.insertTuple(insTuple);
+			res->insertTuple(insTuple);
 			tupleHashSet.insert(convertTupleToString(insTuple));
 		}
 	}

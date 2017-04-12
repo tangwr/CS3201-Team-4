@@ -14,7 +14,7 @@ class Parent : public Clause {
 
 public:
 	Parent(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* resultTable);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 
@@ -77,7 +77,7 @@ private:
 	@resultTable: the table which stores the intermediate results
 	@return: the table which contains the results
 	*/
-	ResultTable getParentSynSyn(PKB* pkb, ResultTable* resultTable);
+	void getParentSynSyn(PKB* pkb, ResultTable* resultTable);
 	/*
 	Returns the list of tuples where any statement in the left list
 	is a direct parent of any statement in the right list
@@ -87,6 +87,6 @@ private:
 	@right: the right list
 	@return: the table which contains the list of tuples
 	*/
-	ResultTable getParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	void getParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 };
 #endif

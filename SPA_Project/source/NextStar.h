@@ -16,7 +16,7 @@ public:
 	NextStar(Parameter lc, Parameter rc);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* intResultTable);
 
 private:
 
@@ -77,7 +77,7 @@ private:
 	@resultTable: the table which stores the intermediate results
 	@return: the table which contains the results
 	*/
-	ResultTable getNextStarSynSyn(PKB* pkb, ResultTable* resultTable);
+	void getNextStarSynSyn(PKB* pkb, ResultTable* resultTable);
 	/*
 	compute the list of statements that can be executed after itself
 
@@ -86,7 +86,7 @@ private:
 	@return: the table which contains the list of statements that can be executed
 			after themselves
 	*/
-	ResultTable isNextStarItself(PKB* pkb, unordered_set<int> stmts);
+	void isNextStarItself(PKB* pkb, unordered_set<int> stmts);
 	/*
 	Returns the list of tuples where any statement in the left list
 	is executed before any statement in the right list
@@ -96,7 +96,7 @@ private:
 	@right: the right list
 	@return: the table which contains the list of tuples
 	*/
-	ResultTable getNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	void getNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 	/*
 	Creates a visited set to use in the computation of next* statements
 

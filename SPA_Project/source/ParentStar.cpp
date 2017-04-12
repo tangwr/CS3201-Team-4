@@ -20,28 +20,28 @@ ParentStar::ParentStar(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable ParentStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getParentStarSynSyn(pkb, &resultTable);
+ResultTable* ParentStar::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getParentStarSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isParentStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
-			return getParentStar(pkb, left, getTypeStmt(rightChild, pkb));
+			getParentStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (!right.empty()) {
-			return getParentStar(pkb, getTypeStmt(leftChild, pkb), right);
+			getParentStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getParentStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getParentStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> ParentStar::getSynList() {
@@ -64,10 +64,10 @@ bool ParentStar::isParentStar(PKB* pkb, unordered_set<int> left, unordered_set<i
 	return false;
 }
 
-ResultTable ParentStar::getParentStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void ParentStar::getParentStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	if (left.size() == ONE) {
 		for (auto& leftIterator : left) {
@@ -89,13 +89,13 @@ ResultTable ParentStar::getParentStar(PKB* pkb, unordered_set<int> left, unorder
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) {
+void ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -115,7 +115,7 @@ ResultTable ParentStar::getParentStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 			}
 		}
 	}
-	return result;
+	return;
 }
 
 void ParentStar::setSynList() {

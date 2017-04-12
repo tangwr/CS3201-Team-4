@@ -17,7 +17,7 @@ public:
 	NextBipStar(Parameter lc, Parameter rc);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* intResultTable);
 
 private:
 
@@ -83,8 +83,8 @@ private:
 	@resultTable: the table which stores the intermediate results
 	@return: the table which contains the results
 	*/
-	ResultTable getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable);
-	ResultTable isNextBipStarItself(PKB* pkb, unordered_set<int> stmts);
+	void getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable);
+	void isNextBipStarItself(PKB* pkb, unordered_set<int> stmts);
 	/*
 	Returns the list of tuples where any statement in the left list
 	is executed before any statement in the right list
@@ -94,6 +94,6 @@ private:
 	@right: the right list
 	@return: the table which contains the list of tuples
 	*/
-	ResultTable getNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	void getNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 };
 #endif

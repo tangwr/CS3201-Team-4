@@ -17,7 +17,7 @@ public:
 	* @param the ResultTable object
 	* @return the processed result in a list of string
 	*/
-	list<string> processResult(ResultTable result);
+	list<string> processResult(ResultTable *result);
 
 private:
 	PKB *pkb;

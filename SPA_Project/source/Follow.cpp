@@ -22,28 +22,28 @@ Follow::Follow(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable Follow::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getFollowSynSyn(pkb, &resultTable);
+ResultTable* Follow::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getFollowSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isFollows(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
-			return getFollow(pkb, left, getTypeStmt(rightChild, pkb));
+			getFollow(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (!right.empty()) {
-			return getFollow(pkb, getTypeStmt(leftChild, pkb), right);
+			getFollow(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getFollow(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getFollow(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> Follow::getSynList() {
@@ -74,10 +74,10 @@ bool Follow::isFollows(PKB* pkb, unordered_set<int> left, unordered_set<int> rig
 	return false;
 }
 
-ResultTable Follow::getFollow(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void Follow::getFollow(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
@@ -95,13 +95,13 @@ ResultTable Follow::getFollow(PKB* pkb, unordered_set<int> left, unordered_set<i
 			}
 		}
 	}
-	return result;
+	return ;
 }
 
-ResultTable Follow::getFollowSynSyn(PKB* pkb, ResultTable* resultTable) {
+void Follow::getFollowSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -121,7 +121,7 @@ ResultTable Follow::getFollowSynSyn(PKB* pkb, ResultTable* resultTable) {
 			}
 		}
 	}
-	return result;
+	return;
 }
 
 void Follow::setSynList() {

@@ -36,41 +36,25 @@ public:
 	@qt: queryTree containing information of PQL query
 	@return: resultTable containing the result of query
 	*/
-	ResultTable evaluate(QueryTree qt);
+	ResultTable* evaluate(QueryTree qt);
 	
 
 private:
 	PKB* pkb;
-	ResultTable resTable;
+	ResultTable* resTable;
 
 	/*
 	Version 1 Optimization Query Evaluator
 	*/
-	ResultTable evaluateWithOptimization(QueryTree qt);
-
-	/*
-	Version 1 Optimization Query Evaluator
-	*/
-	ResultTable evaluateWithOptimization2(QueryTree qt);
-
-	/*
-	Unoptimized Version Query Evaluator
-	*/
-	ResultTable evaluateWithoutOptimization(QueryTree qt);
+	ResultTable* evaluateWithOptimization2(QueryTree qt);
 
 	/*
 	Version 1 Optimization Evaluator for a synonym group
 	*/
-	ResultTable evaluateGroup(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
-	
-	/*
-	Version 1 Optimization Evaluator for a synonym group
-	*/
-	ResultTable evaluateGroup2(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable> clause1SynResult);
-	ResultTable getAllValueForSyn(Parameter param);
-	ResultTable createEarlyTerminationTable(QueryTree qt);
-	void joinResultTable(ResultTable rt);
-	void printClause(Clause* c);
+	ResultTable* evaluateGroup2(vector<Parameter> usedSynList, vector<Clause*> clauseList, vector<Clause*> clause1SynList, vector<ResultTable*> clause1SynResult);
+	ResultTable* getAllValueForSyn(Parameter param);
+	ResultTable* createEarlyTerminationTable(QueryTree qt);
+	//void printClause(Clause* c);
 };
 
 

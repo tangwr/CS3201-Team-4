@@ -21,28 +21,28 @@ Parent::Parent(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable Parent::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getParentSynSyn(pkb, &resultTable);
+ResultTable* Parent::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getParentSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isParent(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
-			return getParent(pkb, left, getTypeStmt(rightChild, pkb));
+			getParent(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (!right.empty()) {
-			return getParent(pkb, getTypeStmt(leftChild, pkb), right);
+			getParent(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getParent(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getParent(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> Parent::getSynList() {
@@ -63,10 +63,10 @@ bool Parent::isParent(PKB* pkb, unordered_set<int> left, unordered_set<int> righ
 	return false;
 }
 
-ResultTable Parent::getParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void Parent::getParent(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	if (left.size() == ONE) {
 		for (auto& leftIterator : left) {
@@ -86,13 +86,13 @@ ResultTable Parent::getParent(PKB* pkb, unordered_set<int> left, unordered_set<i
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
+void Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -112,7 +112,7 @@ ResultTable Parent::getParentSynSyn(PKB* pkb, ResultTable* resultTable) {
 			}
 		}
 	}
-	return result;
+	return;
 }
 
 void Parent::setSynList() {

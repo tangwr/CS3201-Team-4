@@ -38,6 +38,6 @@ public:
 	@intResultTable: the table that stores intermediate results
 	@return: the table which contains the results of the clause
 	*/
-	virtual ResultTable evaluate(PKB* pkb, ResultTable intResultTable) = 0;
+	virtual ResultTable* evaluate(PKB* pkb, ResultTable* intResultTable) = 0;
 };
 #endif

@@ -18,12 +18,13 @@ public:
 
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* intResultTable);
 
 private:
 	Parameter leftChild;
 	Parameter rightChild;
 	vector<Parameter> synList;
+	ResultTable resultTable;
 	bool hasFoundAllResult;
 
 	void setSynToTable(ResultTable* pattResultTable);

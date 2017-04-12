@@ -13,13 +13,13 @@ QueryPostProcessor::QueryPostProcessor(PKB *pkbSource) {
 	pkb = pkbSource;
 }
 
-list<string> QueryPostProcessor::processResult(ResultTable result) {
-	vector<Parameter> select = result.getSynList();
-	vector<vector<int>> resultVector = result.getTupleList();
+list<string> QueryPostProcessor::processResult(ResultTable* result) {
+	vector<Parameter> select = result->getSynList();
+	vector<vector<int>> resultVector = result->getTupleList();
 	list<string> resultLists;
 
 	if (select.size() == SIZE_ZERO) {
-		resultLists.push_back(formatBoolResult(result.getBoolean()));
+		resultLists.push_back(formatBoolResult(result->getBoolean()));
 		return resultLists;
 	}
 
@@ -29,6 +29,7 @@ list<string> QueryPostProcessor::processResult(ResultTable result) {
 		resultLists.push_back(res);
 	}
 
+	delete result;
 	return resultLists;
 }
 

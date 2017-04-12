@@ -19,7 +19,7 @@ class Modifies : public Clause {
 public:
 	Modifies(Parameter lc, Parameter rc);
 	vector<Parameter> getSynList();
-	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
+	ResultTable* evaluate(PKB *pkb, ResultTable* intResultTable);
 	void insertSynList(Parameter p);
 	ClauseType getClauseType();
 
@@ -28,6 +28,7 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	vector<Parameter> synList;
+	ResultTable resultTable;
 
 	Type paramType1, paramType2;
 	//vector<int> valueList1, valueList2;

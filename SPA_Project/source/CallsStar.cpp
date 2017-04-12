@@ -20,9 +20,7 @@ CallsStar::CallsStar(Parameter lc, Parameter rc) {
 	
 }
 
-ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
-	ResultTable resultTable;
-	
+ResultTable* CallsStar::evaluate(PKB *pkb, ResultTable* intResultTable) {
 	Parameter param1, param2;
 
 	vector<int> tuple;
@@ -35,39 +33,39 @@ ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
 	string lcName = leftChild.getParaName();
 	string rcName = rightChild.getParaName();
 
-	vector<Parameter> paramList = intResultTable.getSynList(); // restricted paramlist
-	vector<vector<int>> valueList = intResultTable.getTupleList(); // valueList
+	vector<Parameter> paramList = intResultTable->getSynList(); // restricted paramlist
+	vector<vector<int>> valueList = intResultTable->getTupleList(); // valueList
 
 	isLeftSyn = isSynonym(lcType);
 	isRightSyn = isSynonym(rcType);
 
 	if (isValidParameter(pkb, leftChild) == false || isValidParameter(pkb, rightChild) == false) {
 		resultTable.setBoolean(false);
-		return resultTable;
+		return &resultTable;
 	}
 
 	if (lcType == rcType && lcName == rcName && isLeftSyn == true && isRightSyn == true) {
 		resultTable.setBoolean(false);
-		return resultTable;
+		return &resultTable;
 	}
 
 	if (paramList.size() == 1) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
 		paramName1 = param1.getParaName();
-		valueSet1 = intResultTable.getSynValue(param1);
+		valueSet1 = intResultTable->getSynValue(param1);
 	}
 
 	if (paramList.size() == 2) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
 		paramName1 = param1.getParaName();
-		valueSet1 = intResultTable.getSynValue(param1);
+		valueSet1 = intResultTable->getSynValue(param1);
 
 		param2 = paramList.at(1);
 		paramType2 = param2.getParaType();
 		paramName2 = param2.getParaName();
-		valueSet2 = intResultTable.getSynValue(param2);
+		valueSet2 = intResultTable->getSynValue(param2);
 	}
 
 
@@ -112,7 +110,7 @@ ResultTable CallsStar::evaluate(PKB *pkb, ResultTable intResultTable) {
 		}
 	}
 	
-	return resultTable;
+	return &resultTable;
 }
 
 bool CallsStar::isValidParameter(PKB *pkb, Parameter param) {

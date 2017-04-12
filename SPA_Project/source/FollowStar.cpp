@@ -20,28 +20,28 @@ FollowStar::FollowStar(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable FollowStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getFollowStarSynSyn(pkb, &resultTable);
+ResultTable* FollowStar::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getFollowStarSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isFollowStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
-			return getFollowStar(pkb, left, getTypeStmt(rightChild, pkb));
+			getFollowStar(pkb, left, getTypeStmt(rightChild, pkb));
 		}
 		else if (!right.empty()) {
-			return getFollowStar(pkb, getTypeStmt(leftChild, pkb), right);
+			getFollowStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getFollowStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getFollowStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> FollowStar::getSynList() {
@@ -76,10 +76,10 @@ bool FollowStar::isFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<i
 	return false;
 }
 
-ResultTable FollowStar::getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void FollowStar::getFollowStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	if (left.size() < right.size()) {
 		for (auto& leftIterator : left) {
@@ -101,13 +101,13 @@ ResultTable FollowStar::getFollowStar(PKB* pkb, unordered_set<int> left, unorder
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable) {
+void FollowStar::getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return result;
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -127,7 +127,7 @@ ResultTable FollowStar::getFollowStarSynSyn(PKB* pkb, ResultTable* resultTable) 
 			}
 		}
 	}
-	return result;
+	return;
 }
 
 void FollowStar::setSynList() {

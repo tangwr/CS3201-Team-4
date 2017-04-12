@@ -16,7 +16,7 @@ class CallsStar : public Clause {
 public:
 
 	CallsStar(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB *pkb, ResultTable intResultTable);
+	ResultTable* evaluate(PKB *pkb, ResultTable* intResultTable);
 	void insertSynList(Parameter p);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
@@ -25,6 +25,7 @@ private:
 	Parameter leftChild;
 	Parameter rightChild;
 	vector<Parameter> synList;
+	ResultTable resultTable;
 
 	Type paramType1, paramType2;
 	string paramName1, paramName2;

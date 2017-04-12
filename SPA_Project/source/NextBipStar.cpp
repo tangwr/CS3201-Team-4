@@ -22,31 +22,33 @@ NextBipStar::NextBipStar(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable NextBipStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getNextBipStarSynSyn(pkb, &resultTable);
+ResultTable* NextBipStar::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getNextBipStarSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isNextBipStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
 			if (!right.empty()) {
-				return getNextBipStarSynSyn(pkb, &resultTable);
+				getNextBipStarSynSyn(pkb, resultTable);
 			}
-			return getNextBipStar(pkb, left, getTypeStmt(rightChild, pkb));
+			else {
+				getNextBipStar(pkb, left, getTypeStmt(rightChild, pkb));
+			}
 		}
 		else if (!right.empty()) {
-			return getNextBipStar(pkb, getTypeStmt(leftChild, pkb), right);
+			getNextBipStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getNextBipStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getNextBipStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> NextBipStar::getSynList() {
@@ -70,10 +72,11 @@ bool NextBipStar::isNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set
 	return false;
 }
 
-ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return isNextBipStarItself(pkb, getTypeStmt(leftChild, pkb));
+		isNextBipStarItself(pkb, getTypeStmt(leftChild, pkb));
+		return;
 	}
 
 	for (auto& leftIterator : left) {
@@ -85,13 +88,14 @@ ResultTable NextBipStar::getNextBipStar(PKB* pkb, unordered_set<int> left, unord
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable NextBipStar::getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable) {
+void NextBipStar::getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return isNextBipStarItself(pkb, resultTable->getSynValue(leftChild));
+		isNextBipStarItself(pkb, resultTable->getSynValue(leftChild));
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -127,7 +131,7 @@ ResultTable NextBipStar::getNextBipStarSynSyn(PKB* pkb, ResultTable* resultTable
 			}
 		}
 	}
-	return result;
+	return ;
 }
 
 unordered_set<int> NextBipStar::computeNextBip(int curr, PKB* pkb) {
@@ -201,7 +205,7 @@ void NextBipStar::computeLastBip(int curr, unordered_set<int>* allNextBip, PKB* 
 	}
 }
 
-ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts) {
+void NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts) {
 	for (auto& it : stmts) {
 		unordered_set<int> allNextBipStar;
 		getAllNextBipStar(it, &allNextBipStar, pkb);
@@ -209,7 +213,7 @@ ResultTable NextBipStar::isNextBipStarItself(PKB* pkb, unordered_set<int> stmts)
 			insertTuple(it, it);
 		}
 	}
-	return result;
+	return;
 }
 
 void NextBipStar::getAllNextBipStar(int prev, unordered_set<int>* allNextBipStar, PKB* pkb) {

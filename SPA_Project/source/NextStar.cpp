@@ -22,31 +22,33 @@ NextStar::NextStar(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable NextStar::evaluate(PKB* pkb, ResultTable resultTable) {
-	if (resultTable.getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
-		return getNextStarSynSyn(pkb, &resultTable);
+ResultTable* NextStar::evaluate(PKB* pkb, ResultTable* resultTable) {
+	if (resultTable->getSynCount() == NUM_PARAMETER_WITH_INTERMEDIATE_RESULTS_TWO) {
+		getNextStarSynSyn(pkb, resultTable);
 	}
 	else if (isBooleanClause()) {
 		result.setBoolean(isNextStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb)));
-		return result;
+		return &result;
 	}
 	else {
-		unordered_set<int> left = resultTable.getSynValue(leftChild);
-		unordered_set<int> right = resultTable.getSynValue(rightChild);
+		unordered_set<int> left = resultTable->getSynValue(leftChild);
+		unordered_set<int> right = resultTable->getSynValue(rightChild);
 		if (!left.empty()) {
 			if (!right.empty()) {
-				return getNextStarSynSyn(pkb, &resultTable);
+				getNextStarSynSyn(pkb, resultTable);
 			}
-			return getNextStar(pkb, left, getTypeStmt(rightChild, pkb));
+			else {
+				getNextStar(pkb, left, getTypeStmt(rightChild, pkb));
+			}
 		}
 		else if (!right.empty()) {
-			return getNextStar(pkb, getTypeStmt(leftChild, pkb), right);
+			getNextStar(pkb, getTypeStmt(leftChild, pkb), right);
 		}
 		else {
-			return getNextStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
+			getNextStar(pkb, getTypeStmt(leftChild, pkb), getTypeStmt(rightChild, pkb));
 		}
 	}
-	return result;
+	return &result;
 }
 
 vector<Parameter> NextStar::getSynList() {
@@ -83,10 +85,11 @@ bool NextStar::isNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> 
 	return false;
 }
 
-ResultTable NextStar::getNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
+void NextStar::getNextStar(PKB* pkb, unordered_set<int> left, unordered_set<int> right) {
 	setSynList();
 	if (isLeftChild(rightChild)) {
-		return isNextStarItself(pkb, getTypeStmt(leftChild, pkb));
+		isNextStarItself(pkb, getTypeStmt(leftChild, pkb));
+		return;
 	}
 
 	if (left.size() < right.size()) {
@@ -111,13 +114,14 @@ ResultTable NextStar::getNextStar(PKB* pkb, unordered_set<int> left, unordered_s
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
+void NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 	result.setSynList(vector<Parameter>({ leftChild, rightChild }));
 	if (isLeftChild(rightChild)) {
-		return isNextStarItself(pkb, resultTable->getSynValue(leftChild));
+		isNextStarItself(pkb, resultTable->getSynValue(leftChild));
+		return;
 	}
 	vector<Parameter> synonyms = resultTable->getSynList();
 	vector<vector<int>> tupleList = resultTable->getTupleList();
@@ -189,10 +193,10 @@ ResultTable NextStar::getNextStarSynSyn(PKB* pkb, ResultTable* resultTable) {
 			}
 		}
 	}
-	return result;
+	return;
 }
 
-ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
+void NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
 	for (auto& it : stmts) {
 		if (pkb->isStmtInWhileTable(it)) {
 			insertTuple(it, it);
@@ -207,7 +211,7 @@ ResultTable NextStar::isNextStarItself(PKB* pkb, unordered_set<int> stmts) {
 			}
 		}
 	}
-	return result;
+	return;
 }
 
 void NextStar::getAllNextStar(int prev, unordered_set<int>* allNextStar, PKB* pkb) {

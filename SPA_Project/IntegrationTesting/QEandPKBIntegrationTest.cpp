@@ -52,12 +52,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { {1}, {2} };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(2, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(2, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 		TEST_METHOD(IntegrationTest_QEPKB_SelectBoolean)
 		{
@@ -85,10 +85,10 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
-			Assert::AreEqual(0, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(true == rt.getBoolean());
+			ResultTable* rt = qe->evaluate(qt);
+			Assert::AreEqual(0, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(true == rt->getBoolean());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_SelectBoolean2)
@@ -115,10 +115,10 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
-			Assert::AreEqual(0, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(true == rt.getBoolean());
+			ResultTable* rt = qe->evaluate(qt);
+			Assert::AreEqual(0, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(true == rt->getBoolean());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_SelectBoolean3)
@@ -145,10 +145,10 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
-			Assert::AreEqual(0, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(false == rt.getBoolean());
+			ResultTable* rt = qe->evaluate(qt);
+			Assert::AreEqual(0, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(false == rt->getBoolean());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_SelectBoolean4)
@@ -181,10 +181,10 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
-			Assert::AreEqual(0, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(false == rt.getBoolean());
+			ResultTable* rt = qe->evaluate(qt);
+			Assert::AreEqual(0, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(false == rt->getBoolean());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_MultipleSynGroup)
@@ -219,12 +219,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1, 1 },{ 1, 2 }, {2, 1}, {2, 2} };
-			Assert::AreEqual(2, rt.getSynCount());
-			Assert::AreEqual(4, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(2, rt->getSynCount());
+			Assert::AreEqual(4, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_EarlyTermination)
@@ -261,12 +261,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
-			Assert::AreEqual(2, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(2, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_NonSynClause)
@@ -293,12 +293,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } , { 2 } };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(2, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(2, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_NonSynClauseNoResult)
@@ -325,12 +325,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_OneSynClause)
@@ -357,12 +357,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } ,{ 2 } };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(2, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(2, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_OneSynClauseNoResult)
@@ -389,12 +389,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_With)
@@ -422,12 +422,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(1, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(1, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_IntroduceNewOneSynClause)
@@ -466,12 +466,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(1, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(1, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_NonSelectGroupSyn)
@@ -499,12 +499,12 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } ,{ 2 } };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(2, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(2, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_IntroduceWithNewOneSynClause)
@@ -544,12 +544,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 2 } };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(1, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(1, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_EarlyTermination1)
@@ -584,12 +584,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_EarlyTermination2)
@@ -620,12 +620,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_EarlyTermination3)
@@ -668,12 +668,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_EarlyTermination4)
@@ -716,12 +716,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_Depriortization)
@@ -754,12 +754,12 @@ namespace IntegrationTesting
 			pkb->setStmtFollowStmtRel(1, 2);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
-			Assert::AreEqual(1, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(1, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 
 		TEST_METHOD(IntegrationTest_QEPKB_UnusedSelect)
@@ -799,12 +799,12 @@ namespace IntegrationTesting
 			pkb->setVarToWhileStmt(1, 1);
 
 			qe = new QueryEvaluator(pkb);
-			ResultTable rt = qe->evaluate(qt);
+			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
-			Assert::AreEqual(10, rt.getSynCount());
-			Assert::AreEqual(0, rt.getTupleSize());
-			Assert::IsTrue(expect == rt.getTupleList());
+			Assert::AreEqual(10, rt->getSynCount());
+			Assert::AreEqual(0, rt->getTupleSize());
+			Assert::IsTrue(expect == rt->getTupleList());
 		}
 	};
 }

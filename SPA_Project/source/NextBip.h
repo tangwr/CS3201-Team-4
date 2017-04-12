@@ -15,7 +15,7 @@ class NextBip : public Clause {
 
 public:
 	NextBip(Parameter lc, Parameter rc);
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* resultTable);
 	vector<Parameter> getSynList();
 	ClauseType getClauseType();
 
@@ -72,7 +72,7 @@ private:
 	@resultTable: the table which stores the intermediate results
 	@return: the table which contains the results
 	*/
-	ResultTable getNextBipSynSyn(PKB* pkb, ResultTable* resultTable);
+	void getNextBipSynSyn(PKB* pkb, ResultTable* resultTable);
 	/*
 	Returns the list of tuples where any statement in the left list
 	is executed immediately before any statement in the right list
@@ -82,7 +82,7 @@ private:
 	@right: the right list
 	@return: the table which contains the list of tuples
 	*/
-	ResultTable getNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	void getNextBip(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 	/*
 	returns a list of statements based on the argument parameter
 

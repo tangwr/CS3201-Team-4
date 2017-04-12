@@ -15,7 +15,7 @@ class Follow : public Clause {
 public:
 	Follow(Parameter lc, Parameter rc);
 	vector<Parameter> getSynList();
-	ResultTable evaluate(PKB* pkb, ResultTable resultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* resultTable);
 	ClauseType getClauseType();
 
 private:
@@ -79,7 +79,7 @@ private:
 	@resultTable: the table which stores the intermediate results
 	@return: the table which contains the results
 	*/
-	ResultTable getFollowSynSyn(PKB* pkb, ResultTable* resultTable);
+	void getFollowSynSyn(PKB* pkb, ResultTable* resultTable);
 	/*
 	Returns the list of tuples where any statement in the left list
 	is followedBy any statement in the right list
@@ -89,7 +89,7 @@ private:
 	@right: the right list
 	@return: the table which contains the list of tuples
 	*/
-	ResultTable getFollow(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
+	void getFollow(PKB* pkb, unordered_set<int> left, unordered_set<int> right);
 
 };
 #endif

@@ -15,7 +15,7 @@ using namespace std;
 class Pattern : public Clause {
 public:
 	Pattern(Parameter lc, Parameter rc, Parameter factor, bool isSubExp);
-	ResultTable evaluate(PKB* pkb, ResultTable intResultTable);
+	ResultTable* evaluate(PKB* pkb, ResultTable* intResultTable);
 
 	void setUnderScore(bool);
 	void setFactor(Parameter factor);
@@ -32,6 +32,7 @@ private:
 	bool hasUnderScore;
 	vector<Parameter> synList;
 	string prefix;
+	ResultTable resultTable;
 
 	void setSynToTable(ResultTable* pattResultTable);
 	void setResultToTable(PKB* pkb, ResultTable* intResultTable, ResultTable* pattResultTable);

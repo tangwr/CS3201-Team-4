@@ -92,6 +92,9 @@ bool Parameter::isSame(Parameter paraObj) {
 	if (paraType != paraObj.getParaType()) {
 		return false;
 	}
+	if (isAttributeProc != paraObj.getAttributeProc()) {
+		return false;
+	}
 	return true;
 }
 

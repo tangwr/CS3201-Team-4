@@ -25,11 +25,10 @@ Pattern::Pattern(Parameter lc, Parameter rc, Parameter f, bool isSubExp) {
 	}
 }
 
-ResultTable Pattern::evaluate(PKB* pkb, ResultTable intResultTable) {
-	ResultTable pattResultTable;
-	setSynToTable(&pattResultTable);
-	setResultToTable(pkb, &intResultTable, &pattResultTable);
-	return pattResultTable;
+ResultTable* Pattern::evaluate(PKB* pkb, ResultTable* intResultTable) {
+	setSynToTable(&resultTable);
+	setResultToTable(pkb, intResultTable, &resultTable);
+	return &resultTable;
 }
 
 void Pattern::setSynToTable(ResultTable* pattResultTable) {

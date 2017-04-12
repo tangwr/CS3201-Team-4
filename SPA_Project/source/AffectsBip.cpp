@@ -27,14 +27,13 @@ AffectsBip::AffectsBip(Parameter lc, Parameter rc) {
 	hasFoundAllResult = false;
 }
 
-ResultTable AffectsBip::evaluate(PKB* pkb, ResultTable intResultTable) {
-	ResultTable affectResultTable;
-	affectResultTable.setBoolean(false);
+ResultTable* AffectsBip::evaluate(PKB* pkb, ResultTable* intResultTable) {
+	resultTable.setBoolean(false);
 
-	setSynToTable(&affectResultTable);
-	setResultToTable(pkb, &intResultTable, &affectResultTable);
+	setSynToTable(&resultTable);
+	setResultToTable(pkb, intResultTable, &resultTable);
 
-	return affectResultTable;
+	return &resultTable;
 }
 
 void AffectsBip::setSynToTable(ResultTable* affectResultTable) {

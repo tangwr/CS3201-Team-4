@@ -17,9 +17,7 @@ Modifies::Modifies(Parameter lc, Parameter rc) {
 	}
 }
 
-ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
-	ResultTable resultTable;
-	
+ResultTable* Modifies::evaluate(PKB *pkb, ResultTable* intResultTable){
 	Parameter param1, param2;
 	vector<int> tuple;
 	unordered_set<int> firstSynList, secondSynList, procStmtSet;
@@ -28,30 +26,30 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 	Type lcType = leftChild.getParaType();
 	Type rcType = rightChild.getParaType();
 
-	vector<Parameter> paramList = intResultTable.getSynList(); // restricted paramlist
+	vector<Parameter> paramList = intResultTable->getSynList(); // restricted paramlist
 
 	isLeftSyn = isSynonym(lcType);
 	isRightSyn = isSynonym(rcType);
 	
 	if (isValidParameter(pkb, leftChild) == false || isValidParameter(pkb, rightChild) == false) {
 		resultTable.setBoolean(false);
-		return resultTable;
+		return &resultTable;
 	}
 
 	if (paramList.size() == 1) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
-		valueSet1 = intResultTable.getSynValue(param1);
+		valueSet1 = intResultTable->getSynValue(param1);
 	}
 
 	if (paramList.size() == 2) {
 		param1 = paramList.at(0);
 		paramType1 = param1.getParaType();
-		valueSet1 = intResultTable.getSynValue(param1);
+		valueSet1 = intResultTable->getSynValue(param1);
 
 		param2 = paramList.at(1);
 		paramType2 = param2.getParaType();
-		valueSet2 = intResultTable.getSynValue(param2);
+		valueSet2 = intResultTable->getSynValue(param2);
 	}
 
 	
@@ -112,7 +110,7 @@ ResultTable Modifies::evaluate(PKB *pkb, ResultTable intResultTable){
 		}
 	}
 	
-	return resultTable;
+	return &resultTable;
 }
 
 bool Modifies::isValidParameter(PKB *pkb, Parameter param) {

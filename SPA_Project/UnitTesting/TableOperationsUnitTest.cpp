@@ -23,7 +23,7 @@ namespace UnitTesting
 			unordered_set<int> testSetTwo = unordered_set<int>({ 1, 2000, 330 });
 			unordered_set<int> testSetThree = unordered_set<int>({ 2, 2000, 330 });
 			Assert::AreEqual(TableOperations::isEqualUnorderedSet(testSetOne, testSetTwo), testSetOne == testSetTwo);
-			Assert::AreNotEqual(TableOperations::isEqualUnorderedSet(testSetOne, testSetThree), testSetThree == testSetOne);
+			Assert::IsFalse(TableOperations::isEqualUnorderedSet(testSetOne, testSetThree));
 		}
 	};
 }

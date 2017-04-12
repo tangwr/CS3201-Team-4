@@ -15,14 +15,14 @@ class NextTable {
 public:
 	NextTable();
 	int getSize();
-	bool setStmtNextStmtRel(int currentStmtId, int nextStmtId);//sets both next and previous
+	bool setStmtNextStmtRel(int currentStmtId, int nextStmtId);
 	unordered_set<int> getNextStmt(int stmtId);
 	unordered_set<int> getPreviousStmt(int stmtId);
 	void printContents();
 
 private:
-    unordered_map<int, unordered_set<int>> nextMap; //stmt, list of next stmt
-    unordered_map<int, unordered_set<int>> previousMap; //stmt, list of previous stmt
+    unordered_map<int, unordered_set<int>> nextMap; 
+    unordered_map<int, unordered_set<int>> previousMap;
     int size;
 
 

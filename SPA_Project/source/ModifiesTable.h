@@ -36,6 +36,4 @@ private:
     unordered_map<int, unordered_set<int>> modifiesStmtMap, modifiedByStmtMap;
     unordered_map<int, unordered_set<int>> modifiesProcMap, modifiedByProcMap;
 
-
-
 };

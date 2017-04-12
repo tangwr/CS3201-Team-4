@@ -13,6 +13,10 @@
 using namespace std;
 
 class DesignExtractor {
+public:
+	DesignExtractor(PKB *pkbSource);
+	void extractStarRelations();
+
 private:
 	PKB *pkb;
     void extractProcModifiesUsesStar();
@@ -26,8 +30,4 @@ private:
 	void populateModifyRelFromStmt(int procId, int containerStmtId, int sourceStmtId);
 	void populateFollowStarFromStmt(int sourceStmtId, int targetStmtId);
 	void populateParentStarForContainerStmt(int containerStmtId, int sourceStmtId);
-
-public:
-    DesignExtractor(PKB *pkbSource);
-    void extractStarRelations();
 };

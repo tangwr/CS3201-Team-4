@@ -15,7 +15,7 @@ public:
 	ParentsTable();
 	bool setStmtParentStmtRel(int father, int child);
 	bool insertStmtParentStmtRel(int father, int child);
-	unordered_set<int> getStmtChildrenStmt(int stmtNo);  // direct children
+	unordered_set<int> getStmtChildrenStmt(int stmtNo);
 	int getParent(int stmtNo);
 	unordered_set<int> getStmtChildrenStarStmt(int stmtId);
 	unordered_set<int> getStmtParentStarStmt(int stmtId);

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "PQL.h"
+#include "PQLStub.h"
 #include "PKBStub.h"
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -18,7 +18,7 @@ namespace IntegrationTesting
 			//Select all stmt
 			string query = declaration + "Select s";
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -121,7 +121,7 @@ namespace IntegrationTesting
 			//Select tuple stmtlst & variable
 			string query = declaration + "Select <sl,v>";
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -230,7 +230,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a; while w; if i; call c; prog_line n; stmtLst sl; procedure p; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -250,7 +250,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -270,7 +270,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -290,7 +290,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -310,7 +310,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -330,7 +330,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a, a1, a2; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -351,7 +351,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a, a1, a2; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -371,7 +371,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a, a1, a2; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -391,7 +391,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a, a1, a2; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; ";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -413,7 +413,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a, a1, a2; while w; if i; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v; constant ct;";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 
@@ -442,7 +442,7 @@ namespace IntegrationTesting
 			string declaration = "stmt s,s1,s2; assign a, a1, a2; while w; if i, i1, i2; call c; prog_line n; stmtLst sl; procedure p, p1, p2; variable v, v1, v2; constant ct;";
 			string query;
 			PKBStub pkbStub;
-			PQL pql(&pkbStub);
+			PQLStub pql(&pkbStub);
 			list<string> actualResult;
 			list<string> expectedResult;
 

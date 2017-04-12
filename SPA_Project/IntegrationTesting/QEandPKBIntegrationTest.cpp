@@ -1,21 +1,13 @@
-
 #include "stdafx.h"
-#include "CppUnitTest.h"
-#include "Parser.h"
-#include "DesignExtractor.h"
-#include "Controller.h"
-#include "QueryEvaluator.h"
+#include "PKB.h"
+#include "QueryTree.h"
+#include "QueryEvaluatorStub.h"
+#include "Modifies.h"
+#include "Uses.h"
 #include "With.h"
 #include "Follow.h"
 #include "AffectsStar.h"
-#include "PKB.h"
-#include "Modifies.h"
-#include "Uses.h"
-#include <vector>
-#include <unordered_map>
-#include <iostream>
-#include <stdio.h>
-#include <stdlib.h>
+
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 using namespace std;
@@ -32,7 +24,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that modifies(s1, v)
 			Parameter p1, p2;
 			p1 = Parameter("s1", STMT);
@@ -51,7 +43,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { {1}, {2} };
@@ -64,7 +56,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select Boolean such that modifies(s1, v)
 			Parameter p1, p2, p3;
 			p1 = Parameter("s1", STMT);
@@ -84,7 +76,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			Assert::AreEqual(0, rt->getSynCount());
 			Assert::AreEqual(0, rt->getTupleSize());
@@ -96,7 +88,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select Boolean such that modifies(1, "a")
 			Parameter p1, p2, p3;
 			p1 = Parameter("1", INTEGER);
@@ -114,7 +106,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			Assert::AreEqual(0, rt->getSynCount());
 			Assert::AreEqual(0, rt->getTupleSize());
@@ -126,7 +118,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select Boolean such that modifies(2, "a")
 			Parameter p1, p2, p3;
 			p1 = Parameter("2", INTEGER);
@@ -144,7 +136,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			Assert::AreEqual(0, rt->getSynCount());
 			Assert::AreEqual(0, rt->getTupleSize());
@@ -156,7 +148,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select Boolean such that modifies(s1, "a") and modifies(s1, "b")
 			Parameter p1, p2, p3, p4, p5;
 			p1 = Parameter("s1", STMT);
@@ -180,7 +172,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			Assert::AreEqual(0, rt->getSynCount());
 			Assert::AreEqual(0, rt->getTupleSize());
@@ -192,7 +184,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select <s1, s2> such that modifies(s1, v1) and modifies(s2, v2)
 			Parameter p1, p2 ,p3, p4;
 			p1 = Parameter("s1", STMT);
@@ -218,7 +210,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1, 1 },{ 1, 2 }, {2, 1}, {2, 2} };
@@ -232,7 +224,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select <s1, s2> such that modifies(s1, v1) and modifies(s2, v2) and uses(s2, v1)
 			Parameter p1, p2, p3, p4;
 			p1 = Parameter("s1", STMT);
@@ -260,7 +252,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
@@ -274,7 +266,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that modifies(1, "a")
 			Parameter p1, p2, p3;
 			p1 = Parameter("1", INTEGER);
@@ -292,7 +284,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } , { 2 } };
@@ -306,7 +298,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that modifies(1, "a")
 			Parameter p1, p2, p3, p4;
 			p1 = Parameter("1", INTEGER);
@@ -324,7 +316,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
@@ -338,7 +330,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that modifies(1, v)
 			Parameter p1, p2, p3;
 			p1 = Parameter("1", INTEGER);
@@ -356,7 +348,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } ,{ 2 } };
@@ -370,7 +362,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that modifies(4, v)
 			Parameter p1, p2, p3;
 			p1 = Parameter("4", INTEGER);
@@ -388,7 +380,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
@@ -402,7 +394,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 with s1.stmt# = 1
 			Parameter p1, p2, p3;
 			
@@ -421,7 +413,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } };
@@ -435,7 +427,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 with s1.stmt# = 1 such that Modifies(s2, "b")
 			//                      such that Follows(s1, s2) with s2.stmt# = 2;
 			Parameter p1, p2, p3, p4, p5;
@@ -465,7 +457,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } };
@@ -479,7 +471,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s2 such that modifies(s1, "a")
 			Parameter p1, p2, p3;
 			p1 = Parameter("s1", STMT);
@@ -498,7 +490,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(1, 0);
 			pkb->setStmtModifyVarRel(2, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 1 } ,{ 2 } };
@@ -512,7 +504,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 with s1.stmt# = 2 such that Modifies(s2, "b")
 			//                      such that Follows(1, s2) with s2.stmt# = s1.stmt#;
 			Parameter p1, p2, p3, p4, p5, p6;
@@ -543,7 +535,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { { 2 } };
@@ -557,7 +549,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 with s1.stmt# = 2 and s1.stmt# = 1 and Follows(s2, s1)
 			Parameter p1, p2, p3, p4, p5, p6;
 
@@ -583,7 +575,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
@@ -597,7 +589,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that Modifies(s1, "a") and Modifies (s1, "b")
 			Parameter p1, p2, p3, p4, p5, p6;
 
@@ -619,7 +611,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
@@ -633,7 +625,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 with s1.stmt# = 2 (*3) and with s1 = s2
 			//          and Modifies(s2, "a") and Modifies(s2, "b")
 			Parameter p1, p2, p3, p4, p5, p6;
@@ -667,7 +659,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
@@ -681,7 +673,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 with s1.stmt# = 2 (*3) and Follows(s2, s1)
 			//          and Modifies(s2, "a") and Modifies(s2, "b")
 			Parameter p1, p2, p3, p4, p5, p6;
@@ -715,7 +707,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
@@ -729,7 +721,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 such that affect*(s1, s2)  with s1.stmt# = s2.stmt# 
 			Parameter p1, p2, p3, p4, p5, p6;
 
@@ -753,7 +745,7 @@ namespace IntegrationTesting
 			pkb->setStmtModifyVarRel(2, 1);
 			pkb->setStmtFollowStmtRel(1, 2);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = {};
@@ -767,7 +759,7 @@ namespace IntegrationTesting
 
 			PKB *pkb = new PKB();
 			QueryTree qt;
-			QueryEvaluator* qe;
+			QueryEvaluatorStub* qe;
 			// query: select s1 ....
 			Parameter p1, p2, p3, p4, p5, p6, p7, p8, p9, p10;
 
@@ -798,7 +790,7 @@ namespace IntegrationTesting
 			pkb->setVarToIfStmt(1, 1);
 			pkb->setVarToWhileStmt(1, 1);
 
-			qe = new QueryEvaluator(pkb);
+			qe = new QueryEvaluatorStub(pkb);
 			ResultTable* rt = qe->evaluate(qt);
 			vector<vector<int>> expect;
 			expect = { };
@@ -808,5 +800,3 @@ namespace IntegrationTesting
 		}
 	};
 }
-
-

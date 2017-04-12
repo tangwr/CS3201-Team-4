@@ -3,7 +3,7 @@
 #include <iostream>
 #include <string>
 #include "PQL.h"
-#define FALSE_OUTPUT "FALSE"
+#define FALSE_OUTPUT "false"
 
 PQL::PQL(PKB *pkbSource) {
 	pkb = pkbSource;

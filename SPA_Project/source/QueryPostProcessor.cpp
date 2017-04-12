@@ -1,8 +1,8 @@
 #pragma once
 #include "QueryPostProcessor.h"
 #include "Type.h"
-#define STRING_TRUE "TRUE"
-#define STRING_FALSE "FALSE"
+#define STRING_TRUE "true"
+#define STRING_FALSE "false"
 #define STRING_EMPTY ""
 #define SYMBOL_SPACE " "
 #define SIZE_ZERO 0

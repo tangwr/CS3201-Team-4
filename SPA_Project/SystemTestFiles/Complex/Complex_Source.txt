@@ -1,0 +1,188 @@
+procedure A{
+	a = 1; 
+	b = a + 2; 
+	c = a * b + 100;  
+	if b then {  
+		while a{ 
+			while c{  
+				if d then{  
+					while e {  
+						if f then{ 
+							a = g + 10;  
+						}
+						else{
+							while d{ 
+								if e then {  
+									a = a + 100;  
+								}
+								else{
+									b = h * 1 + b; 
+								}
+								d = 100 * 100 + c; 
+							}
+							c = 2 * a * b; 
+						}
+						e = 100; 
+					}
+
+				}
+				else{
+					if k then { 
+						c = c * a * b;  
+					}
+					else{
+						c = 100 * a * b; 
+					} 
+					a = 100 + c; 
+				}
+				c = a + 100; 
+			}
+			b = a * b + 200;  
+		}
+		c = 1000 + a * b;  
+	}
+	else{
+		g = h + a * b + k;  
+	}
+	b = 100; 
+}
+
+procedure B{
+	Bad = 10 ; 
+ 	while Bad{ 
+		if jkbk then{ 
+			if Bc then{ 
+				jkbk = 100; 
+				egg = Bad + jkbk + o; 
+				while Bd{ 
+					if Be then{ 
+						while Bf{ 
+							if Bg then{ 
+								o = 1; 
+							}
+							else{
+								egg = 2; 
+							}
+							Bf = 3; 
+						}
+						Be = 4; 
+						o = egg + Bad; 
+					}
+					else{
+						while Bf{ 
+						if Bg then{ 
+								jkbk = 1; 
+							}
+							else{
+								egg = 2; 
+								Be = Bf + Bd; 
+							}
+							Bf = 3; 
+							Bd = Bc + egg; 
+						}
+						o = 4; 
+					}
+					o = 5; 
+				}
+				Bc = 5 + n + egg; 
+			}
+			else{
+				Bb = 1 + Bad; 
+				while Bc{ 
+					egg = 1; 
+					while Bd{ 
+						Bd = 1; 
+					}
+					if Be then{ 
+						jkbk = 1; 
+						Ba = Ba + Be * Bd; 
+					}
+					else{
+						n = 2; 	
+					}
+					n = n + jkbk + Ba; 
+					
+				}
+				Ba = 100; 
+			}
+		}
+		else{
+			while Bg{ 
+				if Bh then{ 
+					if Bk then{ 
+						n = 1; 
+						Bh = n + o + Bad; 
+					}
+					else{
+						o =2; 
+						n = Bh * o; 
+					}
+					Bh = 3; 
+				}
+				else{
+					while Bn{ 
+						while Bm{ 
+							Bm = 1; 
+							egg = Bm * Bn; 	
+						}
+						jkbk = Bm + Bb; 
+					}
+					Bg = 100; 
+				}
+				jkbk = egg + n + Bo; 
+			}
+			if Bo then{ 
+				o = 10; 
+			}
+			else{
+				egg = 10 + o; 
+			}
+			Br = 100; 
+		}
+		if Bj then{ 
+			if Bh then{ 
+				if Bf then{ 
+					Bf = 1 + jkbk; 
+					Bk = Bk + Bg * Bf; 
+				}
+				else{
+					Bh = 1; 
+					Bh = Bh * Bf + Bk;
+				}
+			}
+			else{
+				Bk = 10; 
+			}
+		}
+		else{
+			if Bg then { 
+				Bf = 10; 
+			}
+			else{
+				o = 100 + egg; 
+				n = Bz + 100; 
+			}
+		}
+		
+		
+	}
+	Bz = 100; 
+	
+}
+
+procedure C{
+	while Cc{ 
+		Ca = 10; 
+		Ba = Ab * 10; 
+		call B; 
+		g = Ca + Ba * 100; 
+		call A; 
+		Cd = Cc * g + 10; 
+	}
+	Cd = Cd + Cg; 
+}
+
+
+
+
+

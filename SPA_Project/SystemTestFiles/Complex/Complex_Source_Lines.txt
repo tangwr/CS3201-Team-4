@@ -1,0 +1,188 @@
+procedure A{
+	a = 1;  //1
+	b = a + 2;  //2
+	c = a * b + 100; //3  
+	if b then {  //4
+		while a{ //5
+			while c{  //6 
+				if d then{ //7  
+					while e { //8 
+						if f then{ //9
+							a = g + 10; //10  
+						}
+						else{
+							while d{ //11
+								if e then {  //12
+									a = a + 100; //13 
+								}
+								else{
+									b = h * 1 + b; //14
+								}
+								d = 100 * 100 + c;  //15
+							}
+							c = 2 * a * b; //16
+						}
+						e = 100; //17
+					}
+
+				}
+				else{
+					if k then { //18
+						c = c * a * b; //19  
+					}
+					else{
+						c = 100 * a * b; //20
+					} 
+					a = 100 + c; //21 
+				}
+				c = a + 100; //22
+			}
+			b = a * b + 200;  //23
+		}
+		c = 1000 + a * b; //24 
+	}
+	else{
+		g = h + a * b + k;  //25
+	}
+	b = 100; //26 
+}
+
+procedure B{
+	Bad = 10; //27
+ 	while Bad{ //28  
+		if jkbk then{ //29 
+			if Bc then{  //30
+				jkbk = 100;  //31
+				egg = Bad + jkbk + o; //32
+				while Bd{  //33
+					if Be then{ //34
+						while Bf{ //35
+							if Bg then{  //36
+								o = 1; //37
+							}
+							else{
+								egg = 2; //38 
+							}
+							Bf = 3; //39
+						}
+						Be = 4; //40
+						o = egg + Bad; //41 
+					}
+					else{
+						while Bf{ //42
+							if Bg then{ //43
+								jkbk = 1; //44 
+							}
+							else{
+								egg = 2; //45
+								Be = Bf + Bd; //46 
+							}
+							Bf = 3; //47
+							Bd = Bc + egg; //48 
+						}
+						o = 4; //49
+					}
+					o = 5; //50
+				}
+				Bc = 5 + n + egg; //51 
+			}
+			else{
+				Bb = 1 + Bad; //52
+				while Bc{ //53
+					egg = 1; //54
+					while Bd{ //55
+						Bd = 1; //56
+					}
+					if Be then{ //57
+						jkbk = 1; //58
+						Ba = Ba + Be * Bd; //59 
+					}
+					else{
+						n = 2; 	//60
+					}
+					n = n + jkbk + Ba; //61 
+					
+				}
+				Ba = 100; //62
+			}
+		}
+		else{
+			while Bg{ //63
+				if Bh then{ //64 
+					if Bk then{ //65
+						n = 1; //66
+						Bh = n + o + Bad; //67 
+					}
+					else{ 
+						o =2; //68 
+						n = Bh * o; //69 
+					}
+					Bh = 3; //70
+				}
+				else{
+					while Bn{ //71
+						while Bm{ //72
+							Bm = 1; //73
+							egg = Bm * Bn; //74 	
+						}
+						jkbk = Bm + Bb; //75
+					}
+					Bg = 100; //76
+				}
+				jkbk = egg + n + Bo; //77 
+			}
+			if Bo then{ //78
+				o = 10;  //79
+			}
+			else{
+				egg = 10 + o; //80
+			}
+			Br = 100; //81
+		}
+		if Bj then{ //82
+			if Bh then{ //83
+				if Bf then{ //84
+					Bf = 1 + jkbk; //85 
+					Bk = Bk + Bg * Bf; //86
+				}
+				else{
+					Bh = 1; //87
+					Bh = Bh * Bf + Bk; //88
+				}
+			}
+			else{
+				Bk = 10; //89
+			}
+		}
+		else{
+			if Bg then { //90
+				Bf = 10;  //91
+			}
+			else{
+				o = 100 + egg; //92 
+				n = Bz + 100;  //93
+			}
+		}
+		
+		
+	}
+	Bz = 100; //94
+	
+}
+
+procedure C{
+	while Cc{ //95
+		Ca = 10; //96
+		Ba = Ab * 10; //97 
+		call B;  //98
+		g = Ca + Ba * 100; //99 
+		call A; //100
+		Cd = Cc * g + 10; //101
+	}
+	Cd = Cd + Cg; //102
+}
+
+
+
+
+

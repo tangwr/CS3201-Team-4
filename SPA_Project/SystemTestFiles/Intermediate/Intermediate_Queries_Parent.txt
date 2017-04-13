@@ -26,12 +26,12 @@ Select s such that Parent(s, 57)
 6 - boolean no parent
 stmt s;
 Select BOOLEAN such that Parent(s, 4)
-false
+FALSE
 5000
 7 - boolean parent exists
 stmt s;
 Select BOOLEAN such that Parent(s, 15)
-true
+TRUE
 5000
 8 - stmt is a parent
 stmt s1, s2;
@@ -46,7 +46,7 @@ Select s such that Parent(s1, s) and Parent(s, s2)
 10 - invalid with same statement number as parent
 
 Select BOOLEAN such that Parent(59, 59)
-false
+FALSE
 5000
 11 - invalid with same stmt synonym
 stmt s;
@@ -56,5 +56,5 @@ none
 12 - does there exist parent stmt at all
 
 Select BOOLEAN such that Parent(_, _)
-true
+TRUE
 5000

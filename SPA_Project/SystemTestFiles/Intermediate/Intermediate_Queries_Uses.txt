@@ -161,55 +161,55 @@ d,din,dye,DEAd,day,dry,dam,BCD,dip,eye,eggy
 33 - comment
 variable v;
 Select BOOLEAN such that Uses("Sixth","eye")
-true
+TRUE
 5000
 34 - comment
 variable v;
 Select BOOLEAN such that Uses("Sixth","BAsic")
-false
+FALSE
 5000
 35 - comment
 variable v;
 Select BOOLEAN such that Uses(23,"eye")
-true
+TRUE
 5000
 36 - comment
 variable v;
 Select BOOLEAN such that Uses(23,"BAsic")
-false
+FALSE
 5000
 37 - comment
 variable v;
 Select BOOLEAN such that Uses(28,"BAsic")
-false
+FALSE
 5000
 38 - comment
 variable v;
 Select BOOLEAN such that Uses(28,"eye")
-true
+TRUE
 5000
 39 - comment
 variable v;
 Select BOOLEAN such that Uses(1,"BAsic")
-false
+FALSE
 5000
 40 - comment
 variable v;
 Select BOOLEAN such that Uses(4,"eye")
-true
+TRUE
 5000
 41 - comment
 variable v;
 Select BOOLEAN such that Uses("Sixth",_)
-true
+TRUE
 5000
 42 - test Select boolean
 
 Select BOOLEAN such that Follows(45, 1)
-false
+FALSE
 5000
 43 - test one more boolean selecting
 
 Select BOOLEAN such that Follows(1, 1)
-false
+FALSE
 5000

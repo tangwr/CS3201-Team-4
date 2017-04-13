@@ -1,0 +1,57 @@
+﻿1 - Find p1 of Calls*(p1,p2)
+procedure p1, p2;
+Select p1 such that Calls*(p1,p2)
+C
+5000
+2 - Find p1 of Calls*(p1,p2)
+procedure p1, p2;
+Select p2 such that Calls*(p1,p2)
+A,B
+5000
+3 - Find p1 of Calls*(p1,_)
+procedure p1;
+Select p1 such that Calls*(p1,_)
+C
+5000
+4 - Find p2 of Calls*(_,p2)
+procedure p2;
+Select p2 such that Calls*(_,p2)
+A,B
+5000
+5 - Find BOOLEAN of Calls*(_,_)
+
+Select BOOLEAN such that Calls*(_,_)
+TRUE
+5000
+6 - Find BOOLEAN of Calls*(proc_name_) TRUE
+
+Select BOOLEAN such that Calls*("C",_) 
+TRUE
+5000
+7 - Find BOOLEAN of Calls*(proc_name,_) FALSE
+
+Select BOOLEAN such that Calls*("A",_) 
+FALSE
+5000
+8 - Find BOOLEAN of Calls*(_,proc_name) TRUE
+
+Select BOOLEAN such that Calls*(_,"B")
+TRUE
+5000
+9 - Find BOOLEAN of Calls*(_,proc_name) FALSE
+
+Select BOOLEAN such that Calls*(_,"C")
+FALSE
+5000
+10 - Find BOOLEAN of Calls*(proc_name,proc_name) TRUE
+
+Select BOOLEAN such that Calls*("C","A")
+TRUE
+5000
+11 - Find BOOLEAN of Calls*(proc_name,proc_name) FALSE
+
+Select BOOLEAN such that Calls*("A","C")
+FALSE
+5000
+
+

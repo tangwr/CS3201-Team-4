@@ -46,7 +46,7 @@ Select s6 such that Uses(s6 , vtY7z) and Modifies(s6, "cut")
 10 - select boolean where clauses have one common synonym
 stmt s, s1; assign a8;
 Select BOOLEAN such that Follows(s, s1) and Follows*(a8, s1)
-true
+TRUE
 5000
 11 - find a procedure which uses a variable DEAd and directly/indirectly calls procedure F0urth
 procedure p667;
@@ -76,5 +76,5 @@ Select n such that Next*(i3, i4) with n = i3.stmt#
 16 - test select boolean
 
 Select BOOLEAN such that Follows(56, 1)
-false
+FALSE
 5000

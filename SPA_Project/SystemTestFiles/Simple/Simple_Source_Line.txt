@@ -1,0 +1,142 @@
+procedure d{
+	if a then {    //1if
+		if b then{    //2if
+			a = 100;    //3
+		}
+		else{
+			b = a + 10;    //4
+		}
+	}
+	else{
+		if c then{    //5if
+			d = 1 + a;    //6
+			call e;    //7call
+			a = d;    //8
+		}
+		else{
+			c = d + b + a + 20;    //9
+		}
+	}
+}
+
+procedure e{
+	if b then{    //10f
+		d = a + b;    //11
+	}
+	else{
+		t = d + 3;    //12
+	}
+	while e {    //13w
+		e = ee + 10;    //14
+		ee = e;    //15
+		call f;    //16call
+		e = ee;    //17
+	}
+}
+
+procedure f{    
+	if f then{//18if
+		f = 10;    //19
+		ee = f4;    //20
+		f2 = hhh - 40;//21
+	}
+	else{
+		gg = 1 + f6;    //22
+		ff = f + 10;    //23
+		f1 = h7 - 88;    //24
+		f = ee + 5;    //25
+	}
+	f7 = f - 12;    //26
+	f = ff + 100;    //27
+	ff = f;    //28
+}
+
+
+procedure g{
+	while g{    //29while
+		if k then{    //30if
+			g = 10;    //31
+		}
+		else{
+			if gg then{    //32if
+				gg = g;    //33
+				call f;    //34call
+				g = gg;    //35
+			}
+			else{
+				g = gg + g;    //36
+				call h;    //37call
+			}
+		}
+	}
+}
+
+procedure h{
+	if h then{    //38if
+		h = 10;    //39
+		i11 = h + 4;    //40
+		hh = h - 8;    //41
+	}
+	else{
+		hh = 10;    //42
+		hhh = h + hh;    //43
+	}
+	while hh{    //44while
+		if hhh then{    //45if
+			hh = h + hhh;    //46
+			g = 1;    //47
+		}
+		else{
+			hhh = hh + 10;    //48
+			h = g - 20;    //49
+			h7 = i11 - 11;    //50
+			call f;    //51call
+		}
+	}
+}
+
+procedure i{
+	if i then {    //52if
+		i11 = i11 + 4;    //53
+		if i4 then{    //54if
+			if c then{    //55if
+				i = 0;    //56
+			}
+			else{
+				ii = 1;    //57
+				call h;    //58call
+			}
+		}
+		else{
+			if i2 then{    //59if
+				ii = i;    //60
+			}
+			else{
+				i6 = ii + 6;    //61
+			}
+		}
+	}
+	else{
+		if i6 then{    //62if
+			if ii then{    //63if
+				i8 = i + i;    //64
+			}
+			else{
+				i6 = i6 + 1;    //65
+			}
+		}
+		else{
+			if i7 then{    //66if
+				i = i + 4;    //67
+			}
+			else{
+				i5 = 16 + i3;    //68
+			}
+		}
+	}
+}
+
+procedure j {
+    call i; //69
+	nkkj = 0; //70
+}

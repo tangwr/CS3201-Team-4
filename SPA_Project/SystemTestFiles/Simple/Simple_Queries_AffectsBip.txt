@@ -1,0 +1,119 @@
+﻿23 - Find s1 AffectsBip(s1,s2)
+stmt s1, s2;
+Select s1 such that AffectsBip(s1,s2)
+23,25,27,31,35,43,49,14,19,39,40,41,42,46,47,48,11,15,20,22,28,33,36,50,53,6
+5000
+24 - Find s2 AffectsBip(s1,s2)
+stmt s1, s2;
+Select s2 such that AffectsBip(s1,s2)
+28,33,36,41,43,46,50,15,26,27,40,48,49,12,14,17,21,23,24,25,35,8
+5000
+25 - Find s1 AffectsBip(s1,num)
+stmt s1;
+Select s1 such that AffectsBip(s1,26)
+19,25
+5000
+26 - Find BOOLEAN AffectsBip(s1,num) - FALSE
+stmt s1;
+Select BOOLEAN such that AffectsBip(s1,66)
+FALSE
+5000
+27 - Find BOOLEAN AffectsBip(s1,num) - TRUE
+stmt s1;
+Select BOOLEAN such that AffectsBip(s1,15)
+TRUE
+5000
+28 - Find s1 AffectsBip(s1,_)
+stmt s1;
+Select s1 such that AffectsBip(s1,_)
+23,25,27,31,35,43,49,14,19,39,40,41,42,46,47,48,11,15,20,22,28,33,36,50,53,6
+5000
+29 - Find BOOLEAN AffectsBip(s1_)
+stmt s1;
+Select BOOLEAN such that AffectsBip(s1,_)
+TRUE
+5000
+30 - Find s2 AffectsBip(num,s2) - HAS RESULTS
+stmt s2;
+Select s2 such that AffectsBip(14,s2)
+15
+5000
+31 - Find s2 AffectsBip(num,s2) - NO RESULTS
+stmt s2;
+Select s2 such that AffectsBip(32,s2)
+none
+5000
+32 - Find BOOLEAN AffectsBip(num,s2) - TRUE
+stmt s2;
+Select BOOLEAN such that AffectsBip(19,s2)
+TRUE
+5000
+33 - Find BOOLEAN AffectsBip(num,s2) - FALSE
+stmt s2;
+Select BOOLEAN such that AffectsBip(69,s2)
+FALSE
+5000
+34 - Find BOOLEAN AffectsBip(num,num) - TRUE
+
+Select BOOLEAN such that AffectsBip(48,46)
+TRUE
+5000
+35 - Find BOOLEAN AffectsBip(num,num) - FALSE
+
+Select BOOLEAN such that AffectsBip(50,45)
+FALSE
+5000
+36 - Find BOOLEAN AffectsBip(num,_) - TRUE
+
+Select BOOLEAN such that AffectsBip(39,_)
+TRUE
+5000
+37 - Find BOOLEAN AffectsBip(num,_) - TRUE
+
+Select BOOLEAN such that AffectsBip(50,_)
+TRUE
+5000
+38 - Find s2 AffectsBip(_,s2) 
+stmt s2;
+Select s2 such that AffectsBip(_,s2)
+28,33,36,41,43,46,50,15,26,27,40,48,49,12,14,17,21,23,24,25,35,8
+5000
+39 - Find BOOLEAN AffectsBip(_,num) - TRUE
+
+Select BOOLEAN such that AffectsBip(_,46)
+TRUE
+5000
+40 - Find BOOLEAN AffectsBip(_,num) - FALSE
+
+Select BOOLEAN such that AffectsBip(_,1)
+FALSE
+5000
+41 - Find BOOLEAN AffectsBip(_,_) 
+
+Select BOOLEAN such that AffectsBip(_,_)
+TRUE
+5000
+42 - Find all assign stmt that AffectsBip itself
+assign a;
+Select  a such that AffectsBip(a, a)
+36
+5000
+43 - Find tuple such that s AffectsBip itself
+stmt s;
+Select <s,s> such that AffectsBip(s,s)
+36 36
+5000
+44 - Find tuple such that s1 AffectsBip s2 
+stmt s1, s2;
+Select <s1,s2> such that AffectsBip(s1,s2)
+19 26,23 27,25 26,27 28,31 33,31 36,35 33,35 36,39 40,39 41,39 46,40 50,41 48,42 43,42 48,43 46,47 49,48 46,49 46,14 15,46 48,11 8,15 14,15 17,15 25,20 14,20 17,20 25,22 35,22 36,27 23,28 27,33 35,33 36,36 33,36 36,36 49,39 43,43 21,47 33,47 36,48 21,49 43,50 24,53 50,6 12,6 8
+5000
+
+
+
+
+
+
+
+
+

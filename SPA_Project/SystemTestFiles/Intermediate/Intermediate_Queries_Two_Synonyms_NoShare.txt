@@ -11,7 +11,7 @@ Select s1 such that Parent(s1, s2) and Parent(s2, s3) and Parent(s3, w) and Call
 3 - comment
 variable v1, v2; stmt s1, s2,s3; while w; call call1, call2; constant c; procedure p;
 Select BOOLEAN such that Parent(s1, s2) and Parent(s2, s3) and Parent(s3, w) and Next*(w, s2) and Follows(call1, call2) with call1.procName = "Sec0nd" and call2.stmt# = 5
-true
+TRUE
 5000
 4 - comment 
 variable v1, v2; stmt s1, s2,s3; while w; call call1; constant c; 

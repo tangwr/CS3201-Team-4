@@ -1,0 +1,119 @@
+﻿67 - Find s1 Affects*(s1,s2)
+stmt s1, s2;
+Select s1 such that Affects*(s1,s2)
+23,25,27,31,35,43,49,14,19,39,40,41,42,46,47,48
+5000
+68 - Find s2 Affects*(s1,s2)
+stmt s1, s2;
+Select s2 such that Affects*(s1,s2)
+28,33,36,41,43,46,50,15,26,27,40,48,49
+5000
+69 - Find s1 Affects*(s1,num)
+stmt s1;
+Select s1 such that Affects*(s1,26)
+19,25
+5000
+70 - Find BOOLEAN Affects*(s1,num) - FALSE
+stmt s1;
+Select BOOLEAN such that Affects*(s1,66)
+FALSE
+5000
+71 - Find BOOLEAN Affects*(s1,num) - TRUE
+stmt s1;
+Select BOOLEAN such that Affects*(s1,15)
+TRUE
+5000
+72 - Find s1 Affects*(s1,_)
+stmt s1;
+Select s1 such that Affects*(s1,_)
+23,25,27,31,35,43,49,14,19,39,40,41,42,46,47,48
+5000
+73 - Find BOOLEAN Affects*(s1_)
+stmt s1;
+Select BOOLEAN such that Affects*(s1,_)
+TRUE
+5000
+74 - Find s2 Affects*(num,s2) - HAS RESULTS
+stmt s2;
+Select s2 such that Affects*(14,s2)
+15
+5000
+75 - Find s2 Affects*(num,s2) - NO RESULTS
+stmt s2;
+Select s2 such that Affects*(32,s2)
+none
+5000
+76 - Find BOOLEAN Affects*(num,s2) - TRUE
+stmt s2;
+Select BOOLEAN such that Affects*(19,s2)
+TRUE
+5000
+77 - Find BOOLEAN Affects*(num,s2) - FALSE
+stmt s2;
+Select BOOLEAN such that Affects*(69,s2)
+FALSE
+5000
+78 - Find BOOLEAN Affects*(num,num) - TRUE
+
+Select BOOLEAN such that Affects*(48,46)
+TRUE
+5000
+79 - Find BOOLEAN Affects*(num,num) - FALSE
+
+Select BOOLEAN such that Affects*(50,45)
+FALSE
+5000
+80 - Find BOOLEAN Affects*(num,_) - TRUE
+
+Select BOOLEAN such that Affects*(39,_)
+TRUE
+5000
+81 - Find BOOLEAN Affects*(num,_) - FALSE
+
+Select BOOLEAN such that Affects*(50,_)
+FALSE
+5000
+82 - Find s2 Affects*(_,s2) 
+stmt s2;
+Select s2 such that Affects*(_,s2)
+28,33,36,41,43,46,50,15,26,27,40,48,49
+5000
+83 - Find BOOLEAN Affects*(_,num) - TRUE
+
+Select BOOLEAN such that Affects*(_,46)
+TRUE
+5000
+84 - Find BOOLEAN Affects*(_,num) - FALSE
+
+Select BOOLEAN such that Affects*(_,1)
+FALSE
+5000
+85 - Find BOOLEAN Affects*(_,_) 
+
+Select BOOLEAN such that Affects*(_,_)
+TRUE
+5000
+86 - Find all assign stmt that Affects* itself
+assign a;
+Select  a such that Affects*(a, a)
+46,48
+5000
+87 - Find tuple such that s Affects* itself
+stmt s;
+Select <s,s> such that Affects*(s,s)
+46 46,48 48
+5000
+88 - Find tuple such that s1 Affects* s2 
+stmt s1, s2;
+Select <s1,s2> such that Affects*(s1,s2)
+19 26,23 27,25 26,27 28,31 33,31 36,35 33,35 36,39 40,39 41,39 46,40 50,41 48,42 43,42 48,43 46,47 49,48 46,49 46,14 15,46 48,23 28,39 48,39 50,41 46,42 46,43 48,46 46,47 46,47 48,48 48,49 48
+5000
+
+
+
+
+
+
+
+
+

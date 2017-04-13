@@ -1,0 +1,50 @@
+﻿1 - Follows(num,num) with FALSE result
+while w;
+Select w such that Follows(1, 3)
+none
+5000
+2 - Follows(num, if) with non-empty result
+if ifs;
+Select ifs such that Follows(55, ifs)
+57
+5000
+3 - Follows(num, assign) for empty result
+assign a;
+Select a such that Follows(26, a)
+none
+5000
+4 - Follows(num, call) for empty result
+call c;
+Select c such that Follows(82, c)
+none
+5000
+5 - Follows(stmt, num) for non-empty result
+stmt s;
+Select s such that Follows(s, 94)
+28
+5000
+6 - Follows(underscore, num) for non-empty result
+while w;
+Select w such that Follows(_, 4)
+5,6,8,11,28,33,35,42,53,55,63,71,72,95
+5000
+7 - Invalid Query
+procedure p;
+Select p such that Follows(p, "C")
+none
+5000
+8 - Follows(_,_) for TRUE result
+procedure p;
+Select p such that Follows(_,_)
+A,B,C
+5000
+9 - Follows(prog_line, while) for non-empty result
+prog_line n; while w;
+Select n such that Follows(n, w)
+27,32,52,54
+5000
+10 - Follows(stmt, stmt) for same synonym names
+stmt s;
+Select s such that Follows(s, s)
+none
+5000

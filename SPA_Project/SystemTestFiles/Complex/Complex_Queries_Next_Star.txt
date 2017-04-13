@@ -1,0 +1,50 @@
+﻿1 - Next*(num,num) with TRUE result
+stmt s;
+Select s such that Next*(s, s)
+12,13,14,15,16,17,18,19,20,21,22,23,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,10,100,101,11,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,5,6,63,64,65,66,67,68,69,7,70,71,72,73,74,75,76,77,78,79,8,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93,95,96,97,98,99
+5000
+2 - Next*(num, if) with non-empty result
+if ifs;
+Select ifs such that Next*(3, ifs)
+4,7,9,12,18
+5000
+3 - Next*(num, assign) for non-empty result
+assign a;
+Select a such that Next*(6, a)
+10,13,14,15,16,17,19,20,21,22,23,24,26
+5000
+4 - Next*(num, call) for non-empty result
+call c;
+Select c such that Next*(95, c)
+98,100
+5000
+5 - Next*(stmt, num) for empty result
+stmt s;
+Select s such that Next*(s, 27)
+none
+5000
+6 - Next*(underscore, num) for FALSE result
+while w;
+Select w such that Next*(_, 1)
+none
+5000
+7 - Invalid Query
+procedure p;
+Select p such that Next*(p, 2)
+none
+5000
+8 - Next*(_,_) for TRUE result
+procedure p;
+Select p such that Next*(_,_)
+A,B,C
+5000
+9 - Next*(prog_line, if) for non-empty result
+prog_line n; if ifs;
+Select n such that Next*(n, ifs)
+1,2,3,4,5,6,7,8,10,11,12,13,14,15,16,17,18,19,20,21,22,23,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,9,90,91,92,93
+5000
+10 - Next*(call, call) for same synonym names
+call c;
+Select c such that Next*(c, c)
+98,100
+5000

@@ -1,0 +1,77 @@
+201 - Comment
+procedure p;
+Select BOOLEAN such that Calls(p,p)
+FALSE
+5000
+202 - Comment
+procedure p;
+Select p such that Calls(p,p)
+
+5000
+203 - Comment
+procedure p1, p2;
+Select BOOLEAN such that Calls(p1,p2)
+TRUE
+5000
+204 - Comment
+procedure p1, p2;
+Select <p1,p2> such that Calls(p1,p2)
+d e,e f,g f,g h,h f,i h,j i
+5000
+205 - Comment
+procedure p1, p2;
+Select p1 such that Calls(p1,p2)
+d,e,g,h,i,j
+5000
+206 - Comment
+procedure p1, p2;
+Select p2 such that Calls(p1,p2)
+e,f,h,i
+5000
+207 - Comment
+
+Select BOOLEAN such that Calls(_,_)
+TRUE
+5000
+208 - Comment
+
+Select BOOLEAN such that Calls("d","d")
+FALSE
+5000
+209 - Comment
+
+Select BOOLEAN such that Calls("d","e")
+TRUE
+5000
+210 - Comment
+
+Select BOOLEAN such that Calls("d","f")
+FALSE
+5000
+211 - Comment
+
+Select BOOLEAN such that Calls("e","d")
+FALSE
+5000
+212 - Comment
+procedure p1, p2;
+Select p1 such that Calls(p1,_)
+d,e,g,h,i,j
+5000
+213 - Comment
+procedure p1, p2;
+Select p2 such that Calls(_,p2)
+e,f,h,i
+5000
+214 - Comment
+
+Select BOOLEAN such that Calls("d",_)
+TRUE
+5000
+215 - Comment
+
+Select BOOLEAN such that Calls(_,"f")
+TRUE
+5000
+
+

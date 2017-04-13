@@ -1,0 +1,29 @@
+@echo off
+title Running All Queries
+
+
+AutoTester Intermediate_Source.txt Intermediate_Queries_Calls.txt Intermediate_Queries_Calls_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Calls_Star.txt Intermediate_Queries_Calls_Star_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Follows.txt Intermediate_Queries_Follows_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Follows_Star.txt Intermediate_Queries_Follows_Star_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Many_Common_Synonyms.txt Intermediate_Queries_Many_Common_Synonyms_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Modifies.txt Intermediate_Queries_Modifies_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_MultiClause_NoCommonSynonym.txt Intermediate_Queries_MultiClause_NoCommonSynonym_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Next.txt Intermediate_Queries_Next_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Next_Star.txt Intermediate_Queries_Next_Star_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_No_Clauses.txt Intermediate_Queries_No_Clauses_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_One_Common_Synonym.txt Intermediate_Queries_One_Common_Synonym_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Parent.txt Intermediate_Queries_Parent_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Parent_Star.txt Intermediate_Queries_Parent_Star_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Pattern.txt Intermediate_Queries_Pattern_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Tuple.txt Intermediate_Queries_Tuple_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Two_Synonyms_NoShare.txt Intermediate_Queries_Two_Synonyms_NoShare_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Queries_Uses.txt Intermediate_Queries_Uses_out.xml > output.txt
+AutoTester Intermediate_Source.txt Intermediate_Query_With.txt Intermediate_Query_With_out.xml > output.txt
+
+
+
+
+echo.
+echo Finish Running All Queries
+pause

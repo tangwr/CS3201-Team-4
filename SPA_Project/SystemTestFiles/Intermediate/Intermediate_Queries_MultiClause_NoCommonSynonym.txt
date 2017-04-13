@@ -1,0 +1,20 @@
+1 - Find all while stmt
+while w; stmt s1; assign a1, a2;
+Select w such that Parent(s1, a1) and Affects(3, a2)
+none
+5000
+2 - Check if there exists certain conditions
+while w; if ifs; stmt s1, s2; variable v1;
+Select BOOLEAN such that Parent*(48, _) pattern ifs(v1, _, _) such that Follows(s1, _) and Parent*(s2, 62)
+TRUE
+5000
+3 - Mixture of clauses without common synonym, all control var of if stmts
+while w; if ifs; stmt s1, s2; assign a1, a3; variable x;
+Select x pattern ifs(x,_,_) and w(_, _) such that Parent(s1, a1) and Next*(s2, a3)
+c,c8,cue,d,din,dye
+5000
+4 - Mix of clauses, no common synonym, all while control var
+while w; if ifs; stmt s1, s2, s3, s4; assign a1, a2, a3; variable x1, x2, x3;
+Select x1 such that Uses(w, x1) and Follows(a1, s1) pattern a(x2, _"c8"_) such that Parent(s3, s2) and Next(s4, s5) and Affects*(a2, a3)
+none
+5000

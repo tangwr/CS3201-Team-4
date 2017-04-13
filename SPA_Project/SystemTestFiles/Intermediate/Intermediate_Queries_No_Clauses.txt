@@ -1,0 +1,55 @@
+1 - Find all assign stmt
+assign a; while w; call c;
+Select a
+1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 26, 27, 29, 30, 31, 32, 34, 36, 37, 38, 39, 41, 42, 44, 45, 46, 47, 50, 51, 53, 54, 55, 56, 59, 60, 62, 63, 64, 65
+5000
+2 - Find all while stmt
+while w;
+Select w
+12, 13, 15, 20, 23, 48, 61
+5000
+3 - Find all call stmt
+call c;
+Select c
+4, 5, 9, 24, 25, 43, 57, 66
+5000
+4 - Find all the if stmt
+if g;
+Select g
+28, 33, 35, 40, 49, 52, 58
+5000
+5 - Empty select boolean
+
+Select BOOLEAN
+TRUE
+5000
+6 - Find all stmt
+stmt s;
+Select s
+1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 26, 27, 29, 30, 31, 32, 34, 36, 37, 38, 39, 41, 42, 44, 45, 46, 47, 50, 51, 53, 54, 55, 56, 59, 60, 62, 63, 64, 65, 12, 13, 15, 20, 23, 48, 61, 4, 5, 9, 24, 25, 43, 57, 66, 28, 33, 35, 40, 49, 52, 58
+5000
+7 - Find all variables
+variable v;
+Select v
+albedo, Ar1aS, a5h, Al1eN, BAsic, anorak, aorta, alumni, augite, a1A, ABCove, atlas, DEAd, aCcA, adele, B, b1B, b4X, bAbY, bag, b, bAd, BDear, BCD, bA, b4c, cue, c, c8, cob, cHaN, cog, cut, c6, car, c7, dry, d, din, dye, dip, day, due, dam, even, eye, eggy
+5000
+8 - Find all stmtlst
+stmtLst st;
+Select st
+1, 12, 13, 14, 16, 21, 24, 28, 29, 34, 36, 38, 40, 41, 42, 45, 47, 49, 50, 53, 55, 56, 59, 61, 62, 64, 66
+5000
+9 - Find all procedure
+procedure p1;
+Select p1
+F1r5t, Sec0nd, Th1rd, F0urth, F1fth, Sixth
+5000
+10 - Find all constant
+constant c;
+Select c
+10, 2, 26, 567, 29, 5, 11, 8, 40, 6, 25, 18, 23, 3, 44, 90, 1
+5000
+11 - Find all prog_line
+prog_line pg;
+Select pg
+1, 2, 3, 6, 7, 8, 10, 11, 14, 16, 17, 18, 19, 21, 22, 26, 27, 29, 30, 31, 32, 34, 36, 37, 38, 39, 41, 42, 44, 45, 46, 47, 50, 51, 53, 54, 55, 56, 59, 60, 62, 63, 64, 65, 12, 13, 15, 20, 23, 48, 61, 4, 5, 9, 24, 25, 43, 57, 66, 28, 33, 35, 40, 49, 52, 58
+5000

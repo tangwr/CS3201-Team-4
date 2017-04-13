@@ -1,0 +1,50 @@
+﻿1 - Parent*(num,num) with TRUE result
+while w;
+Select w such that Parent*(5, 14)
+5,6,8,11,28,33,35,42,53,55,63,71,72,95
+5000
+2 - Parent*(num, if) with non-empty result
+if ifs;
+Select ifs such that Parent*(28, ifs)
+29,30,34,36,43,57,64,65,78,82,83,84,90
+5000
+3 - Parent*(num, assign) for non-empty result
+assign a;
+Select a such that Parent*(28, a)
+31,32,37,38,39,40,41,44,45,46,47,48,49,50,51,52,54,56,58,59,60,61,62,66,67,68,69,70,73,74,75,76,77,79,80,81,85,86,87,88,89,91,92,93
+5000
+4 - Parent*(num, call) for empty result
+call c;
+Select c such that Parent*(58, c)
+none
+5000
+5 - Parent*(stmt, num) for empty result
+stmt s;
+Select s such that Parent*(s, 94)
+none
+5000
+6 - Parent*(underscore, num) for FALSE result
+while w;
+Select w such that Parent*(_, 4)
+none
+5000
+7 - Invalid Query
+procedure p;
+Select p such that Parent*(p, 2)
+none
+5000
+8 - Parent*(_,_) for TRUE result
+procedure p;
+Select p such that Parent*(_,_)
+A,B,C
+5000
+9 - Parent*(prog_line, if) for non-empty result
+prog_line n; if ifs;
+Select n such that Parent*(n, ifs)
+4,5,6,7,8,9,11,28,29,30,33,34,35,42,53,63,64,82,83
+5000
+10 - Parent*(while, while) for same synonym names
+while w;
+Select w such that Parent*(w, w)
+none
+5000

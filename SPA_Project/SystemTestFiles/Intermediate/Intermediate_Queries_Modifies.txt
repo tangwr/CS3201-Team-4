@@ -161,40 +161,40 @@ dry,dye,d,dip,day,due,dam,din,even,eye
 33 - comment
 variable v;
 Select BOOLEAN such that Modifies("Sixth","eye")
-true
+TRUE
 5000
 34 - comment
 variable v;
 Select BOOLEAN such that Modifies("Sixth","BAsic")
-false
+FALSE
 5000
 35 - comment
 variable v;
 Select BOOLEAN such that Modifies(23,"eye")
-true
+TRUE
 5000
 36 - comment
 variable v;
 Select BOOLEAN such that Modifies(23,"BAsic")
-false
+FALSE
 5000
 37 - comment
 variable v;
 Select BOOLEAN such that Modifies(28,"BAsic")
-false
+FALSE
 5000
 38 - comment
 variable v;
 Select BOOLEAN such that Modifies(28,"eye")
-true
+TRUE
 5000
 39 - comment
 variable v;
 Select BOOLEAN such that Modifies(1,"BAsic")
-false
+FALSE
 5000
 40 - comment
 variable v;
 Select BOOLEAN such that Modifies(4,"eye")
-true
+TRUE
 5000

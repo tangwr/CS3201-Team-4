@@ -91,77 +91,77 @@ F0urth,F1fth
 19 - comment
 procedure p;
 Select BOOLEAN such that Calls*("F1r5t",_)
-true
+TRUE
 5000
 20 - comment
 procedure p;
 Select BOOLEAN such that Calls*("Sec0nd",_)
-true
+TRUE
 5000
 21 - comment
 procedure p;
 Select BOOLEAN such that Calls*("Th1rd",_)
-true
+TRUE
 5000
 22 - comment
 procedure p;
 Select BOOLEAN such that Calls*("F0urth",_)
-true
+TRUE
 5000
 23 - comment
 procedure p;
 Select BOOLEAN such that Calls*("F1fth",_)
-false
+FALSE
 5000
 24 - comment
 procedure p;
 Select BOOLEAN such that Calls*("Sixth",_)
-true
+TRUE
 5000
 25 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,"F1r5t")
-false
+FALSE
 5000
 26 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,"Sec0nd")
-true
+TRUE
 5000
 27 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,"Th1rd")
-true
+TRUE
 5000
 28 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,"F0urth")
-true
+TRUE
 5000
 29 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,"F1fth")
-true
+TRUE
 5000
 30 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,"Sixth")
-false
+FALSE
 5000
 31 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,_)
-true
+TRUE
 5000
 32 - comment
 procedure p;
 Select BOOLEAN such that Calls*(p,_)
-true
+TRUE
 5000
 33 - comment
 procedure p;
 Select BOOLEAN such that Calls*(_,p)
-true
+TRUE
 5000
 34 - comment
 procedure p;
